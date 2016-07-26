@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ErrorDef>
+	<StdErrors note="Internal error Info">
+		<Error ErrorNo="-1" ErrorInfo="Execute fail" />
+		<Error ErrorNo="0" ErrorInfo="Execute success" />
+		<Error ErrorNo="1" ErrorInfo="Function ID error" />
+		<Error ErrorNo="2" ErrorInfo="Trade tunnel not yet connect to broker" />
+		<Error ErrorNo="3" ErrorInfo="Request order error" />
+		<Error ErrorNo="4" ErrorInfo="Open positions exceed limits for CSI 300" />
+		<Error ErrorNo="5" ErrorInfo="Maybe trade self, insert fail" />
+		<Error ErrorNo="6" ErrorInfo="Cancel times approach warning threshold, open limited" />
+		<Error ErrorNo="7" ErrorInfo="Cancel times approach maximum" />
+		<Error ErrorNo="100" ErrorInfo="The function requested is not supported" />
+		<Error ErrorNo="101" ErrorInfo="Unauthorized" />
+		<Error ErrorNo="102" ErrorInfo="Trade order unauthorized" />
+		<Error ErrorNo="103" ErrorInfo="SEAT not yet connect to Exchange" />
+		<Error ErrorNo="104" ErrorInfo="SEAT is out of the time of trading" />
+		<Error ErrorNo="105" ErrorInfo="Unhandled requests exceed permitted number limit" />
+		<Error ErrorNo="106" ErrorInfo="Requests per second exceed permitted number limit" />
+		<Error ErrorNo="107" ErrorInfo="Settlement info unconfirmed" />
+		<Error ErrorNo="200" ErrorInfo="Find contract fail" />
+		<Error ErrorNo="201" ErrorInfo="Contract can not be traded" />
+		<Error ErrorNo="202" ErrorInfo="Order field error" />
+		<Error ErrorNo="203" ErrorInfo="implement Order field error" />
+		<Error ErrorNo="204" ErrorInfo="Order repeatedly " />
+		<Error ErrorNo="205" ErrorInfo="Cancel repeatedly" />
+		<Error ErrorNo="206" ErrorInfo="Can not find order info according to entrust no within cancel info" />
+		<Error ErrorNo="207" ErrorInfo="Can not cancel in current status of order " />
+		<Error ErrorNo="208" ErrorInfo="Offset Square Liquidate permitted only" />
+		<Error ErrorNo="209" ErrorInfo="Close positions are larger than open positions" />
+		<Error ErrorNo="210" ErrorInfo="Money is not enough" />
+		<Error ErrorNo="211" ErrorInfo="Short-selling is not allowed on cash market" />
+		<Error ErrorNo="212" ErrorInfo="Today positions are not enough" />
+		<Error ErrorNo="213" ErrorInfo="Yesterday positions are not enough" />
+		<Error ErrorNo="214" ErrorInfo="Order price exceed maximum price fluctuations" />
+		<Error ErrorNo="215" ErrorInfo="Shares are not enough" />
+		<Error ErrorNo="216" ErrorInfo="Order volume unpermitted" />
+	</StdErrors>
+	<ExternErrors note="REM使用位掩码标识错误，无法做错误码映射，直接在代码中解析处理">
+	</ExternErrors>
+</ErrorDef>

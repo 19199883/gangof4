@@ -1,0 +1,31 @@
+<QuoteSrc>
+	<subscription>
+		<item value="j1409"></item>
+		<item value="j1406"/>
+		<item value="m1409"/>
+	 </subscription>
+	 
+	 <MarketData config="my_quote_czce.config" />
+	 
+	<forwarders>		 
+	  <!--the choices for quoteType is the following:
+		  (1) ZCEL2QuotSnapshotField_MY
+		  (2) ZCEQuotCMBQuotField_MY		  
+		  -->
+	  <forwarder quoteType="ZCEL2QuotSnapshotField_MY">	 
+		  <sharedmemory datakey="ZCEL2QuotSnapshotField_MY_data.key" dataflagkey="ZCEL2QuotSnapshotField_MY_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_czcelevel2_ctp/Debug/ZCEL2QuotSnapshotField_MY_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>
+	  
+	   <forwarder quoteType="ZCEQuotCMBQuotField_MY">	 
+		  <sharedmemory datakey="ZCEQuotCMBQuotField_MY_data.key" dataflagkey="ZCEQuotCMBQuotField_MY_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  		 
+		  </semaphores>
+	  </forwarder>
+	  
+	
+	</forwarders>
+</QuoteSrc>

@@ -1,0 +1,45 @@
+<QuoteSrc>
+    <subscription>
+        <item value="placeholder" />
+        <item value="000001" />       
+    </subscription>
+    
+    <MarketData config="my_quote_lts_level2_udp.config" />
+    
+    <forwarders>
+        <!--the choices for quoteType is the following:
+		  (1) TDF_MARKET_DATA		  
+		  -->
+        <forwarder quoteType="TDF_MARKET_DATA_MY">
+            <sharedmemory datakey="TDF_MARKET_DATA_data.key" dataflagkey="TDF_MARKET_DATA_dataflag.key" />
+            <semaphores>
+                <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_kmds_cittcs_uft/Debug/TDF_MARKET_DATA_sem.key" />
+            </semaphores>
+        </forwarder>
+       
+
+        <forwarder quoteType="TDF_INDEX_DATA_MY">
+            <sharedmemory datakey="TDF_INDEX_DATA_data.key" dataflagkey="TDF_INDEX_DATA_dataflag.key" />
+            <semaphores>
+                <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_kmds_cittcs_uft/Debug/TDF_INDEX_DATA_sem.key" />
+            </semaphores>
+        </forwarder>
+			
+		
+		<forwarder quoteType="PerEntrust">
+            <sharedmemory datakey="PerEntrust_data.key" dataflagkey="PerEntrust_dataflag.key" />
+            <semaphores>
+                <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_kmds_cittcs_uft/Debug/PerEntrust_sem.key" />
+            </semaphores>
+        </forwarder>
+		
+		<forwarder quoteType="PerBargain">
+            <sharedmemory datakey="PerBargain_data.key" dataflagkey="PerBargain_dataflag.key" />
+            <semaphores>
+                <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_kmds_cittcs_uft/Debug/PerBargain_sem.key" />
+            </semaphores>
+        </forwarder>
+               
+        
+    </forwarders>
+</QuoteSrc>

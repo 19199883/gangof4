@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<my_trade_tunnel>
+	<program_title>CITIC</program_title>
+
+	<!-- order ref prefix, range: 1 - 99, used in ctp/femas tunnel -->
+	<orderref_prefix>11</orderref_prefix>
+
+	<!-- provider_type
+		1: ctp
+		2: xspeed
+		3: femas
+	 	4: zeusing
+		5: ksg gold
+		6: CITIC UFT(Ultra Fast Trading)
+	-->
+	<provider_type>6</provider_type>
+
+	<login note="CITIC">
+		<serverlist>
+			<server>it is obsolete for CTTICs and server address needs to be configured in file Hsconfig.ini</server>
+		</serverlist>
+		<brokerid></brokerid>
+		<investorid>8100000100</investorid>
+		<userid>8100000100</userid>
+		<password>QRiCEvxxsQKDUnO+oehdRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</password>
+		<exchangecode>1</exchangecode>
+
+		<client_name>ZXZQ</client_name>
+		<local_ip>1.202.152.136</local_ip>
+		<mac_code>a0:d3:c1:29:b2:42</mac_code>
+		<!--op_entrust_way
+			'+'	网下现金
+			'-'	网下证券
+			'0'	自助委托
+			'1'	电话委托
+			'2'	驻留委托
+			'3'	远程委托
+			'4'	柜台委托
+			'5'	漫游委托
+			'6'	分支委托
+			'7'	网上委托
+			'8'	手机委托
+			'9'	网页委托
+			'L'	UFT委托
+			'Z'	VIP终端委托
+		-->
+		<op_entrust_way>5</op_entrust_way>	
+		<!--password_type
+			'0'	服务密码
+			'1'	资金密码
+			'2'	交易密码
+		-->	
+		<password_type>2</password_type>
+	</login>
+
+	<initial_policy>
+		<!-- 启动时撤销所有挂单；0:no; 1:yes; -->
+		<cancel_orders_at_start>0</cancel_orders_at_start>
+		<!-- 查询仓位的指定时间，格式：HHMMSS，按研究部要求设置; -->
+		<time_to_query_pos>150000</time_to_query_pos>
+	</initial_policy>
+
+	<compliance_check_param>
+		    <!--0: no; 1: yes, query orders to init cancel times; default is 1-->
+    <init_cancel_times_at_start>1</init_cancel_times_at_start>
+
+    <!-- 从左开始，第1位:自成交；第2位:撤单次数；第3位:最大开仓数；0:关闭；2:多账号处理（仅自成交支持）；其它或无配置，表示进行该项检查 -->
+    <switch_mask>111</switch_mask>
+
+    <!-- position open limitation
+			speculate: cffex can't exceed 1200
+			arbitrage: no limitation
+			total:     no limitation
+		-->
+		<max_open_orders>
+			<speculate>1199</speculate>
+			<arbitrage>9999</arbitrage>
+			<total>9999</total>
+		</max_open_orders>
+
+		<!--cancel command limitation
+			warn_threshold: forbid openning new position
+			upper_limit：   forbid cancel >-->
+		<max_cancel_times>
+			<warn_threshold>480</warn_threshold>
+			<upper_limit>490</upper_limit>
+		</max_cancel_times>
+	</compliance_check_param>
+</my_trade_tunnel>

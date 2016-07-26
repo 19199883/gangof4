@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<fix8>
+	<session name="DLD1"
+				
+				fix_version="4200"
+				active="true"
+				ip="14.215.128.99" 
+				port="24180"
+				account="MYCAP"
+				sender_comp_id="MYCAP"
+				target_comp_id="KGITEST"
+				sender_sub_id="G"
+				target_sub_id="G"
+				session_log="session_log_file"
+				protocol_log="protocol_log_file"
+				login_retry_interval="15000"
+
+				always_seqnum_assign="true"
+				process_model="threaded"
+				
+				persist="file0" 
+				Rawdata = ""
+				ApplicationSystemName = "TestProgram"
+				TradingSystemVersion= "V0.2"
+				/>
+<!--server_group="FO_Group0" -->
+
+	<persist name="file0"
+            type="file" dir="./run"
+            use_session_id="true"
+            rotation="1"
+            db="client" />
+
+	
+	<log 		name="session_log_file"
+				type="session"
+				filename="./log_file/session.log"
+				rotation="5"
+				flags="timestamp|sequence|thread"/>
+	<log 		name="protocol_log_file"
+				type="protocol"
+				filename="./log_file/protocol.log"
+				rotation="5"
+				flags_old="append|inbound"
+				flags="append|inbound|outbound|direction|sequence"/>
+</fix8>

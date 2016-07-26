@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf8"?>
+<root>
+<!--
+symbol, symbol name in exchange
+sec_type, stock:STK  future:FUT
+symbol_ib, symbol name in IB
+expiry, expiry month, needed for future
+exchange, destination exchange
+currency, HongKong Dollar:HKD  US Dollar:USD
+-->
+  <contracts>
+	<item symbol="CNH16" sec_type="FUT" symbol_ib="XINA50" expiry="20160330" exchange="SGX" currency="USD"/>
+	<item symbol="CNJ16" sec_type="FUT" symbol_ib="XINA50" expiry="20160428" exchange="SGX" currency="USD"/>
+	<item symbol="CNK16" sec_type="FUT" symbol_ib="XINA50" expiry="20160530" exchange="SGX" currency="USD"/>
+    <item symbol="CNM16" sec_type="FUT" symbol_ib="XINA50" expiry="20160629" exchange="SGX" currency="USD"/>
+	<item symbol="CNN16" sec_type="FUT" symbol_ib="XINA50" expiry="20160728" exchange="SGX" currency="USD"/>
+	<item symbol="CNQ16" sec_type="FUT" symbol_ib="XINA50" expiry="20160830" exchange="SGX" currency="USD"/>
+	<item symbol="CNU16" sec_type="FUT" symbol_ib="XINA50" expiry="20160929" exchange="SGX" currency="USD"/>
+    <item symbol="CNV16" sec_type="FUT" symbol_ib="XINA50" expiry="20161028" exchange="SGX" currency="USD"/>
+	<item symbol="CNX16" sec_type="FUT" symbol_ib="XINA50" expiry="20161129" exchange="SGX" currency="USD"/>
+	<item symbol="CNZ16" sec_type="FUT" symbol_ib="XINA50" expiry="20161229" exchange="SGX" currency="USD"/>
+	<item symbol="CYH16" sec_type="FUT" symbol_ib="CY" expiry="20160321" exchange="SGX" currency="USD"/>
+	<item symbol="CYJ16" sec_type="FUT" symbol_ib="CY" expiry="20160418" exchange="SGX" currency="USD"/>
+	<item symbol="CYK16" sec_type="FUT" symbol_ib="CY" expiry="20160516" exchange="SGX" currency="USD"/>
+    <item symbol="CYM16" sec_type="FUT" symbol_ib="CY" expiry="20160613" exchange="SGX" currency="USD"/>
+	<item symbol="CYN16" sec_type="FUT" symbol_ib="CY" expiry="20160718" exchange="SGX" currency="USD"/>
+	<item symbol="CYQ16" sec_type="FUT" symbol_ib="CY" expiry="20160815" exchange="SGX" currency="USD"/>
+	<item symbol="CYU16" sec_type="FUT" symbol_ib="CY" expiry="20160919" exchange="SGX" currency="USD"/>
+    <item symbol="CYV16" sec_type="FUT" symbol_ib="CY" expiry="20161017" exchange="SGX" currency="USD"/>
+	<item symbol="CYX16" sec_type="FUT" symbol_ib="CY" expiry="20161114" exchange="SGX" currency="USD"/>
+	<item symbol="CYZ16" sec_type="FUT" symbol_ib="CY" expiry="20161219" exchange="SGX" currency="USD"/>
+	<item symbol="CYF17" sec_type="FUT" symbol_ib="CY" expiry="20170116" exchange="SGX" currency="USD"/>
+	<item symbol="CYG17" sec_type="FUT" symbol_ib="CY" expiry="20170213" exchange="SGX" currency="USD"/>
+	<item symbol="UCH16" sec_type="FUT" symbol_ib="UC" expiry="20160321" exchange="SGX" currency="CNH"/>
+	<item symbol="UCJ16" sec_type="FUT" symbol_ib="UC" expiry="20160418" exchange="SGX" currency="CNH"/>
+	<item symbol="UCK16" sec_type="FUT" symbol_ib="UC" expiry="20160516" exchange="SGX" currency="CNH"/>
+    <item symbol="UCM16" sec_type="FUT" symbol_ib="UC" expiry="20160613" exchange="SGX" currency="CNH"/>
+	<item symbol="UCN16" sec_type="FUT" symbol_ib="UC" expiry="20160718" exchange="SGX" currency="CNH"/>
+	<item symbol="UCQ16" sec_type="FUT" symbol_ib="UC" expiry="20160815" exchange="SGX" currency="CNH"/>
+	<item symbol="UCU16" sec_type="FUT" symbol_ib="UC" expiry="20160919" exchange="SGX" currency="CNH"/>
+    <item symbol="UCV16" sec_type="FUT" symbol_ib="UC" expiry="20161017" exchange="SGX" currency="CNH"/>
+	<item symbol="UCX16" sec_type="FUT" symbol_ib="UC" expiry="20161114" exchange="SGX" currency="CNH"/>
+	<item symbol="UCZ16" sec_type="FUT" symbol_ib="UC" expiry="20161219" exchange="SGX" currency="CNH"/>
+	<item symbol="UCF17" sec_type="FUT" symbol_ib="UC" expiry="20170116" exchange="SGX" currency="CNH"/>
+	<item symbol="UCG17" sec_type="FUT" symbol_ib="UC" expiry="20170213" exchange="SGX" currency="CNH"/>
+    <item symbol="2801" sec_type="STK" symbol_ib="2801" expiry="" exchange="SEHK" currency="HKD"/>
+    <item symbol="2822" sec_type="STK" symbol_ib="2822" expiry="" exchange="SEHK" currency="HKD"/>
+    <item symbol="2823" sec_type="STK" symbol_ib="2823" expiry="" exchange="SEHK" currency="HKD"/>
+    <item symbol="2827" sec_type="STK" symbol_ib="2827" expiry="" exchange="SEHK" currency="HKD"/>
+    <item symbol="3049" sec_type="STK" symbol_ib="3049" expiry="" exchange="SEHK" currency="HKD"/>
+    <item symbol="3147" sec_type="STK" symbol_ib="3147" expiry="" exchange="SEHK" currency="HKD"/>
+    <item symbol="3188" sec_type="STK" symbol_ib="3188" expiry="" exchange="SEHK" currency="HKD"/>
+  </contracts>
+</root>

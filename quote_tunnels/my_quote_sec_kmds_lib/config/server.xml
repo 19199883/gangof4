@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates version="20141117.005">
+
+<template name="CMD_KMDS_HDHQTRANS_HEARTBEAT" id="10">
+	<int32  name="NODE_ID" id="1"/>
+	<int32  name="SRV_TYPE" id="2"/>
+	<int32  name="SRV_CODE" id="3"/>
+	<int32  name="RECV_TOTALCT" id="4"/>
+	<int32  name="SEND_TOTALCT" id="5"/>
+	<int32  name="CPU_USED(%)" id="6"/>
+	<int32  name="MEM_USED(%)" id="7"/>  
+	<int32  name="FREE_MEM(MB)" id="8"/>
+</template>
+
+<template name="CMD_HQTRANS_REQ_WHEREIS_SEQ_ID" id="1010">
+  	<int32  name="PID" id="1" />
+</template>
+<template name="CMD_HQTRANS_ANS_WHEREIS_SEQ_ID" id="1011">
+	  <int32  name="PID" id="1" />
+	  <string name="SEQ_ID_CHANNEL" 	 	 id="2" charset="unicode"/>
+  	<string name="SEQ_ID_ADDR" 	 	 id="3" charset="unicode"/>	
+</template>
+<template name="CMD_HQTRANS_REQ_HQ_SEQ_ID" id="1012">
+  	<int32  name="PID" id="1" />
+</template>
+<template name="CMD_HQTRANS_ANS_HQ_SEQ_ID" id="1013">
+	<int32   name="TOT_RECORD" id="501301"/>
+	<sequence name="SEQ_HQ_FILTERTABLE" presence="optional">
+		<int32    name="MKT_TP_CODE" id="1"/>
+  	<string   name="SCR_CODE" id="2" charset="unicode"/>
+  	<int64    name="SNPSTL1_ID" id="4"/>
+  	<int32    name="SNPSTL1_TM" id="5"/>
+  	<int64    name="SNPSTL1_TOTNUM" id="6"/>
+  	<int64    name="SNPSTL1_AMT" id="7"/>
+  	<int64    name="nSNPSTL2_ID" id="8"/>
+  	<int32    name="nSNPSTL2_TM" id="8"/>
+  	<int64 		name="APL_SELL_PRC_1" id="30"/>										
+		<int64 		name="APL_SELL_PRC_2" id="31"/>										
+		<int64 		name="APL_SELL_PRC_3" id="32"/>										
+		<int64 		name="APL_SELL_PRC_4" id="33"/>										
+		<int64 		name="APL_SELL_PRC_5" id="34"/>										   		          	
+		<int64 	name="APL_SELL_AMT_1" id="40"/>										
+		<int64 	name="APL_SELL_AMT_2" id="41"/>										
+		<int64 	name="APL_SELL_AMT_3" id="42"/>										
+		<int64 	name="APL_SELL_AMT_4" id="43"/>										
+		<int64 	name="APL_SELL_AMT_5" id="44"/>										    		          	
+		<int64 		name="APL_BID_PRC_1" id="50"/>											
+		<int64 		name="APL_BID_PRC_2" id="51"/>											
+		<int64 		name="APL_BID_PRC_3" id="52"/>											
+		<int64 		name="APL_BID_PRC_4" id="53"/>											
+		<int64 		name="APL_BID_PRC_5" id="54"/>											    		          	
+		<int64 	name="APL_BID_AMT_1" id="60"/>											
+		<int64 	name="APL_BID_AMT_2" id="61"/>											
+		<int64 	name="APL_BID_AMT_3" id="62"/>											
+		<int64 	name="APL_BID_AMT_4" id="63"/>											
+		<int64 	name="APL_BID_AMT_5" id="64"/>											
+  </sequence>
+</template>
+
+<template name="CMD_HQSERVER_REQ_WHEREIS_CODETABLE" id="2010">
+  	<int32  name="NODE_ID" 	 	 id="1"/>
+  	<int32	name="SRV_TYPE" 	 id="2"/>
+  	<int32	name="SRV_CODE" 	 id="3"/>
+</template>
+
+<template name="CMD_HQSERVER_ANS_WHEREIS_CODETABLE" id="2011">
+	  <string name="CODETABLE_CHANNEL" 	 	 id="1" charset="unicode"/>
+  	<string name="CODETABLE_ADDR" 	 	 id="2" charset="unicode"/>
+</template>
+
+<template name="CMD_HQSERVER_CODETABLE_NOTIFY" id="2020">
+		<int32  name="NODE_ID" 	 	 id="1"/>
+  	<int32	name="SRV_TYPE" 	 id="2"/>
+  	<int32	name="SRV_CODE" 	 id="3"/>
+  	<string	name="NOTIFY_TYPE" 	 id="4" charset="unicode"/>
+  	<int32 	name="MKT_TP_CODE" id="5"/>
+</template>
+
+<template name="CMD_HQSERVER_REQ_RECOVERYDATA_NOTIFY" id="2030">
+		<int32  name="NODE_ID" 	 	 id="1"/>
+  	<int32	name="SRV_TYPE" 	 id="2"/>
+  	<int32	name="SRV_CODE" 	 id="3"/>
+  	<string	name="FT_GROUPNAME" id="4" charset="unicode"/>
+</template>
+
+<template name="CMD_HQSERVER_ANS_RECOVERYDATA_NOTIFY" id="2031">
+	<string		name="FT_GROUPNAME" 	 id="203101" charset="unicode"/>
+	<sequence name="SEQ_HQ_ANS_RECOVERYDATA" presence="optional">
+		<int32   name="MKT_TP_CODE" id="1"/>
+		<int32   name="TABLE_TYPE" 	id="2"/>
+		<int64   name="END_RECV_SEQID" id="3"/>
+	</sequence>
+	<sequence name="SEQ_HQ_ANS_MINLINE" presence="optional">
+		<string		name="QTE_DATA_TP_CODE" 	 id="1" charset="unicode"/>
+		<string		name="SCR_CODE" 	 				 id="2" charset="unicode"/>
+		<int32   	name="MKT_TP_CODE" 	id="3">																	<delta/>		</int32>
+		<int64   	name="RECV_SEQID" 	id="4">																	<delta/>		</int64>
+		<int32   	name="TM" id="5">																						<delta/>		</int32>
+		<int32   	name="DT" id="6">																						<delta/>		</int32>
+		
+		<int64   	name="OPN_QTN_PRICE" id="7">																<delta/>		</int64>
+		<int64   	name="CLS_QTN_PRICE" id="8">																<delta/>		</int64>
+		<int64   	name="HIGH_PRICE" id="9">																		<delta/>		</int64>
+		<int64   	name="LWS_PRICE" id="10">																		<delta/>		</int64>
+		
+		<int64   	name="BGN_TOT_NUM" 	id="11">																<delta/>		</int64>
+		<int64   	name="BGN_TOT_AMT" 	id="12">																<delta/>		</int64>
+		<int64   	name="LAST_BGN_TOT_NUM" 	id="13">													<delta/>		</int64>
+		<int64   	name="LAST_BGN_TOT_AMT" 	id="14">													<delta/>		</int64>
+		<int64 		name="BGN_CNT" id="15">																			<delta/>		</int64>
+		<int64 		name="LAST_BGN_CNT" id="16">																<delta/>		</int64>
+		<int64   	name="MKT_MAKE_POS_QTY" 	id="17">													<delta/>		</int64>
+		<int64   	name="LAST_MKT_MAKE_POS_QTY" 	id="18">											<delta/>		</int64>
+	</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HEARTBEAT" id="2040">
+		<int32  name="NODE_ID" 	 	 id="1"/>
+  	<int32	name="SRV_TYPE" 	 id="2"/>
+  	<int32	name="SRV_CODE" 	 id="3"/>
+  	<int32	name="SRV_STATUS"  id="4"/>
+		<int32	name="CPU_USED" 	 id="5"/>
+		<int32	name="MEM_USED" 	 id="6"/>
+  	<string	name="DATA" 	 		 id="7" charset="unicode" presence="optional"/>
+</template>
+
+<template name="CMD_HQSERVER_INITNOTIFY" id="2050">
+		<int32  name="NODE_ID" 	 	 id="1"/>
+  	<int32	name="SRV_TYPE" 	 id="2"/>
+  	<int32	name="SRV_CODE" 	 id="3"/>
+  	<int32	name="SRV_STATUS"  id="4"/>
+  	<int32 	name="MKT_TP_CODE" id="5"/>
+</template>
+
+<template name="CMD_HQSERVER_REQ_GETCODETABLE" id="2060">
+  	<int32  name="MKT_TP_CODE" id="1"/>
+  	<uInt32  name="CODETABLE_VER" id="2" presence="optional"/>
+</template>
+
+<template name="CMD_HQSERVER_ANS_CODETABLE" id="2061">
+	<int32   name="TOT_RECORD" id="206101"/>
+	<int32   name="MKT_TP_CODE" id="206102"/>
+	<uInt32  	name="CODETABLE_VER" id="206103"  presence="optional">		  <delta/>		</uInt32>
+	<sequence name="SEQ_HQ_CODETABLE" presence="optional">
+  	<int32    name="MKT_TP_CODE" id="1">																<delta/>		</int32>
+  	<string   name="SCR_CODE" charset="unicode" id="2"/>
+  	<string   name="SCR_NM" charset="unicode" id="3"/>
+  	<int64    name="YSTD_CLS_QTN_PRICE" id="4">													<delta/>		</int64>
+  	<int64    name="OPN_QTN_PRICE" id="5">															<delta/>		</int64>
+  	<int64    name="RISE_LMT_PRICE" id="6">															<delta/>		</int64>
+  	<int64    name="FALL_LMT_PRICE" id="7">															<delta/>		</int64>
+  	<int64    name="YSTD_DELTA" id="8">																	<delta/>		</int64>
+  	<int64    name="YSTD_SETL_PRICE" id="10">														<delta/>		</int64>
+  	<int64    name="TDY_SETL_PRICE" id="11">														<delta/>		</int64>
+  	<int64    name="YSTD_MKT_MAKE_POS_TOT_NUM" id="12">									<delta/>		</int64>
+  	<uInt32  	name="CODETABLE_VER" id="13">															<delta/>		</uInt32>
+  	<int32    name="STK_TYPE"   id="14"  presence="optional">		        <delta/>		</int32>
+  	<int64    name="ID_NUM_L1"   	id="16"  presence="optional">		      <delta/>		</int64>
+  	<int64    name="ID_NUM_L2"   	id="17"  presence="optional">		      <delta/>		</int64>
+  </sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_STK_SNAPSHOT" id="6010">	
+		<int32   name="TOT_RECORD" id="601001"/>
+		<int32 		name="MKT_TP_CODE" id="601002"/>
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			    <int32 		name="TM" id="1">																								<delta/>		</int32>
+			  	<int32 		name="MKT_TP_CODE" id="2">																			<default/>	</int32>
+			  	<string		name="SCR_CODE" id="3" charset="unicode">												<default/>	</string>
+			  	<int64		name="SEQ_ID" id="4" 								  presence="optional">			<delta/>		</int64>
+			  	<int32 		name="HIGH_PRICE" id="5">																				<delta/>		</int32>
+			  	<int32 		name="LWS_PRICE" id="6">																				<delta/>		</int32>
+			  	<int32 		name="LTST_PRICE" id="7">																				<delta/>		</int32>
+			  	<int32 		name="BGN_CNT" id="8">																					<delta/>		</int32>
+			  	<int64 		name="BGN_TOT_NUM" id="9">																			<delta/>		</int64>
+			  	<int64 		name="BGN_TOT_AMT" id="10">																			<delta/>		</int64>
+			  	
+			  	<int64 		name="ENTRT_BUY_TOT_NUM" id="11" 				presence="optional">		<delta/>		</int64>
+			  	<int64 		name="ENTRT_SELL_TOT_NUM" id="12" 			presence="optional">	  <delta/>		</int64>
+			  	<int32 		name="WGHT_AVG_ENTRT_BUY_PRC" id="13" 	presence="optional">		<delta/>		</int32>
+			  	<int32 		name="WGHT_AVG_ENTRT_SELL_PRC" id="14" 	presence="optional">	  <delta/>		</int32>
+			  	<int32 		name="IOPV_NET_VAL_VALT" id="15" 				presence="optional">		<delta/>		</int32>
+			  	<int32 		name="MTUR_YLD" id="16" 								presence="optional">		<delta/>		</int32>
+			  	<int32 		name="PART_SNPST_ST_TP_CODE" id="17" 		presence="optional">		<delta/>		</int32>
+			  	<int32 		name="PE_RATIO_1" id="18" 							presence="optional">		<delta/>		</int32>
+          <int32 		name="PE_RATIO_2" id="19" 							presence="optional">		<delta/>		</int32>
+          <int64 		name="ERROR_MARK" id="20">																			<delta/>		</int64>
+          
+          <int64 		name="PUBLISH_TM1" id="21" 							presence="optional">		<delta/>		</int64>
+			  	<int64 		name="PUBLISH_TM2" id="22" 							presence="optional">		<delta/>		</int64>
+          <!--int32 		name="YSTD_CLS_QTN_PRICE" id="23" 			presence="optional">		<delta/>		</int32-->
+			  	<!--int32 		name="OPN_QTN_PRICE" id="24" 						presence="optional">		<delta/>		</int32-->
+			  	<!--int32 		name="RISE_LMT_PRICE" id="25" 					presence="optional">		<delta/>		</int32-->
+			  	<!--int32 		name="FALL_LMT_PRICE" id="26" 					presence="optional">		<delta/>		</int32-->
+			  	   		          	
+					<int32 		name="APL_SELL_PRC_1" id="30">																	<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_2" id="31">																	<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_3" id="32">																	<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_4" id="33">																	<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_5" id="34">																	<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_6" id="35"  					presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_7" id="36"  					presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_8" id="37"  					presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_9" id="38"  					presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_10" id="39" 					presence="optional">		<delta/>		</int32>
+					       		          	
+					<uInt32 	name="APL_SELL_AMT_1" id="40">																	<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_2" id="41">																	<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_3" id="42">																	<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_4" id="43">																	<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_5" id="44">																	<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_6" id="45"						presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_7" id="46"	  				presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_8" id="47"   				presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_9" id="48"   				presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_10" id="49"  				presence="optional">		<delta/>		</uInt32>
+			           		          	
+					<int32 		name="APL_BID_PRC_1" id="50">																		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_2" id="51">																		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_3" id="52">																		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_4" id="53">																		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_5" id="54">																		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_6" id="55" 						presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_7" id="56"						presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_8" id="57" 						presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_9" id="58"						presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_10" id="59"						presence="optional">		<delta/>		</int32>
+					       		          	
+					<uInt32 	name="APL_BID_AMT_1" id="60">																		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_2" id="61">																		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_3" id="62">																		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_4" id="63">																		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_5" id="64">																		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_6" id="65"						presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_7" id="66"						presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_8" id="67"						presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_9" id="68"						presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_10" id="69"						presence="optional">		<delta/>		</uInt32>
+					<string		name="PRE_FIX" id="70" charset="unicode" presence="optional">		<default/>	</string>
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_FT_SNAPSHOT" id="6011">	
+		<int32   name="TOT_RECORD" id="601101"/>
+		<int32 		name="MKT_TP_CODE" id="601102"/>
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			    <int32 		name="TM" id="1">																								<delta/>		</int32>
+			  	<int32 		name="MKT_TP_CODE" id="2">																			<default/>	</int32>
+			  	<string		name="SCR_CODE" id="3" charset="unicode">												<default/>	</string>
+			  	<int64		name="SEQ_ID" id="4" 								  presence="optional">			<delta/>		</int64>
+			  	<!--int32 		name="PART_SNPST_ST_TP_CODE" id="5" 		presence="optional">		<delta/>		</int32-->
+			  	<int32 		name="HIGH_PRICE" id="6">																				<delta/>		</int32>
+			  	<int32 		name="LWS_PRICE" id="7">																				<delta/>		</int32>
+			  	<int32 		name="LTST_PRICE" id="8">																				<delta/>		</int32>
+			  	<int64 		name="BGN_TOT_NUM" id="9">																			<delta/>		</int64>
+			  	<int64 		name="BGN_TOT_AMT" id="10">																			<delta/>		</int64>
+
+					<int64 		name="TDY_MKT_MAKE_POS_TOT_NUM" id="11" presence="optional">		<delta/>		</int64>
+			  	<int32 		name="TDY_DELTA" id="12" 								presence="optional">		<delta/>		</int32>
+          <int64 		name="ERROR_MARK" id="13">																			<delta/>		</int64>
+          <int64 		name="PUBLISH_TM1" id="14" 							presence="optional">		<delta/>		</int64>
+			  	<int64 		name="PUBLISH_TM2" id="15" 							presence="optional">		<delta/>		</int64>
+          <int32 		name="TDY_CLS_QTN_PRICE" id="16">		<delta/>		</int32>
+					<!--int32 		name="YSTD_SETL_PRICE" id="17"					presence="optional">		<delta/>		</int32>
+					<int32 		name="TDY_SETL_PRICE" id="18"						presence="optional">		<delta/>		</int32>          
+          <int32 		name="YSTD_CLS_QTN_PRICE" id="19" 			presence="optional">		<delta/>		</int32>
+			  	<int32 		name="OPN_QTN_PRICE" id="20" 						presence="optional">		<delta/>		</int32>
+			  	
+			  	<int64 	name="YSTD_MKT_MAKE_POS_TOT_NUM" id="21"	presence="optional">		<delta/>		</int64>				  	
+			  	<int32 		name="RISE_LMT_PRICE" id="22" 					presence="optional">		<delta/>		</int32>
+			  	<int32 		name="FALL_LMT_PRICE" id="23" 					presence="optional">		<delta/>		</int32>
+			  	<int32 		name="YSTD_DELTA" id="24" 							presence="optional">		<delta/>		</int32-->
+			  	   		          	
+					<int32 		name="APL_SELL_PRC_1" id="30">																	<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_2" id="31"  					presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_3" id="32"  					presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_4" id="33"  					presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_SELL_PRC_5" id="34" 					presence="optional">		<delta/>		</int32>
+					       		          	
+					<uInt32 	name="APL_SELL_AMT_1" id="40">																	<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_2" id="41"	  				presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_3" id="42"   				presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_4" id="43"   				presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_SELL_AMT_5" id="44"  					presence="optional">		<delta/>		</uInt32>
+			           		          	
+					<int32 		name="APL_BID_PRC_1" id="50">																		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_2" id="51"						presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_3" id="52" 						presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_4" id="53"						presence="optional">		<delta/>		</int32>
+					<int32 		name="APL_BID_PRC_5" id="54"						presence="optional">		<delta/>		</int32>
+					       		          	
+					<uInt32 	name="APL_BID_AMT_1" id="60">																		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_2" id="61"						presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_3" id="62"						presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_4" id="63"						presence="optional">		<delta/>		</uInt32>
+					<uInt32 	name="APL_BID_AMT_5" id="64"						presence="optional">		<delta/>	  </uInt32>
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_INDEX_SNAPSHOT" id="6012">	
+		<int32   name="TOT_RECORD" id="601201"/>
+		<int32 		name="MKT_TP_CODE" id="601202"/>
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			    <int32 		name="TM" id="1">																								<delta/>		</int32>
+			  	<int32 		name="MKT_TP_CODE" id="2">																			<default/>	</int32>
+			  	<string		name="SCR_CODE" id="3" charset="unicode">												<default/>	</string>
+			  	<int64		name="SEQ_ID" id="4" 								  presence="optional">			<delta/>		</int64>
+			  	<int32 		name="HIGH_PRICE" id="5">																				<delta/>		</int32>
+			  	<int32 		name="LWS_PRICE" id="6">																				<delta/>		</int32>
+			  	<int32 		name="LTST_PRICE" id="7">																				<delta/>		</int32>
+			  	<int64 		name="BGN_TOT_NUM" id="8">																			<delta/>		</int64>
+			  	<int64 		name="BGN_TOT_AMT" id="9">																			<delta/>		</int64>
+			  	<!--int32 		name="PART_SNPST_ST_TP_CODE" id="10" 		presence="optional">		<delta/>		</int32-->
+			  	
+          <int64 		name="ERROR_MARK" id="11">																			<delta/>		</int64>
+          <int64 		name="PUBLISH_TM1" id="12" 							presence="optional">		<delta/>		</int64>
+			  	<int64 		name="PUBLISH_TM2" id="13" 							presence="optional">		<delta/>		</int64>
+          <!--int32 		name="YSTD_CLS_QTN_PRICE" id="14" 			presence="optional">		<delta/>		</int32>
+			  	<int32 		name="OPN_QTN_PRICE" id="15" 						presence="optional">		<delta/>		</int32>
+			  	<int32 		name="RISE_LMT_PRICE" id="16" 					presence="optional">		<delta/>		</int32>
+			  	<int32 		name="FALL_LMT_PRICE" id="17" 					presence="optional">		<delta/>		</int32-->
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_ORDR_QU" id="6020">	
+		<int32   name="TOT_RECORD" id="602001"/>
+		<int32 		name="MKT_TP_CODE" id="602002"/>
+		<sequence name="SEQ_HQ_ORDR_QU" presence="optional">
+			    <int32 		name="TM" id="1">										<delta/>		</int32>
+			  	<int32 		name="MKT_TP_CODE" id="2">					<default/>	</int32>
+			  	<string		name="SCR_CODE" id="3">							<default/>	</string>
+			  	<!--int32 		name="DT" id="4">						<default/>	</int32-->
+			  	<string 	name="INSR_TXN_TP_CODE" id="5" charset="unicode"/>
+			  	<int32 		name="PRC" id="6">									<delta/>		</int32>
+			  	<int32 		name="ORDR_TOT_RND_LOT_NBR" id="7">	<delta/>		</int32>
+			  	<int32 		name="ORDR_NBR" id="8">							<delta/>		</int32>
+			  	<string 	name="ORDR_DTL_RND_LOT_NBR" id="9" charset="unicode"/>
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_PER_STRK_ENTRT" id="6030">	
+		<int32   name="TOT_RECORD" id="603001"/>
+		<int32 		name="MKT_TP_CODE" id="603002"/>
+		<sequence name="SEQ_HQ_PER_STRK_ENTRT" presence="optional">
+					<int64 		name="ENTRT_ID" id="1">					<delta/>		</int64>
+			  	<int32 		name="MKT_TP_CODE" id="2">			<default/>	</int32>
+			  	<string		name="SCR_CODE" id="3" charset="unicode">					<default/>	</string>
+			  	<!--int32 		name="DT" id="4">						<default/>	</int32-->
+			  	<int32 		name="ENTRT_TM" id="5">					<delta/>		</int32>
+			  	<int32 		name="ENTRT_PRC" id="6">				<delta/>		</int32>
+			  	<int64 		name="ENTRT_QTY" id="7">				<delta/>		</int64>
+			  	<string 	name="INSR_TXN_TP_CODE" id="8" charset="unicode"/>
+			  	<string 	name="ENTRT_TP" id="9" charset="unicode"/>
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_PER_STRK_BGN" id="6040">	
+		<int32   name="TOT_RECORD" id="604001"/>
+		<int32 		name="MKT_TP_CODE" id="604002"/>
+		<sequence name="SEQ_HQ_STRK_BGN" presence="optional">
+					<int64 		name="BGN_ID" id="1">			<delta/>		</int64>
+			  	<int32 		name="MKT_TP_CODE" id="2"><default/>	</int32>
+			  	<string		name="SCR_CODE" id="3" charset="unicode">		<default/>	</string>
+			  	<!--int32 		name="DT" id="4">					<default/>	</int32-->
+			  	<int32 		name="TM" id="5">					<delta/>		</int32>
+			  	<int32 		name="TRDD_PRC" id="6">		<delta/>		</int32>
+			  	<int64 		name="BGN_QTY" id="7">		<delta/>		</int64>
+			  	<int64 		name="BGN_AMT" id="8">		<delta/>		</int64>
+			  	<string		name="BGN_FLG" id="3">		<delta/>		</string>
+			  	<string		name="NSR_TXN_TP_CODE" id="3">		<delta/>		</string>
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_STKOP_SNAPSHOT" id="6014">	
+		<int32   name="TOT_RECORD" id="601401"/>
+		<int32 		name="MKT_TP_CODE" id="601402"/>
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			    <int64 		name="TM" id="1">																								<delta/>		</int64>
+			  	<int32 		name="MKT_TP_CODE" id="2">																			<default/>	</int32>
+			  	<string		name="SCR_CODE" id="3" charset="unicode">												<default/>	</string>
+			  	<int64		name="SEQ_ID" id="4" 								  presence="optional">			<delta/>		</int64>
+			  	<int64 		name="HIGH_PRICE" id="6">																				<delta/>		</int64>
+			  	<int64 		name="LWS_PRICE" id="7">																				<delta/>		</int64>
+			  	<int64 		name="LTST_PRICE" id="8">																				<delta/>		</int64>
+			  	<int64 		name="BGN_TOT_NUM" id="9">																			<delta/>		</int64>
+			  	<int64 		name="BGN_TOT_AMT" id="10">																			<delta/>		</int64>
+          <int64 		name="PUBLISH_TM1" id="14" 							presence="optional">		<delta/>		</int64>
+			  	<int64 		name="PUBLISH_TM2" id="15" 							presence="optional">		<delta/>		</int64>
+          <int64 		name="AUCTION_PRICE" id="16">		                                <delta/>		</int64>		
+          <int64 		name="AUCTION_QTY" id="17">		                                  <delta/>		</int64>     
+          <int64 		name="ERROR_MARK" id="18">																			<delta/>		</int64>
+          <int64 		name="PUB_NUM"    id="19" 							presence="optional">		<delta/>		</int64>	 	   		          	
+					<int64 		name="APL_SELL_PRC_1" id="30">																	<delta/>		</int64>
+					<int64 		name="APL_SELL_PRC_2" id="31"  					presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_SELL_PRC_3" id="32"  					presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_SELL_PRC_4" id="33"  					presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_SELL_PRC_5" id="34" 					presence="optional">		<delta/>		</int64>					       		          	
+					<int64 	  name="APL_SELL_AMT_1" id="40">																	<delta/>		</int64>
+					<int64 	  name="APL_SELL_AMT_2" id="41"	  				presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_SELL_AMT_3" id="42"   				presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_SELL_AMT_4" id="43"   				presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_SELL_AMT_5" id="44"  					presence="optional">		<delta/>		</int64>		           		          	
+					<int64 		name="APL_BID_PRC_1" id="50">																		<delta/>		</int64>
+					<int64 		name="APL_BID_PRC_2" id="51"						presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_BID_PRC_3" id="52" 						presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_BID_PRC_4" id="53"						presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_BID_PRC_5" id="54"						presence="optional">		<delta/>		</int64>				       		          	
+					<int64 	  name="APL_BID_AMT_1" id="60">																		<delta/>		</int64>
+					<int64 	  name="APL_BID_AMT_2" id="61"						presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_BID_AMT_3" id="62"						presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_BID_AMT_4" id="63"						presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_BID_AMT_5" id="64"						presence="optional">		<delta/>	  </int64>
+					<string		name="TRAD_PHASE_CODE"  id="65" charset="unicode" presence="optional">		<default/>	</string>   
+					<string		name="MD_REPORT_ID" id="66" charset="unicode" presence="optional">		<default/>	</string>
+					<int64    name="TOT_LONG_POSITION" id="67">		                            <delta/>		</int64> 
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_RDM_SNAPSHOT" id="6015">	
+	  <string 		name="RIC"             id="601501"/>
+		<int32      name="TOT_RECORD"      id="601503"/>
+		<int32 		  name="MKT_TP_CODE"     id="601504"/>		
+		<int32 		  name="RESP_TYPE"       id="601506"/>
+		<int32 		  name="RECORDTYPE"      id="601507"/>
+		<int64 		  name="PUBLISH_TM1"     id="601508"/>
+		<int64 		  name="PUBLISH_TM2"     id="601509"/>
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			  	<int32 		name="FID"   id="1">															</int32>  
+			  	<int32 		name="ENUM"   id="2">															</int32> 
+			  	<string		name="KEY"   id="3" charset="unicode">				  	</string>
+					<string		name="DATA"  id="4" charset="unicode">		      	</string>   
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_CMDS_SNAPSHOT" id="6016">	
+		<int32      name="TOT_RECORD"      id="601603"/>
+		<int32 		  name="MKT_TP_CODE"     id="601604"/>		
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			     <string  name="BEG_DATE"                  id="1"  charset="unicode">     </string>	
+			  	 <string  name="TRANSACTTIME"              id="2"  charset="unicode">     </string>
+			  	 <string  name="TRADEMETHOD"               id="3"  charset="unicode">     </string>
+			  	 <string  name="I_CODE"                    id="4"  charset="unicode">     </string>
+			  	 <string  name="A_TYPE"                    id="5"  charset="unicode">     </string>
+			  	 <string  name="M_TYPE"                    id="6"  charset="unicode">     </string>
+			  	 <string  name="I_NAME"                    id="7"  charset="unicode">     </string>
+			  	 <string  name="PRE_CLOSING_CLEANPRICE"    id="8"  charset="unicode">     </string>
+			  	 <string  name="PRE_WEIGHTED_CLEANPRICE"   id="9"  charset="unicode">     </string>
+			  	 <string  name="OPENING_CLEANPRICE"       id="10"  charset="unicode">     </string>
+			  	 <string  name="LATEST_CLEANPRICE"        id="11"  charset="unicode">     </string>
+			  	 <string  name="CHANGE_CLEANPRICE"        id="12"  charset="unicode">     </string>
+			  	 <string  name="HIGHEST_CLEANPRICE"       id="13"  charset="unicode">     </string>
+			  	 <string  name="LOWEST_CLEANPRICE"        id="14"  charset="unicode">     </string>
+			  	 <string  name="CLOSING_CLEANPRICE"       id="15"  charset="unicode">     </string>
+			  	 <string  name="WEIGHTED_CLEANPRICE"      id="16"  charset="unicode">     </string>
+			  	 <string  name="PRE_CLOSING_YIELD"        id="17"  charset="unicode">     </string>
+			  	 <string  name="PRE_WEIGHTED_YIELD"       id="18"  charset="unicode">     </string>
+			  	 <string  name="OPENING_YIELD"            id="19"  charset="unicode">     </string>
+			  	 <string  name="LATEST_YIELD"             id="20"  charset="unicode">     </string>
+			  	 <string  name="HIGHEST_YIELD"            id="21"  charset="unicode">     </string>
+			  	 <string  name="LOWEST_YIELD"             id="22"  charset="unicode">     </string>
+			  	 <string  name="CLOSING_YIELD"            id="23"  charset="unicode">     </string>
+			  	 <string  name="WEIGHTED_YIELD"           id="24"  charset="unicode">     </string>
+			  	 <string  name="TURNOVER"                 id="25"  charset="unicode">     </string>  
+			  	 <string  name="KEYCODE"                  id="26"  charset="unicode">     </string>	
+			  	 <string  name="SCR_CODE"                 id="27"  charset="unicode">     </string>	
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_HGT_SNAPSHOT" id="6001">	
+		<int32   name="TOT_RECORD" id="600101"/>
+		<int32 		name="MKT_TP_CODE" id="600102"/>
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			    <int64 		name="TM" id="1">																								<delta/>		</int64>
+			  	<int32 		name="MKT_TP_CODE" id="2">																			<default/>	</int32>
+			  	<string		name="SCR_CODE" id="3" charset="unicode">												<default/>	</string>
+			  	
+			  	<int64 		name="NOMINAL_PRICE" id="4">																		<delta/>		</int64>			  	
+			  	<int64 		name="HIGH_PRICE" id="6">																				<delta/>		</int64>
+			  	<int64 		name="LWS_PRICE" id="7">																				<delta/>		</int64>
+			  	<int64 		name="LTST_PRICE" id="8">																				<delta/>		</int64>			  	
+			  	<int64 		name="BGN_TOT_NUM" id="9">																			<delta/>		</int64>
+			  	<int64 		name="BGN_TOT_AMT" id="10">																			<delta/>		</int64>
+     	   		          	
+					<int64 		name="APL_SELL_PRC_1" id="30">																	<delta/>		</int64>
+					<int64 		name="APL_SELL_PRC_2" id="31"  					presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_SELL_PRC_3" id="32"  					presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_SELL_PRC_4" id="33"  					presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_SELL_PRC_5" id="34" 					presence="optional">		<delta/>		</int64>					       		          	
+					<int64 	  name="APL_SELL_AMT_1" id="40">																	<delta/>		</int64>
+					<int64 	  name="APL_SELL_AMT_2" id="41"	  				presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_SELL_AMT_3" id="42"   				presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_SELL_AMT_4" id="43"   				presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_SELL_AMT_5" id="44"  					presence="optional">		<delta/>		</int64>		           		          	
+					<int64 		name="APL_BID_PRC_1" id="50">																		<delta/>		</int64>
+					<int64 		name="APL_BID_PRC_2" id="51"						presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_BID_PRC_3" id="52" 						presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_BID_PRC_4" id="53"						presence="optional">		<delta/>		</int64>
+					<int64 		name="APL_BID_PRC_5" id="54"						presence="optional">		<delta/>		</int64>				       		          	
+					<int64 	  name="APL_BID_AMT_1" id="60">																		<delta/>		</int64>
+					<int64 	  name="APL_BID_AMT_2" id="61"						presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_BID_AMT_3" id="62"						presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_BID_AMT_4" id="63"						presence="optional">		<delta/>		</int64>
+					<int64 	  name="APL_BID_AMT_5" id="64"						presence="optional">		<delta/>	  </int64>	
+					
+					<string		name="SEC_TRADE_STATUS" id="65"         charset="unicode">		  <default/>	</string> 				
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_HGT_QUOTA" id="6002">	
+		<int32   name="TOT_RECORD" id="600201"/>
+		<int32 		name="MKT_TP_CODE" id="600202"/>
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			    <string		name="MD_TIME"          id="1"         charset="unicode">			  <default/>	</string>
+			  	<int32 		name="MKT_TP_CODE"      id="2">																  <default/>	</int32> 
+			  	<int64 		name="THRESHOID_AMOUNT" id="3">																	<delta/>		</int64>
+			  	<int64 		name="POST_AMT"         id="4">																	<delta/>		</int64> 	
+			  	<string		name="AMOUNT_STATUS"    id="5"         charset="unicode">		    <default/>	</string> 						
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_HGT_STATUS" id="6003">	
+		<int32   name="TOT_RECORD" id="600301"/>
+		<int32 		name="MKT_TP_CODE" id="600302"/>
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			    <string		name="MD_TIME"          id="1"         charset="unicode">			  <default/>	</string>
+			  	<int32 		name="MKT_TP_CODE"      id="2">																	<default/>	</int32>  	
+			  	<string		name="SCR_CODE"          id="3"         charset="unicode">			<default/>	</string>
+			  	<string		name="SEC_TRADE_STATUS1" id="4"         charset="unicode">		  <default/>	</string> 	
+			  	<string		name="SEC_TRADE_STATUS2" id="5"         charset="unicode">		  <default/>	</string> 					
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_BUF_DATA" id="8001">	
+	  <byteVector name="BUF_DATA" id="1"/>
+</template>
+
+<template name="CMD_HQSERVER_HQ_SPQA_SNAPSHOT" id="6005">	
+		<int32      name="TOT_RECORD"      id="600501"/>
+		<int32 		  name="MKT_TP_CODE"     id="600502"/>		
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			     <string  name="INSTID"             id="1"  charset="unicode">     </string>	
+			  	 <string  name="NAME"               id="2"  charset="unicode">     </string>
+			  	 <string  name="LASTCLOSE"          id="4"  charset="unicode">     </string>
+			  	 <string  name="OPEN"               id="5"  charset="unicode">     </string>
+			  	 <string  name="HIGH"               id="6"  charset="unicode">     </string>
+			  	 <string  name="LOW"                id="7"  charset="unicode">     </string>
+			  	 <string  name="LAST"               id="8"  charset="unicode">     </string>
+			  	 <string  name="CLOSE"              id="9"  charset="unicode">     </string>
+			  	 <string  name="BID1"              id="11"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT1"           id="12"  charset="unicode">     </string>
+			  	 <string  name="BID2"              id="13"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT2"           id="14"  charset="unicode">     </string>
+			  	 <string  name="BID3"              id="15"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT3"           id="16"  charset="unicode">     </string>
+			  	 <string  name="BID4"              id="17"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT4"           id="18"  charset="unicode">     </string>
+			  	 <string  name="BID5"              id="19"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT5"           id="20"  charset="unicode">     </string>
+			  	 <string  name="ASK1"              id="21"  charset="unicode">     </string>
+			  	 <string  name="ASKLOT1"           id="22"  charset="unicode">     </string>
+			  	 <string  name="ASK2"              id="23"  charset="unicode">     </string>
+			  	 <string  name="ASKLOT2"           id="24"  charset="unicode">     </string>
+			  	 <string  name="ASK3"              id="25"  charset="unicode">     </string>  
+			  	 <string  name="ASKLOT3"           id="26"  charset="unicode">     </string>	
+			  	 <string  name="ASK4"              id="27"  charset="unicode">     </string>	
+           <string  name="ASKLOT4"           id="28"  charset="unicode">     </string>  
+           <string  name="ASK5"              id="29"  charset="unicode">     </string>
+           <string  name="ASKLOT5"           id="20"  charset="unicode">     </string>
+           <string  name="VOLUME"            id="31"  charset="unicode">     </string>
+           <string  name="WEIGHT"            id="32"  charset="unicode">     </string>
+           <string  name="HIGHLIMIT"         id="33"  charset="unicode">     </string>
+           <string  name="LOWLIMIT"          id="34"  charset="unicode">     </string>
+           <string  name="UPDOWN"            id="36"  charset="unicode">     </string>
+           <string  name="UPDOWNRATE"        id="37"  charset="unicode">     </string>
+           <string  name="TURNOVER"          id="38"  charset="unicode">     </string>
+           <string  name="AVERAGE"           id="39"  charset="unicode">     </string>
+           <string  name="QUOTEDATE"         id="40"  charset="unicode">     </string>
+           <string  name="QUOTETIME"         id="41"  charset="unicode">     </string>
+           <string  name="SEQUENCENO"        id="42"  charset="unicode">     </string>
+           <string	name="SCR_CODE"          id="43" charset="unicode" presence="optional">		<default/>	</string>
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_FWQA_SNAPSHOT" id="6006">	
+		<int32      name="TOT_RECORD"      id="600601"/>
+		<int32 		  name="MKT_TP_CODE"     id="600602"/>		
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			     <string  name="INSTID"             id="1"  charset="unicode">     </string>	
+			  	 <string  name="NAME"               id="2"  charset="unicode">     </string>
+			  	 <string  name="LASTSETTLE"         id="3"  charset="unicode">     </string>
+			  	 <string  name="LASTCLOSE"          id="4"  charset="unicode">     </string>
+			  	 <string  name="OPEN"               id="5"  charset="unicode">     </string>
+			  	 <string  name="HIGH"               id="6"  charset="unicode">     </string>
+			  	 <string  name="LOW"                id="7"  charset="unicode">     </string>
+			  	 <string  name="LAST"               id="8"  charset="unicode">     </string>
+			  	 <string  name="CLOSE"              id="9"  charset="unicode">     </string>
+			  	 <string  name="SETTLE"            id="10"  charset="unicode">     </string>
+			  	 <string  name="BID1"              id="11"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT1"           id="12"  charset="unicode">     </string>
+			  	 <string  name="BID2"              id="13"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT2"           id="14"  charset="unicode">     </string>
+			  	 <string  name="BID3"              id="15"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT3"           id="16"  charset="unicode">     </string>
+			  	 <string  name="BID4"              id="17"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT4"           id="18"  charset="unicode">     </string>
+			  	 <string  name="BID5"              id="19"  charset="unicode">     </string>
+			  	 <string  name="BIDLOT5"           id="20"  charset="unicode">     </string>
+			  	 <string  name="ASK1"              id="21"  charset="unicode">     </string>
+			  	 <string  name="ASKLOT1"           id="22"  charset="unicode">     </string>
+			  	 <string  name="ASK2"              id="23"  charset="unicode">     </string>
+			  	 <string  name="ASKLOT2"           id="24"  charset="unicode">     </string>
+			  	 <string  name="ASK3"              id="25"  charset="unicode">     </string>  
+			  	 <string  name="ASKLOT3"           id="26"  charset="unicode">     </string>	
+			  	 <string  name="ASK4"              id="27"  charset="unicode">     </string>	
+           <string  name="ASKLOT4"           id="28"  charset="unicode">     </string>  
+           <string  name="ASK5"              id="29"  charset="unicode">     </string>
+           <string  name="ASKLOT5"           id="20"  charset="unicode">     </string>
+           <string  name="VOLUME"            id="31"  charset="unicode">     </string>
+           <string  name="WEIGHT"            id="32"  charset="unicode">     </string>
+           <string  name="HIGHLIMIT"         id="33"  charset="unicode">     </string>
+           <string  name="LOWLIMIT"          id="34"  charset="unicode">     </string>
+           <string  name="POSI"              id="35"  charset="unicode">     </string>
+           <string  name="UPDOWN"            id="36"  charset="unicode">     </string>
+           <string  name="UPDOWNRATE"        id="37"  charset="unicode">     </string>
+           <string  name="TURNOVER"          id="38"  charset="unicode">     </string>
+           <string  name="AVERAGE"           id="39"  charset="unicode">     </string>
+           <string  name="QUOTEDATE"         id="40"  charset="unicode">     </string>
+           <string  name="QUOTETIME"         id="41"  charset="unicode">     </string>
+           <string  name="SEQUENCENO"        id="42"  charset="unicode">     </string>
+           <string  name="SCR_CODE"         id="43" charset="unicode" presence="optional">		<default/>	</string>
+		</sequence>
+</template>
+
+<template name="CMD_HQSERVER_HQ_SPIS_SNAPSHOT" id="6007">	
+		<int32      name="TOT_RECORD"      id="600701"/>
+		<int32 		  name="MKT_TP_CODE"     id="600702"/>		
+		<sequence name="SEQ_HQ_SNAPSHOT" presence="optional">
+			     <string   name="INSTID"             id="1"  charset="unicode">     </string>	
+			  	 <string   name="TRADESTATE"         id="2"  charset="unicode">     </string>
+		</sequence>
+</template>
+
+
+</templates>

@@ -1,0 +1,28 @@
+<QuoteSrc>
+	<subscription>
+		<item value="CNG16"></item>
+		<item value="CNF16"></item>
+	 </subscription>
+	 
+	 <MarketData config="my_quote_ib.config" />
+	 
+	<forwarders>		 
+	  <!--the choices for quoteType is the following:
+		  (1) TapAPIQuoteWhole		  
+		  -->
+	  <forwarder quoteType="IBDepth">	 
+		  <sharedmemory datakey="IBDepth_data.key" dataflagkey="IBDepth_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_a50_ib/Debug/IBDepth_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>	  
+	  
+	  <forwarder quoteType="IBTick">	 
+		  <sharedmemory datakey="IBTick_data.key" dataflagkey="IBTick_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_a50_ib/Debug/IBTick_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>	  
+	  	   
+	</forwarders>
+</QuoteSrc>

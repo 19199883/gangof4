@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<my_trade_tunnel>
+	<program_title>IB api</program_title>
+
+	<!-- order ref prefix, range: 1 - 99, used as clientid in IB tunnel -->
+	<orderref_prefix>1</orderref_prefix>
+
+	<!-- provider_type
+		1: ctp
+		2: xspeed
+		3: femas
+		4: zeusing
+		5: ksg
+		6: citics_hs
+		7: esunny
+		8: xele
+		9: rem
+		10:IB fix
+		11:IB api
+	-->
+	<provider_type>11</provider_type>
+
+	<login note="Login Parameters">
+		<serverlist>
+			<server>tcp://127.0.0.1:4001</server>
+		</serverlist>
+		<brokerid></brokerid>
+		<investorid>ibsim321</investorid>
+		<userid>ibsim321</userid>
+		<password></password>
+		<exchangecode>S</exchangecode>
+	</login>
+	
+	<initial_policy>
+		<!-- 启动时撤销所有挂单；0:no; 1:yes; -->
+		<cancel_orders_at_start>0</cancel_orders_at_start>
+		
+		<!-- 查询仓位的指定时间，格式：HHMMSS，按研究部要求设置; -->
+		<time_to_query_pos>150000</time_to_query_pos>
+	</initial_policy>
+
+	<compliance_check_param>
+		<self_trade_check>
+			<!-- 0:off; 1:on; 2: on (check in multi accounts)-->
+			<switch>1</switch>
+		</self_trade_check>
+
+		<!-- open_volume_check -->
+		<open_volume_check>
+			<!-- 0:off; 1:on; -->
+			<switch>1</switch>
+			<speculate>999999</speculate>
+			<arbitrage>999999</arbitrage>
+			<total>999999</total>
+		</open_volume_check>
+
+		<cancel_time_check>
+			<!-- 0:off; 1:on; -->
+			<switch>1</switch>
+			<init_cancel_times_at_start>0</init_cancel_times_at_start>
+			<warn_threshold>999999</warn_threshold>
+			<upper_limit>999999</upper_limit>
+		</cancel_time_check>
+	</compliance_check_param>
+</my_trade_tunnel>

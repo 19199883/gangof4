@@ -1,0 +1,17 @@
+<QuoteSrc marketdataConfig="my_quote_sgit.config">
+	<subscription>		
+		
+	 </subscription>
+	 
+	 <MarketData config="my_quote_sgit.config" />
+	 
+	<forwarders>		 	  
+	  <forwarder quoteType="SGIT_Depth_Market_Data_Field">	 
+		  <sharedmemory datakey="SGIT_Depth_Market_Data_Field_data.key" dataflagkey="SGIT_Depth_Market_Data_Field_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/main/Debug/SGIT_Depth_Market_Data_Field_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>
+	  	 
+	</forwarders>
+</QuoteSrc>

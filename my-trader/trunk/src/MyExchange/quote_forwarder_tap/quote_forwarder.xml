@@ -1,0 +1,21 @@
+<QuoteSrc>
+	<subscription>
+		
+	 </subscription>
+	 
+	 <!-- config: specifies configuration file for Market Data module, e.g. quote_stock_tdf -->
+	 <MarketData config="my_quote_tap.config" />
+	 
+	<forwarders>		 
+	  <!--the choices for quoteType is the following:
+		  (1) TapAPIQuoteWhole		  
+		  -->
+	  <forwarder quoteType="TapAPIQuoteWhole">	 
+		  <sharedmemory datakey="TapAPIQuoteWhole_data.key" dataflagkey="TapAPIQuoteWhole_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_kmds_cittcs_uft/Debug/TapAPIQuoteWhole_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>	  
+	  	   
+	</forwarders>
+</QuoteSrc>

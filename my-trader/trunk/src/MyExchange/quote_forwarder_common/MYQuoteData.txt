@@ -1,0 +1,62 @@
+/*
+ * MYQuoteData.h
+ *
+ *  Created on: Dec 25, 2014
+ *      Author: root
+ */
+#ifndef MYQUOTEDATA_H_
+#define MYQUOTEDATA_H_
+
+#include <boost/function.hpp>
+#include "quote_handler.h"
+#include <set>
+#include <string>
+
+using namespace std;
+
+typedef std::set<std::string> SubscribeContracts;
+
+class MYQuoteData
+{
+public:
+	struct quote_callback quote_cbk_;
+	boost::function<void(const my_marketdata *)> quote_call_back_handler_;
+
+public:
+	MYQuoteData(const SubscribeContracts *subscribe_contracts,
+			const std::string &provider_config_file)
+	{
+		quote_create();
+
+		quote_cbk_._this = this;
+		quote_cbk_.quote_handle = (handle_quote_t)&MYQuoteData::process_quote;
+		set_quote_handler(&quote_cbk_);
+	}
+
+	~MYQuoteData()
+	{
+		quote_destory();
+	}
+
+	void subscribe_to_symbols(){}
+
+	void SetQuoteDataHandler(boost::function<void(const my_marketdata *)> callback)
+	{
+		quote_call_back_handler_ = callback;
+	}
+
+	void SetQuoteDataHandler(boost::function<void(const int *)> callback)
+	{
+
+	}
+
+	void process_quote(const my_marketdata * quote)
+	{
+		quote_call_back_handler_(quote);
+	}
+};
+
+
+
+#endif /* MYQUOTEDATA_H_ */
+

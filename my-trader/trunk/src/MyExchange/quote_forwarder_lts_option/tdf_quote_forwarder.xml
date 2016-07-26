@@ -1,0 +1,21 @@
+<QuoteSrc>
+	<subscription>
+		
+	 </subscription>
+	 
+	  <MarketData config="my_quote_lts.config" />
+	  
+	<forwarders>		 
+	  <!--the choices for quoteType is the following:
+		  (1) TDF_MARKET_DATA		  
+		  -->
+	  <forwarder quoteType="OptionQuote">	 
+		  <sharedmemory datakey="OptionQuote_data.key" dataflagkey="OptionQuote_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_stock_option_lts/Debug/OptionQuote_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>	  
+	  
+	   	 	 
+	</forwarders>
+</QuoteSrc>

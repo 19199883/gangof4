@@ -1,0 +1,305 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ErrorDef>
+	<StdErrors note="Internal error Info">
+		<Error ErrorNo="-1" ErrorInfo="Execute fail" />
+		<Error ErrorNo="0" ErrorInfo="Execute success" />
+		<Error ErrorNo="1" ErrorInfo="Function ID error" />
+		<Error ErrorNo="2" ErrorInfo="Trade tunnel not yet connect to broker" />
+		<Error ErrorNo="3" ErrorInfo="Request order error" />
+		<Error ErrorNo="4" ErrorInfo="Open positions exceed limits for CSI 300" />
+		<Error ErrorNo="5" ErrorInfo="Maybe trade self, insert fail" />
+		<Error ErrorNo="6" ErrorInfo="Cancel times approach warning threshold, open limited" />
+		<Error ErrorNo="7" ErrorInfo="Cancel times approach maximum" />
+		<Error ErrorNo="100" ErrorInfo="The function requested is not supported" />
+		<Error ErrorNo="101" ErrorInfo="Unauthorized" />
+		<Error ErrorNo="102" ErrorInfo="Trade order unauthorized" />
+		<Error ErrorNo="103" ErrorInfo="SEAT not yet connect to Exchange" />
+		<Error ErrorNo="104" ErrorInfo="SEAT is out of the time of trading" />
+		<Error ErrorNo="105" ErrorInfo="Unhandled requests exceed permitted number limit" />
+		<Error ErrorNo="106" ErrorInfo="Requests per second exceed permitted number limit" />
+		<Error ErrorNo="107" ErrorInfo="Settlement info unconfirmed" />
+		<Error ErrorNo="200" ErrorInfo="Find contract fail" />
+		<Error ErrorNo="201" ErrorInfo="Contract can not be traded" />
+		<Error ErrorNo="202" ErrorInfo="Order field error" />
+		<Error ErrorNo="203" ErrorInfo="implement Order field error" />
+		<Error ErrorNo="204" ErrorInfo="Order repeatedly " />
+		<Error ErrorNo="205" ErrorInfo="Cancel repeatedly" />
+		<Error ErrorNo="206" ErrorInfo="Can not find order info according to entrust no within cancel info" />
+		<Error ErrorNo="207" ErrorInfo="Can not cancel in current status of order " />
+		<Error ErrorNo="208" ErrorInfo="Offset Square Liquidate permitted only" />
+		<Error ErrorNo="209" ErrorInfo="Close positions are larger than open positions" />
+		<Error ErrorNo="210" ErrorInfo="Money is not enough" />
+		<Error ErrorNo="211" ErrorInfo="Short-selling is not allowed on cash market" />
+		<Error ErrorNo="212" ErrorInfo="Today positions are not enough" />
+		<Error ErrorNo="213" ErrorInfo="Yesterday positions are not enough" />
+		<Error ErrorNo="214" ErrorInfo="Order price exceed maximum price fluctuations" />
+		<Error ErrorNo="215" ErrorInfo="Shares are not enough" />
+		<Error ErrorNo="216" ErrorInfo="Order volume unpermitted" />
+	</StdErrors>
+	<ExternErrors note="External error NO to internal error NO mapping table">
+		<ExternError ErrorNo="0" StdErrorNo="0"/>
+		<ExternError ErrorNo="27" StdErrorNo="101"/>
+		<ExternError ErrorNo="28" StdErrorNo="207"/>
+		<ExternError ErrorNo="101" StdErrorNo="102"/>
+		<ExternError ErrorNo="21" StdErrorNo="105"/>
+		<ExternError ErrorNo="40" StdErrorNo="104"/>
+		<ExternError ErrorNo="2" StdErrorNo="200"/>
+		<ExternError ErrorNo="13" StdErrorNo="201"/>
+		<ExternError ErrorNo="181" StdErrorNo="201"/>
+		<ExternError ErrorNo="6" StdErrorNo="202"/>
+		<ExternError ErrorNo="7" StdErrorNo="202"/>
+		<ExternError ErrorNo="8" StdErrorNo="203"/>
+		<ExternError ErrorNo="9" StdErrorNo="203"/>
+		<ExternError ErrorNo="12" StdErrorNo="204"/>
+		<ExternError ErrorNo="97" StdErrorNo="205"/>
+		<ExternError ErrorNo="24" StdErrorNo="206"/>
+		<ExternError ErrorNo="26" StdErrorNo="207"/>
+		<ExternError ErrorNo="29" StdErrorNo="207"/>
+		<ExternError ErrorNo="31" StdErrorNo="209"/>
+		<ExternError ErrorNo="36" StdErrorNo="210"/>
+		<ExternError ErrorNo="37" StdErrorNo="216"/>
+		<ExternError ErrorNo="32" StdErrorNo="216"/>
+		<ExternError ErrorNo="49" StdErrorNo="214"/>
+		<ExternError ErrorNo="50" StdErrorNo="214"/>
+	</ExternErrors>
+	<NonfatalAPIErrorNos note="api errors which can be ignored">
+		<NonfatalError ErrorNo="97"/>
+	</NonfatalAPIErrorNos>
+	<ApiErrors note="Internal error Info">
+		<Error ErrorNo="1"  ErrorInfo="invalid session"/>
+		<Error ErrorNo="2"  ErrorInfo="instrument not found"/>
+		<Error ErrorNo="3"  ErrorInfo="participant not found"/>
+		<Error ErrorNo="4"  ErrorInfo="investor not found"/>
+		<Error ErrorNo="5"  ErrorInfo="order sys id not found"/>
+		<Error ErrorNo="6"  ErrorInfo="bad order field"/>
+		<Error ErrorNo="7"  ErrorInfo="bad quote field"/>
+		<Error ErrorNo="8"  ErrorInfo="bad order action field"/>
+		<Error ErrorNo="9"  ErrorInfo="bad quote action field"/>
+		<Error ErrorNo="10"  ErrorInfo="bad otcorder field"/>
+		<Error ErrorNo="11"  ErrorInfo="bad instrument status field"/>
+		<Error ErrorNo="12"  ErrorInfo="duplicate order"/>
+		<Error ErrorNo="13"  ErrorInfo="duplicate quote"/>
+		<Error ErrorNo="14"  ErrorInfo="duplicate otcorder"/>
+		<Error ErrorNo="15"  ErrorInfo="participant client not related"/>
+		<Error ErrorNo="16"  ErrorInfo="ioc order only apply to continous trading"/>
+		<Error ErrorNo="17"  ErrorInfo="gfa order only apply to auction trading"/>
+		<Error ErrorNo="18"  ErrorInfo="market order can not queue"/>
+		<Error ErrorNo="19"  ErrorInfo="volume constrain can only apply to ioc order"/>
+		<Error ErrorNo="20"  ErrorInfo="gtd order expired"/>
+		<Error ErrorNo="21"  ErrorInfo="mv order exceed volumn"/>
+		<Error ErrorNo="22"  ErrorInfo="exchange not sync"/>
+		<Error ErrorNo="23"  ErrorInfo="settlement group not sync"/>
+		<Error ErrorNo="24"  ErrorInfo="order not found"/>
+		<Error ErrorNo="25"  ErrorInfo="quote not found"/>
+		<Error ErrorNo="26"  ErrorInfo="invalid instrument status"/>
+		<Error ErrorNo="27"  ErrorInfo="invalid instrument status shift"/>
+		<Error ErrorNo="28"  ErrorInfo="order had all traded"/>
+		<Error ErrorNo="29"  ErrorInfo="order had canceled"/>
+		<Error ErrorNo="30"  ErrorInfo="not enough volume to modify"/>
+		<Error ErrorNo="31"  ErrorInfo="not enough client position to close"/>
+		<Error ErrorNo="32"  ErrorInfo="client position limit exceed"/>
+		<Error ErrorNo="33"  ErrorInfo="not enough participant position to close"/>
+		<Error ErrorNo="34"  ErrorInfo="participant position limit exceed"/>
+		<Error ErrorNo="35"  ErrorInfo="can not find account"/>
+		<Error ErrorNo="36"  ErrorInfo="insufficient money"/>
+		<Error ErrorNo="37"  ErrorInfo="invalid volume"/>
+		<Error ErrorNo="38"  ErrorInfo="insuitable datasync status"/>
+		<Error ErrorNo="39"  ErrorInfo="exchange datasync status change invalid"/>
+		<Error ErrorNo="40"  ErrorInfo="insuitable settlementgroup datasync status"/>
+		<Error ErrorNo="41"  ErrorInfo="settlementgroup datasync status change invalid"/>
+		<Error ErrorNo="42"  ErrorInfo="not all sg asynchronous"/>
+		<Error ErrorNo="43"  ErrorInfo="not all instrument closed"/>
+		<Error ErrorNo="44"  ErrorInfo="invalid datasync status while initing"/>
+		<Error ErrorNo="45"  ErrorInfo="invalid settlementgroup datasync status while initing"/>
+		<Error ErrorNo="46"  ErrorInfo="exchange data not synchronized"/>
+		<Error ErrorNo="47"  ErrorInfo="settlement group not found"/>
+		<Error ErrorNo="48"  ErrorInfo="price not on tick"/>
+		<Error ErrorNo="49"  ErrorInfo="price out of upper bound"/>
+		<Error ErrorNo="50"  ErrorInfo="price out of lower bound"/>
+		<Error ErrorNo="51"  ErrorInfo="no trading right"/>
+		<Error ErrorNo="52"  ErrorInfo="close only"/>
+		<Error ErrorNo="53"  ErrorInfo="invalid trading role"/>
+		<Error ErrorNo="54"  ErrorInfo="session not found"/>
+		<Error ErrorNo="55"  ErrorInfo="not login yet"/>
+		<Error ErrorNo="56"  ErrorInfo="only trade manager can do this"/>
+		<Error ErrorNo="57"  ErrorInfo="can not operate for other participant"/>
+		<Error ErrorNo="58"  ErrorInfo="user mismatch"/>
+		<Error ErrorNo="59"  ErrorInfo="user relogin"/>
+		<Error ErrorNo="60"  ErrorInfo="invalid user or password"/>
+		<Error ErrorNo="61"  ErrorInfo="not trader login"/>
+		<Error ErrorNo="62"  ErrorInfo="user not active"/>
+		<Error ErrorNo="64"  ErrorInfo="user not belong to this participant"/>
+		<Error ErrorNo="65"  ErrorInfo="invalid login ipaddress"/>
+		<Error ErrorNo="66"  ErrorInfo="user not login"/>
+		<Error ErrorNo="67"  ErrorInfo="not logined by this user"/>
+		<Error ErrorNo="68"  ErrorInfo="not logined by this participant"/>
+		<Error ErrorNo="69"  ErrorInfo="not trademanager login"/>
+		<Error ErrorNo="70"  ErrorInfo="quote had canceled"/>
+		<Error ErrorNo="71"  ErrorInfo="can not operate derived order"/>
+		<Error ErrorNo="72"  ErrorInfo="not allow person open"/>
+		<Error ErrorNo="73"  ErrorInfo="can not trade during fuse"/>
+		<Error ErrorNo="74"  ErrorInfo="no futures contract for efp"/>
+		<Error ErrorNo="75"  ErrorInfo="front not active"/>
+		<Error ErrorNo="76"  ErrorInfo="order had suspended"/>
+		<Error ErrorNo="77"  ErrorInfo="order had actived"/>
+		<Error ErrorNo="78"  ErrorInfo="gtd order date missed"/>
+		<Error ErrorNo="79"  ErrorInfo="unsupport order type"/>
+		<Error ErrorNo="80"  ErrorInfo="user no permission"/>
+		<Error ErrorNo="81"  ErrorInfo="target user not login"/>
+		<Error ErrorNo="82"  ErrorInfo="market maker can not efp"/>
+		<Error ErrorNo="83"  ErrorInfo="stop order only apply to continous trading"/>
+		<Error ErrorNo="84"  ErrorInfo="stop order must be ioc or gfd"/>
+		<Error ErrorNo="85"  ErrorInfo="can not insert quote for combination"/>
+		<Error ErrorNo="86"  ErrorInfo="can not insert otcorder for combination"/>
+		<Error ErrorNo="87"  ErrorInfo="can not insert trade for combination"/>
+		<Error ErrorNo="88"  ErrorInfo="user not found"/>
+		<Error ErrorNo="89"  ErrorInfo="bad execorder field"/>
+		<Error ErrorNo="90"  ErrorInfo="bad execorder action field"/>
+		<Error ErrorNo="91"  ErrorInfo="duplicate execorder"/>
+		<Error ErrorNo="92"  ErrorInfo="execorder had canceled"/>
+		<Error ErrorNo="93"  ErrorInfo="execorder not found"/>
+		<Error ErrorNo="94"  ErrorInfo="execorder only for options"/>
+		<Error ErrorNo="95"  ErrorInfo="stop order must have stop price"/>
+		<Error ErrorNo="96"  ErrorInfo="not enough hedge volume"/>
+		<Error ErrorNo="97"  ErrorInfo="duplicate action"/>
+		<Error ErrorNo="98"  ErrorInfo="force close only used by administrator"/>
+		<Error ErrorNo="99"  ErrorInfo="can not action for other user"/>
+		<Error ErrorNo="100"  ErrorInfo="invalid user type"/>
+		<Error ErrorNo="101"  ErrorInfo="settlement member can not trade"/>
+		<Error ErrorNo="102"  ErrorInfo="can find related settlement member"/>
+		<Error ErrorNo="103"  ErrorInfo="can not close today for hegdge"/>
+		<Error ErrorNo="104"  ErrorInfo="unkown admin order"/>
+		<Error ErrorNo="105"  ErrorInfo="market maker can not do hedge"/>
+		<Error ErrorNo="106"  ErrorInfo="duplicate session"/>
+		<Error ErrorNo="107"  ErrorInfo="no function right"/>
+		<Error ErrorNo="108"  ErrorInfo="only clearing part can do this"/>
+		<Error ErrorNo="109"  ErrorInfo="clearing trading part not related"/>
+		<Error ErrorNo="110"  ErrorInfo="bad admin order field"/>
+		<Error ErrorNo="111"  ErrorInfo="insufficient credit"/>
+		<Error ErrorNo="112"  ErrorInfo="credit limit already inited"/>
+		<Error ErrorNo="113"  ErrorInfo="credit limit not inited"/>
+		<Error ErrorNo="114"  ErrorInfo="best price order can not queue"/>
+		<Error ErrorNo="115"  ErrorInfo="insufficient instrument specified"/>
+		<Error ErrorNo="116"  ErrorInfo="duplicate instrument"/>
+		<Error ErrorNo="117"  ErrorInfo="instrument should in same settlementgroup"/>
+		<Error ErrorNo="118"  ErrorInfo="combination should be used on single instrument"/>
+		<Error ErrorNo="119"  ErrorInfo="duplicate comborder"/>
+		<Error ErrorNo="120"  ErrorInfo="too many stop order"/>
+		<Error ErrorNo="121"  ErrorInfo="no quoting right"/>
+		<Error ErrorNo="122"  ErrorInfo="bad reqforquote field"/>
+		<Error ErrorNo="123"  ErrorInfo="reqforquote client notnull"/>
+		<Error ErrorNo="124"  ErrorInfo="reqforquote partid notnull"/>
+		<Error ErrorNo="125"  ErrorInfo="not enough comb volume"/>
+		<Error ErrorNo="126"  ErrorInfo="not enough leg volume"/>
+		<Error ErrorNo="127"  ErrorInfo="not support combdirection"/>
+		<Error ErrorNo="128"  ErrorInfo="no comb right"/>
+		<Error ErrorNo="129"  ErrorInfo="no comb leg"/>
+		<Error ErrorNo="130"  ErrorInfo="not support combdirection"/>
+		<Error ErrorNo="131"  ErrorInfo="price out of upper pricebound"/>
+		<Error ErrorNo="132"  ErrorInfo="price out of lower pricebound"/>
+		<Error ErrorNo="133"  ErrorInfo="marketorder only apply to continous trading"/>
+		<Error ErrorNo="134"  ErrorInfo="timecondition of anyprice order"/>
+		<Error ErrorNo="135"  ErrorInfo="timecondition of bestprice order"/>
+		<Error ErrorNo="136"  ErrorInfo="timecondition of fivelevelprice order"/>
+		<Error ErrorNo="137"  ErrorInfo="comb inst marginrate notfound"/>
+		<Error ErrorNo="8001"  ErrorInfo="field error: userid"/>
+		<Error ErrorNo="8002"  ErrorInfo="field error: direction"/>
+		<Error ErrorNo="8003"  ErrorInfo="field error: exchangeid"/>
+		<Error ErrorNo="8004"  ErrorInfo="field error: hedgeflag"/>
+		<Error ErrorNo="8005"  ErrorInfo="field error: instrumentid"/>
+		<Error ErrorNo="8006"  ErrorInfo="field error: limitprice"/>
+		<Error ErrorNo="8007"  ErrorInfo="field error: volume"/>
+		<Error ErrorNo="8008"  ErrorInfo="field error: offsetflag"/>
+		<Error ErrorNo="8009"  ErrorInfo="field error: userorderlocalid"/>
+		<Error ErrorNo="8010"  ErrorInfo="field error: orderpricetype"/>
+		<Error ErrorNo="8011"  ErrorInfo="field error: stopprice"/>
+		<Error ErrorNo="8012"  ErrorInfo="field error: brokerid"/>
+		<Error ErrorNo="8013"  ErrorInfo="field error: investorid"/>
+		<Error ErrorNo="8014"  ErrorInfo="field error: timecondition"/>
+		<Error ErrorNo="8015"  ErrorInfo="field error: gtddate"/>
+		<Error ErrorNo="8016"  ErrorInfo="field error: volumecondition"/>
+		<Error ErrorNo="8017"  ErrorInfo="field error: minvolume"/>
+		<Error ErrorNo="8018"  ErrorInfo="field error: forceclosereason"/>
+		<Error ErrorNo="8019"  ErrorInfo="field error: isautosuspend"/>
+		<Error ErrorNo="8020"  ErrorInfo="field error: businessunit"/>
+		<Error ErrorNo="8021"  ErrorInfo="field error: usercustom"/>
+		<Error ErrorNo="8022"  ErrorInfo="field error: ordersysid"/>
+		<Error ErrorNo="8023"  ErrorInfo="field error: actionflag"/>
+		<Error ErrorNo="8024"  ErrorInfo="bad trade field"/>
+		<Error ErrorNo="8025"  ErrorInfo="bad investoraccount field"/>
+		<Error ErrorNo="8026"  ErrorInfo="bad clientposition field"/>
+		<Error ErrorNo="8027"  ErrorInfo="no avail exchange seat"/>
+		<Error ErrorNo="8028"  ErrorInfo="order exceed compliancesetting"/>
+		<Error ErrorNo="8029"  ErrorInfo="order volume exceed compliancesetting"/>
+		<Error ErrorNo="8030"  ErrorInfo="orderaction exceed compliancesetting"/>
+		<Error ErrorNo="8031"  ErrorInfo="orderaction volume exceed compliancesetting"/>
+		<Error ErrorNo="8032"  ErrorInfo="orderfailed exceed compliancesetting"/>
+		<Error ErrorNo="8100"  ErrorInfo="query investoraccount investorid isnull"/>
+		<Error ErrorNo="8101"  ErrorInfo="query userinvestor userid isnull"/>
+		<Error ErrorNo="8102"  ErrorInfo="cannot withdraw otherinvestor order"/>
+		<Error ErrorNo="8103"  ErrorInfo="user noright withdraw thisorder"/>
+		<Error ErrorNo="8104"  ErrorInfo="brokerid cannot be blank"/>
+		<Error ErrorNo="8105"  ErrorInfo="userid cannot be blank"/>
+		<Error ErrorNo="8106"  ErrorInfo="userid cannot be found"/>
+		<Error ErrorNo="8107"  ErrorInfo="newpasswd cannot benull"/>
+		<Error ErrorNo="8108"  ErrorInfo="newpasswd tooshort"/>
+		<Error ErrorNo="8109"  ErrorInfo="newpasswd toolong"/>
+		<Error ErrorNo="8110"  ErrorInfo="newpasswd contain space"/>
+		<Error ErrorNo="8111"  ErrorInfo="brokerid diffwith login"/>
+		<Error ErrorNo="8112"  ErrorInfo="order brokerid cannotbenull"/>
+		<Error ErrorNo="8113"  ErrorInfo="query complianceparam brokerid isnull"/>
+		<Error ErrorNo="8114"  ErrorInfo="query complianceparam userid isnull"/>
+		<Error ErrorNo="8115"  ErrorInfo="query complianceparam investorid isnull"/>
+		<Error ErrorNo="8116"  ErrorInfo="query complianceparam invalid parameters"/>
+		<Error ErrorNo="8117"  ErrorInfo="query investorposition exchangeid isnull"/>
+		<Error ErrorNo="8118"  ErrorInfo="query investorposition investorid isnull"/>
+		<Error ErrorNo="8119"  ErrorInfo="query investorposition instrumentid isnull"/>
+		<Error ErrorNo="8120"  ErrorInfo="query clienttradingid invalid param"/>
+		<Error ErrorNo="8121"  ErrorInfo="current seat not available"/>
+		<Error ErrorNo="8122"  ErrorInfo="query userid investorid invalid"/>
+		<Error ErrorNo="8123"  ErrorInfo="bad usersession field"/>
+		<Error ErrorNo="8124"  ErrorInfo="query investorid isnull"/>
+		<Error ErrorNo="8125"  ErrorInfo="query clientid invalid"/>
+		<Error ErrorNo="8126"  ErrorInfo="orderaction localid sysid bothblank"/>
+		<Error ErrorNo="8127"  ErrorInfo="bad instrument field"/>
+		<Error ErrorNo="8128"  ErrorInfo="bad exchange field"/>
+		<Error ErrorNo="8129"  ErrorInfo="tradingid not exist"/>
+		<Error ErrorNo="8130"  ErrorInfo="order lost ontheway"/>
+		<Error ErrorNo="8131"  ErrorInfo="order hedgeflag notvalid"/>
+		<Error ErrorNo="8132"  ErrorInfo="brokerid mismatch"/>
+		<Error ErrorNo="8133"  ErrorInfo="orderaction investorid cannotbeblank"/>
+		<Error ErrorNo="8134"  ErrorInfo="exchangeid cannotbeblank"/>
+		<Error ErrorNo="8135"  ErrorInfo="part client notrelated inthisexchange"/>
+		<Error ErrorNo="8136"  ErrorInfo="no client margin fee data"/>
+		<Error ErrorNo="8137"  ErrorInfo="userid investorid bothblank"/>
+		<Error ErrorNo="8200"  ErrorInfo="field error: userquotelocalid"/>
+		<Error ErrorNo="8201"  ErrorInfo="field error: bidvolume"/>
+		<Error ErrorNo="8202"  ErrorInfo="field error: bidoffsetflag"/>
+		<Error ErrorNo="8203"  ErrorInfo="field error: bidhedgeflag"/>
+		<Error ErrorNo="8204"  ErrorInfo="field error: bidprice"/>
+		<Error ErrorNo="8205"  ErrorInfo="field error: askvolume"/>
+		<Error ErrorNo="8206"  ErrorInfo="field error: askoffsetflag"/>
+		<Error ErrorNo="8207"  ErrorInfo="field error: askhedgeflag"/>
+		<Error ErrorNo="8208"  ErrorInfo="field error: askprice"/>
+		<Error ErrorNo="8209"  ErrorInfo="field error: biduserorderlocalid"/>
+		<Error ErrorNo="8210"  ErrorInfo="field error: askuserorderlocalid"/>
+		<Error ErrorNo="8211"  ErrorInfo="field error: quotesysid"/>
+		<Error ErrorNo="8212"  ErrorInfo="field error: quoteactionlocalid"/>
+		<Error ErrorNo="8213"  ErrorInfo="field error: quoteactionflag"/>
+		<Error ErrorNo="8214"  ErrorInfo="field error: quotelocalidnotinorder"/>
+		<Error ErrorNo="8215"  ErrorInfo="field error: quoteactionflag value"/>
+		<Error ErrorNo="8216"  ErrorInfo="cannot withdraw otherinvestor quote"/>
+		<Error ErrorNo="8217"  ErrorInfo="quote sys id not found"/>
+		<Error ErrorNo="8218"  ErrorInfo="investorid cannot be blank"/>
+		<Error ErrorNo="8219"  ErrorInfo="instrumentid cannot be blank"/>
+		<Error ErrorNo="8220"  ErrorInfo="exchangeid cannot be blank"/>
+		<Error ErrorNo="8221"  ErrorInfo="clientid cannot be blank"/>
+		<Error ErrorNo="8222"  ErrorInfo="quoteaction localid sysid bothblank"/>
+		<Error ErrorNo="8223"  ErrorInfo="cannot withdraw order of unconfirmedquote"/>
+		<Error ErrorNo="8230"  ErrorInfo="field error: actionlocalid"/>
+		<Error ErrorNo="8231"  ErrorInfo="field error: useractionlocalid"/>
+		<Error ErrorNo="8232"  ErrorInfo="field error: comdistrumentid"/>
+		<Error ErrorNo="8233"  ErrorInfo="field error: combvolume"/>
+		<Error ErrorNo="8234"  ErrorInfo="field error: combdirection"/>
+	</ApiErrors>
+</ErrorDef>

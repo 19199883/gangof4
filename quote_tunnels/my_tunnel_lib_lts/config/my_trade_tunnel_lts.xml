@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<my_trade_tunnel>
+	<program_title>LTS</program_title>
+
+	<!-- order ref prefix, range: 1 - 99, used in ctp/femas/lts tunnel -->
+	<orderref_prefix>11</orderref_prefix>
+
+	<!-- provider_type
+		13: lts
+	-->
+	<provider_type>13</provider_type>
+
+	<login note="LTS">
+		<serverlist>
+			<server>tcp://211.144.195.163:54505</server>
+		</serverlist>
+		<!-- quote_front_addr: used as query front address -->
+		<quote_front_addr>tcp://211.144.195.163:54506</quote_front_addr>
+		<brokerid>2011</brokerid>
+		<investorid>020090005302</investorid>
+		<userid>020090005302</userid>
+		<password>UM6go3QQV7TEOTz2TlNd9gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</password>
+		<exchangecode>1</exchangecode>
+		<UserProductInfo>LTS-Test</UserProductInfo>
+		<AuthCode>N3EHKP4CYHZGM9VJ</AuthCode>
+	</login>
+	
+	<initial_policy>
+		<!-- 启动时撤销所有挂单；0:no; 1:yes; -->
+		<cancel_orders_at_start>0</cancel_orders_at_start>
+		
+		<!-- 查询仓位的指定时间，格式：HHMMSS，一般设置为收盘停止交易后; -->
+		<time_to_query_pos>163001</time_to_query_pos>
+	</initial_policy>
+
+	<compliance_check_param>
+		<self_trade_check>
+			<!-- 0:off; 1:on; 2: on (check in multi accounts)-->
+			<switch>1</switch>
+		</self_trade_check>
+
+		<!-- open_volume_check -->
+		<open_volume_check>
+			<!-- 0:off; 1:on; -->
+			<switch>1</switch>
+			<speculate>1199</speculate>
+			<arbitrage>9999</arbitrage>
+			<total>9999</total>
+		</open_volume_check>
+
+		<cancel_time_check>
+			<!-- 0:off; 1:on; -->
+			<switch>1</switch>
+			<init_cancel_times_at_start>1</init_cancel_times_at_start>
+			<warn_threshold>480</warn_threshold>
+			<upper_limit>490</upper_limit>
+		</cancel_time_check>
+	</compliance_check_param>
+</my_trade_tunnel>

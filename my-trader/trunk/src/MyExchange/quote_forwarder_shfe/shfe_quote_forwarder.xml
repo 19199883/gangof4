@@ -1,0 +1,32 @@
+<QuoteSrc>
+	<subscription>
+		<item value="rb1501"></item>
+		<item value="rb1502"/>
+	 </subscription>
+	 
+	  <MarketData config="my_quote_shfe_my.config" />
+	  
+	<forwarders>		 
+	  <!--the options of quoteType is the following:
+		  (1) SHFEQuote		  
+		  -->	  
+	  <forwarder quoteType="SHFEQuote">	 
+		  <sharedmemory datakey="SHFEQuote_data.key" dataflagkey="SHFEQuote_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_cf_shef_ctp/Debug/SHFEQuote_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>	  
+	  <forwarder quoteType="MYShfeMarketData">	 
+		  <sharedmemory datakey="MYShfeMarketData_data.key" dataflagkey="MYShfeMarketData_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_cf_shef_ctp/Debug/MYShfeMarketData_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>	  
+	  <forwarder quoteType="CDepthMarketDataField">	 
+		  <sharedmemory datakey="CDepthMarketDataField_data.key" dataflagkey="CDepthMarketDataField_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_cf_shef_ctp/Debug/CDepthMarketDataField_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>	  
+	</forwarders>
+</QuoteSrc>

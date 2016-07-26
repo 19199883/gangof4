@@ -1,0 +1,54 @@
+<QuoteSrc>
+	<subscription>
+    </subscription>
+	
+	<MarketData config="my_quote_dce.config" />
+	
+	<forwarders>		 
+	  <!--the choices for quoteType is the following:
+		  (1) MDBestAndDeep
+		  (2) MDArbi
+		  (3) MDTenEntrust
+		  (4) MDOrderStatistic
+		  (5) MDRealTimePrice
+		  (6) MDMarchPriceQty
+		  -->
+	  <forwarder quoteType="MDBestAndDeep">	 
+		  <sharedmemory datakey="MDBestAndDeep_data.key" dataflagkey="MDBestAndDeep_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/home/oliver/release_valify/mytrader_dcelevel2/MDBestAndDeep_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>
+	  
+	   <forwarder quoteType="MDArbi">	 
+		  <sharedmemory datakey="MDArbi_data.key" dataflagkey="MDArbi_dataflag.key"></sharedmemory>
+		  <semaphores>
+		  </semaphores>
+	  </forwarder>
+	  
+	   <forwarder quoteType="MDTenEntrust">	 
+		  <sharedmemory datakey="MDTenEntrust_data.key" dataflagkey="MDTenEntrust_dataflag.key"></sharedmemory>
+		  <semaphores>
+		  </semaphores>
+	  </forwarder>
+	  
+	   <forwarder quoteType="MDOrderStatistic">	 
+		  <sharedmemory datakey="MDOrderStatistic_data.key" dataflagkey="MDOrderStatistic_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  	<semaphore key="/home/oliver/release_valify/mytrader_dcelevel2/MDOrderStatistic_sem.key"></semaphore>	  
+		  </semaphores>
+	  </forwarder>
+	  
+	   <forwarder quoteType="MDRealTimePrice">	 
+		  <sharedmemory datakey="MDRealTimePrice_data.key" dataflagkey="MDRealTimePrice_dataflag.key"></sharedmemory>
+		  <semaphores>
+		  </semaphores>
+	  </forwarder>
+	  
+	   <forwarder quoteType="MDMarchPriceQty">	 
+		  <sharedmemory datakey="MDMarchPriceQty_data.key" dataflagkey="MDMarchPriceQty_dataflag.key"></sharedmemory>
+		  <semaphores>
+		  </semaphores>
+	  </forwarder>
+	</forwarders>
+</QuoteSrc>

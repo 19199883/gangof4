@@ -1,0 +1,86 @@
+position_data.o: src/position_data.cpp src/position_data.h \
+ src/my_exchange_datatype_inner.h src/my_exchange_utility.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../my_common/include/my_cmn_log.h
+config_data.o: src/config_data.cpp src/config_data.h \
+ ../lib/include/mxml.h src/my_exchange.h \
+ ../include_tunnel/my_trade_tunnel_api.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h src/my_exchange_utility.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../my_common/include/my_cmn_log.h
+order_data.o: src/order_data.cpp src/order_data.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ src/my_exchange_datatype_inner.h src/my_exchange_utility.h \
+ ../my_common/include/my_cmn_log.h src/my_order_hash.h
+my_exchange_inner_imp.o: src/my_exchange_inner_imp.cpp \
+ src/my_exchange_inner_imp.h ../include_tunnel/my_trade_tunnel_api.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../include_tunnel/my_trade_tunnel_struct.h src/config_data.h \
+ ../lib/include/mxml.h src/my_exchange.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ src/position_data_of_model.h src/my_exchange_datatype_inner.h \
+ src/my_exchange_utility.h ../include_tunnel/my_trade_tunnel_struct.h \
+ ../my_common/include/my_cmn_log.h src/my_order_hash.h \
+ ../my_common/include/my_cmn_util_funcs.h
+my_exchange_utility.o: src/my_exchange_utility.cpp \
+ src/my_exchange_datatype_inner.h src/my_exchange_utility.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../my_common/include/my_cmn_log.h
+position_req.o: src/position_req.cpp
+position_rsp.o: src/position_rsp.cpp
+order_req.o: src/order_req.cpp src/order_req.h \
+ src/my_exchange_datatype_inner.h src/my_exchange_utility.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../my_common/include/my_cmn_log.h src/config_data.h \
+ ../lib/include/mxml.h src/my_exchange.h \
+ ../include_tunnel/my_trade_tunnel_api.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h src/order_data.h \
+ src/my_order_hash.h src/position_data.h
+my_exchange.o: src/my_exchange.cpp src/my_exchange.h \
+ ../include_tunnel/my_trade_tunnel_api.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ src/my_exchange_datatype_inner.h src/my_exchange_utility.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../my_common/include/my_cmn_log.h src/my_exchange_inner_imp.h \
+ src/config_data.h ../lib/include/mxml.h src/position_data_of_model.h \
+ src/my_order_hash.h src/order_data.h src/order_req.h src/order_rsp.h \
+ src/position_data.h ../my_common/include/my_cmn_util_funcs.h \
+ src/log_util_myex.h
+order_rsp.o: src/order_rsp.cpp src/order_rsp.h \
+ src/my_exchange_datatype_inner.h src/my_exchange_utility.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../my_common/include/my_cmn_log.h src/order_data.h src/my_order_hash.h \
+ src/position_data.h src/order_req.h src/config_data.h \
+ ../lib/include/mxml.h src/my_exchange.h \
+ ../include_tunnel/my_trade_tunnel_api.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h
+position_data_of_model.o: src/position_data_of_model.cpp \
+ src/position_data_of_model.h src/my_exchange_datatype_inner.h \
+ src/my_exchange_utility.h ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../my_common/include/my_cmn_log.h src/config_data.h \
+ ../lib/include/mxml.h src/my_exchange.h \
+ ../include_tunnel/my_trade_tunnel_api.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h src/my_order_hash.h
+my_exchange_datatype_inner.o: src/my_exchange_datatype_inner.cpp \
+ src/my_exchange_datatype_inner.h src/my_exchange_utility.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../my_common/include/my_cmn_log.h
+log_util_myex.o: src/log_util_myex.cpp src/log_util_myex.h \
+ ../my_common/include/my_cmn_util_funcs.h \
+ ../my_common/include/my_cmn_log.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h

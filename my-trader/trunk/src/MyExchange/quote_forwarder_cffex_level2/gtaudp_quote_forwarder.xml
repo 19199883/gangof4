@@ -1,0 +1,20 @@
+<QuoteSrc>
+	<subscription>
+		<item value="IF1409"></item>
+		<item value="IF1406"/>
+	 </subscription>
+	 
+	 <MarketData config="my_quote_femas.config" />
+	 
+	<forwarders>		 
+	  <!--the choices for quoteType is the following:
+		  (1) CFfexFtdcDepthMarketData		  
+		  -->
+	  <forwarder quoteType="CFfexFtdcDepthMarketData">	 
+		  <sharedmemory datakey="CFfexFtdcDepthMarketData.key" dataflagkey="CFfexFtdcDepthMarketData_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/mytrader_if_gtaudp_ctp/Debug/CFfexFtdcDepthMarketData_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>	  	 
+	</forwarders>
+</QuoteSrc>

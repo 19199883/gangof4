@@ -1,0 +1,9 @@
+<forwarder>
+	<subscription>
+		<item value=""></item>
+	</subscription>
+	<sharedmemory key=""></sharedmemory>
+	<semaphores>
+		<semaphore key=""></semaphore>
+	</semaphores>
+</forwarder>

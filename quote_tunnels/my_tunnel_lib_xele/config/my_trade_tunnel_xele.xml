@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<my_trade_tunnel>
+    <program_title>XELE_TD</program_title>
+
+    <!-- order ref prefix, range: 1 - 99, used in ctp/femas tunnel -->
+    <orderref_prefix>11</orderref_prefix>
+
+    <!-- provider_type
+        1: ctp
+        2: xspeed
+        3: femas
+        7: esunny
+        8: xele
+    -->
+    <provider_type>8</provider_type>
+
+    <!-- key of share memory, 0 mean shutdown output -->
+    <share_memory_key>0</share_memory_key>
+
+    <login note="XELE">
+        <serverlist>
+            <server>tcp://218.94.105.243:32003</server>
+        </serverlist>
+        <brokerid></brokerid>
+        <investorid>00061971</investorid>
+        <userid>224202</userid>
+        <password>vySwfHG/mKu+jeFkdo7EFgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</password>
+        <exchangecode>G</exchangecode>
+        <ParticipantID>2242</ParticipantID>
+        <BusinessUnit></BusinessUnit>
+        <UserProductInfo></UserProductInfo>
+        <InterfaceProductInfo></InterfaceProductInfo>
+        <ProtocolInfo></ProtocolInfo>
+        <DataCenterID>0</DataCenterID>
+        <ClientType>0</ClientType>
+    </login>
+
+    <initial_policy>
+        <!-- 启动时撤销所有挂单；0:no; 1:yes;（xele不支持查单，只能配置为0（启动时不撤销盘口挂单）） -->
+        <cancel_orders_at_start>0</cancel_orders_at_start>
+    </initial_policy>
+
+    <compliance_check_param>
+        <!-- 启动时初始化撤单次数（xele不支持查单，只能配置为0（不初始化））-->
+        <init_cancel_times_at_start>0</init_cancel_times_at_start>
+        
+        <!-- 从左开始，第1位:自成交；第2位:撤单次数；第3位:最大开仓数；0:关闭，其它或无配置，表示进行该项检查 -->
+        <switch_mask>111</switch_mask>
+        
+        <!-- position open limitation
+            speculate: cffex can't exceed 2400
+            arbitrage: no limitation
+            total:     no limitation        -->
+        <max_open_orders>
+            <speculate>2399</speculate>
+            <arbitrage>9999</arbitrage>
+            <total>9999</total>
+        </max_open_orders>
+
+        <!--cancel command limitation
+            warn_threshold: forbid openning new position
+            upper_limit：   forbid cancel >-->
+        <max_cancel_times>
+            <warn_threshold>200</warn_threshold>
+            <upper_limit>220</upper_limit>
+        </max_cancel_times>
+    </compliance_check_param>
+</my_trade_tunnel>

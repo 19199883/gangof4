@@ -1,0 +1,7 @@
+my_cmn_code_convert.o: src/my_cmn_code_convert.cpp \
+ ../my_common/include/my_cmn_code_convert.h
+my_cmn_util_funcs.o: src/my_cmn_util_funcs.cpp \
+ ../my_common/include/my_cmn_util_funcs.h
+my_cmn_log.o: src/my_cmn_log.cpp ../my_common/include/my_cmn_log.h
+my_cmn_crypto.o: src/my_cmn_crypto.cpp \
+ ../my_common/include/my_cmn_crypto.h

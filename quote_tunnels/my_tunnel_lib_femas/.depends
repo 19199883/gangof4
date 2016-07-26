@@ -1,0 +1,84 @@
+femas_data_formater.o: src/femas_data_formater.cpp \
+ src/femas_data_formater.h ../lib/include/femas/USTPFtdcUserApiDataType.h \
+ ../lib/include/femas/USTPFtdcUserApiStruct.h \
+ ../lib/include/femas/USTPFtdcUserApiDataType.h
+femas_trade_context.o: src/femas_trade_context.cpp \
+ src/femas_trade_context.h ../lib/include/femas/USTPFtdcUserApiStruct.h \
+ ../lib/include/femas/USTPFtdcUserApiDataType.h \
+ ../tunnel_common_src/trade_data_type.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../tunnel_common_src/config_data.h ../lib/include/mxml.h \
+ ../tunnel_common_src/tunnel_cmn_utility.h \
+ ../my_common/include/my_cmn_log.h ../lib/include/my/qtm.h
+field_convert.o: src/field_convert.cpp src/field_convert.h \
+ ../tunnel_common_src/trade_data_type.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../lib/include/femas/USTPFtdcUserApiDataType.h
+my_protocol_packager.o: src/my_protocol_packager.cpp \
+ src/my_protocol_packager.h ../lib/include/femas/USTPFtdcUserApiStruct.h \
+ ../lib/include/femas/USTPFtdcUserApiDataType.h \
+ ../tunnel_common_src/trade_data_type.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../tunnel_common_src/config_data.h ../lib/include/mxml.h \
+ src/field_convert.h ../lib/include/femas/USTPFtdcUserApiDataType.h
+femas_trade_interface.o: src/femas_trade_interface.cpp \
+ src/femas_trade_interface.h ../lib/include/femas/USTPFtdcTraderApi.h \
+ ../lib/include/femas/USTPFtdcUserApiStruct.h \
+ ../lib/include/femas/USTPFtdcUserApiDataType.h \
+ ../tunnel_common_src/config_data.h ../lib/include/mxml.h \
+ ../tunnel_common_src/trade_data_type.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h src/my_tunnel_lib.h \
+ ../include_tunnel/my_trade_tunnel_api.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../tunnel_common_src/trade_log_util.h \
+ ../tunnel_common_src/tunnel_cmn_utility.h \
+ ../my_common/include/my_cmn_log.h ../lib/include/my/qtm.h \
+ src/femas_trade_context.h ../lib/include/femas/USTPFtdcUserApiStruct.h \
+ src/field_convert.h ../lib/include/femas/USTPFtdcUserApiDataType.h \
+ src/my_protocol_packager.h ../include_tunnel/my_trade_tunnel_struct.h \
+ ../my_compliance_checker/include/check_schedule.h \
+ ../lib/include/my/qtm_with_code.h ../lib/include/my/qtm.h \
+ src/femas_data_formater.h
+my_tunnel_lib.o: src/my_tunnel_lib.cpp src/my_tunnel_lib.h \
+ ../include_tunnel/my_trade_tunnel_api.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../include_tunnel/my_trade_tunnel_struct.h \
+ ../tunnel_common_src/trade_log_util.h ../lib/include/my/qtm_with_code.h \
+ ../lib/include/my/qtm.h ../my_common/include/my_cmn_util_funcs.h \
+ ../my_common/include/my_cmn_log.h ../tunnel_common_src/config_data.h \
+ ../lib/include/mxml.h src/femas_trade_interface.h \
+ ../lib/include/femas/USTPFtdcTraderApi.h \
+ ../lib/include/femas/USTPFtdcUserApiStruct.h \
+ ../lib/include/femas/USTPFtdcUserApiDataType.h \
+ ../tunnel_common_src/trade_data_type.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../tunnel_common_src/tunnel_cmn_utility.h ../lib/include/my/qtm.h \
+ src/femas_trade_context.h ../lib/include/femas/USTPFtdcUserApiStruct.h \
+ src/field_convert.h ../lib/include/femas/USTPFtdcUserApiDataType.h \
+ src/my_protocol_packager.h ../include_tunnel/my_trade_tunnel_struct.h \
+ ../my_compliance_checker/include/check_schedule.h
+config_data.o: ../tunnel_common_src/config_data.cpp \
+ ../tunnel_common_src/config_data.h ../lib/include/mxml.h \
+ ../tunnel_common_src/trade_data_type.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../tunnel_common_src/tunnel_cmn_utility.h \
+ ../my_common/include/my_cmn_log.h ../lib/include/my/qtm.h \
+ ../my_common/include/my_cmn_crypto.h
+tunnel_cmn_utility.o: ../tunnel_common_src/tunnel_cmn_utility.cpp \
+ ../tunnel_common_src/tunnel_cmn_utility.h \
+ ../my_common/include/my_cmn_log.h ../lib/include/my/qtm.h \
+ ../lib/include/my/qtm_with_code.h ../lib/include/my/qtm.h
+trade_log_util.o: ../tunnel_common_src/trade_log_util.cpp \
+ ../tunnel_common_src/trade_log_util.h \
+ ../my_common/include/my_cmn_util_funcs.h \
+ ../my_common/include/my_cmn_log.h ../lib/include/my/qtm_with_code.h \
+ ../lib/include/my/qtm.h ../include_tunnel/my_trade_tunnel_struct.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h \
+ ../tunnel_common_src/tunnel_cmn_utility.h ../lib/include/my/qtm.h \
+ ../lib/include/my/share_mem.h
+trade_data_type.o: ../tunnel_common_src/trade_data_type.cpp \
+ ../tunnel_common_src/trade_data_type.h \
+ ../include_tunnel/my_trade_tunnel_data_type.h

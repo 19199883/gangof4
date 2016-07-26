@@ -1,0 +1,40 @@
+<QuoteSrc>
+	<subscription>
+    </subscription>
+	
+	<MarketData config="my_quote_ctp.config" />
+	<forwarders>		 
+	  
+		 
+  	  <forwarder quoteType="MYShfeMarketData">	 
+		  <sharedmemory datakey="MYShfeMarketData_data.key" dataflagkey="MYShfeMarketData_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/home/oliver/release_valify/mytrader_dcelevel2/MYShfeMarketData_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>
+	  		  
+	  <forwarder quoteType="MDBestAndDeep">	 
+		  <sharedmemory datakey="MDBestAndDeep_data.key" dataflagkey="MDBestAndDeep_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/home/oliver/release_valify/mytrader_dcelevel2/MDBestAndDeep_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>
+	  
+	  
+	  
+	   <forwarder quoteType="CFfexFtdcDepthMarketData">	 
+		  <sharedmemory datakey="CFfexFtdcDepthMarketData_data.key" dataflagkey="CFfexFtdcDepthMarketData_dataflag.key"></sharedmemory>
+		  <semaphores>
+		  </semaphores>
+	  </forwarder>
+	  
+	   <forwarder quoteType="ZCEL2QuotSnapshotField_MY">	 
+		  <sharedmemory datakey="ZCEL2QuotSnapshotField_MY_data.key" dataflagkey="ZCEL2QuotSnapshotField_MY_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  	<semaphore key="/home/oliver/release_valify/mytrader_dcelevel2/ZCEL2QuotSnapshotField_sem.key"></semaphore>	  
+		  </semaphores>
+	  </forwarder>
+	  
+	   
+	</forwarders>
+</QuoteSrc>

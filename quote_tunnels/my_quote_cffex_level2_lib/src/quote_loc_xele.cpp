@@ -1,0 +1,254 @@
+﻿#include "quote_loc_xele.h"
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <iomanip>
+#include <vector>
+#include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
+#include <boost/thread.hpp>
+
+#include "quote_cmn_config.h"
+#include "quote_cmn_utility.h"
+
+using namespace my_cmn;
+using namespace std;
+
+inline long long GetNanosFromEpoch()
+{
+    // get ns(nano seconds) from Unix Epoch
+    struct timespec ts;
+    clock_gettime(CLOCK_REALTIME, &ts);
+    return ts.tv_sec * 1000000000 + ts.tv_nsec;
+}
+
+LocXeleDataHandler::LocXeleDataHandler(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg)
+    : cfg_(cfg), p_save_(NULL), qry_md_thread_(NULL), running_flag_(true)
+{
+    if (subscribe_contracts)
+    {
+        subscribe_contracts_ = *subscribe_contracts;
+    }
+
+    sprintf(qtm_name_, "loc_xele_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
+
+
+    if (false == AcXeleMDInit())
+    {
+        QuoteUpdateState(qtm_name_, QtmState::QUOTE_INIT_FAIL);
+        MY_LOG_ERROR("AcXeleMDInit failed");
+        return;
+    }
+    QuoteUpdateState(qtm_name_, QtmState::INIT);
+
+    // 初始化
+    p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_loc_xele", GTA_UDP_CFFEX_QUOTE_TYPE);
+
+    qry_md_thread_ = new boost::thread(&LocXeleDataHandler::QryDepthMarketData, this);
+}
+
+//#define FPGA_CMP_TEST
+
+#ifdef FPGA_CMP_TEST
+    #define IOCTL_TIMER 0x8080
+    static int s_stats_count = 0;
+    static int s_stats_max = 100000;
+    static int s_stats_result[100000];
+#endif
+
+LocXeleDataHandler::~LocXeleDataHandler(void)
+{
+#ifdef FPGA_CMP_TEST
+    MY_LOG_INFO("s_stats_count: %d", s_stats_count);
+    for (int i = 0; i < s_stats_count; ++i)
+    {
+        MY_LOG_INFO("used(ns):%d", s_stats_result[i]);
+        if (i % 8888 == 0) usleep(50 * 1000);
+    }
+    if (s_stats_count > 0) usleep(200 * 1000);
+#endif
+
+    if (qry_md_thread_ && qry_md_thread_->joinable())
+    {
+        running_flag_ = false;
+        qry_md_thread_->join();
+    }
+}
+
+void LocXeleDataHandler::QryDepthMarketData()
+{
+    try
+    {    // 获取行情数据共享内存首地址
+        const DepthMarketDataField *md = AcXeleMDData();
+        QuoteUpdateState(qtm_name_, QtmState::API_READY);
+        int last_count = 0;
+        int current_count = AcXeleMDCount();
+
+        // 丢弃旧数据，以免盘中启动时，大量过期的重复数据
+        if (current_count > 1)
+        {
+            last_count = current_count - 1;
+        }
+
+#ifdef FPGA_CMP_TEST
+        int fd = open("/dev/mytest", O_RDWR);
+        if (fd < 0)
+        {
+            printf("open /dev/mytest failed");
+        }
+        int high_level_v = 0x0;
+        int low_level_v = 0xff;
+#endif
+
+        while (running_flag_)
+        {
+            current_count = AcXeleMDCount();
+
+            for (int i = last_count; i < current_count; ++i)
+            {
+                long long cur_tp = GetNanosFromEpoch();
+
+#ifdef FPGA_CMP_TEST
+                // TODO for performance compare
+                ioctl(fd, IOCTL_TIMER, &high_level_v);
+                usleep(10);
+                ioctl(fd, IOCTL_TIMER, &low_level_v);
+                //printf("%s - current_count:%d\n", buffer.InstrumentID, current_count);
+                printf("current_count:%d\n", current_count);
+#endif
+
+                const DepthMarketDataField *p = md + i;
+
+                DepthMarketDataField d(*p);
+                RalaceInvalidValue(d);
+                CFfexFtdcDepthMarketData q_cffex_level2 = Convert(d);
+
+                if (quote_data_handler_
+                    && (subscribe_contracts_.empty() || subscribe_contracts_.find(d.InstrumentID) != subscribe_contracts_.end()))
+                {
+                    quote_data_handler_(&q_cffex_level2);
+                }
+
+                // 存起来
+                p_save_->OnQuoteData(cur_tp / 1000, &q_cffex_level2);
+
+#ifdef FPGA_CMP_TEST
+                if (s_stats_count < s_stats_max)
+                {
+                    long long fin_tp = GetNanosFromEpoch();
+                    s_stats_result[s_stats_count] = (int) (fin_tp - cur_tp);
+                    ++s_stats_count;
+                }
+#endif
+            }
+            last_count = current_count;
+        }
+
+#ifdef FPGA_CMP_TEST
+        if (fd >= 0) close(fd);
+#endif
+    }
+    catch (...)
+    {
+        MY_LOG_FATAL("xele - Unknown exception in OnRtnDepthMarketData.");
+    }
+}
+
+void LocXeleDataHandler::SetQuoteDataHandler(
+    boost::function<void(const CFfexFtdcDepthMarketData *)> quote_data_handler)
+{
+    quote_data_handler_ = quote_data_handler;
+}
+
+void LocXeleDataHandler::RalaceInvalidValue(DepthMarketDataField &d)
+{
+    d.Turnover = InvalidToZeroD(d.Turnover);
+    d.LastPrice = InvalidToZeroD(d.LastPrice);
+    d.UpperLimitPrice = InvalidToZeroD(d.UpperLimitPrice);
+    d.LowerLimitPrice = InvalidToZeroD(d.LowerLimitPrice);
+    d.HighestPrice = InvalidToZeroD(d.HighestPrice);
+    d.LowestPrice = InvalidToZeroD(d.LowestPrice);
+    d.OpenPrice = InvalidToZeroD(d.OpenPrice);
+    d.ClosePrice = InvalidToZeroD(d.ClosePrice);
+    //d.PreClosePrice = InvalidToZeroD(d.PreClosePrice);
+    d.OpenInterest = InvalidToZeroD(d.OpenInterest);
+    //d.PreOpenInterest = InvalidToZeroD(d.PreOpenInterest);
+
+    d.BidPrice1 = InvalidToZeroD(d.BidPrice1);
+    d.BidPrice2 = InvalidToZeroD(d.BidPrice2);
+    d.BidPrice3 = InvalidToZeroD(d.BidPrice3);
+    d.BidPrice4 = InvalidToZeroD(d.BidPrice4);
+    d.BidPrice5 = InvalidToZeroD(d.BidPrice5);
+
+    d.AskPrice1 = InvalidToZeroD(d.AskPrice1);
+    d.AskPrice2 = InvalidToZeroD(d.AskPrice2);
+    d.AskPrice3 = InvalidToZeroD(d.AskPrice3);
+    d.AskPrice4 = InvalidToZeroD(d.AskPrice4);
+    d.AskPrice5 = InvalidToZeroD(d.AskPrice5);
+
+    d.SettlementPrice = InvalidToZeroD(d.SettlementPrice);
+    //d.PreSettlementPrice = InvalidToZeroD(d.PreSettlementPrice);
+
+    //d.PreDelta = InvalidToZeroD(d.PreDelta);
+    d.CurrDelta = InvalidToZeroD(d.CurrDelta);
+}
+
+CFfexFtdcDepthMarketData LocXeleDataHandler::Convert(
+    const DepthMarketDataField &xele_data)
+{
+    CFfexFtdcDepthMarketData q2;
+    memset(&q2, 0, sizeof(CFfexFtdcDepthMarketData));
+
+//    memcpy(q2.szTradingDay, xele_data.TradingDay, 9);
+//    memcpy(q2.szSettlementGroupID, xele_data.SettlementGroupID, 9);
+//    q2.nSettlementID = xele_data.SettlementID;
+//    q2.dPreSettlementPrice = xele_data.PreSettlementPrice;
+//    q2.dPreClosePrice = xele_data.PreClosePrice;
+//    q2.dPreOpenInterest = xele_data.PreOpenInterest;
+    q2.dLastPrice = xele_data.LastPrice;
+    q2.dOpenPrice = xele_data.OpenPrice;
+    q2.dHighestPrice = xele_data.HighestPrice;
+    q2.dLowestPrice = xele_data.LowestPrice;
+    q2.nVolume = xele_data.Volume;
+    q2.dTurnover = xele_data.Turnover;
+    q2.dOpenInterest = xele_data.OpenInterest;
+    q2.dClosePrice = xele_data.ClosePrice;
+    q2.dSettlementPrice = xele_data.SettlementPrice;
+    q2.dUpperLimitPrice = xele_data.UpperLimitPrice;
+    q2.dLowerLimitPrice = xele_data.LowerLimitPrice;
+    //q2.dPreDelta = xele_data.PreDelta;
+    q2.dCurrDelta = xele_data.CurrDelta;
+    memcpy(q2.szUpdateTime, xele_data.UpdateTime, 9);
+    q2.nUpdateMillisec = xele_data.UpdateMillisec;
+    memcpy(q2.szInstrumentID, xele_data.InstrumentID, 31);
+    q2.dBidPrice1 = xele_data.BidPrice1;
+    q2.nBidVolume1 = xele_data.BidVolume1;
+    q2.dAskPrice1 = xele_data.AskPrice1;
+    q2.nAskVolume1 = xele_data.AskVolume1;
+    q2.dBidPrice2 = xele_data.BidPrice2;
+    q2.nBidVolume2 = xele_data.BidVolume2;
+    q2.dAskPrice2 = xele_data.AskPrice2;
+    q2.nAskVolume2 = xele_data.AskVolume2;
+    q2.dBidPrice3 = xele_data.BidPrice3;
+    q2.nBidVolume3 = xele_data.BidVolume3;
+    q2.dAskPrice3 = xele_data.AskPrice3;
+    q2.nAskVolume3 = xele_data.AskVolume3;
+    q2.dBidPrice4 = xele_data.BidPrice4;
+    q2.nBidVolume4 = xele_data.BidVolume4;
+    q2.dAskPrice4 = xele_data.AskPrice4;
+    q2.nAskVolume4 = xele_data.AskVolume4;
+    q2.dBidPrice5 = xele_data.BidPrice5;
+    q2.nBidVolume5 = xele_data.BidVolume5;
+    q2.dAskPrice5 = xele_data.AskPrice5;
+    q2.nAskVolume5 = xele_data.AskVolume5;
+
+    return q2;
+}
