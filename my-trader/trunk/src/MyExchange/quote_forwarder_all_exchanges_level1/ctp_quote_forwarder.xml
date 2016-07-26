@@ -1,0 +1,20 @@
+<QuoteSrc>
+	<subscription>		
+		
+	 </subscription>
+	 
+	 <MarketData config="my_quote_level1_ctp.config" />
+	 
+	<forwarders>		 
+	  <!--the choices for quoteType is the following:
+		  (1) CDepthMarketDataField		  
+		  -->
+	  <forwarder quoteType="CDepthMarketDataField">	 
+		  <sharedmemory datakey="CDepthMarketDataField_data.key" dataflagkey="CDepthMarketDataField_dataflag.key"></sharedmemory>
+		  <semaphores>
+			  <semaphore key="/root/myexchange/trunk/src/MyExchange/main/Debug/CDepthMarketDataField_sem.key"></semaphore>			
+		  </semaphores>
+	  </forwarder>
+	  	 
+	</forwarders>
+</QuoteSrc>
