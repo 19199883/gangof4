@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set trader root dir (行情、通道编译结构和配置文件的发布目录)
-TRADER_ROOT=/home/wangying/work/my-trader
+TRADER_ROOT=/home/wangying/github/gangof4/my-trader
 TRADER_LIB_ROOT=$TRADER_ROOT/trunk/lib
 
 #os define (don't need copy ssl in CentOS)
@@ -10,7 +10,7 @@ OS_CENTOS=centos
 OS_TYPE=$OS_DEBIAN
 
 # quote tunnel source dir (行情、通道源码的根目录路径)
-QT_SOURCE_ROOT=/home/wangying/work/quote_tunnels
+QT_SOURCE_ROOT=/home/wangying/github/gangof4/quote_tunnels
 
 # quote tunnel source dir (行情、通道使用的库的路径，需要一起发布到trader)
 QT_LIB_BIN_DIR=$QT_SOURCE_ROOT/lib/bin

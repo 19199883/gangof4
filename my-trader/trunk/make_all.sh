@@ -59,6 +59,61 @@ else
 fi
 cd ../../../
 
+PROJECT=sm 
+cd "${TOP}src/MyExchange/${PROJECT}/"
+make  distclean
+if (make  all)
+then
+	echo "${PROJECT} building succeeded"
+	echo ${pwd}
+else
+	echo "${PROJECT} building failed"
+	echo <&1
+	return
+fi
+cd ../../../
+
+PROJECT=QA 
+cd "${TOP}src/MyExchange/${PROJECT}/"
+make  distclean
+if (make  all)
+then
+	echo "${PROJECT} building succeeded"
+	echo ${pwd}
+else
+	echo "${PROJECT} building failed"
+	echo <&1
+	return
+fi
+cd ../../../
+
+PROJECT=tca 
+cd "${TOP}src/MyExchange/${PROJECT}/"
+make  distclean
+if (make  all)
+then
+	echo "${PROJECT} building succeeded"
+	echo ${pwd}
+else
+	echo "${PROJECT} building failed"
+	echo <&1
+	return
+fi
+cd ../../../
+
+PROJECT=te 
+cd "${TOP}src/MyExchange/${PROJECT}/"
+make  distclean
+if (make  all)
+then
+	echo "${PROJECT} building succeeded"
+	echo ${pwd}
+else
+	echo "${PROJECT} building failed"
+	echo <&1
+	return
+fi
+cd ../../../
 
 PROJECT=quote_forwarder_common 
 cd "${TOP}src/MyExchange/${PROJECT}/"
