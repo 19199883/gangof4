@@ -93,7 +93,7 @@ int read_pos(string pos_file, map<string,string> &stock_pos)
 int update_symbols_in_config(string hs300File, map<string,string> &pos)
 {
 	//创建一个XML的文档对象。
-	TiXmlDocument config = TiXmlDocument("my_capital.config");
+	TiXmlDocument config = TiXmlDocument("trasev.config");
 	config.LoadFile();
 	//获得根元素，即MyExchange
 	TiXmlElement *RootElement = config.RootElement();
@@ -156,6 +156,6 @@ int update_symbols_in_config(string hs300File, map<string,string> &pos)
 		}	// end while (strategy != 0){
 	}
 
-	config.SaveFile("my_capital.config");
+	config.SaveFile("trasev.config");
 	return 0;
 }

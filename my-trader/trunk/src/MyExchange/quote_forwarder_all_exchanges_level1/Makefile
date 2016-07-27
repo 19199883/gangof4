@@ -41,7 +41,7 @@ LIBS:=  -lthostmduserapi -lboost_filesystem -lquote_forwarder_common \
 DEPS:=.depends
 
 # bo be changed
-OUT:=quote_forwarder_all_exchanges_level1
+OUT:=allexlv1_mktsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

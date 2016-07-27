@@ -101,7 +101,7 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.1426148768.486396118" name="my_capital.config" rcbsApplicability="disable" resourcePath="my_capital.config" toolsToInvoke="">
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.1426148768.486396118" name="my_capital.config" rcbsApplicability="disable" resourcePath="trasev.config" toolsToInvoke="">
 						<tool announcement="Invoking: Resource Custom Build Step" customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.295667666" name="Resource Custom Build Step">
 							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.1258138597" name="Resource Custom Build Step Input Type">
 								<additionalInput kind="additionalinputdependency" paths=""/>

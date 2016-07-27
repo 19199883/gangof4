@@ -41,7 +41,7 @@ LIBS:=  -lquote_forwarder_common -lqtm -lTDFAPI_v2.7 -ltinyxml -lboost_system \
 DEPS:=.depends
 
 # bo be changed
-OUT:=quote_forwarder_stock_tdf
+OUT:=stock_tdf_mktsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

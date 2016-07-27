@@ -42,7 +42,7 @@ LIBS:= -lquote_forwarder_common -lboost_filesystem -lboost_system -lkcxpmq \
 DEPS:=.depends
 
 # bo be changed
-OUT:=quote_forwarder_sec_kmds
+OUT:=sec_kmds_mktsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

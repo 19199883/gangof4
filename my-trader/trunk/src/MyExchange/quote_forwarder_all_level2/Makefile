@@ -41,7 +41,7 @@ LIBS:=-lquote_forwarder_common -lboost_thread -lboost_filesystem -lboost_system 
 DEPS:=.depends
 
 # to be changed
-OUT:=quote_forwarder_all_level2
+OUT:=alllv2_mktsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

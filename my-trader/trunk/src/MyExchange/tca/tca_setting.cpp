@@ -4,7 +4,7 @@
 using namespace trading_channel_agent;
 
 tca_setting::tca_setting(void):
-	config_path("my_capital.config")
+	config_path("trasev.config")
 {
 }
 
@@ -16,10 +16,10 @@ tca_setting::~tca_setting(void)
 
 void tca_setting::Initialize(void)
 {
-	//´´½¨Ò»¸öXMLµÄÎÄµµ¶ÔÏó¡£
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½XMLï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
 	TiXmlDocument config = TiXmlDocument(tca_setting::config_path.c_str());
     config.LoadFile();
-    //»ñµÃ¸ùÔªËØ£¬¼´MyExchange
+    //ï¿½ï¿½Ã¸ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½MyExchange
     TiXmlElement *RootElement = config.RootElement();    
     TiXmlElement *orderVolLimitE = RootElement->FirstChildElement("OrderVolLimit");
     TiXmlElement *itemE = orderVolLimitE->FirstChildElement();
@@ -31,7 +31,7 @@ void tca_setting::Initialize(void)
 		itemE = itemE->NextSiblingElement();
 	}
 
-    //»ñµÃµÚÒ»¸ötca½Úµã
+    //ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½tcaï¿½Úµï¿½
     TiXmlElement *tca = RootElement->FirstChildElement("tca");
 	if (tca != 0)
 	{

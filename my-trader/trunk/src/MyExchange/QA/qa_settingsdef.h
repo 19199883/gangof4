@@ -3,9 +3,9 @@
 
 using namespace quote_agent;
 
-// ¹¹Ôìº¯Êý
+// ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
 qa_settings::qa_settings(void):
-	config_path("my_capital.config")
+	config_path("trasev.config")
 {
 }
 
@@ -14,12 +14,12 @@ qa_settings::~qa_settings(void)
 }
 
 void qa_settings::Initialize(void){
-	//´´½¨Ò»¸öXMLµÄÎÄµµ¶ÔÏó¡£
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½XMLï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
 	TiXmlDocument config = TiXmlDocument(qa_settings::config_path.c_str());
     config.LoadFile();
-    //»ñµÃ¸ùÔªËØ£¬¼´MyExchange
+    //ï¿½ï¿½Ã¸ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½MyExchange
     TiXmlElement *RootElement = config.RootElement();    
-    //»ñµÃµÚÒ»¸öQuote½Úµã
+    //ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½Quoteï¿½Úµï¿½
     TiXmlElement *quote = RootElement->FirstChildElement("quote");
 	if (quote != 0){
 		TiXmlElement *quote_src = quote->FirstChildElement();

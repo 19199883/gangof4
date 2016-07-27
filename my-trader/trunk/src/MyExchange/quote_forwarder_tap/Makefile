@@ -42,7 +42,7 @@ LIBS:=  -lquote_forwarder_common -lmy_common_v2 -lmy_exchange_entity -lssl -lboo
 DEPS:=.depends
 
 # bo be changed
-OUT:=quote_forwarder_tap
+OUT:=tap_mktsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

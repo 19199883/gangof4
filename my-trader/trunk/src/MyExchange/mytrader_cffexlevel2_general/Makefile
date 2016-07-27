@@ -43,7 +43,7 @@ LIBS:=  -lutils -ldl -lpthread -lboost_thread -lboost_filesystem -lboost_system 
 	-lboost_date_time -llog4cxx -lssl -ltca -lsm -lmy_common_v2 -lmy_exchange_entity -ltinyxml
 
 DEPS:=.depends
-OUT:=mytrader_cffexlevel2
+OUT:=cffexlevel2_tradsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

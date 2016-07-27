@@ -58,7 +58,8 @@ void quote_forwarder_agent<QuoteT>
 	struct sembuf sem_p;
 	sem_p.sem_num=0;
 	sem_p.sem_op=-1;
-	sem_p.sem_flg = IPC_NOWAIT;
+	// commented by wangying on 20160727 for CPU overly occupied
+//	sem_p.sem_flg = IPC_NOWAIT;
 	while(semop(semid,&sem_p,1)==-1){}
 }
 

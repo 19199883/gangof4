@@ -26,7 +26,7 @@ using namespace trading_channel_agent;
 void update_symbols_in_config()
 {
 	//创建一个XML的文档对象。
-	TiXmlDocument config = TiXmlDocument("my_capital.config");
+	TiXmlDocument config = TiXmlDocument("trasev.config");
 	config.LoadFile();
 	//获得根元素，即MyExchange
 	TiXmlElement *RootElement = config.RootElement();
@@ -94,7 +94,7 @@ void update_symbols_in_config()
 
 
 //	string fullPath = "OUT.TXT";
-	config.SaveFile("my_capital.config");
+	config.SaveFile("trasev.config");
 }
 
 

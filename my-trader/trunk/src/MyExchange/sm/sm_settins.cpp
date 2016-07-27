@@ -17,7 +17,7 @@ using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
 
-string sm_settings::config_path = "my_capital.config";
+string sm_settings::config_path = "trasev.config";
 
 sm_settings::sm_settings(void){
 
@@ -26,12 +26,12 @@ sm_settings::sm_settings(void){
 sm_settings::~sm_settings(void){}
 
 void sm_settings::initialize(void){
-	//´´½¨Ò»¸öXMLµÄÎÄµµ¶ÔÏó¡£
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½XMLï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
 	TiXmlDocument config = TiXmlDocument(sm_settings::config_path.c_str());
     config.LoadFile();
-    //»ñµÃ¸ùÔªËØ£¬¼´MyExchange
+    //ï¿½ï¿½Ã¸ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½MyExchange
     TiXmlElement *RootElement = config.RootElement();    
-    //»ñµÃµÚÒ»¸östrategies½Úµã
+    //ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½strategiesï¿½Úµï¿½
     TiXmlElement *strategies = RootElement->FirstChildElement("strategies");
 	if (strategies != 0){
 		TiXmlElement *strategy = strategies->FirstChildElement();
@@ -51,17 +51,17 @@ void sm_settings::init_model_if(model_setting &strategy)
 	model_if_config.LoadFile();
 	TiXmlElement *model_if_root_ele = model_if_config.RootElement();
 	TiXmlElement *strategy_ele = model_if_root_ele->FirstChildElement("strategy");
-	// initº¯ÊýÃû
+	// initï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	strategy.init_method = strategy_ele->Attribute("init_method");
-	// feed_pos_methodº¯ÊýÃû
+	// feed_pos_methodï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	strategy.feed_pos_method = strategy_ele->Attribute("feed_pos_method");
-	// feed_init_pos_methodº¯ÊýÃû
+	// feed_init_pos_methodï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	strategy.feed_init_pos_method = strategy_ele->Attribute("feed_init_pos_method");
-	// feed_quote_methodº¯ÊýÃû
+	// feed_quote_methodï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	strategy.feed_spif_quote_method = strategy_ele->Attribute("feed_spif_quote_method");
 	strategy.feed_cf_quote_method = strategy_ele->Attribute("feed_cf_quote_method");
 	strategy.feed_stock_quote_method = strategy_ele->Attribute("feed_stock_quote_method");
-	// feed_quote_methodº¯ÊýÃû
+	// feed_quote_methodï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	strategy.feed_full_depth_quote_method = strategy_ele->Attribute("feed_full_depth_quote_method");
 	// MDOrderStatistic_method
 	strategy.MDOrderStatistic_method = strategy_ele->Attribute("MDOrderStatistic_method");
@@ -93,7 +93,7 @@ model_setting sm_settings::create_model_setting(TiXmlElement* xml_ele)
 
 	xml_ele->QueryIntAttribute("cancel_timeout",&strategy.cancel_timeout);
 
-	// Ä£ÐÍdllÎÄ¼þ
+	// Ä£ï¿½ï¿½dllï¿½Ä¼ï¿½
 	strategy.file = xml_ele->Attribute("model_file");
 
 	char sah = xml_ele->Attribute("sah_flag")[0];
@@ -121,7 +121,7 @@ model_setting sm_settings::create_model_setting(TiXmlElement* xml_ele)
 	// option
 	xml_ele->QueryBoolAttribute("isOption",&strategy.isOption);
 
-	// ÎªÄ£ÐÍÅäÖÃÌí¼ÓºÏÔ¼
+	// ÎªÄ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óºï¿½Ô¼
 	int counter = 0;
 	TiXmlElement* symbol_ele = xml_ele->FirstChildElement();		
 	while (symbol_ele != 0)	{		
@@ -159,7 +159,7 @@ model_setting sm_settings::create_model_setting(TiXmlElement* xml_ele)
 			found = categories_str.find(",",start);
 		 } // end while (found != std::string::npos){
 
-		// ÏÂÒ»¸östrategyÔªËØ
+		// ï¿½ï¿½Ò»ï¿½ï¿½strategyÔªï¿½ï¿½
 		symbol_ele = symbol_ele->NextSiblingElement();
 		counter++;
 	}	//end while (symbol_ele != 0)
@@ -176,12 +176,12 @@ string sm_settings::get_account(long model_id)
 {
 	string fund_acc = "";
 
-	//´´½¨Ò»¸öXMLµÄÎÄµµ¶ÔÏó¡£
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½XMLï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½
 	TiXmlDocument config = TiXmlDocument(sm_settings::config_path.c_str());
 	config.LoadFile();
-	//»ñµÃ¸ùÔªËØ£¬¼´MyExchange
+	//ï¿½ï¿½Ã¸ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½MyExchange
 	TiXmlElement *RootElement = config.RootElement();
-	//»ñµÃµÚÒ»¸ötca½Úµã
+	//ï¿½ï¿½Ãµï¿½Ò»ï¿½ï¿½tcaï¿½Úµï¿½
 	TiXmlElement *tca = RootElement->FirstChildElement("tca");
 	string ex_file = "";
 	if (tca != 0){

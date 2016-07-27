@@ -41,7 +41,7 @@ LIBS:=  -lquote_forwarder_common -lqtm -ltinyxml -lboost_system \
 DEPS:=.depends
 
 # bo be changed
-OUT:=quote_forwarder_shfe_jr
+OUT:=shfe_jr_mktsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

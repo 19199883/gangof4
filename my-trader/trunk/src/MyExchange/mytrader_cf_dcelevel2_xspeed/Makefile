@@ -47,7 +47,7 @@ LIBS:=  -lutils -ldl -lpthread -lboost_thread -lboost_filesystem -lboost_system 
 DEPS:=.depends
 
 # bo be changed
-OUT:=mytrader_cf_dcelevel2
+OUT:=dcelevel2_tradsev
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

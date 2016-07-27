@@ -40,7 +40,7 @@ LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem \
 DEPS:=.depends
 
 # bo be changed
-OUT:=quote_forwarder_dce_level2
+OUT:=dcelv2_mktsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

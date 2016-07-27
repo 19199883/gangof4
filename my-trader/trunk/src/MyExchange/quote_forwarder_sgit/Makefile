@@ -41,7 +41,7 @@ LIBS:= -lquote_forwarder_common -lboost_filesystem -lboost_system \
 DEPS:=.depends
 
 # bo be changed
-OUT:=quote_forwarder_sgit
+OUT:=sgit_mktsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./

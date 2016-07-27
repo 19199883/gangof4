@@ -46,7 +46,7 @@ LIBS:=  -lutils -ldl -lpthread -lboost_thread -lboost_filesystem -lboost_system 
 DEPS:=.depends
 
 # bo be changed
-OUT:=mytrader_stock_fut
+OUT:=stock_fut_tradsvc
 PACKAGE_NAME:=$(OUT)
 
 SUBDIR:=./
