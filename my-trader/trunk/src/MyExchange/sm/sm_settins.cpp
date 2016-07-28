@@ -47,7 +47,7 @@ void sm_settings::initialize(void){
 void sm_settings::init_model_if(model_setting &strategy)
 {
 	// model interfaces
-	TiXmlDocument model_if_config = TiXmlDocument("model_if.config");
+	TiXmlDocument model_if_config = TiXmlDocument("straif.config");
 	model_if_config.LoadFile();
 	TiXmlElement *model_if_root_ele = model_if_config.RootElement();
 	TiXmlElement *strategy_ele = model_if_root_ele->FirstChildElement("strategy");

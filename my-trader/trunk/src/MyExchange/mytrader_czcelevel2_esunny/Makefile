@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=n
+DEBUG:=y
 TOP:=../../../
 VERSION:=v2.6.x
 DIST_DIR:=$(TOP)/dist
@@ -56,7 +56,6 @@ vpath %.cpp $(SUBDIR)
 
 ifeq ($(strip $(DEBUG)),y)
 	CFLAGS+= -g3 -O0
-	OUT:=$(addsuffix d, $(OUT))
 else
 	CFLAGS+=-O2
 endif

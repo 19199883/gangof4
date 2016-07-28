@@ -2,7 +2,7 @@
 
 CC:=g++
 AR:=ar -r
-DEBUG:=n
+DEBUG:=y
 TIME_PROBER:=n
 TOP:=../../../
 INCPATH:= 
@@ -23,8 +23,7 @@ SUBDIR:=./
 vpath %.cpp $(SUBDIR)
 
 ifeq ($(strip $(DEBUG)),y)
-	CFLAGS+= -g3 -O0
-	OUT:=$(addsuffix d, $(OUT))
+	CFLAGS+= -g3 -O0	
 else
 	CFLAGS+=-O3
 endif
