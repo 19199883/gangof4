@@ -10,7 +10,7 @@ CFLAGS:= -DIB_USE_STD_STRING -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lpthread -lmy_common_v2 -lqtm -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time 
+LIBS:= -lpthread -lmy_common_v2 -lqtm -lboost_system   -lboost_filesystem -lboost_date_time 
 DEPS:=.depends
 OUT:=libmy_quote_ib_lib.so
 

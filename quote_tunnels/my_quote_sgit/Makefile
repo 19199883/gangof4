@@ -10,7 +10,7 @@ CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lmy_common_v2 -lqtm -lssl -lsgitquotapi -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time 
+LIBS:= -lmxml -lpthread -lmy_common_v2 -lqtm -lssl -lsgitquotapi -lboost_system   -lboost_filesystem -lboost_date_time 
 DEPS:=.depends
 OUT:=libmy_quote_sgit_lib.so
 

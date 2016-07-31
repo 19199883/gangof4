@@ -12,7 +12,7 @@ BINPATH:=./bin
 DEPS:=.depends
 
 CPPFLAGS:= -std=c++11 $(INCPATH)	
-LIBS:= -lpthread -lmy_common_v2 -llcomm -lkmdsapi -lqtm -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time 
+LIBS:= -lpthread -lmy_common_v2 -llcomm -lkmdsapi -lqtm -lboost_system   -lboost_filesystem -lboost_date_time 
 OUT:=libmy_sec_kmds_lib.so
 
 SUBDIR:=./src ../quote_common_src

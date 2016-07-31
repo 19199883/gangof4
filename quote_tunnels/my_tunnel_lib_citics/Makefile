@@ -10,7 +10,7 @@ CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lboost_thread -lssl -lmy_common_v2 -lmy_compliance_checker -lqtm -lmymarketdata -lCITICs_HsT2Hlp -lt2sdk64
+LIBS:= -lmxml -lpthread   -lssl -lmy_common_v2 -lmy_compliance_checker -lqtm -lmymarketdata -lCITICs_HsT2Hlp -lt2sdk64
 DEPS:=.depends
 OUT:=libcitics_hs_tunnel.so
 
