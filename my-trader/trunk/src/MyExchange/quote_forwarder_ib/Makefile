@@ -36,7 +36,7 @@ OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem \
 		-lboost_system -lqtm -ltinyxml -lpthread \
-		-lmy_quote_ib_lib -llog4cxx -lssl -lmy_common_v2
+	      -lqtm -lmy_quote_ib_lib -llog4cxx -lssl -lmy_common_v2
 
 DEPS:=.depends
 

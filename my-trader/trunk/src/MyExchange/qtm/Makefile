@@ -3,18 +3,19 @@
 CC:=g++
 DEBUG:=n
 TOP:=..
-INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/sgit4.1 -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_sgit
-LIBPATH:=-L$(TOP)/lib/bin -L$(TOP)/lib/bin/sgit4.1 -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
-CPPFLAGS:= -std=c++11 $(INCPATH)
+INCPATH:=
+LIBPATH:=
 CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lmy_common_v2  -lssl -lsgitquotapi -lboost_system   -lboost_filesystem -lboost_date_time 
 DEPS:=.depends
-OUT:=libmy_quote_sgit_lib.so
 
-SUBDIR:=./src ../quote_common_src
+CPPFLAGS:= -std=c++11 $(INCPATH)	
+LIBS:= 
+OUT:=libqtm.so
+
+SUBDIR:=./src 
 
 vpath %.cpp $(SUBDIR)
 

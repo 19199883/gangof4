@@ -10,7 +10,7 @@ CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lqtm -lac_xele_md -lboost_system   -lboost_filesystem -lboost_date_time 
+LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lac_xele_md -lboost_system   -lboost_filesystem -lboost_date_time 
 DEPS:=.depends
 OUT:=libmy_quote_shfe_my_xele_lib.so
 

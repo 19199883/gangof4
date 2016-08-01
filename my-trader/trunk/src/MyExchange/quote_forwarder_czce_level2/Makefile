@@ -35,8 +35,8 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem \
-		-lboost_system -lZceLevel2API -lqtm -ltinyxml -lpthread \
-		-lmy_quote_czce_level2_lib -llog4cxx -lssl -lmy_common_v2
+		-lboost_system -lZceLevel2API  -ltinyxml -lpthread \
+		-lqtm -lmy_quote_czce_level2_lib -llog4cxx -lssl -lmy_common_v2
 
 DEPS:=.depends
 

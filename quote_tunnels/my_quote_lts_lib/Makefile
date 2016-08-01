@@ -14,7 +14,7 @@ DEPS:=.depends
 
 ifeq ($(strip $(CRACK)),y)
 	CPPFLAGS:= -DUSE_LTS_API_2 -std=c++11 $(INCPATH)	
-	LIBS:= -lmxml -lpthread -lmy_common_v2 -lqtm -lltsapi -lsecurityqueryapi -lsecuritymduserapi -lboost_system   -lboost_filesystem -lboost_date_time
+	LIBS:= -lmxml -lpthread -lmy_common_v2  -lltsapi -lsecurityqueryapi -lsecuritymduserapi -lboost_system   -lboost_filesystem -lboost_date_time
 	OUT:=libmy_quote_lts_opt_lib.so
 else
 	CPPFLAGS:= -std=c++11 $(INCPATH)	
