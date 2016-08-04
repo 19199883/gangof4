@@ -137,7 +137,7 @@ void MYExConfigData::LoadModelCfg()
                                 {
                                     int max_pos = atoi(max_pos_str);
 				    // added by wangying on 20160721,for testing strategy "bai dan"
-				    max_pos *= 10; 
+				    //max_pos *= 10; 
 #ifdef ASYNC_CANCEL
                                     max_pos *= 3; // upper limit of position will rise to 3 times when cancel failed.
 #endif

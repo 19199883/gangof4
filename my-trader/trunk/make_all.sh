@@ -144,6 +144,21 @@ else
 fi
 cd ../../../
 
+PROJECT=minictp_lv1
+cd "${TOP}src/MyExchange/${PROJECT}/"
+echo ${MAKE_FILE}
+make  distclean
+if (make all)
+then
+	echo "${PROJECT} building succeeded"
+	make dist
+else
+	echo "${PROJECT} building failed"
+	echo <&1
+	return
+fi
+cd ../../../
+
 PROJECT=quote_forwarder_all_level2 
 cd "${TOP}src/MyExchange/${PROJECT}/"
 echo ${MAKE_FILE}
@@ -158,6 +173,23 @@ else
 	return
 fi
 cd ../../../
+
+PROJECT=minictp_level2
+cd "${TOP}src/MyExchange/${PROJECT}/"
+echo ${MAKE_FILE}
+make  distclean
+if (make all)
+then
+	echo "${PROJECT} building succeeded"
+	make dist
+else
+	echo "${PROJECT} building failed"
+	echo <&1
+	return
+fi
+cd ../../../
+
+
 
 PROJECT=quote_forwarder_cffex_level2 
 cd "${TOP}src/MyExchange/${PROJECT}/"
@@ -356,6 +388,23 @@ else
 	return
 fi
 cd ../../../
+
+PROJECT=lvl1_tradsvc
+cd "${TOP}src/MyExchange/${PROJECT}/"
+echo ${MAKE_FILE}
+make  distclean
+if (make all)
+then
+	echo "${PROJECT} building succeeded"
+	make dist
+else
+	echo "${PROJECT} building failed"
+	echo <&1
+	return
+fi
+cd ../../../
+
+
 
 PROJECT=mytrader_cf_shef_ctp 
 cd "${TOP}src/MyExchange/${PROJECT}/"

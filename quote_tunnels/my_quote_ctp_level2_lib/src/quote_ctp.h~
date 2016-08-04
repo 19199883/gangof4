@@ -3,7 +3,7 @@
 #include <string>
 #include <sstream>
 #include <list>
-//#include "ThostFtdcMdApi.h"
+#include "ThostFtdcMdApi.h"
 
 #include <boost/function.hpp>
 #include "ThostFtdcMdfastApi.h"

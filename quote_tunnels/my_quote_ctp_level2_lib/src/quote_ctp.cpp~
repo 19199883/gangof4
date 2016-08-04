@@ -206,7 +206,7 @@ void MYCTPDataHandler::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField *p)
     {
 
 	// added by wangying on 20160801
-	MY_LOG_DEBUG("CTP - MarketData, InstrumentID: %s, PreSettlementPrice:%.4f, PreClosePrice:%.4f, OpenPrice:%.4f, BidPrice1:%.4f, BidVolume1: %d,BidVolume5: %d, BidPrice5:%.4f", 
+	MY_LOG_DEBUG("CTP - MarketData, InstrumentID: %s, PreSettlementPrice:%.4f, PreClosePrice:%.4f, OpenPrice:%.4f, BidPrice1:%.4f, BidVolume5: %i,BidVolume5: %i, BidPrice5:%.4f", 
 		p->InstrumentID,p->PreSettlementPrice,p->PreClosePrice,p->OpenPrice,p->BidPrice1,p->BidVolume1,p->BidVolume5,p->BidPrice5);
 	
 

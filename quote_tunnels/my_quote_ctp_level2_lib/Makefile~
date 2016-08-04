@@ -1,20 +1,20 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=n
+DEBUG:=y
 TOP:=..
-INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/ctp -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/my_compliance_checker/include -I$(TOP)/tunnel_common_src -I$(TOP)/include_tunnel
-LIBPATH:=-L$(TOP)/lib/bin -L$(TOP)/lib/bin/ctp -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin -L$(TOP)/my_compliance_checker/bin
+INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/ctp -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_all_level2
+LIBPATH:=-L$(TOP)/lib/bin -L$(TOP)/lib/bin/ctp -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
 CPPFLAGS:= -std=c++11 $(INCPATH)
 CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lmy_common_v2 -lmy_compliance_checker -lqtm -lthosttraderapi
+LIBS:= -lmxml -lpthread -lmy_common_v2  -lthosttraderapi -lthostmduserfastapi -lthosttraderapi  -lboost_system   -lboost_filesystem -lboost_date_time 
 DEPS:=.depends
-OUT:=libctp_tunnel.so
+OUT:=libmy_quote_level2_ctp_lib.so
 
-SUBDIR:=./src ../tunnel_common_src
+SUBDIR:=./src ../quote_common_src
 
 vpath %.cpp $(SUBDIR)
 

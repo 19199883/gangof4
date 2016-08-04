@@ -101,6 +101,16 @@ cp -a bin/*.so $QT_TUNNEL_DIST
 cp -a config/* $QT_TUNNEL_DIST
 cp -a $QT_LIB_BIN_DIR/ctp/libthosttraderapi.so $QT_TUNNEL_DIST
 
+#minictp tunnel
+cd $QT_SOURCE_ROOT/my_tunnel_lib_minictp
+make clean
+make
+QT_TUNNEL_DIST=$TRADER_LIB_ROOT/tunnel/minictp
+mkdir -p $QT_TUNNEL_DIST
+cp -a bin/*.so $QT_TUNNEL_DIST
+cp -a config/* $QT_TUNNEL_DIST
+cp -a $QT_LIB_BIN_DIR/minictp/*.so $QT_TUNNEL_DIST
+
 #ctp  test tunnel (for option and market making)
 cd $QT_SOURCE_ROOT/my_tunnel_lib_ctp_mm
 make clean
@@ -262,6 +272,17 @@ cp -a bin/*.so $QT_QUOTE_DIST/bin
 cp -a $QT_LIB_BIN_DIR/ctp/libthosttraderapi.so $QT_QUOTE_DIST/bin
 cp -a $QT_LIB_BIN_DIR/ctp/libthostmduserapi.so $QT_QUOTE_DIST/bin
 
+# quote: minictp_level1
+cd $QT_SOURCE_ROOT/my_quote_minictp_level1_lib
+QT_QUOTE_DIST=$TRADER_LIB_ROOT/quote/minictp_level1
+make clean
+make
+mkdir -p $QT_QUOTE_DIST/config
+mkdir -p $QT_QUOTE_DIST/bin
+cp -a config/* $QT_QUOTE_DIST/config
+cp -a bin/*.so $QT_QUOTE_DIST/bin
+cp -a $QT_LIB_BIN_DIR/minictp/*.so $QT_QUOTE_DIST/bin
+
 # quote: ctp_level2
 cd $QT_SOURCE_ROOT/my_quote_ctp_level2_lib
 QT_QUOTE_DIST=$TRADER_LIB_ROOT/quote/ctp_level2
@@ -273,6 +294,17 @@ cp -a config/* $QT_QUOTE_DIST/config
 cp -a bin/*.so $QT_QUOTE_DIST/bin
 cp -a $QT_LIB_BIN_DIR/ctp/libthosttraderapi.so $QT_QUOTE_DIST/bin
 cp -a $QT_LIB_BIN_DIR/ctp/libthostmduserapi.so $QT_QUOTE_DIST/bin
+
+# quote: minictp_level2
+cd $QT_SOURCE_ROOT/my_quote_minictp_level2_lib
+QT_QUOTE_DIST=$TRADER_LIB_ROOT/quote/minictp_level2
+make clean
+make
+mkdir -p $QT_QUOTE_DIST/config
+mkdir -p $QT_QUOTE_DIST/bin
+cp -a config/* $QT_QUOTE_DIST/config
+cp -a bin/*.so $QT_QUOTE_DIST/bin
+cp -a $QT_LIB_BIN_DIR/minictp/* $QT_QUOTE_DIST/bin
 
 # quote: czce_level2
 cd $QT_SOURCE_ROOT/my_quote_czce_level2_lib

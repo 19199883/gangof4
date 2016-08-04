@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=n
+DEBUG:=y
 TOP:=..
 INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/ctp -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_all_level2
 LIBPATH:=-L$(TOP)/lib/bin -L$(TOP)/lib/bin/ctp -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
@@ -10,7 +10,7 @@ CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lmy_common_v2  -lthosttraderapi -lthostmduserfastapi -lthosttraderapi  -lboost_system   -lboost_filesystem -lboost_date_time 
+LIBS:= -lmxml -lpthread -lmy_common_v2  -lthostmduserapi -lthosttraderapi -lthosttraderapi  -lboost_system   -lboost_filesystem -lboost_date_time 
 DEPS:=.depends
 OUT:=libmy_quote_level2_ctp_lib.so
 

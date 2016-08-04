@@ -60,7 +60,7 @@ void quote_forwarder_agent<QuoteT>
 	sem_p.sem_op=-1;
 	// commented by wangying on 20160727 for CPU overly occupied
 //	sem_p.sem_flg = IPC_NOWAIT;
-	while(semop(semid,&sem_p,1)==-1){}
+	while(semop(semid,&sem_p,1)==-1){usleep(1);}
 }
 
 template<typename QuoteT>
