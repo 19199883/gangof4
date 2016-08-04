@@ -20,7 +20,3 @@ update_compliance(const char *name, int type, int status, const char *descriptio
 
 void
 qtm_finish(){}
-
-void
-acquire_tca_order(const char *name, int action, long time_stamp, long seq_no){}
-
