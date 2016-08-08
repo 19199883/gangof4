@@ -175,6 +175,9 @@ namespace trading_engine
 		void produce_signal_by_quote_notify(vector<T_RtnForQuote> &records, int &count);
 
 		void append(strategy_init_pos_t &dest,strategy_init_pos_t &src);
+		
+		// license,prevent any nasty usage,added by wangying on 20160805
+		void check_lic();
 
 		set<exchange_names> exchanges_;
 	};

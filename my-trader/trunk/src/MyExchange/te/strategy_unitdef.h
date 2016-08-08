@@ -44,6 +44,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
  _pos_mgr(tca_ptr, model_ptr->setting,model_ptr->setting.id),
  stopped(false)
 {
+	// license,prevent any nasty usage,added by wangying on 20160805
+	this->check_lic();	
 	ready_ = false;
 	timeEventInterval_ = timeEventInterval;
 
@@ -61,6 +63,35 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 
 	cache_key_ = ReportNotifyTableKeyT(model_ptr->setting.id,"strategy_unit");
 }
+
+
+template<typename SPIFQuoteT,typename CFQuoteT,typename StockQuoteT,typename FullDepthQuoteT,typename QuoteT5>
+void
+strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
+::check_lic()
+{
+	char target[1024];
+	char buf[1024];                             
+	memset(buf,0,sizeof(buf));
+	std::ifstream is;
+
+	getcwd(target, sizeof(target));
+	is.open ("lic");
+	if ( (is.rdstate() & std::ifstream::failbit ) != 0 ){
+         throw std::logic_error("illegal user!");
+     }else{
+        is.getline(buf,1024);
+         if ( is.good() ){
+            if(strcmp(target,buf)!=0){
+                 throw std::logic_error("illegal useri!");            
+             }
+         }else{
+             throw std::logic_error("illegal user!");
+         }
+ 
+     }
+}
+
 
 template<typename SPIFQuoteT,typename CFQuoteT,typename StockQuoteT,typename FullDepthQuoteT,typename QuoteT5>
 strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
