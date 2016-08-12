@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=y
+DEBUG:=n
 TOP:=../../../
 VERSION:=v2.6.x
 DIST_DIR:=$(TOP)/dist
@@ -35,8 +35,8 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lqtm -ltinyxml -lboost_system \
-		-lpthread -lboost_thread -llog4cxx -lssl -lmy_quote_shfe_my_xh_lib \
-		-lzmq -lmy_common_v2
+		-lpthread -lboost_thread  -llog4cxx -lmy_quote_shfe_my_xh_lib \
+		-lmy_common_v2
 
 DEPS:=.depends
 

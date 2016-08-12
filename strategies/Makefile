@@ -1,41 +1,43 @@
 # Makefile 
 
-CC:=g++
-AR:=ar
+CC:=gcc
 DEBUG:=n
-TIME_PROBER:=n
 TOP:=../../../
-INCPATH:= -I$(TOP)/lib \
-		  -I$(TOP)/lib/tunnel/include\
-	  -I../utils \
-	  -I../tinyxml \
-	  -I../my_exchange_db \
-	  -I../my_exchange_entity \
+VERSION:=v2.6.x
+DIST_DIR:=$(TOP)/dist
+# to be changed
+PROJECT_NAME:=lv1_stra
+
+INCPATH:= ./
 	  
-
 LIBPATH:=
-CPPFLAGS:= -v -c  -std=c++11 $(INCPATH) -fmessage-length=0 
-CFLAGS:= 
 
-LDFLAGS:=  
+CPPFLAGS:= -v $(INCPATH)
+CFLAGS:=  -fPIC
+LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:=
+LIBS:= 
+
 DEPS:=.depends
-OUT:=libtca.a
 
-SUBDIR:=./
+# bo be changed
+OUT:=MK1.so
+PACKAGE_NAME:=$(OUT)
 
-vpath %.cpp $(SUBDIR)
+SUBDIR:=./src
+CURDIR:=.
+
+vpath %.c $(SUBDIR)
 
 ifeq ($(strip $(DEBUG)),y)
 	CFLAGS+= -g3 -O0	
 else
-	CFLAGS+=-O3
+	CFLAGS+=-O2
 endif
 
-SRCS:=$(foreach d, $(SUBDIR), $(wildcard $(d)/*.cpp))
-OBJS:=$(patsubst %.cpp,%.o,$(SRCS))
+SRCS:=$(foreach d, $(SUBDIR), $(wildcard $(d)/*.c))
+OBJS:=$(patsubst %.c,%.o,$(SRCS))
 OBJS:=$(addprefix $(OBJPATH)/, $(notdir $(OBJS)))
 OUT:=$(addprefix $(BINPATH)/, $(OUT))
 
@@ -44,14 +46,17 @@ all:$(OUT)
 	@echo $(OUT)	
 
 $(OUT):$(DEPS) $(OBJS)
+	@echo 'Building target: $@'
+	@echo 'Invoking: GCC C Linker'
 	-@mkdir -p $(BINPATH)
-	$(AR) r $@ $(OBJS) 	
+	$(CC) $(LIBPATH) -o $@  $(OBJS) $(LDFLAGS) $(LIBS) 
 	@echo "---------build target finshed-----------"
 
 
-$(OBJPATH)/%.o:%.cpp
+$(OBJPATH)/%.o:%.c
 	-@mkdir -p $(OBJPATH)
 	$(CC) -c $< $(CPPFLAGS) $(CFLAGS) $(INCPATH)  -o $@
+	@echo Finished building: $<
 
 $(DEPS):$(SRCS)
 	-@rm $(DEPS)
@@ -59,14 +64,16 @@ $(DEPS):$(SRCS)
 
 -include $(DEPS)
 
+dist:
+	-rm -fr $(DIST_DIR)/$(PACKAGE_NAME)
 distclean:
-	-@rm $(DEPS)
-	-@rm $(OUT)
-	-@rm $(OBJS)	
-
+	-@rm -f $(DEPS)
+	-@rm -f $(OUT)
+	-@rm -f $(OBJS)
+	
 clean:
-	-@rm $(OUT)
-	-@rm $(OBJS)
+	-@rm -f $(OUT)
+	-@rm -f $(OBJS)
 
 help:
 	@echo "make (all):\t This is the default command when target unspecified "

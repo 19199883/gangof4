@@ -560,15 +560,15 @@ void LogUtil::Start(const std::string &log_file_name, int shm_key)
     }
 
     // get share memory
-    if (shm_key != 0)
-    {
-        shm_addr = (char *) env_init(shm_key);
-        TNL_LOG_INFO("address of share memory: %p", shm_addr);
-    }
-    else
-    {
-        TNL_LOG_INFO("close inner quote source feature");
-    }
+//    if (shm_key != 0)
+//    {
+//        shm_addr = (char *) env_init(shm_key);
+//        TNL_LOG_INFO("address of share memory: %p", shm_addr);
+//    }
+//    else
+//    {
+//        TNL_LOG_INFO("close inner quote source feature");
+//    }
 
     // 文件存储
     CreateFileHandle();
@@ -754,11 +754,11 @@ long long LogUtil::GetTimeAndPublish(int data_type, const void *pdata, std::size
     long long t = GetTimeFromEpoch();
 
     // write to share memory
-    if (shm_addr)
-    {
-        OrderInfoInTunnel d(data_type, t, pdata, data_size);
-        write_share_mem(shm_addr, &d);
-    }
+//    if (shm_addr)
+//    {
+//        OrderInfoInTunnel d(data_type, t, pdata, data_size);
+//        write_share_mem(shm_addr, &d);
+//    }
 
     return t;
 }
