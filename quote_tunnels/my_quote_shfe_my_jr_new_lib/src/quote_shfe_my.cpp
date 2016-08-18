@@ -261,10 +261,12 @@ int QuoteInterface_MY_SHFE_MD::CreateUdpFD(const std::string& addr_ip, unsigned 
     {
         MY_LOG_WARN("UDP - get socket control flag failed.");
     }
-    if (fcntl(udp_client_fd, F_SETFL, socket_ctl_flag | O_NONBLOCK) < 0)
-    {
-        MY_LOG_WARN("UDP - set socket control flag with nonblock failed.");
-    }
+	
+	// commented by wangying on 20160812 for nonblock mode will consume a CPU kernel`
+    //if (fcntl(udp_client_fd, F_SETFL, socket_ctl_flag | O_NONBLOCK) < 0)
+    //{
+    //    MY_LOG_WARN("UDP - set socket control flag with nonblock failed.");
+    //}
 
     // set buffer length
     int rcvbufsize = 1 * 1024 * 1024;

@@ -433,6 +433,8 @@ model_adapter<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 
 		this->FeedSPIFQuoteF(&quote_ptr,&signals_size,signals);
 
+		LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),	"invkoed spif");
+
 		if (signals_size > 0){
 			trace("feed_spif_quote_imp:",signals,signals_size);
 		}
