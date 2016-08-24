@@ -13,7 +13,7 @@ void FEMASPacker::OrderRequest(const TunnelConfigData &cfg,const T_PlaceOrder *r
 	memset(&insert_order, 0, sizeof(insert_order));
 
 	strncpy(insert_order.BrokerID, cfg.Logon_config().brokerid.c_str(), sizeof(TUstpFtdcBrokerIDType));
-	strncpy(insert_order.ExchangeID, MY_TNL_EXID_CFFEX, sizeof(TUstpFtdcExchangeIDType));
+	strncpy(insert_order.ExchangeID, MY_TNL_EXID_SHFE, sizeof(TUstpFtdcExchangeIDType));
 	strcpy(insert_order.OrderSysID, "");//系统报单编号，填什么内容?
 	strncpy(insert_order.InvestorID, cfg.Logon_config().investorid.c_str(), sizeof(TUstpFtdcInvestorIDType));
 	strncpy(insert_order.UserID, cfg.Logon_config().clientid.c_str(), sizeof(TUstpFtdcUserIDType));
@@ -22,7 +22,7 @@ void FEMASPacker::OrderRequest(const TunnelConfigData &cfg,const T_PlaceOrder *r
 	snprintf(insert_order.UserOrderLocalID, sizeof(TUstpFtdcUserOrderLocalIDType), "%lld", new_order_ref);
 	insert_order.OrderPriceType = FEMASFieldConvert::GetFEMASPriceType(req->order_kind);
 	insert_order.Direction = req->direction;
-	insert_order.OffsetFlag = req->open_close;
+	insert_order.OffsetFlag = FEMASFieldConvert::GetFEMASOCFlag(MY_TNL_EC_SHFE, req->open_close);
 	insert_order.HedgeFlag = FEMASFieldConvert::GetFEMASHedgeType(req->speculator);
 
 	insert_order.LimitPrice = req->limit_price;
@@ -67,7 +67,7 @@ void FEMASPacker::CancelRequest(const TunnelConfigData &cfg,const T_CancelOrder 
 	memset(&cancle_order, 0, sizeof(cancle_order));
 
 	// 原报单交易所标识
-	strncpy(cancle_order.ExchangeID, MY_TNL_EXID_CFFEX, sizeof(TUstpFtdcExchangeIDType));
+	strncpy(cancle_order.ExchangeID, MY_TNL_EXID_SHFE, sizeof(TUstpFtdcExchangeIDType));
 	strncpy(cancle_order.BrokerID, cfg.Logon_config().brokerid.c_str(), sizeof(TUstpFtdcBrokerIDType));
 	strncpy(cancle_order.InvestorID, cfg.Logon_config().investorid.c_str(), sizeof(TUstpFtdcInvestorIDType));
 	strncpy(cancle_order.UserID, cfg.Logon_config().clientid.c_str(), sizeof(TUstpFtdcUserIDType));

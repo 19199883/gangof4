@@ -1123,7 +1123,7 @@ void MyFemasTradeSpi::QueryAndHandleOrders()
     strncpy(qry_param.BrokerID, cfg_.Logon_config().brokerid.c_str(), sizeof(TUstpFtdcBrokerIDType));
     // query orders of account
     // strncpy(qry_param.UserID, user_.c_str(), sizeof(TUstpFtdcUserIDType));
-    strncpy(qry_param.ExchangeID, MY_TNL_EXID_CFFEX, sizeof(TUstpFtdcExchangeIDType));
+    strncpy(qry_param.ExchangeID, MY_TNL_EXID_SHFE, sizeof(TUstpFtdcExchangeIDType));
     strncpy(qry_param.InvestorID, tunnel_info_.account.c_str(), sizeof(TUstpFtdcInvestorIDType));
     //TUstpFtdcOrderSysIDType OrderSysID;
     //strncpy(qry_param.InstrumentID, pQryPosition->stock_code, sizeof(TUstpFtdcInstrumentIDType));

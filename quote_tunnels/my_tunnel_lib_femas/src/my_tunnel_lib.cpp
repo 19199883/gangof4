@@ -469,7 +469,7 @@ void FemasTunnel::QueryPosition(const T_QryPosition *pQryPosition)
     ///用户代码
     strncpy(qry_param.UserID, lib_cfg_->Logon_config().clientid.c_str(), sizeof(TUstpFtdcUserIDType));
     ///交易所代码
-    strncpy(qry_param.ExchangeID, MY_TNL_EXID_CFFEX, sizeof(TUstpFtdcExchangeIDType));
+    strncpy(qry_param.ExchangeID, MY_TNL_EXID_SHFE, sizeof(TUstpFtdcExchangeIDType));
     ///投资者编号
     strncpy(qry_param.InvestorID, tunnel_info_.account.c_str(), sizeof(TUstpFtdcInvestorIDType));
     ///合约代码
@@ -505,7 +505,7 @@ void FemasTunnel::QueryOrderDetail(const T_QryOrderDetail *pQryParam)
     ///用户代码
     strncpy(qry_param.UserID, lib_cfg_->Logon_config().clientid.c_str(), sizeof(TUstpFtdcUserIDType));
     ///交易所代码
-    strncpy(qry_param.ExchangeID, MY_TNL_EXID_CFFEX, sizeof(TUstpFtdcExchangeIDType));
+    strncpy(qry_param.ExchangeID, MY_TNL_EXID_SHFE, sizeof(TUstpFtdcExchangeIDType));
     ///投资者编号
     strncpy(qry_param.InvestorID, tunnel_info_.account.c_str(), sizeof(TUstpFtdcInvestorIDType));
     ///报单编号
@@ -543,7 +543,7 @@ void FemasTunnel::QueryTradeDetail(const T_QryTradeDetail *pQryParam)
     ///用户代码
     strncpy(qry_param.UserID, lib_cfg_->Logon_config().clientid.c_str(), sizeof(TUstpFtdcUserIDType));
     ///交易所代码
-    strncpy(qry_param.ExchangeID, MY_TNL_EXID_CFFEX, sizeof(TUstpFtdcExchangeIDType));
+    strncpy(qry_param.ExchangeID, MY_TNL_EXID_SHFE, sizeof(TUstpFtdcExchangeIDType));
     ///投资者编号
     strncpy(qry_param.InvestorID, tunnel_info_.account.c_str(), sizeof(TUstpFtdcInvestorIDType));
     ///成交编号

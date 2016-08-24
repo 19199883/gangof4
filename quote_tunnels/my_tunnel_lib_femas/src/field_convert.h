@@ -15,6 +15,7 @@ public:
     inline static char GetFEMASHedgeType(const char hedge_flag);
     inline static char GetFEMASPriceType(const char price_type);
     inline static char GetFEMASTimeCondition(const char price_type);
+    inline static char GetFEMASOCFlag(const char exch_code, const char open_close);
     inline static void SysOrderIDToCTPFormat(EntrustNoType my_orderid, char * const &ctp_orderid);
 
     // 从FEMAS转换MY协议取值
@@ -60,6 +61,23 @@ char FEMASFieldConvert::GetFEMASTimeCondition(const char order_type)
         return USTP_FTDC_TC_IOC;
     }
     return USTP_FTDC_TC_GFD;
+}
+
+char FEMASFieldConvert::GetFEMASOCFlag(const char exch_code, const char open_close)
+{
+    if ((exch_code == MY_TNL_EC_SHFE) &&
+        ((open_close == MY_TNL_D_CLOSE) ||
+            (open_close == MY_TNL_D_CLOSETODAY)))
+    {
+        return USTP_FTDC_OF_CloseToday;
+    }
+    else if ((exch_code == MY_TNL_EC_SHFE)
+        && (open_close == MY_TNL_D_CLOSEYESTERDAY))
+    {
+        return USTP_FTDC_OF_Close;
+    }
+
+    return open_close;
 }
 
 //将FEMAS的委托状态转换为统一的委托状态
