@@ -21,7 +21,7 @@ INCPATH:= -I$(TOP)/lib/tunnel/include\
 
 LIBPATH:= -L$(TOP)/lib/toe \
       -L$(TOP)/lib/common \
-      -L$(TOP)/lib/quote/shfe_my_jr_new/bin \
+      -L$(TOP)/lib/quote/shfe_my_jr_cmcc/bin \
       -L../utils/bin \
 	  -L../tinyxml/bin \
 	  -L../my_exchange_entity/bin \
@@ -35,8 +35,8 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lqtm -ltinyxml -lboost_system \
-		-lpthread -lboost_thread -llog4cxx -lmy_quote_shfe_my_jr_new_lib \
-		-lmy_common_v2 -lthostmduserapi -lthosttraderapi
+		-lpthread -lboost_thread -llog4cxx -lmy_quote_shfe_my_jrcmcc_lib \
+		-lmy_common_v2 -lUSTPmduserapi -lUSTPtraderapi
 
 DEPS:=.depends
 
@@ -89,8 +89,8 @@ dist:
 	-cp -varf $(CURDIR)/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cp -varf $(CURDIR)/*.key $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(CURDIR)/*.xml $(DIST_DIR)/$(PACKAGE_NAME)/
-	-cp -vaf $(TOP)/lib/quote/shfe_my_jr_new/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
-	-cp -vaf $(TOP)/lib/quote/shfe_my_jr_new/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
+	-cp -vaf $(TOP)/lib/quote/shfe_my_jr_cmcc/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
+	-cp -vaf $(TOP)/lib/quote/shfe_my_jr_cmcc/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cp -varf $(TOP)/lib/common/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cd $(DIST_DIR); \
 		tar -cvjf $(PACKAGE_NAME)-$(VERSION).tar.bz2  $(PACKAGE_NAME)/*     

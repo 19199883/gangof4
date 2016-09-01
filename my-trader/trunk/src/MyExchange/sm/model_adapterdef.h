@@ -11,6 +11,7 @@
 #include <chrono>
 #include "my_trade_tunnel_api.h"
 #include <regex>
+#include "maint.h"
 
 #include <time.h>       /* time_t, struct tm, time, localtime, strftime */
 
@@ -431,9 +432,21 @@ model_adapter<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 	try	{
 		signals_size = 0;
 
+		// maint.                                                                                       
+		if(maintenance::enabled()){                                                                                     
+			string contract = pending_quote_dao<SPIFQuoteT>::get_symbol(&quote_ptr);
+			contract += "(invoking spif)";                                                                          
+			maintenance::log(contract);                                                                                 
+		}  
+
 		this->FeedSPIFQuoteF(&quote_ptr,&signals_size,signals);
 
-		LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),	"invkoed spif");
+		// maint.                                                                                       
+		if(maintenance::enabled()){                                                                                     
+			string contract = pending_quote_dao<SPIFQuoteT>::get_symbol(&quote_ptr);
+			contract += "(invoked spif)";                                                                          
+			maintenance::log(contract);                                                                                 
+		}  
 
 		if (signals_size > 0){
 			trace("feed_spif_quote_imp:",signals,signals_size);
@@ -451,12 +464,26 @@ model_adapter<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	try	{
 			signals_size = 0;
+
+			// maint.                                                                                       
+			if(maintenance::enabled()){
+				string contract = pending_quote_dao<CFQuoteT>::get_symbol(&quote_ptr); 
+				contract += "(invoking cf)";                                                                          
+				maintenance::log(contract);
+			}  
+
 			this->FeedCFQuoteF(&quote_ptr,&signals_size,signals);
+
+			// maint.                                                                                       
+			if(maintenance::enabled()){ 
+				string contract = pending_quote_dao<CFQuoteT>::get_symbol(&quote_ptr);
+				contract += "(invoked cf)";                                                                          
+				maintenance::log(contract);
+			}  
+
 			if (signals_size > 0){
 				trace("feed_cf_quote_imp:",signals,signals_size);
 			}
-
-			LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),"invoked feed_cf_quote_imp");
 		}
 		catch(exception& ex){
 			LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"FeedQuoteF throw exception:" <<  ex.what());
@@ -470,7 +497,23 @@ model_adapter<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	try	{
 		signals_size = 0;
+
+		// maint.                                                                                       
+		if(maintenance::enabled()){ 
+			string contract = pending_quote_dao<StockQuoteT>::get_symbol(&quote_ptr);
+			contract += "(invoking stock)";
+			maintenance::log(contract);
+		}  
+
 		this->FeedStockQuoteF(&quote_ptr,&signals_size,signals);
+
+		// maint.                                                                                       
+		if(maintenance::enabled()){ 
+			string contract = pending_quote_dao<StockQuoteT>::get_symbol(&quote_ptr);
+			contract += "(invoked stock)";
+			maintenance::log(contract);
+		}  
+
 	}
 	catch(exception& ex){
 		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"FeedQuoteF throw exception:" <<  ex.what());
@@ -484,10 +527,25 @@ model_adapter<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	try{
 		signals_size = 0;
+
+		// maint.                                                                                       
+		if(maintenance::enabled()){ 
+			string contract = pending_quote_dao<FullDepthQuoteT>::get_symbol(&quote_ptr);
+			contract += "(invoking full depth)";
+			maintenance::log(contract);
+		}  	
+
 		this->FeedFullDepthQuoteF(&quote_ptr,&signals_size,signals);
 		if (signals_size > 0){
 			trace("feed_full_depth_quote_imp:",signals,signals_size);
 		}
+
+		// maint.                                                                                       
+		if(maintenance::enabled()){ 
+			string contract = pending_quote_dao<FullDepthQuoteT>::get_symbol(&quote_ptr);
+			contract += "(invoked full depth)";
+			maintenance::log(contract);
+		}  
 	}
 	catch(exception &ex){
 		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"FeedQuoteF error" <<  ex.what());
@@ -501,10 +559,27 @@ model_adapter<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	try{
 		signals_size = 0;
+
+		// maint.                                                                                       
+		if(maintenance::enabled()){ 
+			string contract = pending_quote_dao<QuoteT5>::get_symbol(&quote_ptr);
+			contract += "(invoking full mdorderstatistic)";
+			maintenance::log(contract);
+		}  
+
 		this->FeedStatisticF(&quote_ptr,&signals_size,signals);
 		if (signals_size > 0){
 			trace("feed_MDOrderStatistic_imp:",signals,signals_size);
 		}
+
+		// maint.                                                                                       
+		if(maintenance::enabled()){ 
+			string contract = pending_quote_dao<QuoteT5>::get_symbol(&quote_ptr);
+			contract += "(invoked mdorderstatistic)";
+			maintenance::log(contract);
+		}  
+
+
 	}
 	catch(exception &ex){
 		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"feed_MDOrderStatistic_imp error" <<  ex.what());

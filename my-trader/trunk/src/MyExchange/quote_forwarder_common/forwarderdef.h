@@ -12,6 +12,9 @@
 #include <stdlib.h>     /* exit */
 #include <signal.h>     /* signal */
 #include <log4cxx/logger.h>
+// todo maint
+#include "maint.h"
+#include "pending_quote_dao.h"
 
 template<typename QuoteT>
 forwarder<QuoteT>::forwarder(forwarder_setting setting)
@@ -19,7 +22,7 @@ forwarder<QuoteT>::forwarder(forwarder_setting setting)
 {
 	_setting = setting;
 	data_shared_mmemory_max_size = MAX_QUOTE_COUNT*sizeof(QuoteT);
-	data_flag_shared_mmemory_max_size = MAX_QUOTE_COUNT*sizeof(atomic<bool>);
+	data_flag_shared_mmemory_max_size = MAX_QUOTE_COUNT*sizeof(std::atomic<bool>);
 	_cursor = 0;
 	QuoteTalbe = NULL;
 	quote_available_table = NULL;
@@ -71,8 +74,8 @@ void forwarder<QuoteT>::generate_shm_for_data_flag() {
 		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"it's failed to generate data_flag_shmid,cause:"<<strerror(errno));
 	}
 	else{
-		quote_available_table = (atomic<bool>*)shmat(data_flag_shmid,0,0);
-		if(quote_available_table == (atomic<bool>*)-1){
+		quote_available_table = (std::atomic<bool>*)shmat(data_flag_shmid,0,0);
+		if(quote_available_table == (std::atomic<bool>*)-1){
 			LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"it's failed to shmat,cause:"<<strerror(errno));
 		}
 		else{
@@ -141,6 +144,13 @@ inline void forwarder<QuoteT>::forward(const QuoteT& quote) {
 
 	for(; it!=end; it++){
 		v(*it);
+
+		 // maint.                                                                                       
+		if(maintenance::enabled()){ 
+			string contract = pending_quote_dao<QuoteT>::get_symbol(&quote);
+			contract += "(forwarder forward)";                                                                       
+			maintenance::log(contract);
+		}
 	}
 }
 

@@ -12,6 +12,10 @@
 #include <map>
 #include <tinyxml.h>
 #include <tinystr.h>
+// todo maint
+#include "maint.h"
+#include "pending_quote_dao.h"
+
 
 using namespace std;
 using namespace log4cxx;
@@ -82,6 +86,8 @@ void engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::finalize(v
 template<typename SPIFQuoteT,typename CFQuotet,typename StockQuoteT,typename FullDepthQuoteT,typename QuoteT5>
 void engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::initialize(void)
 {
+	maintenance::assemble();
+
 	engine::stopped = false;
 	TiXmlDocument config = TiXmlDocument(sm_settings::config_path.c_str());
 	config.LoadFile();

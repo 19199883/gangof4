@@ -16,11 +16,16 @@
 #include <boost/thread.hpp>
 #include <stdio.h>
 #include <string.h>
+// todo maint
+#include "maint.h"
+#include "pending_quote_dao.h"
+
 
 using namespace std;
 using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
+using namespace quote_agent;
 
 template<quote_src_types quote_src,typename QuoteT1,typename QuoteT2,typename QuoteT3,typename QuoteT4,typename QuoteT5,typename QuoteT6>
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
@@ -138,6 +143,13 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData1(const QuoteT1 *quote)
 {
+	 // maint.                                                                                       
+    if(maintenance::enabled()){
+       string contract = pending_quote_dao<QuoteT1>::get_symbol(quote);
+       contract += "(forwarder forward)";
+       maintenance::log(contract);
+   }
+
 	if (!_stopped){
 		QuoteT1 duplicated_quote = *quote;
 		this->_forwarderInc1->forward(duplicated_quote);
@@ -149,6 +161,13 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData2(const QuoteT2 *quote)
 {
+	 // maint.                                                                                       
+	if(maintenance::enabled()){
+		string contract = pending_quote_dao<QuoteT2>::get_symbol(quote);
+		contract += "(forwarder forward)";
+		maintenance::log(contract);
+	}
+
 	if (!_stopped){
 		QuoteT2 duplicated_quote = *quote;
 		this->_forwarderInc2->forward(duplicated_quote);
@@ -160,6 +179,13 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData3(const QuoteT3 *quote)
 {
+	 // maint.                                                                                       
+	if(maintenance::enabled()){
+		string contract = pending_quote_dao<QuoteT3>::get_symbol(quote);
+		contract += "(forwarder forward)";
+		maintenance::log(contract);
+	}
+
 	if (!_stopped){
 		QuoteT3 duplicated_quote = *quote;
 		this->_forwarderInc3->forward(duplicated_quote);
@@ -171,6 +197,13 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData4(const QuoteT4 *quote)
 {
+	 // maint.                                                                                       
+	if(maintenance::enabled()){
+		string contract = pending_quote_dao<QuoteT4>::get_symbol(quote);
+		contract += "(forwarder forward)";
+		maintenance::log(contract);
+	}
+
 	if (!_stopped){
 		QuoteT4 duplicated_quote = *quote;
 		this->_forwarderInc4->forward(duplicated_quote);
@@ -182,6 +215,13 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData5(const QuoteT5 *quote)
 {
+	 // maint.                                                                                       
+	if(maintenance::enabled()){
+		string contract = pending_quote_dao<QuoteT5>::get_symbol(quote);
+		contract += "(forwarder forward)";
+		maintenance::log(contract);
+	}
+
 	if (!_stopped){
 		QuoteT5 duplicated_quote = *quote;
 		this->_forwarderInc5->forward(duplicated_quote);
@@ -193,6 +233,13 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData6(const QuoteT6 *quote)
 {
+	 // maint.                                                                                       
+	if(maintenance::enabled()){
+		string contract = pending_quote_dao<QuoteT6>::get_symbol(quote);
+		contract += "(forwarder forward)";
+		maintenance::log(contract);
+	}
+
 	if (!_stopped){
 		QuoteT6 duplicated_quote = *quote;
 		this->_forwarderInc6->forward(duplicated_quote);

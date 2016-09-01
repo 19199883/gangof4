@@ -24,6 +24,7 @@
 #include "../my_exchange.h"
 #include <regex>
 #include <string>
+#include "maint.h"
 
 #ifdef rss
 	#include <typeinfo>       // operator typeid
@@ -117,6 +118,14 @@ void quote_source<QuoteT>::finalize(void){
 
 template<typename QuoteT>
 void quote_source<QuoteT>::OnGTAQuoteData(const QuoteT *quote_src){
+	// maint.                                                    
+	if(maintenance::enabled()){                                                                                         
+		string contract = pending_quote_dao<QuoteT>::get_symbol(quote_src);
+		contract += "(qa rev)";
+		maintenance::log(contract);	
+	}   
+
+
 	// 执行行情通知操作
 	if (_subscribed){
 	    {

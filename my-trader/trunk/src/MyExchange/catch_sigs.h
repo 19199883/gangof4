@@ -252,12 +252,12 @@ static void install_sig_handlers()
 	install(SIGTERM_act, SIGTERM);
 
 	// SIGUSR1   30,10,16    Term    User-defined signal 1
-	struct sigaction SIGUSR1_act;
-	install(SIGUSR1_act, SIGUSR1);
+//	struct sigaction SIGUSR1_act;
+//	install(SIGUSR1_act, SIGUSR1);
 
 	// SIGUSR2   31,12,17    Term    User-defined signal 2
-	struct sigaction SIGUSR2_act;
-	install(SIGUSR2_act, SIGUSR2);
+//	struct sigaction SIGUSR2_act;
+//	install(SIGUSR2_act, SIGUSR2);
 
 	// SIGSTOP   17,19,23    Stop    Stop process
 	struct sigaction SIGSTOP_act;
