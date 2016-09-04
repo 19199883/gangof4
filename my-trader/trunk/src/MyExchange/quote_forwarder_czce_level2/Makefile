@@ -16,6 +16,7 @@ INCPATH:= -I$(TOP)/lib/tunnel/include\
 	  	  -I../utils \
 	  	  -I../tinyxml \
 	  	  -I../my_exchange_entity \
+		  -I../my_exchange_db \
 	  	  -I../quote_forwarder_common \
 	  	  -I../$(PROJECT_NAME)
 
@@ -27,6 +28,7 @@ LIBPATH:= -L../utils/bin \
 	  -L../my_exchange_entity/bin \
 	  -L../quote_forwarder_common/bin \
 	  -L../my_exchange_db/bin \
+	  -L../utils/bin \
 	  -L$(TOP)/lib/quote
 
 CPPFLAGS:= -v -std=c++11 $(INCPATH)
@@ -35,7 +37,7 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem \
-		-lboost_system -lZceLevel2API  -ltinyxml -lpthread \
+		-lboost_system -lZceLevel2API  -ltinyxml -lpthread -lutils\
 		-lqtm -lmy_quote_czce_level2_lib -llog4cxx -lssl -lmy_common_v2
 
 DEPS:=.depends

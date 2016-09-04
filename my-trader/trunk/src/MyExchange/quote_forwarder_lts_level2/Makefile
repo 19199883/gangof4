@@ -16,6 +16,7 @@ INCPATH:= -I$(TOP)/lib/tunnel/include\
 	  	  -I../utils \
 	  	  -I../tinyxml \
 	  	  -I../my_exchange_entity \
+		   -I../my_exchange_db \
 	  	  -I../quote_forwarder_common \
 	  	  -I../$(PROJECT_NAME)
 
@@ -26,6 +27,7 @@ LIBPATH:= -L../utils/bin \
 	  -L../tinyxml/bin \
 	  -L../my_exchange_entity/bin \
 	  -L../quote_forwarder_common/bin \
+	  -L../utils/bin \
 	  -L../my_exchange_db/bin \
 	  -L$(TOP)/lib/quote
 
@@ -37,7 +39,7 @@ BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem \
 		-lboost_system -lqtm -ltinyxml -lpthread \
 		-lmy_quote_lts_level2_udp_lib  -llog4cxx -lssl -lmy_common_v2 \
-		-lltsapi -lsecuritymduserapi -lsecurityqueryapi \
+		-lltsapi -lsecuritymduserapi -lsecurityqueryapi -lutils\
 		-lsecuritytraderapi
 
 DEPS:=.depends
