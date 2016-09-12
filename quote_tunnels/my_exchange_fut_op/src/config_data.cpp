@@ -74,7 +74,7 @@ std::string MYExConfigData::GetOneNodeStringValue(mxml_node_t *node, const std::
 
 void MYExConfigData::LoadModelCfg()
 {
-    mxml_node_t *tree = LoadFileInTree("my_capital.config");
+    mxml_node_t *tree = LoadFileInTree("trasev.config");
 
     if (tree)
     {
