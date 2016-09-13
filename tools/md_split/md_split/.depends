@@ -1,0 +1,18 @@
+main.o: src/main.cpp src/util.h src/../md_include/my_quote_save.h \
+ src/../md_include/quote_datatype_common.h \
+ src/../md_include/quote_datatype_ctp.h \
+ src/../md_include/ThostFtdcUserApiStruct.h \
+ src/../md_include/ThostFtdcUserApiDataType.h \
+ src/../md_include/quote_datatype_gtaex.h \
+ src/../md_include/quote_datatype_gta_udp.h \
+ src/../md_include/quote_datatype_dce.h \
+ src/../md_include/DFITCL2ApiDataType.h src/../md_include/BasicDataType.h \
+ src/../md_include/quote_datatype_shfe_deep.h \
+ src/../md_include/quote_datatype_shfe_ex.h src/../md_include/mdclient.h \
+ src/../md_include/quote_datatype_my_shfe_md.h \
+ src/../md_include/quote_datatype_tdf.h src/../md_include/TDFAPIStruct.h \
+ src/../md_include/quote_datatype_czce_level2.h \
+ src/../md_include/quote_datatype_sec_kmds.h \
+ src/../md_include/KSGUserApiStruct.h \
+ src/../md_include/KSGUserApiDataType.h \
+ src/../md_include/md_datatype_taifex.h

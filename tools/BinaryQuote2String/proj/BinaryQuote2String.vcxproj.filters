@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{0e83471f-45df-4a1f-91b8-219a6e0e97f5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ctp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gtaex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dce.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shfe_deep.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\shfe_ex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\util.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\gta_udp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\my_shfe_md.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\tdf_stock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\czce_l2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ksg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\taifex_md.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\kmds.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\ctp.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gtaex.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BasicDataType.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DFITCL2Api.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\DFITCL2ApiDataType.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\mdclient.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\my_quote_lib.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\my_quote_save.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_common.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_ctp.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_dce.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_gtaex.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_shfe_deep.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_shfe_ex.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ThostFtdcUserApiDataType.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ThostFtdcUserApiStruct.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\dce.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\shfe_deep.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\shfe_ex.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\util.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\gta_udp.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\my_shfe_md.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_my_shfe_md.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\tdf_stock.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_tdf.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\TDFAPIStruct.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_czce_level2.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\czce_l2.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\KSGUserApiDataType.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\KSGUserApiStruct.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ksg.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\taifex_md.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\md_datatype_taifex.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\quote_datatype_sec_kmds.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\kmds.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
