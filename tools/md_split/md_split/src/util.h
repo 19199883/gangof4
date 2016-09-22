@@ -20,6 +20,13 @@ inline int GetSymbolOffset(int data_type, int data_len)
 		offset_in_data = (int)((char *)&(md.Contract) - (char *)&md);
 	}
 	break;
+	case DCE_MDORDERSTATISTIC_QUOTE_TYPE:
+	{
+		MDOrderStatistic_MY md;
+		offset_in_data = (int)((char *)&(md.ContractID) - (char *)&md);
+	}
+	break;
+
 	default:
 		break;
 	}
