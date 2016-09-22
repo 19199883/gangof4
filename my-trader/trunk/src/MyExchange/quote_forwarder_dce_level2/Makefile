@@ -22,7 +22,7 @@ INCPATH:= -I$(TOP)/lib/tunnel/include\
 LIBPATH:= -L../utils/bin \
 	  -L$(TOP)/lib/toe \
       -L$(TOP)/lib/common \
-      -L$(TOP)/lib/quote/dce_level2/bin \
+      -L$(TOP)/lib/quote/dce_my_jr_udp/bin \
 	  -L../tinyxml/bin \
 	  -L../my_exchange_entity/bin \
 	  -L../quote_forwarder_common/bin \
@@ -36,8 +36,8 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem \
-		-lboost_system -ltinyxml -lpthread -llog4cxx -lssl -llevel2Api \
-		-lqtm -lmy_quote_dce_level2_lib -lmy_common_v2 -lutils
+		-lboost_system -ltinyxml -lpthread -llog4cxx -lssl \
+		-lqtm -lmy_quote_dce_level2_jrudp_lib -lmy_common_v2 -lutils
 
 DEPS:=.depends
 
@@ -90,8 +90,8 @@ dist:
 	cp -varf $(CURDIR)/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	cp -varf $(CURDIR)/*.key $(DIST_DIR)/$(PACKAGE_NAME)/
 	cp -varf $(CURDIR)/*.xml $(DIST_DIR)/$(PACKAGE_NAME)/
-	cp -vaf $(TOP)/lib/quote/dce_level2/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
-	-cp -vaf $(TOP)/lib/quote/dce_level2/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
+	cp -vaf $(TOP)/lib/quote/dce_my_jr_udp/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
+	-cp -vaf $(TOP)/lib/quote/dce_my_jr_udp/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	cp -varf $(TOP)/lib/common/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	cd $(DIST_DIR); \
 		tar -cvjf $(PACKAGE_NAME)-$(VERSION).tar.bz2  $(PACKAGE_NAME)/*     

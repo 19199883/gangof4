@@ -16,6 +16,8 @@
 #include <log4cxx/xml/domconfigurator.h>
 #include "quote_source.h"
 #include "quotesetting.h"
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace std;
 using namespace log4cxx;
@@ -50,6 +52,9 @@ int main() {
 
 	DOMConfigurator::configure("log4cxx_config.xml");
 	quote_setting setting("dce_quote_forwarder.xml");
+
+	install_sig_handlers();
+	maintenance::assemble();
 
 	forwarder<MDBestAndDeep_MY> *forwarder1= new forwarder<MDBestAndDeep_MY>(setting.forwarders["MDBestAndDeep"]);
 	forwarder<MDArbi_MY> *forwarder2= new forwarder<MDArbi_MY>(setting.forwarders["MDArbi"]);

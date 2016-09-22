@@ -19,6 +19,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 //#include "toe_app.h"
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace std;
 using namespace log4cxx;
@@ -46,30 +48,14 @@ ctrlc_handler(int s)
 
 int main(int argc, char  *argv[])
 {
-//	// TODO: toe
-//	string option = "";
-//	if(2 == argc){
-//		option = argv[1];
-//	}else{
-//		cout << "please give an option: 1 or 2. 1:no toe feature; 2:toe feature";
-//		return -1;
-//	}
-//
-//	int hijack_rtn = 0;
-//	if ("2" == option){
-//		// TODO: toe test
-//		hijack_rtn = toe_init();
-//		if(0 != hijack_rtn){
-//			cout << "toe init failed.";
-//			return -1;
-//		}
-//	}
 
 	struct sched_param param;
 	param.sched_priority = 99;
 	pid_t pid = getpid();
 	sched_setscheduler(pid,SCHED_RR,&param);
 
+	 install_sig_handlers();
+     maintenance::assemble();
 
 	struct sigaction intrc_handle;
 	intrc_handle.sa_handler = ctrlc_handler;

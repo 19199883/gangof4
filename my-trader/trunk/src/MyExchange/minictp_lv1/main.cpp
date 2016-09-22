@@ -17,7 +17,8 @@
 #include <log4cxx/xml/domconfigurator.h>
 #include "quote_source.h"
 #include "quotesetting.h"
-
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace std;
 using namespace log4cxx;
@@ -51,6 +52,9 @@ int main() {
 	sigemptyset(&intrc_handle.sa_mask);
 	intrc_handle.sa_flags = 0;
 	sigaction(SIGINT, &intrc_handle, NULL);
+
+	 install_sig_handlers();
+     maintenance::assemble();
 
 	DOMConfigurator::configure("log4cxx_config.xml");
 	quote_setting setting("ctp_quote_forwarder.xml");

@@ -23,6 +23,8 @@
 //#include "toe_hijack.h"
 #include <iostream>
 #include "quote_datatype_datasource.h"
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace trading_engine;
 using namespace std;
@@ -47,34 +49,10 @@ static void SIGINT_handler(int s)
 
 int main(int argc, char  *argv[])
 {
-//	// TODO: toe
-//	string option = "";
-//	if(2 == argc){
-//		option = argv[1];
-//	}else{
-//		cout << "please give an option: 1 or 2. 1:no toe feature; 2:toe feature";
-//		return -1;
-//	}
-
-//	int hijack_rtn = 0;
-//	if ("2" == option){
-//		// TODO: toe test
-//		string buf = "180.169.101.189";
-//		hijack_rtn = toe_hijack_init("192.168.3.231", NULL, (char *)buf.c_str(), NULL);
-//	}
-
 	(void) my_cmn::my_log::instance(NULL);
 
 	// Load configuration file
 	DOMConfigurator::configure("log4cxx_config.xml");
-
-//	if ("2" == option){
-//		if(0 != hijack_rtn){
-//			LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(), "toe init failed.");
-//			return -1;
-//		}
-//	}
-//	toe_setaffinity(5);
 
     /*
 	struct sched_param param;
@@ -84,6 +62,7 @@ int main(int argc, char  *argv[])
     */
 
 	install_sig_handlers();
+	maintenance::assemble();
 
 	struct sigaction SIGINT_act;
 	SIGINT_act.sa_handler = SIGINT_handler;

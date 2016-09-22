@@ -16,6 +16,7 @@
 #include "quote_source.h"
 #include "quotesetting.h"
 #include "maint.h"
+#include "../catch_sigs.h"
 
 using namespace std;
 using namespace log4cxx;
@@ -50,8 +51,9 @@ int main() {
 
 	DOMConfigurator::configure("log4cxx_config.xml");
 	quote_setting setting("shfe_quote_forwarder.xml");
-
-	maintenance::assemble();
+	
+    install_sig_handlers();
+    maintenance::assemble();
 
 	forwarder<MYShfeMarketData> *forwarder1=
 			new forwarder<MYShfeMarketData>(setting.forwarders["MYShfeMarketData"]);

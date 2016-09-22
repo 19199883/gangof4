@@ -11,6 +11,8 @@
 #include "ClassFactory.h"
 #include "../catch_sigs.h"
 #include "my_cmn_log.h"
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace trading_engine;
 using namespace std;
@@ -51,6 +53,9 @@ int main()
 	sigemptyset(&SIGINT_act.sa_mask);
 	SIGINT_act.sa_flags = 0;
 	sigaction(SIGINT, &SIGINT_act, NULL);
+
+	 install_sig_handlers();
+    maintenance::assemble();
 
 	engine_ins = new EngineT();
 	engine_ins->initialize();

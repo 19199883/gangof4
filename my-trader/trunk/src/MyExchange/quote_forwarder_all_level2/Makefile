@@ -37,7 +37,7 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=-lquote_forwarder_common -lboost_thread -lboost_filesystem -lboost_system \
-	-lqtm -ltinyxml -lpthread -llog4cxx -lthosttraderapi -lthostmduserfastapi -lthosttraderapi  \
+	-lqtm -ltinyxml -lpthread -llog4cxx -lthostmduserfastapi -lthosttraderapi  \
 	-lmy_common_v2 -lmy_quote_level2_minictp_lib -lutils
 
 DEPS:=.depends
@@ -91,8 +91,8 @@ dist:
 	-cp -varf $(CURDIR)/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cp -varf $(CURDIR)/*.key $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(CURDIR)/*.xml $(DIST_DIR)/$(PACKAGE_NAME)/
-	-cp -vaf $(TOP)/lib/quote/ctp_level2/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
-	-cp -vaf $(TOP)/lib/quote/ctp_level2/config/* $(DIST_DIR)/$(PACKAGE_NAME)/
+	-cp -vaf $(TOP)/lib/quote/minictp_level2/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
+	-cp -vaf $(TOP)/lib/quote/minictp_level2/config/* $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(TOP)/lib/common/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cd $(DIST_DIR); \
 		tar -cvjf $(PACKAGE_NAME)-$(VERSION).tar.bz2  $(PACKAGE_NAME)/*     

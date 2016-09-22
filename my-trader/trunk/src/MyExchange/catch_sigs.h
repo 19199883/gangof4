@@ -2,7 +2,6 @@
 
 #include <signal.h>     /* signal */
 #include <log4cxx/logger.h>
-#include "te/engine.h"
 
 using namespace log4cxx;
 using namespace log4cxx::xml;
@@ -62,7 +61,7 @@ SIGUSR1   30,10,16    Term    User-defined signal 1
 static void
 SIGUSR1_handler(int s)
 {
-	LOG4CXX_INFO(log4cxx::Logger::getRootLogger(),"SIGUSR1_handler was invoked.");
+//	LOG4CXX_INFO(log4cxx::Logger::getRootLogger(),"SIGUSR1_handler was invoked.");
 }
 
 /*
@@ -71,7 +70,7 @@ SIGUSR2   31,12,17    Term    User-defined signal 2
 static void
 SIGUSR2_handler(int s)
 {
-	LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "SIGUSR2_handler was invoked.");
+//	LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "SIGUSR2_handler was invoked.");
 }
 
 /*
@@ -182,12 +181,6 @@ static void install(struct sigaction &act,int sig)
 	case SIGTERM:
 		act.sa_handler = SIGTERM_handler;
 		break;
-	case SIGUSR1:
-		act.sa_handler = SIGUSR1_handler;
-		break;
-	case SIGUSR2:
-		act.sa_handler = SIGUSR2_handler;
-		break;
 	case SIGSTOP:
 		act.sa_handler = SIGSTOP_handler;
 		break;
@@ -218,6 +211,11 @@ static void install(struct sigaction &act,int sig)
 	case SIGIO:
 		act.sa_handler = SIGIO_handler;
 		break;
+
+	case SIGUSR1:
+		act.sa_handler = SIGUSR1_handler;
+		break;
+
 	}
 	
 	sigemptyset(&act.sa_mask);
@@ -252,8 +250,8 @@ static void install_sig_handlers()
 	install(SIGTERM_act, SIGTERM);
 
 	// SIGUSR1   30,10,16    Term    User-defined signal 1
-//	struct sigaction SIGUSR1_act;
-//	install(SIGUSR1_act, SIGUSR1);
+	struct sigaction SIGUSR1_act;
+	install(SIGUSR1_act, SIGUSR1);
 
 	// SIGUSR2   31,12,17    Term    User-defined signal 2
 //	struct sigaction SIGUSR2_act;

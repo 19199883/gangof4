@@ -22,6 +22,8 @@
 #include "my_cmn_log.h"
 #include "../catch_sigs.h"
 #include "stock_config_robot.h"
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace trading_engine;
 using namespace std;

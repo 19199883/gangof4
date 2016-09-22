@@ -17,6 +17,7 @@
 #include "ClassFactory.h"
 #include "my_cmn_log.h"
 #include "../catch_sigs.h"
+#include "maint.h"
 //#include "toe_hijack.h"
 
 using namespace trading_engine;
@@ -48,7 +49,8 @@ int main()
 	// Load configuration file
 	DOMConfigurator::configure("log4cxx_config.xml");
 
-	install_sig_handlers();
+    install_sig_handlers();
+    maintenance::assemble();
 
 	struct sigaction SIGINT_act;
 	SIGINT_act.sa_handler = SIGINT_handler;

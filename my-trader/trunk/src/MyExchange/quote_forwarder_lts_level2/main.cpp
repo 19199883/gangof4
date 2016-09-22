@@ -23,6 +23,8 @@
 #include <errno.h>
 //#include "kdb_quote_loader.h"
 //#include "quote_loader.h"
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace std;
 using namespace log4cxx;

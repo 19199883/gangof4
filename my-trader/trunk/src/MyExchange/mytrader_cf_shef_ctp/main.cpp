@@ -12,6 +12,8 @@
 #include "ClassFactory.h"
 #include "my_cmn_log.h"
 #include "../catch_sigs.h"
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace trading_engine;
 using namespace std;
@@ -48,6 +50,9 @@ int main()
 
     // Load configuration file
     DOMConfigurator::configure("log4cxx_config.xml");
+
+	install_sig_handlers(); 
+    maintenance::assemble();
 
     struct sigaction SIGINT_act;
     SIGINT_act.sa_handler = SIGINT_handler;

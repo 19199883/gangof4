@@ -251,6 +251,23 @@ else
 fi
 cd ../../../
 
+PROJECT=quote_forwarder_dce_level2
+cd "${TOP}src/MyExchange/${PROJECT}/"
+echo ${MAKE_FILE}
+make  distclean
+if (make all)
+then
+    echo "${PROJECT} building succeeded"
+    make dist
+else
+    echo "${PROJECT} building failed"
+    echo <&1
+    return
+fi
+cd ../../../
+
+		
+
 #PROJECT=quote_forwarder_lts_option
 #cd "${TOP}src/MyExchange/${PROJECT}/"
 #echo ${MAKE_FILE}

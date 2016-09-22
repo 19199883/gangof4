@@ -18,7 +18,8 @@
 #include <log4cxx/xml/domconfigurator.h>
 #include "quote_source.h"
 #include "quotesetting.h"
-
+#include "../catch_sigs.h"
+#include "maint.h"
 
 using namespace std;
 using namespace log4cxx;
