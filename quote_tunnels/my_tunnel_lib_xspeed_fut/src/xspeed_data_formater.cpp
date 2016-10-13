@@ -222,12 +222,10 @@ std::string XSpeedDatatypeFormater::ToString(const DFITCQuoteSubscribeField* p)
         snprintf(buf, sizeof(buf), "structName=DFITCQuoteSubscribeField\n"
             "    lRequestID=%ld\n"
             "    accountID=%s\n"
-            "    exchangeID=%s\n"
-            "    instrumentType=%d\n",
+            "    exchangeID=%s\n",
             p->lRequestID,                   //请求ID
             p->accountID,                    //资金账号
-            p->exchangeID,                   //交易所
-            p->instrumentType);              //合约类型
+            p->exchangeID);                   //交易所              
 
     }
     else
@@ -251,8 +249,7 @@ std::string XSpeedDatatypeFormater::ToString(const DFITCQuoteUnSubscribeField* p
         	"    instrumentType=%d\n",
             p->lRequestID,                   //请求ID
             p->accountID,                    //资金账号
-            p->exchangeID,                   //交易所
-			p->instrumentType                //合约类型
+            p->exchangeID                   //交易所
             );
     }
     else
@@ -285,8 +282,7 @@ std::string XSpeedDatatypeFormater::ToString(const DFITCQuoteInsertField* p)
             "    sOpenCloseType=%d\n"
             "    bSpeculator=%d\n"
             "    sSpeculator=%d\n"
-            "    stayTime=%d\n"
-        	"    buySellType=%d\n",
+            "    stayTime=%d\n",
             p->accountID,                    //资金账号
             p->lRequestID,                   //请求ID
             p->localOrderID,                 //本地委托号
@@ -302,8 +298,7 @@ std::string XSpeedDatatypeFormater::ToString(const DFITCQuoteInsertField* p)
             p->sOpenCloseType,               //开平标志（卖）
             p->bSpeculator,                  //投资类别（买）
             p->sSpeculator,                  //投资类别（卖）
-            p->stayTime,                     //停留时间，仅支持郑州。其它情况可设置为0
-            p->buySellType                   //买卖标志
+            p->stayTime                     //停留时间，仅支持郑州。其它情况可设置为0
             );
     }
     else
@@ -764,9 +759,7 @@ std::string XSpeedDatatypeFormater::ToString(const DFITCMatchedRtnField* p)
             p->matchType,                    //成交类型
             p->instrumentType,               //合约类型
             p->customCategory,               //自定义类别
-            p->fee,                          //手续费
-            p->reservedType1,                //预留字段1
-            p->reservedType2                 //预留字段2
+            p->fee                          //手续费
             );
     }
     else

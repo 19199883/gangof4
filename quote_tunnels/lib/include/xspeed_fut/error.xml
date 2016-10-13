@@ -1,136 +1,173 @@
-ï»¿<?xml version="1.0" encoding="gb2312"?>
+<?xml version="1.0" encoding="gb2312"?>
 <!-- edited with XMLSPY v2004 rel. 4 U -->
 <!DOCTYPE errors SYSTEM "error.dtd">
 <errors>
 <!-- add for begin -->
-	<error id="NONE" 						value="0"      prompt="XSPEED:æ­£ç¡®"/>
-	<error id="UNKNOWN_ERR" 		value="-1"     prompt="XSPEED:æœªçŸ¥é”™è¯¯"/>
-	<error id="LONG_ACCNTID" 		value="-2"     prompt="XSPEED:è¾“å…¥çš„èµ„é‡‘è´¦å·è¶…è¿‡12ä½,è¯·é‡æ–°è¾“å…¥"/>
-	<error id="INVAL_FEILD"			value="-3"     prompt="XSPEED:%sä¸­åŒ…å«éžæ³•å­—ç¬¦"/>
-	<error id="INVAL_CMD" 			value="-9"     prompt="XSPEED:æ— æ•ˆçš„æŒ‡ä»¤"/>
-	<error id="FAST_RATE_QRY"		value="-11"    prompt="XSPEED:æŸ¥è¯¢çš„é¢‘çŽ‡è¿‡å¿«,æœ¬æ¬¡æŸ¥è¯¢æ“ä½œä¸æˆåŠŸ"/>
-	<error id="FAST_RATE_ORD" 	value="-12"    prompt="XSPEED:æŠ¥å•çš„é¢‘çŽ‡è¿‡å¿«,æœ¬æ¬¡æŠ¥å•æ“ä½œä¸æˆåŠŸ"/>
-	<error id="ATTACK_ERR" 			value="-13"    prompt="XSPEED:éžæ³•è¯·æ±‚å¤šæ¬¡ï¼Œå‰ç½®æœºå°†æ–­å¼€è¿žæŽ¥"/>
-	<error id="LOW_API" 				value="-14"    prompt="XSPEED:æ‚¨ä½¿ç”¨çš„APIç‰ˆæœ¬å·è¿‡ä½Žï¼Œè¯·å‡çº§"/>
-	<error id="LOW_FRONT" 			value="-15"    prompt="XSPEED:æ‚¨è¿žæŽ¥çš„å‰ç½®(V%d)ç‰ˆæœ¬è¿‡ä½Žï¼Œè¯·ä½¿ç”¨æ­£ç¡®çš„APIç‰ˆæœ¬"/>
-	<error id="INVAL_TD_FRONT" 	value="-16"    prompt="XSPEED:å°è¯•è¿žæŽ¥åˆ°éžäº¤æ˜“å‰ç½®æœº"/>
-	<error id="INVAL_MD_FRONT" 	value="-17"    prompt="XSPEED:å°è¯•è¿žæŽ¥åˆ°éžè¡Œæƒ…å‰ç½®æœº"/>
-	<error id="MD_NO_MULTICAST" value="-18"    prompt="XSPEED:è¡Œæƒ…å‰ç½®æœªé…ç½®ç»„æ’­æ–¹å¼å‘é€è¡Œæƒ…"/>
-	<error id="NOT_SUPPORT_CUSTMD" value="-19" prompt="XSPEED:æ‚¨è¿žæŽ¥çš„è¡Œæƒ…å‰ç½®æš‚ä¸æ”¯æŒç»„åˆè¡Œæƒ…åŠŸèƒ½"/>
-	<error id="NOT_LOGIN" 			value="-31"     	prompt="XSPEED:æœªç™»å½•"/>
-	<error id="DUP_LOGIN" 			value="-32"     	prompt="XSPEED:è¯¥è´¦æˆ·[%s]å·²ç™»å½•"/>
-	<error id="LOGIN_LMT" 			value="-33"     	prompt="XSPEED:è¯¥è´¦å·[%s]å·²è¾¾åˆ°æœ€å¤§ç™»å½•æ¬¡æ•°é™åˆ¶,è¯·ä½¿ç”¨å…¶å®ƒè´¦å·"/>
-	<error id="FAIL_EXCHG_TM" 	value="-34"     	prompt="XSPEED:èŽ·å–äº¤æ˜“æ‰€æ—¶é—´å¤±è´¥ï¼Œè¯·å°è¯•é‡æ–°ç™»å½•èŽ·å–æ—¶é—´"/>
-	<error id="DUP_LOGOUT" 			value="-35"     	prompt="XSPEED:æœªç™»å½•æˆ–å·²ç™»å‡º"/>
-	<error id="LOGOUT_FAIL" 		value="-36"     	prompt="XSPEED:ç™»å‡ºå¤±è´¥æˆ–å·²ç™»å‡º,è¯·æ£€æŸ¥"/>
-	<error id="TD_SVR_LMT" 			value="-37"     	prompt="XSPEED:æœåŠ¡å™¨æ€§èƒ½å·²è¾¾é™åˆ¶,è¯·ç¨åŽå†è¯•"/>
-	<error id="INVAL_CONTRACT" 	value="-38"     	prompt="XSPEED:æ— æ•ˆçš„åˆçº¦"/>
-	<error id="EMPTY_CONTRACT" 	value="-39"     	prompt="XSPEED:åˆçº¦ä¸ºç©º"/>
-	<error id="NO_SUBED_CONT" 	value="-40"     	prompt="XSPEED:æœªè®¢é˜…æˆ–å·²é€€è®¢è¯¥åˆçº¦:%s"/>
-	<error id="NO_KHH_TO_ORDID" value="-50"     	prompt="XSPEED:æ‰¾ä¸åˆ°è¯¥èµ„é‡‘è´¦å·æ‰€å¯¹åº”çš„æ’¤å•å§”æ‰˜å·(%s)"/>
-	<error id="INVAL_CONT_TO_ORDID" value="-51" 	prompt="XSPEED:è¯¥åˆçº¦å’ŒæŸœå°å§”æ‰˜å·ä¸åŒ¹é…"/>
-	<error id="NO_ORDID_TO_CONT" 		value="-52" 	prompt="XSPEED:æ‰¾ä¸åˆ°è¯¥åˆçº¦å¯¹åº”çš„æŸœå°å§”æ‰˜å·"/>
-	<error id="NO_ORD_TO_LOCALID" 	value="-53" 	prompt="XSPEED:æ‰¾ä¸åˆ°æœ¬åœ°å§”æ‰˜å·å¯¹åº”çš„å§”æ‰˜ä¿¡æ¯"/>
-	<error id="INVAL_LOCALID_CONT" 	value="-54" 	prompt="XSPEED:è¯¥åˆçº¦å’Œæœ¬åœ°å§”æ‰˜å·ä¸åŒ¹é…"/>
-	<error id="EMPTY_ORD_ID" 				value="-55" 	prompt="XSPEED:æœ¬åœ°å§”æ‰˜å·å’ŒæŸœå°å§”æ‰˜å·éƒ½ä¸ºç©º"/>
-	<error id="NO_TRADE_CODE" 			value="-56" 	prompt="XSPEED:æ‰¾ä¸åˆ°å¯ä»¥äº¤æ˜“çš„äº¤æ˜“ç¼–ç "/>
-	<error id="CHK_COND_CONFIG" 		value="-57" 	prompt="XSPEED:è¯·æ£€æŸ¥æ¡ä»¶å•é…ç½®æ–‡ä»¶"/>
-	<error id="NO_ORD_TO_CONDID" 		value="-58" 	prompt="XSPEED:æ‰¾ä¸åˆ°è¯¥ç®—æ³•å•ç¼–å·å¯¹åº”çš„å§”æ‰˜ä¿¡æ¯"/>
-	<error id="INVAL_CONDID_CONT" 	value="-59" 	prompt="XSPEED:è¯¥åˆçº¦ä¸Žç®—æ³•å•ç¼–å·ä¸åŒ¹é…"/>
-	<error id="DUP_LOCAL_ID" 				value="-80" 	prompt="XSPEED:æœ¬åœ°å§”æ‰˜å·å·²ç»å­˜åœ¨"/>
-	<error id="INVAL_ORD_TYPE" 			value="-81" 	prompt="XSPEED:æ— æ•ˆçš„æŠ¥å•ç±»åž‹"/>
-	<error id="INVAL_CONT_TYPE" 		value="-82" 	prompt="XSPEED:æ— æ•ˆçš„åˆçº¦ç±»åž‹"/>
-	<error id="INVAL_PROP_TO_ARBI" 	value="-83" 	prompt="XSPEED:å¥—åˆ©æˆ–å±•æœŸäº’æ¢å§”æ‰˜å•ä¸æ”¯æŒå¸¦å±žæ€§çš„å®šå•"/>
-	<error id="INVAL_INVEST_TYPE" 	value="-84" 	prompt="XSPEED:æ— æ•ˆçš„æŠ•ä¿ç±»åž‹:%s"/>
-	<error id="INVAL_BS_FLAG" 			value="-85" 	prompt="XSPEED:æ— æ•ˆçš„ä¹°å–æ ‡å¿—:%s"/>
-	<error id="INVAL_OC_FLAG" 			value="-86" 	prompt="XSPEED:æ— æ•ˆçš„å¼€å¹³æ ‡å¿—:%s"/>
-	<error id="INVAL_AUTOORD_FLAG" 	value="-87" 	prompt="XSPEED:æ— æ•ˆçš„è‡ªåŠ¨å•çš„æ ‡å¿—:%s"/>
-	<error id="INVAL_ORD_PROPERTY" 	value="-88" 	prompt="XSPEED:æ— æ•ˆçš„è®¢å•å±žæ€§:%s"/>
-	<error id="NEGTIVE_LOCALID" 		value="-89" 	prompt="XSPEED:æœ¬åœ°å§”æ‰˜å·ä¸èƒ½ä¸ºè´Ÿå€¼"/>
-	<error id="INVAL_ORDTYPE_TO_CONT" value="-90"	prompt="XSPEED:ä¸‹å•ç±»åž‹å’Œåˆçº¦ä¸åŒ¹é…"/>
-	<error id="INVAL_CONT_TO_TYPE" 	value="-91"   prompt="XSPEED:æ— æ•ˆçš„åˆçº¦:%s,æˆ–åˆçº¦ä¸Žåˆçº¦ç±»åž‹ä¸åŒ¹é…"/>
-	<error id="INVAL_CONDORD_TYPE" 	value="-100"  prompt="XSPEED:æ— æ•ˆçš„æ¡ä»¶å•ç±»åž‹"/>
-	<error id="INVAL_TRIGGER_TM" 		value="-101"  prompt="XSPEED:æ¡ä»¶å•è§¦å‘æ—¶é—´ä¸æ­£ç¡®"/>
-	<error id="SEND_ERR_DATA" 			value="-102"  prompt="XSPEED:å‘é€æ•°æ®é”™è¯¯,è¯·æ£€æŸ¥"/>
-	<error id="INVAL_COND_ARBI_ORD" value="-103"  prompt="XSPEED:ç®—æ³•å•,æš‚æ—¶ä¸æ”¯æŒè‡ªå®šå¥—åˆ©è®¢å•"/>
-	<error id="INVAL_CONDORD_TYPE2" value="-104"  prompt="XSPEED:ç®—æ³•å•,æš‚æ—¶ä¸æ”¯æŒæ­¤ä¸‹å•ç±»åž‹:[å±•æœŸäº’æ¢å§”æ‰˜]å’Œ[å¥—åˆ©å§”æ‰˜]"/>
-	<error id="INVAL_COND_CONTRACT" value="-105"  prompt="XSPEED:ç®—æ³•å•,æœ‰æ•ˆå¥—åˆ©åˆçº¦æ ¼å¼:[ASP åˆçº¦&amp;åˆçº¦]"/>
-	<error id="INVAL_BUTTFLY_CONT" 	value="-106"  prompt="XSPEED:æ— æ•ˆçš„è¶å¼åˆçº¦æ—¶é—´æŽ’åˆ—é¡ºåº"/>
-	<error id="INVAL_EXCHG" 				value="-200"  prompt="XSPEED:æ— æ•ˆçš„äº¤æ˜“æ‰€ä»£ç :%s"/>
-	<error id="INVAL_EXCHG_TO_CONT" value="-201"  prompt="XSPEED:äº¤æ˜“æ‰€å’Œåˆçº¦ä¸åŒ¹é…"/>
-	<error id="NO_CONT_INFO" 				value="-202"  prompt="XSPEED:æœªæ‰¾åˆ°è¯¥åˆçº¦çš„åˆçº¦ä¿¡æ¯:%s"/>
-	<error id="INVAL_TRADE_CODE" 		value="-203"  prompt="XSPEED:äº¤æ˜“ç¼–ç æ— æ•ˆæˆ–ä¸ºç©º"/>
-	<error id="INVAL_ORD_ID" 				value="-204"  prompt="XSPEED:è¯·æ£€æŸ¥æŸœå°å§”æ‰˜å·"/>
-	<error id="INVAL_NEW_PWD" 			value="-205"  prompt="XSPEED:æ–°å¯†ç é•¿åº¦ä¸èƒ½è¶…è¿‡16ä½,ä¸”å¿…é¡»ä¸ºæ•°å­—æˆ–å­—æ¯"/>
-	<error id="EMPTY_DATA" 					value="-206"  prompt="XSPEED:æŸ¥è¯¢æ•°æ®ç»“æžœä¸ºç©º"/>
-	<error id="EMPTY_CONFIRM_DATE" 	value="-207"  prompt="XSPEED:è¯·æ±‚ç¡®è®¤æ—¥æœŸä¸ºç©º"/>
-	<error id="INVAL_CONFIRM_DATE" 	value="-208"  prompt="XSPEED:è¯·è¾“å…¥æ­£ç¡®çš„æ—¥æœŸ,æ ¼å¼:yyyy.mm.dd"/>
-	<error id="INVAL_CONFIRM_FLAG" 	value="-209"  prompt="XSPEED:æ— æ•ˆçš„ç¡®è®¤æ ‡å¿—"/>
+    <error id="NONE"                         value="0"       prompt="XSPEED:ÕýÈ·"/>
+    <error id="UNKNOWN_ERR"                  value="-1"      prompt="XSPEED:Î´Öª´íÎó"/>
+    <error id="LONG_ACCNTID"                 value="-2"      prompt="XSPEED:ÊäÈëµÄ×Ê½ðÕËºÅ³¬¹ý12Î»,ÇëÖØÐÂÊäÈë"/>
+    <error id="INVAL_FEILD"                  value="-3"      prompt="XSPEED:%sÖÐ°üº¬·Ç·¨×Ö·û"/>
+    <error id="INVAL_PRICE"                  value="-4"      prompt="XSPEED:%sÎªÎÞÐ§µÄ¼Û¸ñ"/>
+    <error id="INVAL_CMD"                    value="-9"      prompt="XSPEED:ÎÞÐ§µÄÖ¸Áî"/>
+    <error id="FAST_RATE_QRY"                value="-11"     prompt="XSPEED:²éÑ¯µÄÆµÂÊ¹ý¿ì,±¾´Î²éÑ¯²Ù×÷²»³É¹¦"/>
+    <error id="FAST_RATE_ORD"                value="-12"     prompt="XSPEED:±¨µ¥µÄÆµÂÊ¹ý¿ì,±¾´Î±¨µ¥²Ù×÷²»³É¹¦"/>
+    <error id="ATTACK_ERR"                   value="-13"     prompt="XSPEED:·Ç·¨ÇëÇó¶à´Î£¬Ç°ÖÃ»ú½«¶Ï¿ªÁ¬½Ó"/>
+    <error id="LOW_API"                      value="-14"     prompt="XSPEED:ÄúÊ¹ÓÃµÄAPI°æ±¾ºÅ¹ýµÍ£¬ÇëÉý¼¶"/>
+    <error id="LOW_FRONT"                    value="-15"     prompt="XSPEED:ÄúÁ¬½ÓµÄÇ°ÖÃ(V%d)°æ±¾¹ýµÍ£¬ÇëÊ¹ÓÃÕýÈ·µÄAPI°æ±¾"/>
+    <error id="INVAL_TD_FRONT"               value="-16"     prompt="XSPEED:³¢ÊÔÁ¬½Óµ½·Ç½»Ò×Ç°ÖÃ»ú"/>
+    <error id="INVAL_MD_FRONT"               value="-17"     prompt="XSPEED:³¢ÊÔÁ¬½Óµ½·ÇÐÐÇéÇ°ÖÃ»ú"/>
+    <error id="MD_NO_MULTICAST"              value="-18"     prompt="XSPEED:ÐÐÇéÇ°ÖÃÎ´ÅäÖÃ×é²¥·½Ê½·¢ËÍÐÐÇé"/>
+    <error id="NOT_SUPPORT_CUSTMD"           value="-19"     prompt="XSPEED:ÄúÁ¬½ÓµÄÐÐÇéÇ°ÖÃÔÝ²»Ö§³Ö×éºÏÐÐÇé¹¦ÄÜ"/>
+    <error id="MAX_SESSION_LIMIT"            value="-30"     prompt="XSPEED:ÓÃ»§ÔÚÏß»á»°³¬³öÉÏÏÞ"/>
+    <error id="NOT_LOGIN"                    value="-31"     prompt="XSPEED:Î´µÇÂ¼"/>
+    <error id="DUP_LOGIN"                    value="-32"     prompt="XSPEED:¸ÃÕË»§[%s]ÒÑµÇÂ¼"/>
+    <error id="LOGIN_LMT"                    value="-33"     prompt="XSPEED:¸ÃÕËºÅ[%s]ÒÑ´ïµ½×î´óµÇÂ¼´ÎÊýÏÞÖÆ,ÇëÊ¹ÓÃÆäËüÕËºÅ"/>
+    <error id="FAIL_EXCHG_TM"                value="-34"     prompt="XSPEED:»ñÈ¡½»Ò×ËùÊ±¼äÊ§°Ü£¬Çë³¢ÊÔÖØÐÂµÇÂ¼»ñÈ¡Ê±¼ä"/>
+    <error id="DUP_LOGOUT"                   value="-35"     prompt="XSPEED:Î´µÇÂ¼»òÒÑµÇ³ö"/>
+    <error id="LOGOUT_FAIL"                  value="-36"     prompt="XSPEED:µÇ³öÊ§°Ü»òÒÑµÇ³ö,Çë¼ì²é"/>
+    <error id="TD_SVR_LMT"                   value="-37"     prompt="XSPEED:·þÎñÆ÷ÐÔÄÜÒÑ´ïÏÞÖÆ,ÇëÉÔºóÔÙÊÔ"/>
+    <error id="INVAL_CONTRACT"               value="-38"     prompt="XSPEED:ÎÞÐ§µÄºÏÔ¼"/>
+    <error id="EMPTY_CONTRACT"               value="-39"     prompt="XSPEED:ºÏÔ¼Îª¿Õ"/>
+    <error id="NO_SUBED_CONT"                value="-40"     prompt="XSPEED:Î´¶©ÔÄ»òÒÑÍË¶©¸ÃºÏÔ¼:%s"/>
+    <error id="INVAL_PRICE2"                 value="-41"     prompt="XSPEED:ÎÞÐ§µÄ¼Û¸ñ"/>
+    <error id="NO_KHH_TO_ORDID"              value="-50"     prompt="XSPEED:ÕÒ²»µ½¸Ã×Ê½ðÕËºÅËù¶ÔÓ¦µÄ³·µ¥Î¯ÍÐºÅ(%s)"/>
+    <error id="INVAL_CONT_TO_ORDID"          value="-51"     prompt="XSPEED:¸ÃºÏÔ¼ºÍ¹ñÌ¨Î¯ÍÐºÅ²»Æ¥Åä"/>
+    <error id="NO_ORDID_TO_CONT"             value="-52"     prompt="XSPEED:ÕÒ²»µ½¸ÃºÏÔ¼¶ÔÓ¦µÄ¹ñÌ¨Î¯ÍÐºÅ"/>
+    <error id="NO_ORD_TO_LOCALID"            value="-53"     prompt="XSPEED:ÕÒ²»µ½±¾µØÎ¯ÍÐºÅ¶ÔÓ¦µÄÎ¯ÍÐÐÅÏ¢"/>
+    <error id="INVAL_LOCALID_CONT"           value="-54"     prompt="XSPEED:¸ÃºÏÔ¼ºÍ±¾µØÎ¯ÍÐºÅ²»Æ¥Åä"/>
+    <error id="EMPTY_ORD_ID"                 value="-55"     prompt="XSPEED:±¾µØÎ¯ÍÐºÅºÍ¹ñÌ¨Î¯ÍÐºÅ¶¼Îª¿Õ"/>
+    <error id="NO_TRADE_CODE"                value="-56"     prompt="XSPEED:ÕÒ²»µ½¿ÉÒÔ½»Ò×µÄ½»Ò×±àÂë"/>
+    <error id="CHK_COND_CONFIG"              value="-57"     prompt="XSPEED:Çë¼ì²éÌõ¼þµ¥ÅäÖÃÎÄ¼þ"/>
+    <error id="NO_ORD_TO_CONDID"             value="-58"     prompt="XSPEED:ÕÒ²»µ½¸ÃËã·¨µ¥±àºÅ¶ÔÓ¦µÄÎ¯ÍÐÐÅÏ¢"/>
+    <error id="INVAL_CONDID_CONT"            value="-59"     prompt="XSPEED:¸ÃºÏÔ¼ÓëËã·¨µ¥±àºÅ²»Æ¥Åä"/>
+    <error id="IN_DECLARATION"               value="-60"     prompt="XSPEED:Éê±¨ÖÐ£¬ÇëÉÔºóÔÙ³·"/>
+    <error id="NOT_SUP_CANCEL_ALL"           value="-61"     prompt="XSPEED:¸Ã½»Ò×Ëù²»Ö§³ÖÅúÁ¿³·µ¥Ö¸Áî"/>
+    <error id="INVAL_TIME_CANCEL_ALL"        value="-62"     prompt="XSPEED:·Ç½»Ò×Ê±¼ä,½ûÖ¹ÅúÁ¿³·µ¥"/>
+    <error id="DUP_LOCAL_ID"                 value="-80"     prompt="XSPEED:±¾µØÎ¯ÍÐºÅÒÑ¾­´æÔÚ"/>
+    <error id="INVAL_ORD_TYPE"               value="-81"     prompt="XSPEED:ÎÞÐ§µÄ±¨µ¥ÀàÐÍ"/>
+    <error id="INVAL_CONT_TYPE"              value="-82"     prompt="XSPEED:ÎÞÐ§µÄºÏÔ¼ÀàÐÍ"/>
+    <error id="INVAL_PROP_TO_ARBI"           value="-83"     prompt="XSPEED:Ì×Àû»òÕ¹ÆÚ»¥»»Î¯ÍÐµ¥²»Ö§³Ö´øÊôÐÔµÄ¶¨µ¥"/>
+    <error id="INVAL_INVEST_TYPE"            value="-84"     prompt="XSPEED:ÎÞÐ§µÄÍ¶±£ÀàÐÍ"/>
+    <error id="INVAL_BS_FLAG"                value="-85"     prompt="XSPEED:ÎÞÐ§µÄÂòÂô±êÖ¾"/>
+    <error id="INVAL_OC_FLAG"                value="-86"     prompt="XSPEED:ÎÞÐ§µÄ¿ªÆ½±êÖ¾"/>
+    <error id="INVAL_AUTOORD_FLAG"           value="-87"     prompt="XSPEED:ÎÞÐ§µÄ×Ô¶¯µ¥µÄ±êÖ¾"/>
+    <error id="INVAL_ORD_PROPERTY"           value="-88"     prompt="XSPEED:ÎÞÐ§µÄ¶©µ¥ÊôÐÔ"/>
+    <error id="NEGTIVE_LOCALID"              value="-89"     prompt="XSPEED:±¾µØÎ¯ÍÐºÅ²»ÄÜÎª¸ºÖµ"/>
+    <error id="INVAL_ORDTYPE_TO_CONT"        value="-90"     prompt="XSPEED:ÏÂµ¥ÀàÐÍºÍºÏÔ¼²»Æ¥Åä"/>
+    <error id="INVAL_CONT_TO_TYPE"           value="-91"     prompt="XSPEED:ºÏÔ¼ÓëºÏÔ¼ÀàÐÍ²»Æ¥Åä"/>
+    <error id="OPENING_BANNED_AUTO"          value="-92"     prompt="XSPEED:Á¬Ðø½»Ò×ÆÚ¼ä,½ûÖ¹ÏÂ¿ªÊÐ×Ô¶¯µ¥"/>
+    <error id="PROFITLOSSPRICE_BUY"          value="-93"     prompt="XSPEED:ÂòÖ¹Ó¯£¨Ëð£©¼Û¸ñ±ØÐëÐ¡ÓÚÎ¯ÍÐ¼Û¸ñ"/>
+    <error id="PROFITLOSSPRICE_SELL"         value="-94"     prompt="XSPEED:ÂôÖ¹Ó¯£¨Ëð£©¼Û¸ñ±ØÐë´óÓÚÎ¯ÍÐ¼Û¸ñ"/>
+    <error id="NOT_SUPPORT_OPT_PROFITLOSS"   value="-95"     prompt="XSPEED:ÔÝ²»Ö§³ÖÆÚÈ¨Ö¹Ó¯£¨Ëð£©Ö¸Áî"/>
+    <error id="ORD_PROPERTY_BY_ZJ"           value="-96"     prompt="XSPEED:½öÖÐ½ðËùÊÐ¼Ûµ¥Ö§³Ö¸Ã¶©µ¥ÊôÐÔ"/>
+    <error id="ONLY_OPT_CON"                 value="-98"     prompt="XSPEED:Ñ¯¼ÛÖ¸Áî½öÖ§³ÖÆÚÈ¨ºÏÔ¼"/>
+    <error id="SEND_ERR_DATA"                value="-102"    prompt="XSPEED:·¢ËÍÊý¾Ý´íÎó,Çë¼ì²é"/>
+    <error id="UNSUPPORT_CMD"                value="-110"    prompt="XSPEED:¸Ã¼«ËÙ°æXSpeed²»Ö§³Ö´Ë½»Ò×Ö¸Áî"/>
+    <error id="FORBID_POSITION"              value="-114"    prompt="XSPEED:¸Ã¿Í»§½ûÖ¹¿ª²Ö"/>
+    <error id="INVAL_COMPARE_TYPE"           value="-120"    prompt="XSPEED:ÎÞÐ§µÄ±È½Ï±êÖ¾"/>
+    <error id="INVAL_PRICE_REF"              value="-121"    prompt="XSPEED:ÎÞÐ§µÄ¼Û¸ñ²ÎÕÕ"/>
+    <error id="INVAL_JOIN_TYPE"              value="-122"    prompt="XSPEED:ÎÞÐ§µÄ¹ØÁªÊôÐÔ"/>
+    <error id="INVAL_JOIN_NUM"               value="-123"    prompt="XSPEED:ÎÞÐ§µÄ¹ØÁª±àºÅ"/>
+    <error id ="INVAL_INSERT_AMOUNT"         value="-124"    prompt="XSPEED:Î¯ÍÐÊýÁ¿ÎÞÐ§"/>
+    <error id="INVAL_EFFECT_DATE"            value="-125"    prompt="XSPEED:ÎÞÐ§µÄÓÐÐ§ÈÕÆÚ"/>
+    <error id="INVAL_FREEZING_TYPE"          value="-126"    prompt="XSPEED:ÎÞÐ§¶³½áÀàÐÍ"/>
+    <error id="INVAL_BREAKDOWN_TIMES"        value="-127"    prompt="XSPEED:ÎÞÐ§µÄ»÷´©´ÎÊý"/>
+    <error id="INVAL_FLOAT_PRICE"            value="-128"    prompt="XSPEED:¸ÃºÏÔ¼±ä¶¯¼Û¸ñÓÐÎó"/>
+    <error id="INVAL_BREAKDOWN_TYPE"         value="-129"    prompt="XSPEED:ÎÞÐ§µÄ»÷´©ÊôÐÔÀàÐÍ"/>
+    <error id="INVAL_EXTORDER_TYPE"          value="-130"    prompt="XSPEED:ÎÞÐ§µÄÌõ¼þµ¥ÀàÐÍ"/>
+    <error id="INVAL_LIMIT_NUMBER"           value="-131"    prompt="XSPEED:ÎÞÐ§µÄÊýÁ¿ÏÞÖÆ"/>
 
-	<error id="EMPTY_PASSWORD_LOGIN" value="-1006"     prompt="XSPEED:ç³»ç»Ÿä¸å…è®¸ç©ºå¯†ç ç™»å½•"/>
-	<error id="CUSTOMER_ID_UNEXIST"  value="-1102"     prompt="XSPEED:å®¢æˆ·å·[%s]ä¸å­˜åœ¨"/>
-	<error id="INVAL_TRADE_PWD"      value="-1103"     prompt="XSPEED:äº¤æ˜“å¯†ç æœ‰è¯¯"/>
-	<error id="INVAL_TRADE_CATEGORY" value="-1601"     prompt="XSPEED:æ— æ•ˆçš„äº¤æ˜“ç±»åˆ«"/>
-	<error id="INVAL_OC_FLAG"        value="-1602"     prompt="XSPEED:æ— æ•ˆçš„å¼€å¹³æ ‡å¿—,è¯¥äº¤æ˜“æ‰€åªèƒ½å¼€ä»“æˆ–å¹³ä»“"/>
-	<error id="INVAL_INVEST_CATEGORY" value="-1603"     prompt="XSPEED:æ— æ•ˆçš„æŠ•èµ„ç±»åˆ«,è¯¥äº¤æ˜“æ‰€åªèƒ½æŠ•æœºæˆ–å¥—ä¿äº¤æ˜“"/>
-	<error id="TRADE_CODE_UNEXIST"   value="-1607"     prompt="XSPEED:äº¤æ˜“ç¼–ç ä¸å­˜åœ¨"/>
-	<error id="TRADE_CODE_ERR"       value="-1608"     prompt="XSPEED:äº¤æ˜“ç¼–ç å¯¹åº”è¯¥é”™è¯¯"/>
-	<error id="TRADE_CODE_FROZEN"    value="-1609"     prompt="XSPEED:è¯¥äº¤æ˜“ç¼–ç å·²å†»ç»“,ä¸èƒ½äº¤æ˜“"/>
-	<error id="FORBID_OPEN_POSITION" value="-1610"     prompt="XSPEED:è¯¥äº¤æ˜“ç¼–ç ç¦æ­¢å¼€æ–°ä»“"/>
-	<error id="CUSTOMER_ID_UNEXIST"  value="-1611"     prompt="XSPEED:è¯¥äº¤æ˜“ç¼–ç æ‰€å¯¹åº”çš„å®¢æˆ·å·ä¸å­˜åœ¨"/>
-	<error id="CONTEACT_MODE_ERR"     value="-1612"     prompt="XSPEED:è¯¥å®¢æˆ·ä¸èƒ½é€šè¿‡æ­¤ç§å§”æ‰˜æ–¹å¼å§”æ‰˜"/>
-	<error id="FORBID_TRADE"          value="-1613"     prompt="XSPEED:è¯¥å®¢æˆ·çŠ¶æ€å¼‚å¸¸,ä¸èƒ½äº¤æ˜“"/>
-	<error id="FORBID_OC_POSITION"    value="-1614"     prompt="XSPEED:è¯¥å®¢æˆ·ç¦æ­¢å¼€ä»“/è¯¥å®¢æˆ·ç¦æ­¢å¹³ä»“"/>
-	<error id="INVAL_CONTRACT_ID"     value="-1619"     prompt="XSPEED:åˆçº¦ä»£ç æ— æ•ˆ,ä¸èƒ½å§”æ‰˜"/>
-	<error id="CONTEACT_ID_NO_TRADE"  value="-1620"     prompt="XSPEED:è¯¥åˆçº¦ä»£ç çŽ°åœ¨ä¸èƒ½äº¤æ˜“"/>
-	<error id="FORBID_OC_POSITION"    value="-1621"     prompt="XSPEED:è¯¥åˆçº¦ä»£ç çŽ°åœ¨ç¦æ­¢æ–°å¼€ä»“"/>
-	<error id="ZERO_FLOAT_PRICE" value="-1622"     prompt="XSPEED:è¯¥åˆçº¦ä»£ç å‚æ•°ä¸­å˜åŠ¨ä»·ä½ä¸º0,ä¸èƒ½äº¤æ˜“"/>
-	<error id="CHANGE_PRICE"           value="-1623"     prompt="XSPEED:è¯¥åˆçº¦ä»£ç çš„äº¤æ˜“å˜åŠ¨ä»·æ ¼æ˜¯%lf"/>
-	<error id="INVAL_CONTEACT_AMOUNT"  value="-1624"     prompt="XSPEED:å§”æ‰˜æ•°é‡æ— æ•ˆ"/>
-	<error id="INVAL_CONTRACT_ID"      value="-1625"     prompt="XSPEED:åˆçº¦ä»£ç æ— æ•ˆ,åˆçº¦ä¸­çš„æ¯æ‰‹å•ä½ä¸ºç©º"/>
-	<error id="FORBID_TRADECODE_ON_VARIETY" value="-1626"     prompt="XSPEED:è¯¥äº¤æ˜“ç¼–ç ç¦æ­¢äº¤æ˜“è¯¥å“ç§"/>
-	<error id="INVAL_CONTEACT_AMOUNT"  value="-1267"     prompt="XSPEED:å§”æ‰˜æ•°é‡æ— æ•ˆ,åº”è¯¥æ˜¯å¼€ä»“å•ä½çš„æ•´æ•°å€"/>	
-	<error id="INVAL_CONTEACT_AMOUNT"  value="-1268"     prompt="XSPEED:å§”æ‰˜æ•°é‡æ— æ•ˆ,è¶…è¿‡å•ç¬”å§”æ‰˜ä¸Šé™%li"/>	
-	<error id="INVAL_CONTEACT_AMOUNT"  value="-1269"     prompt="XSPEED:å§”æ‰˜æ•°é‡æ— æ•ˆ,è¶…è¿‡å¸‚ä»·å•ç¬”å§”æ‰˜ä¸Šé™%li"/>
-	<error id="INVAL_CONTEACT_AMOUNT"  value="-1633"     prompt="XSPEED:å§”æ‰˜æ•°é‡æ— æ•ˆ,åº”è¯¥æ˜¯å¹³ä»“å•ä½çš„æ•´æ•°å€"/>
-	<error id="OUT_OF_LMT_PRICE"       value="-1635"     prompt="XSPEED:å§”æ‰˜ä»·æ ¼è¶…è¿‡æ¶¨è·Œåœæ¿ä»·æ ¼,ä¸èƒ½äº¤æ˜“"/>
-	<error id="ENTRUST_FAILED"         value="-1641"     prompt="XSPEED:å§”æ‰˜å¤±è´¥,æ’å…¥å“ç§ä¿è¯é‡‘æ±‡æ€»è¡¨å¤±è´¥"/>
-	<error id="CAPITAL_SCARCITY"       value="-1642"     prompt="XSPEED:å§”æ‰˜å¤±è´¥,å®¢æˆ·èµ„é‡‘ä¸è¶³,å·®:%lf"/>
-	<error id="ENTRUST_FAILED"         value="-1650"     prompt="XSPEED:å§”æ‰˜å¤±è´¥,å¯å¹³ä»“ä½ä¸è¶³! æœ€å¤šå¯å¹³:0"/>
-	<error id="FORBID_HEDGING"         value="-1661"     prompt="XSPEED:äº¤æ˜“ç¼–ç %sä¸èƒ½åšå¥—ä¿"/>
-	<error id="FORBID_SPECULATE"       value="-1662"     prompt="XSPEED:äº¤æ˜“ç¼–ç %sä¸èƒ½åšæŠ•æœº"/>
-	<error id="INVAL_ENTRUST_PRICE"    value="-1709"     prompt="XSPEED:æ‚¨è¾“å…¥çš„å§”æ‰˜ä»·æ ¼%.3lfæ— æ•ˆ"/>
-	<error id="NONSUPPORT_MARKET_ORDER"  value="-1710"     prompt="XSPEED:æœ¬äº¤æ˜“æ‰€ä¸æ”¯æŒå¸‚ä»·æŒ‡ä»¤"/>
-	<error id="NO_PRICE_ON_STOPORD    " value="-1715"     prompt="XSPEED:äº¤æ˜“æ‰€æ­¢æŸæ­¢ç›ˆæŒ‡ä»¤å¿…é¡»æä¾›æ­¢æŸæ­¢ç›ˆä»·"/>
-	<error id="NONSUPPORT_ORDER_CMD" value="-1800"     prompt="XSPEED:å§”æ‰˜å¤±è´¥:ç›®å‰ä¸æ”¯æŒçš„äº¤æ˜“æŒ‡ä»¤"/>
-	<error id="INVAL_COMBINATION_ID"   value="-1801"     prompt="XSPEED:ç»„åˆä»£ç %sæ— æ•ˆ"/>
-	<error id="FORBID_TRADE"           value="-1802"     prompt="XSPEED:ç»„åˆ%sç›®å‰ç¦æ­¢äº¤æ˜“"/>
-	<error id="CHANGE_PRICE"           value="-1803"     prompt="XSPEED:è¯¥ç»„åˆä»£ç çš„äº¤æ˜“å˜åŠ¨ä»·æ ¼æ˜¯%lf"/>
-	<error id="OUT_OF_PRICE_DIFF"      value="-1804"     prompt="XSPEED:ä»·å·®è¶…å‡ºé™åˆ¶:%.3lf-%.3lf"/>
-	<error id="OUT_OF_LMT_AMOUNT"      value="-1805"     prompt="XSPEED:å§”æ‰˜æ•°é‡è¶…å‡ºé™åˆ¶:%d-%d"/>
-	<error id="INVAL_TRADE_CODE"       value="-1806"     prompt="XSPEED:äº¤æ˜“ç¼–ç ä¸å­˜åœ¨"/>
-	<error id="ERROR_FOR_TRADECODE"    value="-1807"     prompt="XSPEED:äº¤æ˜“ç¼–ç å¯¹åº”è¯¥é”™è¯¯"/>
-	<error id="TRADE_CODE_FROZEN"      value="-1808"     prompt="XSPEED:è¯¥äº¤æ˜“ç¼–ç å·²å†»ç»“,ä¸èƒ½äº¤æ˜“"/>
-	<error id="FORBID_OPEN_POSITION"   value="-1809"     prompt="XSPEED:è¯¥äº¤æ˜“ç¼–ç ç¦æ­¢å¼€æ–°ä»“"/>
-	<error id="CUSTOMER_ID_UNEXIST"    value="-1810"     prompt="XSPEED:è¯¥äº¤æ˜“ç¼–ç æ‰€å¯¹åº”çš„å®¢æˆ·å·ä¸å­˜åœ¨"/>
-	<error id="ENTRUST_MODE_ERR"       value="-1811"     prompt="XSPEED:è¯¥å®¢æˆ·ä¸èƒ½é€šè¿‡æ­¤ç§å§”æ‰˜æ–¹å¼å§”æ‰˜"/>
-	<error id="FORBID_TRADE"           value="-1812"     prompt="XSPEED:è¯¥å®¢æˆ·çŠ¶æ€å¼‚å¸¸,ä¸èƒ½äº¤æ˜“"/>
-	<error id="FORBID_OPEN_POSITION"   value="-1813"     prompt="XSPEED:è¯¥å®¢æˆ·ç¦æ­¢å¼€ä»“"/>
-	<error id="FORBID_CLOSE_POSITION"  value="-1814"     prompt="XSPEED:è¯¥å®¢æˆ·ç¦æ­¢å¹³ä»“"/>
-	<error id="ENTRUST_FAILED"         value="-1821"     prompt="XSPEED:å§”æ‰˜å¤±è´¥,ç»„åˆè…¿æ•°å’Œå®žé™…åˆçº¦è…¿æ•°ä¸ç¬¦"/>
-	<error id="ENTRUST_FAILED"         value="-1842"     prompt="XSPEED:å§”æ‰˜å¤±è´¥,å®¢æˆ·èµ„é‡‘ä¸è¶³æ‰€æœ‰åˆçº¦çš„å§”æ‰˜,å·®:%.2lf"/>
-	<error id="ENTRUST_FAILED"         value="-1850"     prompt="XSPEED:å§”æ‰˜å¤±è´¥,åˆçº¦:%så¯å¹³ä»“ä½ä¸è¶³! æœ€å¤šå¯å¹³:%li"/>
-	<error id="INVAL_COMBINATION_ORD"  value="-2698"     prompt="XSPEED:ç»„åˆåˆçº¦[%s],è…¿å·[%d]éžæ³•"/>
-	<error id="NO_ORDER_ID" 					 value="-2401"     prompt="XSPEED:åˆåŒå·:%liå¯¹åº”çš„å§”æ‰˜ä¸å­˜åœ¨"/>
-	<error id="INFO_NOT_MATCH"         value="-2402"     prompt="XSPEED:åŽŸå§”æ‰˜çš„å®¢æˆ·ä¿¡æ¯ä¸Žè¾“å…¥çš„å®¢æˆ·ä¿¡æ¯ä¸åŒ¹é…!"/>
-	<error id="NOT_ALLOWED_CANCEL"     value="-2403"     prompt="XSPEED:è¯¥å§”æ‰˜å·²ç»æˆäº¤æˆ–å·²ç»æ’¤å•æˆåŠŸ,ä¸èƒ½å†æ’¤å•!"/>
-	<error id="NOT_ALLOWED_CANCEL"     value="-2404"     prompt="XSPEED:å¼ºå¹³å•ä¸å…è®¸æ’¤å•"/>
-	<error id="NO_RESULT"              value="-2406"     prompt="XSPEED:è¯¥å§”æ‰˜äº¤æ˜“æ‰€æœªå›žå¤ç»“æžœ,æš‚æ—¶ä¸å…è®¸æ’¤å•,è¯·ç¨åŽå†æ’¤"/>
-	<error id="LATER_CANCEL_ORDER"     value="-2407"     prompt="XSPEED:ä¸Šç¬”æ’¤å•æœªç”³æŠ¥,è¯·ç¨åŽå†æ’¤"/>
-	<error id="ENTEUST_FROZEN_ERR"     value="-2408"     prompt="XSPEED:ä¿®æ”¹èµ„é‡‘å¸æˆ·å§”æ‰˜å†»ç»“ä½™é¢å‡ºé”™"/>
-	<error id="UNFROZEN_LESS_THAN_CANCEL"    value="-2411"     prompt="XSPEED:æ’¤å•å¤±è´¥,æŒä»“è§£å†»å°äºŽæ’¤å•æ•°é‡"/>
-	<error id="RE_CANCEL"              value="-2412"     prompt="XSPEED:ä¿®æ”¹å§”æ‰˜è®°å½•å¤±è´¥,è¯·é‡æ–°å†æ’¤"/>
-	<error id="CANCEL_APPLY_ERR"       value="-2415"     prompt="XSPEED:è®°å½•æ’¤å•ç”³è¯·å‡ºé”™"/>
+    <error id="INVAL_EXCHG"                  value="-200"    prompt="XSPEED:ÎÞÐ§µÄ½»Ò×Ëù´úÂë"/>
+    <error id="INVAL_EXCHG_TO_CONT"          value="-201"    prompt="XSPEED:½»Ò×ËùºÍºÏÔ¼²»Æ¥Åä"/>
+    <error id="NO_CONT_INFO"                 value="-202"    prompt="XSPEED:Î´ÕÒµ½¸ÃºÏÔ¼µÄºÏÔ¼ÐÅÏ¢:%s"/>
+    <error id="INVAL_TRADE_CODE"             value="-203"    prompt="XSPEED:½»Ò×±àÂëÎÞÐ§»òÎª¿Õ"/>
+    <error id="INVAL_ORD_ID"                 value="-204"    prompt="XSPEED:Çë¼ì²é¹ñÌ¨Î¯ÍÐºÅ"/>
+    <error id="INVAL_NEW_PWD"                value="-205"    prompt="XSPEED:ÐÂÃÜÂë³¤¶È²»ÄÜ³¬¹ý16Î»,ÇÒ±ØÐëÎªÊý×Ö»ò×ÖÄ¸"/>
+    <error id="EMPTY_DATA"                   value="-206"    prompt="XSPEED:²éÑ¯Êý¾Ý½á¹ûÎª¿Õ"/>
+    <error id="EMPTY_CONFIRM_DATE"           value="-207"    prompt="XSPEED:ÇëÇóÈ·ÈÏÈÕÆÚÎª¿Õ"/>
+    <error id="INVAL_CONFIRM_DATE"           value="-208"    prompt="XSPEED:ÇëÊäÈëÕýÈ·µÄÈÕÆÚ,¸ñÊ½:yyyy.mm.dd"/>
+    <error id="INVAL_CONFIRM_FLAG"           value="-209"    prompt="XSPEED:ÎÞÐ§µÄÈ·ÈÏ±êÖ¾"/>
+    <error id="INVAL_STATUS_FLAG"            value="-210"    prompt="XSPEED:ÎÞÐ§Î¯ÍÐ×´Ì¬"/>
+    <error id="UNSUPPORT_ARBITRAGE_QRY"      value="-211"    prompt="XSPEED:¸Ã²éÑ¯Ö¸ÁîÔÝ²»Ö§³ÖÌ×ÀûºÏÔ¼"/>
+    <error id="QRY_NOT_FINISH"               value="-212"    prompt="XSPEED:²éÑ¯ÆµÂÊ¹ý¿ì»òÉÏ´Î²éÑ¯Î´Íê³É"/>
+    <error id="ACCOUNT_SPDID_MISMATCH"       value="-213"    prompt="XSPEED:×Ê½ðÕËºÅºÍ¹ñÌ¨Î¯ÍÐºÅ²»Æ¥Åä"/>
+    <error id="NO_CONT_ORDID_TRADE"          value="-214"    prompt="XSPEED:ÕÒ²»µ½¸ÃºÏÔ¼ºÍ¹ñÌ¨Î¯ÍÐºÅ¶ÔÓ¦µÄ³É½»ÐÅÏ¢"/>
+    <error id="NO_ORD_TO_SPDID"              value="-215"    prompt="XSPEED:ÕÒ²»µ½¸Ã¹ñÌ¨Î¯ÍÐºÅ¶ÔÓ¦µÄÎ¯ÍÐÐÅÏ¢"/>
+    <error id="FRONT_COMM_ERR"               value="-401"    prompt="XSPEED:Ó¦´ðÊý¾ÝÒì³£"/>
+    <error id="EXCHG_REJECT_PLACE"           value="-900"    prompt="XSPEED:±¨µ¥±»½»Ò×Ëù¾Ü¾ø"/>
+    <error id="EXCHG_REJECT_QUOTE_ORD"       value="-905"    prompt="XSPEED:×öÊÐÉÌ±¨¼Û±¨µ¥Ê§°Ü±»½»Ò×Ëù¾Ü¾ø"/>
+    <error id="EXCHG_REJECT_CANCEL"          value="-910"    prompt="XSPEED:³·µ¥Ê§°Ü,±»½»Ò×Ëù¾Ü¾ø"/>
+    <error id="EXCHG_REJECT_QUOTE_CANCEL"    value="-920"    prompt="XSPEED:×öÊÐÉÌ±¨¼Û³·µ¥Ê§°Ü,±»½»Ò×Ëù¾Ü¾ø"/>
+
+    <error id="EMPTY_PASSWORD_LOGIN"             value="-1006"     prompt="XSPEED:ÏµÍ³²»ÔÊÐí¿ÕÃÜÂëµÇÂ¼"/>
+    <error id="CUSTOMER_ID_UNEXIST"              value="-1102"     prompt="XSPEED:¿Í»§ºÅ[%s]²»´æÔÚ"/>
+    <error id="INVAL_TRADE_PWD"                  value="-1103"     prompt="XSPEED:½»Ò×ÃÜÂëÓÐÎó"/>
+    <error id="INVAL_TRADE_CATEGORY"             value="-1601"     prompt="XSPEED:ÎÞÐ§µÄ½»Ò×Àà±ð"/>
+    <error id="INVAL_OC_FLAG"                    value="-1602"     prompt="XSPEED:ÎÞÐ§µÄ¿ªÆ½±êÖ¾,¸Ã½»Ò×ËùÖ»ÄÜ¿ª²Ö»òÆ½²Ö"/>
+    <error id="INVAL_INVEST_CATEGORY"            value="-1603"     prompt="XSPEED:ÎÞÐ§µÄÍ¶×ÊÀà±ð,¸Ã½»Ò×ËùÖ»ÄÜÍ¶»ú»òÌ×±£½»Ò×"/>
+    <error id="TRADE_CODE_UNEXIST"               value="-1607"     prompt="XSPEED:½»Ò×±àÂë²»´æÔÚ"/>
+    <error id="TRADE_CODE_ERR"                   value="-1608"     prompt="XSPEED:½»Ò×±àÂë¶ÔÓ¦¸Ã´íÎó"/>
+    <error id="TRADE_CODE_FROZEN"                value="-1609"     prompt="XSPEED:¸Ã½»Ò×±àÂëÒÑ¶³½á,²»ÄÜ½»Ò×"/>
+    <error id="FORBID_OPEN_POSITION"             value="-1610"     prompt="XSPEED:¸Ã½»Ò×±àÂë½ûÖ¹¿ªÐÂ²Ö"/>
+    <error id="CUSTOMER_ID_UNEXIST"              value="-1611"     prompt="XSPEED:¸Ã½»Ò×±àÂëËù¶ÔÓ¦µÄ¿Í»§ºÅ²»´æÔÚ"/>
+    <error id="CONTEACT_MODE_ERR"                value="-1612"     prompt="XSPEED:¸Ã¿Í»§²»ÄÜÍ¨¹ý´ËÖÖÎ¯ÍÐ·½Ê½Î¯ÍÐ"/>
+    <error id="FORBID_TRADE"                     value="-1613"     prompt="XSPEED:¸Ã¿Í»§×´Ì¬Òì³£,²»ÄÜ½»Ò×"/>
+    <error id="FORBID_OC_POSITION"               value="-1614"     prompt="XSPEED:¸Ã¿Í»§½ûÖ¹¿ª²Ö/¸Ã¿Í»§½ûÖ¹Æ½²Ö"/>
+    <error id="INVAL_CONTRACT_ID"                value="-1619"     prompt="XSPEED:ºÏÔ¼´úÂëÎÞÐ§,²»ÄÜÎ¯ÍÐ"/>
+    <error id="CONTEACT_ID_NO_TRADE"             value="-1620"     prompt="XSPEED:¸ÃºÏÔ¼´úÂëÏÖÔÚ²»ÄÜ½»Ò×"/>
+    <error id="FORBID_OC_POSITION"               value="-1621"     prompt="XSPEED:¸ÃºÏÔ¼´úÂëÏÖÔÚ½ûÖ¹ÐÂ¿ª²Ö"/>
+    <error id="ZERO_FLOAT_PRICE"                 value="-1622"     prompt="XSPEED:¸ÃºÏÔ¼´úÂë²ÎÊýÖÐ±ä¶¯¼ÛÎ»Îª0,²»ÄÜ½»Ò×"/>
+    <error id="CHANGE_PRICE"                     value="-1623"     prompt="XSPEED:¸ÃºÏÔ¼´úÂëµÄ½»Ò×±ä¶¯¼Û¸ñÊÇ%lf"/>
+    <error id="INVAL_CONTEACT_AMOUNT"            value="-1624"     prompt="XSPEED:Î¯ÍÐÊýÁ¿ÎÞÐ§"/>
+    <error id="INVAL_CONTRACT_ID"                value="-1625"     prompt="XSPEED:ºÏÔ¼´úÂëÎÞÐ§,ºÏÔ¼ÖÐµÄÃ¿ÊÖµ¥Î»Îª¿Õ"/>
+    <error id="FORBID_TRADECODE_ON_VARIETY"      value="-1626"     prompt="XSPEED:¸Ã½»Ò×±àÂë½ûÖ¹½»Ò×¸ÃÆ·ÖÖ"/>
+    <error id="INVAL_CONTEACT_AMOUNT"            value="-1267"     prompt="XSPEED:Î¯ÍÐÊýÁ¿ÎÞÐ§,Ó¦¸ÃÊÇ¿ª²Öµ¥Î»µÄÕûÊý±¶"/>    
+    <error id="INVAL_CONTEACT_AMOUNT"            value="-1268"     prompt="XSPEED:Î¯ÍÐÊýÁ¿ÎÞÐ§,³¬¹ýµ¥±ÊÎ¯ÍÐÉÏÏÞ%li"/>    
+    <error id="INVAL_CONTEACT_AMOUNT"            value="-1269"     prompt="XSPEED:Î¯ÍÐÊýÁ¿ÎÞÐ§,³¬¹ýÊÐ¼Ûµ¥±ÊÎ¯ÍÐÉÏÏÞ%li"/>
+    <error id="INVAL_CONTEACT_AMOUNT"            value="-1633"     prompt="XSPEED:Î¯ÍÐÊýÁ¿ÎÞÐ§,Ó¦¸ÃÊÇÆ½²Öµ¥Î»µÄÕûÊý±¶"/>
+    <error id="OUT_OF_LMT_PRICE"                 value="-1635"     prompt="XSPEED:Î¯ÍÐ¼Û¸ñ³¬¹ýÕÇµøÍ£°å¼Û¸ñ,²»ÄÜ½»Ò×"/>
+    <error id="SYS_NOT_INIT"                     value="-1636"     prompt="XSPEED:ÏµÍ³Î´³õÊ¼»¯"/>
+    <error id="ENTRUST_FAILED"                   value="-1641"     prompt="XSPEED:Î¯ÍÐÊ§°Ü,²åÈëÆ·ÖÖ±£Ö¤½ð»ã×Ü±íÊ§°Ü"/>
+    <error id="CAPITAL_SCARCITY"                 value="-1642"     prompt="XSPEED:Î¯ÍÐÊ§°Ü,¿Í»§×Ê½ð²»×ã,²î:%lf"/>
+    <error id="ENTRUST_FAILED"                   value="-1650"     prompt="XSPEED:Î¯ÍÐÊ§°Ü,¿ÉÆ½²ÖÎ»²»×ã! ×î¶à¿ÉÆ½:0"/>
+    <error id="FORBID_HEDGING"                   value="-1661"     prompt="XSPEED:½»Ò×±àÂë%s²»ÄÜ×öÌ×±£"/>
+    <error id="FORBID_SPECULATE"                 value="-1662"     prompt="XSPEED:½»Ò×±àÂë%s²»ÄÜ×öÍ¶»ú"/>
+    <error id="INVAL_ENTRUST_PRICE"              value="-1709"     prompt="XSPEED:ÄúÊäÈëµÄÎ¯ÍÐ¼Û¸ñ%.3lfÎÞÐ§"/>
+    <error id="NONSUPPORT_MARKET_ORDER"          value="-1710"     prompt="XSPEED:±¾½»Ò×Ëù²»Ö§³ÖÊÐ¼ÛÖ¸Áî"/>
+    <error id="NO_PRICE_ON_STOPORD"              value="-1715"     prompt="XSPEED:½»Ò×ËùÖ¹ËðÖ¹Ó¯Ö¸Áî±ØÐëÌá¹©Ö¹ËðÖ¹Ó¯¼Û"/>
+    <error id="INVAL_MKT_ORD_V5"                 value="-1720"     prompt="XSPEED:´óÁ¬V5²»Ö§³ÖÊÐ¼ÛÖ¸Áî"/>
+    <error id="INVAL_PROP_ORD_V5"                value="-1721"     prompt="XSPEED:´óÁ¬V5²»Ö§³Ö´øÊôÐÔµÄ±¨µ¥"/>
+    <error id="FAIL_GET_TRADETIME"               value="-1722"     prompt="XSPEED:ÎÞ·¨ÅÐ¶ÏÊÇ·ñ½»Ò×Ê±¼ä¶Î"/>
+    <error id="FAIL_ORD_STOPTIME"                value="-1723"     prompt="XSPEED:·Ç½»Ò×Ê±¼ä²»ÄÜÏÂµ¥"/>
+    <error id="NONSUPPORT_ORDER_CMD"             value="-1800"     prompt="XSPEED:Î¯ÍÐÊ§°Ü:Ä¿Ç°²»Ö§³ÖµÄ½»Ò×Ö¸Áî"/>
+    <error id="INVAL_COMBINATION_ID"             value="-1801"     prompt="XSPEED:×éºÏ´úÂë%sÎÞÐ§"/>
+    <error id="FORBID_TRADE"                     value="-1802"     prompt="XSPEED:×éºÏ%sÄ¿Ç°½ûÖ¹½»Ò×"/>
+    <error id="CHANGE_PRICE"                     value="-1803"     prompt="XSPEED:¸Ã×éºÏ´úÂëµÄ½»Ò×±ä¶¯¼Û¸ñÊÇ%lf"/>
+    <error id="OUT_OF_PRICE_DIFF"                value="-1804"     prompt="XSPEED:¼Û²î³¬³öÏÞÖÆ:%.3lf-%.3lf"/>
+    <error id="OUT_OF_LMT_AMOUNT"                value="-1805"     prompt="XSPEED:Î¯ÍÐÊýÁ¿³¬³öÏÞÖÆ:%d-%d"/>
+    <error id="INVAL_TRADE_CODE"                 value="-1806"     prompt="XSPEED:½»Ò×±àÂë²»´æÔÚ"/>
+    <error id="ERROR_FOR_TRADECODE"              value="-1807"     prompt="XSPEED:½»Ò×±àÂë¶ÔÓ¦¸Ã´íÎó"/>
+    <error id="TRADE_CODE_FROZEN"                value="-1808"     prompt="XSPEED:¸Ã½»Ò×±àÂëÒÑ¶³½á,²»ÄÜ½»Ò×"/>
+    <error id="FORBID_OPEN_POSITION"             value="-1809"     prompt="XSPEED:¸Ã½»Ò×±àÂë½ûÖ¹¿ªÐÂ²Ö"/>
+    <error id="CUSTOMER_ID_UNEXIST"              value="-1810"     prompt="XSPEED:¸Ã½»Ò×±àÂëËù¶ÔÓ¦µÄ¿Í»§ºÅ²»´æÔÚ"/>
+    <error id="ENTRUST_MODE_ERR"                 value="-1811"     prompt="XSPEED:¸Ã¿Í»§²»ÄÜÍ¨¹ý´ËÖÖÎ¯ÍÐ·½Ê½Î¯ÍÐ"/>
+    <error id="FORBID_TRADE"                     value="-1812"     prompt="XSPEED:¸Ã¿Í»§×´Ì¬Òì³£,²»ÄÜ½»Ò×"/>
+    <error id="FORBID_OPEN_POSITION"             value="-1813"     prompt="XSPEED:¸Ã¿Í»§½ûÖ¹¿ª²Ö"/>
+    <error id="FORBID_CLOSE_POSITION"            value="-1814"     prompt="XSPEED:¸Ã¿Í»§½ûÖ¹Æ½²Ö"/>
+    <error id="ENTRUST_FAILED"                   value="-1821"     prompt="XSPEED:Î¯ÍÐÊ§°Ü,×éºÏÍÈÊýºÍÊµ¼ÊºÏÔ¼ÍÈÊý²»·û"/>
+    <error id="ENTRUST_FAILED"                   value="-1842"     prompt="XSPEED:Î¯ÍÐÊ§°Ü,¿Í»§×Ê½ð²»×ãËùÓÐºÏÔ¼µÄÎ¯ÍÐ,²î:%.2lf"/>
+    <error id="ENTRUST_FAILED"                   value="-1850"     prompt="XSPEED:Î¯ÍÐÊ§°Ü,ºÏÔ¼:%s¿ÉÆ½²ÖÎ»²»×ã! ×î¶à¿ÉÆ½:%li"/>
+    <error id="INVAL_COMBINATION_ORD"            value="-2698"     prompt="XSPEED:×éºÏºÏÔ¼[%s],ÍÈºÅ[%d]·Ç·¨"/>
+    <error id="NO_ORDER_ID"                      value="-2401"     prompt="XSPEED:ºÏÍ¬ºÅ:%li¶ÔÓ¦µÄÎ¯ÍÐ²»´æÔÚ"/>
+    <error id="INFO_NOT_MATCH"                   value="-2402"     prompt="XSPEED:Ô­Î¯ÍÐµÄ¿Í»§ÐÅÏ¢ÓëÊäÈëµÄ¿Í»§ÐÅÏ¢²»Æ¥Åä!"/>
+    <error id="NOT_ALLOWED_CANCEL"               value="-2403"     prompt="XSPEED:¸ÃÎ¯ÍÐÒÑ¾­³É½»»òÒÑ¾­³·µ¥³É¹¦,²»ÄÜÔÙ³·µ¥!"/>
+    <error id="NOT_ALLOWED_CANCEL"               value="-2404"     prompt="XSPEED:Ç¿Æ½µ¥²»ÔÊÐí³·µ¥"/>
+    <error id="NO_RESULT"                        value="-2406"     prompt="XSPEED:¸ÃÎ¯ÍÐ½»Ò×ËùÎ´»Ø¸´½á¹û,ÔÝÊ±²»ÔÊÐí³·µ¥,ÇëÉÔºóÔÙ³·"/>
+    <error id="LATER_CANCEL_ORDER"               value="-2407"     prompt="XSPEED:ÉÏ±Ê³·µ¥Î´Éê±¨,ÇëÉÔºóÔÙ³·"/>
+    <error id="ENTEUST_FROZEN_ERR"               value="-2408"     prompt="XSPEED:ÐÞ¸Ä×Ê½ðÕÊ»§Î¯ÍÐ¶³½áÓà¶î³ö´í"/>
+    <error id="UNFROZEN_LESS_THAN_CANCEL"        value="-2411"     prompt="XSPEED:³·µ¥Ê§°Ü,³Ö²Ö½â¶³Ð¡ÓÚ³·µ¥ÊýÁ¿"/>
+    <error id="RE_CANCEL"                        value="-2412"     prompt="XSPEED:ÐÞ¸ÄÎ¯ÍÐ¼ÇÂ¼Ê§°Ü,ÇëÖØÐÂÔÙ³·"/>
+    <error id="CANCEL_APPLY_ERR"                 value="-2415"     prompt="XSPEED:¼ÇÂ¼³·µ¥ÉêÇë³ö´í"/>
 
 <!-- add for end -->
 </errors>

@@ -137,8 +137,7 @@ char XSpeedFieldConvert::EntrustStatusTrans(short OrderStatus)
     switch (OrderStatus)
     {
         //撤单成功 -->  已经撤销
-        case DFITC_SPD_CANCELED:
-        case DFITC_SPD_SUCCESS_CANCELED:
+        case DFITC_SPD_CANCELED:        
         case DFITC_SPD_PARTIAL_CANCELED:
             return MY_TNL_OS_WITHDRAWED;
 
@@ -148,8 +147,7 @@ char XSpeedFieldConvert::EntrustStatusTrans(short OrderStatus)
 
         //部分成交还在队列中 -->  部分成交
         //成交成功    --> 部分成交
-        case DFITC_SPD_PARTIAL:
-        case DFITC_SPD_SUCCESS_FILLED:
+        case DFITC_SPD_PARTIAL:        
             return MY_TNL_OS_PARTIALCOM;
 
         //未成交还在队列中  -->  已经报入
@@ -164,8 +162,7 @@ char XSpeedFieldConvert::EntrustStatusTrans(short OrderStatus)
             return MY_TNL_OS_ERROR;
 
         //报单的初始状态，表示单子刚刚开始，尚未报到柜台 --> 等待发出
-        //柜台已接收，但尚未到交易所   --> 等待发出
-        case DFITC_SPD_STARTED:
+        //柜台已接收，但尚未到交易所   --> 等待发出        
         case DFITC_SPD_TRIGGERED:
             return MY_TNL_OS_REPORDED;
     }

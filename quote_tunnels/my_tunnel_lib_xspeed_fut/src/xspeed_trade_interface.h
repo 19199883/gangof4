@@ -49,11 +49,6 @@ struct QueryInfo {
     }
 };
 
-//询价请求
-struct APISTRUCT DFITCForQuoteField
-{
-
-};
 
 
 class MYXSpeedSpi: public DFITCXSPEEDAPI::DFITCTraderSpi

@@ -1066,7 +1066,7 @@ void MYXSpeedSpi::CalcCancelTimes(const struct DFITCOrderCommRtnField* const pf,
     if (pf && (DFITC_SPD_CANCELED == pf->orderStatus       ///全部撤单
     || DFITC_SPD_PARTIAL_CANCELED == pf->orderStatus   ///部成部撤
     || DFITC_SPD_IN_CANCELING == pf->orderStatus       ///撤单中
-    || DFITC_SPD_SUCCESS_CANCELED == pf->orderStatus)) ///撤单成功
+    )) 
     {
         std::lock_guard<std::mutex> lock(cancel_times_sync_);
         std::map<std::string, int>::iterator it = cancel_times_of_contract.find(pf->instrumentID);
