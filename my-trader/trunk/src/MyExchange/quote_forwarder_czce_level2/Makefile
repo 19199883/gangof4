@@ -23,7 +23,7 @@ INCPATH:= -I$(TOP)/lib/tunnel/include\
 LIBPATH:= -L../utils/bin \
 	  -L$(TOP)/lib/toe \
       -L$(TOP)/lib/common \
-      -L$(TOP)/lib/quote/czce_level2/bin \
+	  -L$(TOP)/lib/quote/czce_jr_udp_level2/bin \
 	  -L../tinyxml/bin \
 	  -L../my_exchange_entity/bin \
 	  -L../quote_forwarder_common/bin \
@@ -37,8 +37,8 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem \
-		-lboost_system -lZceLevel2API  -ltinyxml -lpthread -lutils\
-		-lqtm -lmy_quote_czce_level2_lib -llog4cxx -lssl -lmy_common_v2
+		-lboost_system  -ltinyxml -lpthread -lutils\
+		-lqtm -lmy_quote_czce_level2_jrudp_lib -llog4cxx -lssl -lmy_common_v2
 
 DEPS:=.depends
 
@@ -91,8 +91,8 @@ dist:
 	-cp -varf $(CURDIR)/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cp -varf $(CURDIR)/*.key $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(CURDIR)/*.xml $(DIST_DIR)/$(PACKAGE_NAME)/
-	-cp -vaf $(TOP)/lib/quote/czce_level2/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
-	-cp -vaf $(TOP)/lib/quote/czce_level2/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
+	-cp -vaf $(TOP)/lib/quote/czce_jr_udp_level2/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
+	-cp -vaf $(TOP)/lib/quote/czce_jr_udp_level2/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cp -varf $(TOP)/lib/common/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cd $(DIST_DIR); \
 		tar -cvjf $(PACKAGE_NAME)-$(VERSION).tar.bz2  $(PACKAGE_NAME)/*     
