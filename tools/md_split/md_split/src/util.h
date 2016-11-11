@@ -26,6 +26,12 @@ inline int GetSymbolOffset(int data_type, int data_len)
 		offset_in_data = (int)((char *)&(md.ContractID) - (char *)&md);
 	}
 	break;
+	// added by wangying on 20161109 for czce level2 market data
+	case CZCE_LEVEL2_QUOTE_TYPE:
+	{
+		ZCEL2QuotSnapshotField_MY md;
+		offset_in_data = (int)((char *)&(md.ContractID) - (char *)&md);
+	}
 
 	default:
 		break;
