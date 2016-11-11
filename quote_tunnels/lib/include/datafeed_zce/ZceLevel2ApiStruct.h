@@ -91,6 +91,40 @@ const ZCEINT4 ZCEErrCode_FailedNegotiate	= 8;	//链路协商失败
 const ZCEINT4 ZCEErrCode_SendFailed			= 9;	//数据发送失败,可能连接未建立
 const ZCEINT4 ZCEErrCode_IncorrectUser		= 10;	//登录失败，用户名或密码错误
 const ZCEINT4 ZCEErrCode_ReachMaxLoginNum	= 11;	//登录失败，超出最大允许登陆数
+#pragma pack(pop)
+
+// added by wangying on 20161028, jinrui future company, udp level2
+#pragma pack(push,8)
+struct StdQuote5
+{
+	char instrument[32];
+	char updateTime[9];
+	int updateMS;
+	double price;
+	int volume;
+	double turnover;
+	int openinterest;
+	double askPrice1;
+	int askVolume1;
+	double bidPrice1;
+	int bidVolume1;
+	double askPrice2;
+	int askVolume2;
+	double bidPrice2;
+	int bidVolume2;
+	double askPrice3;
+	int askVolume3;
+	double bidPrice3;
+	int bidVolume3;
+	double askPrice4;
+	int askVolume4;
+	double bidPrice4;
+	int bidVolume4;
+	double askPrice5;
+	int askVolume5;
+	double bidPrice5;
+	int bidVolume5;
+};
 
 #pragma pack(pop)
 

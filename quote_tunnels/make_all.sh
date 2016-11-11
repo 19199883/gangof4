@@ -327,6 +327,17 @@ mkdir -p $QT_QUOTE_DIST/bin
 cp -a config/* $QT_QUOTE_DIST/config
 cp -a bin/*.so $QT_QUOTE_DIST/bin
 
+ # quote: jinrui, udp, czce_level2
+ cd $QT_SOURCE_ROOT/my_quote_czce_level2_jrudp_lib
+ QT_QUOTE_DIST=$TRADER_LIB_ROOT/quote/czce_jr_udp_level2
+ make clean
+ make
+ mkdir -p $QT_QUOTE_DIST/config
+ mkdir -p $QT_QUOTE_DIST/bin
+ cp -a config/* $QT_QUOTE_DIST/config
+ cp -a bin/*.so $QT_QUOTE_DIST/bin
+
+
  # quote: my_quote_dce_level2_jrudp_lib (dce level2 in jinrui on UDP)
 cd $QT_SOURCE_ROOT/my_quote_dce_level2_jrudp_lib
 QT_QUOTE_DIST=$TRADER_LIB_ROOT/quote/dce_my_jr_udp

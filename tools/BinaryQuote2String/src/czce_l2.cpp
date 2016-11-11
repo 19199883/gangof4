@@ -22,10 +22,11 @@ std::string CZCE_L2_QuoteToString(const SaveData_CZCE_L2_DATA * const p_data)
 	char total_quote[2048];
 
 	// 当前的行情序列化
-	std::string csTemp = p->TimeStamp; // 2014-02-03 13:23:45.180
-	boost::erase_all(csTemp, ":");
-	boost::erase_all(csTemp, ".");
-	csTemp = csTemp.substr(11);
+	// commented by wangying on 20161110 for debug
+	std::string csTemp = "";// = p->TimeStamp; // 2014-02-03 13:23:45.180
+	//boost::erase_all(csTemp, ":");
+	//boost::erase_all(csTemp, ".");
+	//csTemp = csTemp.substr(11);
 
 
 	double total_amount = 0;
