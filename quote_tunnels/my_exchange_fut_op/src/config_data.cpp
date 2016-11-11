@@ -136,8 +136,9 @@ void MYExConfigData::LoadModelCfg()
                                 if (contract_name && max_pos_str && strlen(contract_name) > 0)
                                 {
                                     int max_pos = atoi(max_pos_str);
-				    // added by wangying on 20160721,for testing strategy "bai dan"
-				    max_pos *= 10; 
+				    // added by wangying on 20160721,for testing strategy "market making"
+					// commented by wangying on 20161026 fot no more testing market making strategy
+				    // max_pos *= 10; 
 #ifdef ASYNC_CANCEL
                                     max_pos *= 3; // upper limit of position will rise to 3 times when cancel failed.
 #endif
