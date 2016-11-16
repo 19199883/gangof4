@@ -6,6 +6,7 @@
 #include <string>
 #include <boost/function.hpp>
 //#include <functional>
+#include "quote_interface_tap.h"
 
 #ifndef DLL_PUBLIC
 #define DLL_PUBLIC  __attribute__ ((visibility("default")))

@@ -336,6 +336,8 @@ cp -a bin/*.so $QT_QUOTE_DIST/bin
  mkdir -p $QT_QUOTE_DIST/bin
  cp -a config/* $QT_QUOTE_DIST/config
  cp -a bin/*.so $QT_QUOTE_DIST/bin
+ cp -a ../my_quote_tap_lib/bin/*.so $QT_QUOTE_DIST/bin
+ cp -a ../my_quote_tap_lib/config/* $QT_QUOTE_DIST/config
 
 
  # quote: my_quote_dce_level2_jrudp_lib (dce level2 in jinrui on UDP)

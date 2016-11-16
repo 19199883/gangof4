@@ -508,9 +508,8 @@ MYTAPDataHandler::OnRspQryContract(TAPIUINT32 sessionID, TAPIINT32 errorCode, TA
             std::thread qrtCon(std::bind(&MYTAPDataHandler::subscribe_by_contract, this));
             qrtCon.detach();
         }
-
-        MY_LOG_INFO("OnRspQryContract successful, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s.", info->Contract.Commodity.ExchangeNo,
-            info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
+		MY_LOG_INFO("OnRspQryContract successful, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s.", info->Contract.Commodity.ExchangeNo,
+			info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
 
     }
     else

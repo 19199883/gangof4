@@ -7,26 +7,49 @@
 #include <fcntl.h>
 #include "quote_cmn_utility.h"
 #include "qtm.h"
-
-#include "ZceLevel2ApiStruct.h"
+#include <ctime>
+#include <ratio>
+#include <chrono>
 
 using namespace std;
 using namespace my_cmn;
+using std::chrono::system_clock;
 
-static ZCEL2QuotSnapshotField_MY  Convert(const StdQuote5 &other)
+ZCEL2QuotSnapshotField_MY CzceUdpMD::Convert(const StdQuote5 &other,TapAPIQuoteWhole_MY *tap_data )
 {
     ZCEL2QuotSnapshotField_MY data;
 
-	memcpy(data.ContractID, other.instrument, 32);		/*合约编码*/
-	data.ContractIDType = 0;							/*合约类型 0->目前应该为0， 扩充：0:期货,1:期权,2:组合*/
-	data.PreSettle = 0;									/*前结算价格*/
-	data.PreClose = 0;									/*前收盘价格*/
-	data.PreOpenInterest = 0;							/*昨日空盘量*/
-	data.OpenPrice = 0;									/*开盘价*/
-	data.HighPrice = 0;									/*最高价*/
-	data.LowPrice = 0;									/*最低价*/
-	data.LastPrice = InvalidToZeroD(other.price);		/*最新价*/
+	// contents from level1 
+	if(tap_data != NULL)
+	{
+		data.PreSettle = InvalidToZeroD(tap_data->QPreSettlePrice);	/*前结算价格*/
+		data.PreClose = InvalidToZeroD(tap_data->QPreClosingPrice);	/*前收盘价格*/
+		data.PreOpenInterest = (int)tap_data->QPrePositionQty;		/*previous days's positions */
+		data.OpenPrice = InvalidToZeroD(tap_data->QOpeningPrice);	/*开盘价*/
+		data.HighPrice = InvalidToZeroD(tap_data->QHighPrice);	    /*最高价*/
+		data.LowPrice = InvalidToZeroD(tap_data->QLowPrice);	        /*最低价*/
+		data.ClosePrice = InvalidToZeroD(tap_data->QClosingPrice);	    /*收盘价*/
+		data.SettlePrice = InvalidToZeroD(tap_data->QSettlePrice);	/*结算价*/
+		data.HighLimit = InvalidToZeroD(tap_data->QLimitUpPrice);	/*涨停板*/
+		data.LowLimit = InvalidToZeroD(tap_data->QLimitDownPrice);	/*跌停板*/
+		data.LifeHigh = InvalidToZeroD(tap_data->QHisHighPrice);	/*历史最高成交价格*/
+		data.LifeLow = InvalidToZeroD(tap_data->QHisLowPrice);	/*历史最低成交价格*/
+		data.TotalBidLot = (int)tap_data->QTotalBidQty;	/*委买总量*/
+		data.TotalAskLot = (int)tap_data->QTotalAskQty;	/*委卖总量*/
+		data.AveragePrice = InvalidToZeroD(tap_data->QAveragePrice);	/*均价*/
+		data.OpenInterest = (int)tap_data->QPositionQty;	/*持仓量*/
+		data.TotalVolume = (int)tap_data->QTotalQty;	/*总成交量*/
+		memcpy(data.ContractID,tap_data->ContractNo1,sizeof(tap_data->ContractNo1));		/*合约编码*/
+	}
+	 
+	//时间：如2014-02-03 13:23:45
+	system_clock::time_point today = system_clock::now();
+	std::time_t tt = system_clock::to_time_t ( today );
+	strftime(data.TimeStamp, sizeof(data.TimeStamp), "%Y-%m-%d %H:%M:%S",localtime(&tt));
+	strcpy(data.TimeStamp+11,other.updateTime);
 
+	data.ContractIDType = 0;							/*合约类型 0->目前应该为0， 扩充：0:期货,1:期权,2:组合*/
+	data.LastPrice = InvalidToZeroD(other.price);		/*最新价*/
 	data.BidPrice[0] = InvalidToZeroD(other.bidPrice1);     /*买入价格 下标从0开始*/
 	data.BidPrice[1] = InvalidToZeroD(other.bidPrice2);     /*买入价格 下标从0开始*/
 	data.BidPrice[2] = InvalidToZeroD(other.bidPrice3);     /*买入价格 下标从0开始*/
@@ -50,27 +73,18 @@ static ZCEL2QuotSnapshotField_MY  Convert(const StdQuote5 &other)
 	data.AskLot[3] = other.askVolume4;          /*卖出数量 下标从0开始*/
 	data.AskLot[4] = other.askVolume5;          /*卖出数量 下标从0开始*/
 
-	data.TotalVolume = 0			;			/*总成交量*/
-	data.OpenInterest = other.openinterest;       /*持仓量*/
-	data.ClosePrice = 0;						/*收盘价*/
-	data.SettlePrice = 0;						/*结算价*/
-	data.AveragePrice = 0;    /*均价*/
-	data.LifeHigh = 0;        /*历史最高成交价格*/
-	data.LifeLow = 0;         /*历史最低成交价格*/
-	data.HighLimit = 0;       /*涨停板*/
-	data.LowLimit = 0;        /*跌停板*/
-	data.TotalBidLot = 0;        /*委买总量*/
-	data.TotalAskLot = 0;        /*委卖总量*/
-	
-	// unkonwn value
-//	data.TimeStamp[24];     //时间：如2014-02-03 13:23:45
-
     return data;
 }
 
 CzceUdpMD::CzceUdpMD(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg)
     : cfg_(cfg), p_save_zcel2_quote_snap_snapshot_(NULL)
 {
+	// initialize level1 market data provider
+	lvl1_provider_ = new TAP::MYQuoteData(subscribe_contracts,"my_quote_tap.config");
+	boost::function<void (const TapAPIQuoteWhole_MY*)> f2 = boost::bind(&CzceUdpMD::OnTapAPIQuoteWhole_MY, this, _1);
+	lvl1_provider_->SetQuoteDataHandler(f2);
+	MY_LOG_INFO("CZCE_UDP - lvl1_provider initialized ");
+	
     if (subscribe_contracts)
     {
         subscribe_contracts_ = *subscribe_contracts;
@@ -110,6 +124,8 @@ CzceUdpMD::~CzceUdpMD()
     // destroy all save object
     if (p_save_zcel2_quote_snap_snapshot_)
         delete p_save_zcel2_quote_snap_snapshot_;
+
+	if(lvl1_provider_) delete ((TAP::MYQuoteData *)lvl1_provider_);
 }
 
 void CzceUdpMD::UdpDataHandler()
@@ -150,31 +166,35 @@ void CzceUdpMD::UdpDataHandler()
 					output_md_bd_flag = false;
 					MY_LOG_ERROR("CZCE_UDP - recv data len:%d", data_len);
 				}
-
-				// debug,wangying on 20161105
-				//		continue;
+				continue;
 			}
 			timeval t;
 			gettimeofday(&t, NULL);
 
 			StdQuote5 * p = (StdQuote5 *) (buf);
-			
-			// debug, wangying on 20161105
-			MY_LOG_ERROR("CZCE_UDP - recv data len:%d", data_len);
-			MY_LOG_ERROR("CZCE_UDP - recv data:%s,%d,%d,%d,%f", p->instrument,p->bidVolume5,p->askVolume3,
-			p->bidVolume1,p->askPrice2);
-			
-		    ZCEL2QuotSnapshotField_MY data_my = Convert(*p);
 
+			string udp_contr = p->instrument;
+			TapAPIQuoteWhole_MY *tap_data = get_data_by_udp_contr(udp_contr );
+
+			ZCEL2QuotSnapshotField_MY data_my = Convert(*p,tap_data );
+			
 			// 发出去
-			if (l2_quote_handler_
+			if (tap_data != NULL
+				&& l2_quote_handler_
 				&& (subscribe_contracts_.empty() || subscribe_contracts_.find(p->instrument) != subscribe_contracts_.end()))
 			{
 				l2_quote_handler_(&data_my);
+				
+				// debug wangying
+				//string data = ToString(&data_my);
+				//MY_LOG_ERROR("CZCE_UDP - recv data:%s", data.c_str());
 			}
 
 			// 存起来
-			p_save_zcel2_quote_snap_snapshot_->OnQuoteData(t.tv_sec * 1000000 + t.tv_usec, &data_my);
+			if (tap_data != NULL)
+			{
+				p_save_zcel2_quote_snap_snapshot_->OnQuoteData(t.tv_sec * 1000000 + t.tv_usec, &data_my);
+			}
         }
     }
 }
@@ -228,3 +248,149 @@ int CzceUdpMD::CreateUdpFD(const std::string& addr_ip, unsigned short port)
 
     return udp_client_fd;
 }
+
+void CzceUdpMD::OnTapAPIQuoteWhole_MY(const TapAPIQuoteWhole_MY *data)	
+{
+	string tap_contr = data->CommodityNo;
+	tap_contr += data->ContractNo1;
+    
+	TapAPIQuoteWhole_MY *tap_data = NULL;
+	{
+		tap_data =  get_data_by_tap_contr(tap_contr);
+	}
+
+	if(tap_data != NULL)
+	{
+		return;
+	}
+	else
+	{
+		lock_guard<std::mutex> lck (first_data_each_contract_lock_);
+		first_data_each_contract_[tap_contr] = *data; 
+		memcpy(first_data_each_contract_[tap_contr].ContractNo1,tap_contr.c_str(),sizeof(tap_contr.c_str()));	
+	}
+}
+
+std::string CzceUdpMD::ToString(const ZCEL2QuotSnapshotField_MY * p)
+{
+	char buf[10240];
+	if (p)
+	{
+		snprintf(buf, sizeof(buf), "structName=ZCEL2QuotSnapshotField_MY\n"
+			"\tContractID=%s\n"
+			"\tTimeStamp=%s\n"
+			"\tPreSettle=%f\n"
+			"\tPreClose=%f\n"
+			"\tPreOpenInterest=%i\n"
+			"\tOpenPrice=%f\n"
+			"\tHighPrice=%f\n"
+			"\tLowPrice=%f\n"
+			"\tLastPrice=%f\n"
+			"\tTotalVolume=%i\n"
+			"\tOpenInterest=%i\n"
+			"\tClosePrice=%f\n"
+			"\tSettlePrice=%f\n"
+			"\tAveragePrice=%f\n"
+			"\tLifeHigh=%f\n"
+			"\tLifeLow=%f\n"
+			"\tHighLimit=%f\n"
+			"\tLowLimit=%f\n"
+			"\tTotalBidLot=%i\n"
+			"\tTotalAskLot=%i\n"
+
+
+
+			"\tBidLot1=%i\n"
+			"\tBidLot2=%i\n"
+			"\tBidLot3=%i\n"
+			"\tBidLot4=%i\n"
+			"\tBidLot5=%i\n"
+
+			"\tAskLot1=%i\n"
+			"\tAskLot2=%i\n"
+			"\tAskLot3=%i\n"
+			"\tAskLot4=%i\n"
+			"\tAskLot5=%i\n"
+
+			"\tBidPrice1=%f\n"
+			"\tBidPrice2=%f\n"
+			"\tBidPrice3=%f\n"
+			"\tBidPrice4=%f\n"
+			"\tBidPrice5=%f\n"
+
+			"\tAskPrice1=%f\n"
+			"\tAskPrice2=%f\n"
+			"\tAskPrice3=%f\n"
+			"\tAskPrice4=%f\n"
+			"\tAskPrice5=%f\n",
+			p->ContractID,                     ///< 合约编码         
+			p->TimeStamp,
+			p->PreSettle,                   ///< 前结算价格
+			p->PreClose,                 ///< 前收盘价格
+			p->PreOpenInterest,                    ///昨日空盘量
+			p->OpenPrice,                   ///< 开盘价
+			p->HighPrice,                 ///< 最高价
+			p->LowPrice,                   ///< 最低价
+			p->LastPrice,        ///< 最新价
+			p->TotalVolume,                   ///< 总成交量
+			p->OpenInterest,                ///< 持仓量
+			p->ClosePrice,                  ///< 收盘价
+			p->SettlePrice,                ///< 结算价
+			p->AveragePrice,                ///< 均价
+			p->LifeHigh,                ///< 历史最高成交价格
+			p->LifeLow,                ///< 历史最低成交价格
+			p->HighLimit,                ///< 涨停板
+			p->LowLimit,                ///< 跌停板
+			p->TotalBidLot,                ///< 委卖总量
+			p->TotalAskLot,                ///< 委卖总量
+
+			p->BidLot[0],                
+			p->BidLot[1],                
+			p->BidLot[2],                
+			p->BidLot[3],                
+			p->BidLot[4],                
+
+			p->AskLot[0],                
+			p->AskLot[1],                
+			p->AskLot[2],                
+			p->AskLot[3],                
+			p->AskLot[4],                
+
+			p->BidPrice[0],              
+			p->BidPrice[1],              
+			p->BidPrice[2],              
+			p->BidPrice[3],              
+			p->BidPrice[4],              
+
+			p->AskPrice[0],              
+			p->AskPrice[1],              
+			p->AskPrice[2],              
+			p->AskPrice[3],              
+			p->AskPrice[4]              
+
+		);
+	}
+	return buf;
+}
+
+TapAPIQuoteWhole_MY *CzceUdpMD::get_data_by_tap_contr(string &tap_fmt_contract)
+{
+	lock_guard<std::mutex> lck (first_data_each_contract_lock_);
+	map<string,TapAPIQuoteWhole_MY>::iterator it = first_data_each_contract_.find(tap_fmt_contract);
+	if(it==first_data_each_contract_.end())
+	{
+		return NULL;
+	}
+	else
+	{
+		return &it->second;
+	}
+}
+
+TapAPIQuoteWhole_MY *CzceUdpMD::get_data_by_udp_contr(string &contract)
+{
+	string tap_fmt_contract = contract;
+	tap_fmt_contract.erase(2,1); 
+	return this->get_data_by_tap_contr(tap_fmt_contract);
+}
+

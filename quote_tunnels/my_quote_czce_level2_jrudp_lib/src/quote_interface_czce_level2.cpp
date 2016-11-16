@@ -44,7 +44,7 @@ void InitOnce()
 
 MYQuoteData::MYQuoteData(const SubscribeContracts *subscribe_contracts, const std::string &provider_config_file)
 {
-    interface_ = NULL;
+	interface_ = NULL;
 
     InitOnce();
 

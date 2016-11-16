@@ -22,7 +22,7 @@
 
 using namespace std;
 using namespace my_cmn;
-
+using namespace TAP;
 void
 InitOnce()
 {

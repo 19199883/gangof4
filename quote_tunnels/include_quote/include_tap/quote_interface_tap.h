@@ -21,33 +21,36 @@ typedef std::set<std::string> SubscribeContracts;
 // forward declare
 class ConfigData;
 
-class DLL_PUBLIC MYQuoteData
+namespace TAP
 {
-public:
+		class DLL_PUBLIC MYQuoteData
+		{
+		public:
 
-    /**
-     * @param subscribe_contracts 需要订阅的合约集合。(指针为空指针，或集合为空，将返回行情接口接收到的所有合约数据)
-     * @param provider_config_file 行情的配置文件名
-     */
-    MYQuoteData(const SubscribeContracts *subscribe_contracts, const std::string &provider_config_file);
+			/**
+			 * @param subscribe_contracts 需要订阅的合约集合。(指针为空指针，或集合为空，将返回行情接口接收到的所有合约数据)
+			 * @param provider_config_file 行情的配置文件名
+			 */
+			MYQuoteData(const SubscribeContracts *subscribe_contracts, const std::string &provider_config_file);
 
-    // tap market data handlers
-    void SetQuoteDataHandler(boost::function<void(const  TapAPIQuoteWhole_MY *)> quote_handler);
-	
-	void SetQuoteDataHandler(boost::function<void(const int *)> quote_handler){}
+			// tap market data handlers
+			void SetQuoteDataHandler(boost::function<void(const  TapAPIQuoteWhole_MY *)> quote_handler);
+			
+			void SetQuoteDataHandler(boost::function<void(const int *)> quote_handler){}
 
-    ~MYQuoteData();
+			~MYQuoteData();
 
-private:
-    // 禁止拷贝和赋值
-    MYQuoteData(const MYQuoteData & other);
-    MYQuoteData operator=(const MYQuoteData & other);
+		private:
+			// 禁止拷贝和赋值
+			MYQuoteData(const MYQuoteData & other);
+			MYQuoteData operator=(const MYQuoteData & other);
 
-    // 内部实现接口
-    bool InitInterface(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg);
+			// 内部实现接口
+			bool InitInterface(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg);
 
-    void *interface_;
-    int quote_provider_type_;
-};
+			void *interface_;
+			int quote_provider_type_;
+		};
+}
 
 #endif  //MY_QUOTE_INTERFACE_CZCE_LEVEL2_H_
