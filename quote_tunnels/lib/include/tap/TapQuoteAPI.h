@@ -1,4 +1,4 @@
-ï»¿#ifndef TAP_QUOTE_API_H
+#ifndef TAP_QUOTE_API_H
 #define TAP_QUOTE_API_H
 
 #include "TapQuoteAPIDataType.h"
@@ -12,309 +12,188 @@
 #endif
 
 //TapQuoteAPI.h
-//æ–‡ä»¶å®šä¹‰äº†TapQuoteAPIæä¾›ç»™å¼€å‘è€…çš„å¯¹å¤–æ¥å£ã€å‡½æ•°å’Œå›è°ƒæ¥å£ã€‚
+//ÎÄ¼ş¶¨ÒåÁËTapQuoteAPIÌá¹©¸ø¿ª·¢ÕßµÄ¶ÔÍâ½Ó¿Ú¡¢º¯ÊıºÍ»Øµ÷½Ó¿Ú¡£
 
-//TapQuoteAPI çš„å›è°ƒé€šçŸ¥æ¥å£ã€‚
+//TapQuoteAPI µÄ»Øµ÷Í¨Öª½Ó¿Ú¡£
 class ITapQuoteAPINotify
 {
 public:
 	/**
-	* @brief	ç³»ç»Ÿç™»å½•è¿‡ç¨‹å›è°ƒã€‚
-	* @details	æ­¤å‡½æ•°ä¸ºLogin()ç™»å½•å‡½æ•°çš„å›è°ƒï¼Œè°ƒç”¨Login()æˆåŠŸåå»ºç«‹äº†é“¾è·¯è¿æ¥ï¼Œç„¶åAPIå°†å‘æœåŠ¡å™¨å‘é€ç™»å½•è®¤è¯ä¿¡æ¯ï¼Œ
-	*			ç™»å½•æœŸé—´çš„æ•°æ®å‘é€æƒ…å†µå’Œç™»å½•çš„å›é¦ˆä¿¡æ¯ä¼ é€’åˆ°æ­¤å›è°ƒå‡½æ•°ä¸­ã€‚
-	* @param[in] errorCode è¿”å›é”™è¯¯ç ,0è¡¨ç¤ºæˆåŠŸã€‚
-	* @param[in] info ç™»é™†åº”ç­”ä¿¡æ¯ï¼Œå¦‚æœerrorCode!=0ï¼Œåˆ™info=NULLã€‚
-	* @attention	è¯¥å›è°ƒè¿”å›æˆåŠŸï¼Œè¯´æ˜ç”¨æˆ·ç™»å½•æˆåŠŸã€‚ä½†æ˜¯ä¸ä»£è¡¨APIå‡†å¤‡å®Œæ¯•ã€‚
+	* @brief	ÏµÍ³µÇÂ¼¹ı³Ì»Øµ÷¡£
+	* @details	´Ëº¯ÊıÎªLogin()µÇÂ¼º¯ÊıµÄ»Øµ÷£¬µ÷ÓÃLogin()³É¹¦ºó½¨Á¢ÁËÁ´Â·Á¬½Ó£¬È»ºóAPI½«Ïò·şÎñÆ÷·¢ËÍµÇÂ¼ÈÏÖ¤ĞÅÏ¢£¬
+	*			µÇÂ¼ÆÚ¼äµÄÊı¾İ·¢ËÍÇé¿öºÍµÇÂ¼µÄ»ØÀ¡ĞÅÏ¢´«µİµ½´Ë»Øµ÷º¯ÊıÖĞ¡£
+	* @param[in] errorCode ·µ»Ø´íÎóÂë,0±íÊ¾³É¹¦¡£
+	* @param[in] info µÇÂ½Ó¦´ğĞÅÏ¢£¬Èç¹ûerrorCode!=0£¬Ôòinfo=NULL¡£
+	* @attention	¸Ã»Øµ÷·µ»Ø³É¹¦£¬ËµÃ÷ÓÃ»§µÇÂ¼³É¹¦¡£µ«ÊÇ²»´ú±íAPI×¼±¸Íê±Ï¡£ĞèÒªµÈµ½OnAPIReady²ÅÄÜ½øĞĞ²éÑ¯Óë¶©ÔÄÇëÇó¡£
 	* @ingroup G_Q_Login
 	*/
 	virtual void TAP_CDECL OnRspLogin(TAPIINT32 errorCode, const TapAPIQuotLoginRspInfo *info) = 0;
 	/**
-	* @brief	é€šçŸ¥ç”¨æˆ·APIå‡†å¤‡å°±ç»ªã€‚
-	* @details	åªæœ‰ç”¨æˆ·å›è°ƒæ”¶åˆ°æ­¤å°±ç»ªé€šçŸ¥æ—¶æ‰èƒ½è¿›è¡Œåç»­çš„å„ç§è¡Œæƒ…æ•°æ®æŸ¥è¯¢æ“ä½œã€‚\n
-	*			æ­¤å›è°ƒå‡½æ•°æ˜¯APIèƒ½å¦æ­£å¸¸å·¥ä½œçš„æ ‡å¿—ã€‚
-	* @attention  å°±ç»ªåæ‰å¯ä»¥è¿›è¡Œåç»­æ­£å¸¸æ“ä½œ
+	* @brief	Í¨ÖªÓÃ»§API×¼±¸¾ÍĞ÷¡£
+	* @details	Ö»ÓĞÓÃ»§»Øµ÷ÊÕµ½´Ë¾ÍĞ÷Í¨ÖªÊ±²ÅÄÜ½øĞĞºóĞøµÄ¸÷ÖÖĞĞÇéÊı¾İ²éÑ¯²Ù×÷¡£\n
+	*			´Ë»Øµ÷º¯ÊıÊÇAPIÄÜ·ñÕı³£¹¤×÷µÄ±êÖ¾¡£
+	* @attention  ¾ÍĞ÷ºó²Å¿ÉÒÔ½øĞĞºóĞøÕı³£²Ù×÷
 	* @ingroup G_Q_Login
 	*/
 	virtual void TAP_CDECL OnAPIReady() = 0;
 	/**
-	* @brief	APIå’ŒæœåŠ¡å¤±å»è¿æ¥çš„å›è°ƒ
-	* @details	åœ¨APIä½¿ç”¨è¿‡ç¨‹ä¸­ä¸»åŠ¨æˆ–è€…è¢«åŠ¨ä¸æœåŠ¡å™¨æœåŠ¡å¤±å»è¿æ¥åéƒ½ä¼šè§¦å‘æ­¤å›è°ƒé€šçŸ¥ç”¨æˆ·ä¸æœåŠ¡å™¨çš„è¿æ¥å·²ç»æ–­å¼€ã€‚
-	* @param[in] reasonCode æ–­å¼€åŸå› ä»£ç ã€‚ \n
+	* @brief	APIºÍ·şÎñÊ§È¥Á¬½ÓµÄ»Øµ÷
+	* @details	ÔÚAPIÊ¹ÓÃ¹ı³ÌÖĞÖ÷¶¯»òÕß±»¶¯Óë·şÎñÆ÷·şÎñÊ§È¥Á¬½Óºó¶¼»á´¥·¢´Ë»Øµ÷Í¨ÖªÓÃ»§Óë·şÎñÆ÷µÄÁ¬½ÓÒÑ¾­¶Ï¿ª¡£
+	* @param[in] reasonCode ¶Ï¿ªÔ­Òò´úÂë¡£¾ßÌåÔ­ÒòÇë²Î¼û´íÎóÂëÁĞ±í \n
 	* @ingroup G_Q_Disconnect
 	*/
 	virtual void TAP_CDECL OnDisconnect(TAPIINT32 reasonCode) = 0;
 	/**
-	* @brief é€šçŸ¥ç”¨æˆ·å¯†ç ä¿®æ”¹ç»“æœ
-	* @param[in] sessionID ä¿®æ”¹å¯†ç çš„ä¼šè¯ID,å’ŒChangePasswordè¿”å›çš„ä¼šè¯IDå¯¹åº”ã€‚
-	* @param[in] errorCode è¿”å›é”™è¯¯ç ï¼Œ0è¡¨ç¤ºæˆåŠŸã€‚
-	* @note æš‚æœªå®ç°
-	* @ingroup G_Q_Password
-	*/
-	virtual void TAP_CDECL OnRspChangePassword(TAPIUINT32 sessionID, TAPIINT32 errorCode) = 0;
-	/**
-	* @brief è¿”å›äº¤æ˜“æ‰€ä¿¡æ¯
-	* @param[in] sessionID è¯·æ±‚çš„ä¼šè¯IDï¼›
-	* @param[in] errorCode é”™è¯¯ç ï¼Œå½“errorCode!=0æ—¶,infoä¸ºNULLï¼›
-	* @param[in] isLast æ ‡ç¤ºæ˜¯å¦æ˜¯æœ€åä¸€æ‰¹æ•°æ®ï¼›
-	* @param[in] info è¿”å›çš„äº¤æ˜“æ‰€ä¿¡æ¯ã€‚
-	* @attention  ä¸è¦ä¿®æ”¹å’Œåˆ é™¤infoæ‰€æŒ‡ç¤ºçš„æ•°æ®ï¼›å‡½æ•°è°ƒç”¨ç»“æŸï¼Œå‚æ•°ä¸å†æœ‰æ•ˆã€‚
-	* @ingroup G_Q_Exchange
-	*/
-	virtual void TAP_CDECL OnRspQryExchange(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIExchangeInfo *info) = 0;
-	/**
-	* @brief	è¿”å›æ‰€æœ‰å“ç§ä¿¡æ¯ã€‚
-	* @details	æ­¤å›è°ƒæ¥å£ç”¨äºå‘ç”¨æˆ·è¿”å›å¾—åˆ°çš„æ‰€æœ‰å“ç§ä¿¡æ¯ã€‚
-	* @param[in] sessionID è¯·æ±‚çš„ä¼šè¯IDï¼Œå’ŒGetAllCommodities()å‡½æ•°è¿”å›å¯¹åº”ï¼›
-	* @param[in] errorCode é”™è¯¯ç ï¼Œå½“errorCode!=0æ—¶,infoä¸ºNULLï¼›
-	* @param[in] isLast æ ‡ç¤ºæ˜¯å¦æ˜¯æœ€åä¸€æ‰¹æ•°æ®ï¼›
-	* @param[in] info è¿”å›çš„ä¿¡æ¯æ•°ç»„çš„èµ·å§‹æŒ‡é’ˆã€‚
-	* @attention  ä¸è¦ä¿®æ”¹å’Œåˆ é™¤infoæ‰€æŒ‡ç¤ºçš„æ•°æ®ï¼›å‡½æ•°è°ƒç”¨ç»“æŸï¼Œå‚æ•°ä¸å†æœ‰æ•ˆã€‚
+	* @brief	·µ»ØËùÓĞÆ·ÖÖĞÅÏ¢¡£
+	* @details	´Ë»Øµ÷½Ó¿ÚÓÃÓÚÏòÓÃ»§·µ»ØµÃµ½µÄËùÓĞÆ·ÖÖĞÅÏ¢¡£
+	* @param[in] sessionID ÇëÇóµÄ»á»°ID
+	* @param[in] errorCode ´íÎóÂë£¬µ±errorCode!=0Ê±,infoÎªNULL£»
+	* @param[in] isLast ±êÊ¾ÊÇ·ñÊÇ×îºóÒ»ÅúÊı¾İ£»
+	* @param[in] info ·µ»ØµÄĞÅÏ¢Êı×éµÄÆğÊ¼Ö¸Õë¡£
+	* @attention  ²»ÒªĞŞ¸ÄºÍÉ¾³ıinfoËùÖ¸Ê¾µÄÊı¾İ£»º¯Êıµ÷ÓÃ½áÊø£¬²ÎÊı²»ÔÙÓĞĞ§¡£
 	* @ingroup G_Q_Commodity
 	*/
 	virtual void TAP_CDECL OnRspQryCommodity(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIQuoteCommodityInfo *info) = 0;
 	/**
-	* @brief è¿”å›å“ç§çš„æœ‰æ•ˆäº¤æ˜“æ—¶æ®µ
-	* @param[in] sessionID è¯·æ±‚çš„ä¼šè¯ID
-	* @param[in] errorCode é”™è¯¯ç ï¼Œå½“errorCode!=0æ—¶,infoä¸ºNULLï¼›
-	* @param[in] isLast æ ‡ç¤ºæ˜¯å¦æ˜¯æœ€åä¸€æ‰¹æ•°æ®ï¼›
-	* @param[in] info æ˜¯è¿”å›çš„ä¿¡æ¯æ•°ç»„çš„èµ·å§‹æŒ‡é’ˆã€‚
-	* @attention  ä¸è¦ä¿®æ”¹å’Œåˆ é™¤infoæŒ‡ç¤ºçš„æ•°æ®ï¼›å‡½æ•°è°ƒç”¨ç»“æŸï¼Œå‚æ•°ä¸å†æœ‰æ•ˆã€‚
-	* @ingroup G_Q_TradingTimeBucket
-	*/
-	virtual void TAP_CDECL OnRspQryTimeBucketOfCommodity(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPITimeBucketOfCommodityInfo *info) = 0;
-	/**
-	* @brief å•†å“æœ‰æ•ˆäº¤æ˜“æ—¶æ®µå˜åŒ–çš„é€šçŸ¥
-	* @param[in] info	å•†å“æœ‰æ•ˆäº¤æ˜“æ—¶æ®µä¿¡æ¯
-	* @attention ä¸è¦ä¿®æ”¹å’Œåˆ é™¤infoæ‰€æŒ‡ç¤ºçš„æ•°æ®ï¼›å‡½æ•°è°ƒç”¨ç»“æŸï¼Œå‚æ•°ä¸å†æœ‰æ•ˆã€‚
-	* @ingroup G_Q_TradingTimeBucket
-	*/
-	virtual void TAP_CDECL OnRtnTimeBucketOfCommodity(const TapAPITimeBucketOfCommodityInfo *info) = 0;
-	/**
-	* @brief è¿”å›ç³»ç»Ÿä¸­åˆçº¦ä¿¡æ¯
-	* @param[in] sessionID è¯·æ±‚çš„ä¼šè¯IDï¼›
-	* @param[in] errorCode é”™è¯¯ç ï¼Œå½“errorCode!=0æ—¶,infoä¸ºNULLï¼›
-	* @param[in] isLast æ ‡ç¤ºæ˜¯å¦æ˜¯æœ€åä¸€æ‰¹æ•°æ®ï¼›
-	* @param[in] info		æŒ‡å‘è¿”å›çš„ä¿¡æ¯ç»“æ„ä½“ã€‚å½“errorCodeä¸ä¸º0æ—¶ï¼Œinfoä¸ºç©ºã€‚
-	* @attention ä¸è¦ä¿®æ”¹å’Œåˆ é™¤infoæ‰€æŒ‡ç¤ºçš„æ•°æ®ï¼›å‡½æ•°è°ƒç”¨ç»“æŸï¼Œå‚æ•°ä¸å†æœ‰æ•ˆã€‚
+	* @brief ·µ»ØÏµÍ³ÖĞºÏÔ¼ĞÅÏ¢
+	* @param[in] sessionID ÇëÇóµÄ»á»°ID£»
+	* @param[in] errorCode ´íÎóÂë£¬µ±errorCode!=0Ê±,infoÎªNULL£»
+	* @param[in] isLast ±êÊ¾ÊÇ·ñÊÇ×îºóÒ»ÅúÊı¾İ£»
+	* @param[in] info		Ö¸Ïò·µ»ØµÄĞÅÏ¢½á¹¹Ìå¡£µ±errorCode²»Îª0Ê±£¬infoÎª¿Õ¡£
+	* @attention ²»ÒªĞŞ¸ÄºÍÉ¾³ıinfoËùÖ¸Ê¾µÄÊı¾İ£»º¯Êıµ÷ÓÃ½áÊø£¬²ÎÊı²»ÔÙÓĞĞ§¡£
 	* @ingroup G_Q_Contract
 	*/
 	virtual void TAP_CDECL OnRspQryContract(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIQuoteContractInfo *info) = 0;
 	/**
-	* @brief é€šçŸ¥åˆçº¦æ·»åŠ 
-	* @param[in] info		æŒ‡å‘è¿”å›çš„æ–°å¢åˆçº¦
-	* @attention ä¸è¦ä¿®æ”¹å’Œåˆ é™¤infoæ‰€æŒ‡ç¤ºçš„æ•°æ®ï¼›å‡½æ•°è°ƒç”¨ç»“æŸï¼Œå‚æ•°ä¸å†æœ‰æ•ˆã€‚
-	* @ingroup G_Q_Contract
-	*/
-	virtual void TAP_CDECL OnRtnContract(const TapAPIQuoteContractInfo *info) = 0;
-	/**
-	* @brief	è¿”å›è®¢é˜…è¡Œæƒ…çš„å…¨æ–‡ã€‚
-	* @details	æ­¤å›è°ƒæ¥å£ç”¨æ¥è¿”å›è®¢é˜…è¡Œæƒ…çš„å…¨æ–‡ã€‚å…¨æ–‡ä¸ºå½“å‰æ—¶é—´çš„è¡Œæƒ…ä¿¡æ¯ã€‚
-	* @param[in] sessionID è¯·æ±‚çš„ä¼šè¯IDï¼›
-	* @param[in] isLast æ ‡ç¤ºæ˜¯å¦æ˜¯æœ€åä¸€æ‰¹æ•°æ®ï¼›
-	* @param[in] errorCode é”™è¯¯ç ï¼Œå½“errorCode!=0æ—¶,infoä¸ºNULLï¼›
-	* @param[in] info		æŒ‡å‘è¿”å›çš„ä¿¡æ¯ç»“æ„ä½“ã€‚å½“errorCodeä¸ä¸º0æ—¶ï¼Œinfoä¸ºç©ºã€‚
+	* @brief	·µ»Ø¶©ÔÄĞĞÇéµÄÈ«ÎÄ¡£
+	* @details	´Ë»Øµ÷½Ó¿ÚÓÃÀ´·µ»Ø¶©ÔÄĞĞÇéµÄÈ«ÎÄ¡£È«ÎÄÎªµ±Ç°Ê±¼äµÄĞĞÇéĞÅÏ¢¡£
+	* @param[in] sessionID ÇëÇóµÄ»á»°ID£»
+	* @param[in] isLast ±êÊ¾ÊÇ·ñÊÇ×îºóÒ»ÅúÊı¾İ£»
+	* @param[in] errorCode ´íÎóÂë£¬µ±errorCode!=0Ê±,infoÎªNULL£»
+	* @param[in] info		Ö¸Ïò·µ»ØµÄĞÅÏ¢½á¹¹Ìå¡£µ±errorCode²»Îª0Ê±£¬infoÎª¿Õ¡£
+	* @attention  ²»ÒªĞŞ¸ÄºÍÉ¾³ıinfoËùÖ¸Ê¾µÄÊı¾İ£»º¯Êıµ÷ÓÃ½áÊø£¬²ÎÊı²»ÔÙÓĞĞ§¡£
 	* @ingroup G_Q_Quote
 	*/
 	virtual void TAP_CDECL OnRspSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIQuoteWhole *info) = 0;
 	/**
-	* @brief é€€è®¢æŒ‡å®šåˆçº¦çš„è¡Œæƒ…çš„ç»“æœå›è°ƒ
-	* @param[in] sessionID è¯·æ±‚çš„ä¼šè¯IDï¼›
-	* @param[in] errorCode é”™è¯¯ç ï¼Œå½“errorCode!=0æ—¶,infoä¸ºNULLï¼›
-	* @param[in] isLast æ ‡ç¤ºæ˜¯å¦æ˜¯æœ€åä¸€æ‰¹æ•°æ®ï¼›
-	* @param[in] info		æŒ‡å‘è¿”å›çš„ä¿¡æ¯ç»“æ„ä½“ã€‚å½“errorCodeä¸ä¸º0æ—¶ï¼Œinfoä¸ºç©ºã€‚
+	* @brief ÍË¶©Ö¸¶¨ºÏÔ¼µÄĞĞÇéµÄ½á¹û»Øµ÷
+	* @param[in] sessionID ÇëÇóµÄ»á»°ID£»
+	* @param[in] errorCode ´íÎóÂë£¬µ±errorCode!=0Ê±,infoÎªNULL£»
+	* @param[in] isLast ±êÊ¾ÊÇ·ñÊÇ×îºóÒ»ÅúÊı¾İ£»
+	* @param[in] info		Ö¸Ïò·µ»ØµÄĞÅÏ¢½á¹¹Ìå¡£µ±errorCode²»Îª0Ê±£¬infoÎª¿Õ¡£
+	* @attention  ²»ÒªĞŞ¸ÄºÍÉ¾³ıinfoËùÖ¸Ê¾µÄÊı¾İ£»º¯Êıµ÷ÓÃ½áÊø£¬²ÎÊı²»ÔÙÓĞĞ§¡£
 	* @ingroup G_Q_Quote
 	*/
 	virtual void TAP_CDECL OnRspUnSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIContract *info) = 0;
 	/**
-	* @brief	è¿”å›è®¢é˜…è¡Œæƒ…çš„å˜åŒ–å†…å®¹ã€‚
-	* @details	æ­¤å›è°ƒæ¥å£ç”¨æ¥é€šçŸ¥ç”¨æˆ·è¡Œæƒ…ä¿¡æ¯äº§ç”Ÿäº†å˜åŒ–ï¼Œå¹¶å‘ç”¨æˆ·æäº¤æ–°çš„è¡Œæƒ…å…¨æ–‡ã€‚
-	* @param[in] info æœ€æ–°çš„è¡Œæƒ…å…¨æ–‡å†…å®¹
-	* @attention ä¸è¦ä¿®æ”¹å’Œåˆ é™¤QuoteæŒ‡ç¤ºçš„æ•°æ®ï¼›å‡½æ•°è°ƒç”¨ç»“æŸï¼Œå‚æ•°ä¸å†æœ‰æ•ˆã€‚
+	* @brief	·µ»Ø¶©ÔÄĞĞÇéµÄ±ä»¯ÄÚÈİ¡£
+	* @details	´Ë»Øµ÷½Ó¿ÚÓÃÀ´Í¨ÖªÓÃ»§ĞĞÇéĞÅÏ¢²úÉúÁË±ä»¯£¬²¢ÏòÓÃ»§Ìá½»ĞÂµÄĞĞÇéÈ«ÎÄ¡£
+	* @param[in] info ×îĞÂµÄĞĞÇéÈ«ÎÄÄÚÈİ
+	* @attention ²»ÒªĞŞ¸ÄºÍÉ¾³ıQuoteÖ¸Ê¾µÄÊı¾İ£»º¯Êıµ÷ÓÃ½áÊø£¬²ÎÊı²»ÔÙÓĞĞ§¡£
 	* @ingroup G_Q_Quote
 	*/
 	virtual void TAP_CDECL OnRtnQuote(const TapAPIQuoteWhole *info) = 0;
-	/**
-	* @brief è¿”å›æŸ¥è¯¢åˆ°çš„å†å²è¡Œæƒ…ã€‚
-	* @param[in] sessionID è¯·æ±‚çš„ä¼šè¯IDï¼›
-	* @param[in] errorCode é”™è¯¯ç ï¼Œå½“errorCode!=0æ—¶ï¼Œinfoä¸ºNULLï¼›
-	* @param[in] isLast æ ‡ç¤ºæ˜¯å¦æ˜¯æœ€åä¸€æ‰¹æ•°æ®ï¼›
-	* @param[in] info è¿”å›çš„å†å²è¡Œæƒ…ä¿¡æ¯ã€‚
-	* @attention  å‡½æ•°è°ƒç”¨ç»“æŸï¼Œå‚æ•°ä¸å†æœ‰æ•ˆã€‚
-	* @ingroup G_Q_HisQuote
-	*/
-	virtual void TAP_CDECL OnRspQryHisQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIHisQuoteQryRsp *info) = 0;
 };
 
-//TapQuoteAPI å¯¹å¤–åŠŸèƒ½æ¥å£ã€‚åŒ…å«äº†ç”¨æˆ·å¯ä»¥è°ƒç”¨çš„åŠŸèƒ½å‡½æ•°ã€‚
+//TapQuoteAPI ¶ÔÍâ¹¦ÄÜ½Ó¿Ú¡£°üº¬ÁËÓÃ»§¿ÉÒÔµ÷ÓÃµÄ¹¦ÄÜº¯Êı¡£
 class ITapQuoteAPI
 {
 public:
 	/**
-	* @brief	è®¾ç½®APIçš„å›è°ƒæ¥å£å¯¹è±¡ã€‚
-	* @details	ç³»ç»Ÿå¯¹APIçš„é€šçŸ¥å°†é€šè¿‡è®¾ç½®çš„å›è°ƒå¯¹è±¡é€šçŸ¥ç»™ä½¿ç”¨è€…ã€‚
-	*			ITapQuoteAPINofifyæ˜¯APIçš„å›è°ƒæ¥å£ï¼Œç”¨æˆ·éœ€è¦ç»§æ‰¿å®ç°æ­¤æ¥å£ç±»å¯¹è±¡æ¥å®Œæˆç”¨æˆ·éœ€è¦çš„åŠŸèƒ½ã€‚
-	*			å¦‚æœç”¨æˆ·æ²¡æœ‰è®¾ç½®å›è°ƒæ¥å£ï¼Œåˆ™APIä¸ä¼šå‘ç”¨æˆ·è¿”å›ä»»ä½•æœ‰ç”¨çš„ä¿¡æ¯ã€‚\n
-	*			ITapQuoteAPINotifyç±»çš„è¯¦ç»†å†…å®¹è¯·æŸ¥çœ‹TapQuoteAPI.h æ–‡ä»¶ã€‚
-	* @param[in] apiNotify å®ç°äº†ITapQuoteAPINotifyæ¥å£çš„å¯¹è±¡æŒ‡é’ˆã€‚
-	* @operationtype åŒæ­¥æ“ä½œ
+	* @brief	ÉèÖÃAPIµÄ»Øµ÷½Ó¿Ú¶ÔÏó¡£
+	* @details	ÏµÍ³¶ÔAPIµÄÍ¨Öª½«Í¨¹ıÉèÖÃµÄ»Øµ÷¶ÔÏóÍ¨Öª¸øÊ¹ÓÃÕß¡£
+	*			ITapQuoteAPINofifyÊÇAPIµÄ»Øµ÷½Ó¿Ú£¬ÓÃ»§ĞèÒª¼Ì³ĞÊµÏÖ´Ë½Ó¿ÚÀà¶ÔÏóÀ´Íê³ÉÓÃ»§ĞèÒªµÄ¹¦ÄÜ¡£
+	*			Èç¹ûÓÃ»§Ã»ÓĞÉèÖÃ»Øµ÷½Ó¿Ú£¬ÔòAPI²»»áÏòÓÃ»§·µ»ØÈÎºÎÓĞÓÃµÄĞÅÏ¢¡£\n
+	*			ITapQuoteAPINotifyÀàµÄÏêÏ¸ÄÚÈİÇë²é¿´TapQuoteAPI.h ÎÄ¼ş¡£
+	* @param[in] apiNotify ÊµÏÖÁËITapQuoteAPINotify½Ó¿ÚµÄ¶ÔÏóÖ¸Õë¡£
+	* @operationtype Í¬²½²Ù×÷
 	* @ingroup G_Q_Login
 	*/
 	virtual TAPIINT32 TAP_CDECL SetAPINotify(ITapQuoteAPINotify *apiNotify) = 0;
 	/**
-	* @brief è®¾ç½®æœåŠ¡å™¨çš„IPåœ°å€å’Œç«¯å£ã€‚
-	* @param[in] IP   IPåœ°å€
-	* @param[in] port ç«¯å£å·
-	* @operationtype åŒæ­¥æ“ä½œ
+	* @brief ÉèÖÃ·şÎñÆ÷µÄIPµØÖ·ºÍ¶Ë¿Ú¡£µÈµ½µ÷ÓÃLoginÊ±ÕæÕı·¢ÆğÁ¬½Ó¡£
+	* @param[in] IP   IPµØÖ·
+	* @param[in] port ¶Ë¿ÚºÅ
+	* @operationtype Í¬²½²Ù×÷
 	* @ingroup G_Q_Login
 	*/
 	virtual TAPIINT32 TAP_CDECL SetHostAddress(const TAPICHAR *IP, TAPIUINT16 port) = 0;
 	/**
-	* @brief	å‘èµ·ç™»å½•è¯·æ±‚ã€‚APIå°†å…ˆè¿æ¥æœåŠ¡ï¼Œå»ºç«‹é“¾è·¯ï¼Œå‘èµ·ç™»å½•è®¤è¯ã€‚
-	* @details	åœ¨ä½¿ç”¨å‡½æ•°å‡½æ•°å‰ç”¨æˆ·éœ€è¦å®ŒæˆæœåŠ¡å™¨çš„è®¾ç½®SetHostAddress()ï¼Œå¹¶ä¸”åˆ›å»ºTapAPIQuoteLoginAuthç±»å‹çš„ç”¨æˆ·ä¿¡æ¯ï¼Œ
-	*			å¹¶ä¸”éœ€è¦è®¾ç½®å¥½å›è°ƒæ¥å£ã€‚\n
-	*			è¿æ¥å»ºç«‹åçš„ç”¨æˆ·éªŒè¯å›é¦ˆä¿¡æ¯é€šè¿‡å›è°ƒOnLogin()è¿”å›ç»™ç”¨æˆ·ã€‚\n
-	*			ç™»å½•æˆåŠŸåAPIä¼šè‡ªåŠ¨è¿›è¡ŒAPIçš„åˆå§‹åŒ–ï¼ŒAPIå‘æœåŠ¡å™¨è¯·æ±‚åŸºç¡€æ•°æ®ï¼ŒæŸ¥è¯¢å®Œä»¥åä¼šé€šè¿‡å›è°ƒOnAPIReady()
-	*			æŒ‡ç¤ºç”¨æˆ·APIåˆå§‹åŒ–å®Œæˆï¼Œå¯ä»¥è¿›è¡Œåç»­çš„æ“ä½œäº†ã€‚
-	* @param[in] loginAuth ç™»å½•éªŒè¯ä¿¡æ¯ç»“æ„æŒ‡é’ˆã€‚åŒ…å«ç™»å½•éœ€è¦çš„éªŒè¯ä¿¡æ¯ã€‚
-	* @retval 0 ç™»å½•æˆåŠŸï¼ŒAPIå¼€å§‹å‡†å¤‡åå°æ•°æ®
-	* @retval é0 é”™è¯¯ç 
-	* @attention ç™»å½•æˆåŠŸä¸å¦è¦æ ¹æ®OnLoginå›è°ƒåˆ¤æ–­ã€‚
-	* @operationtype å¼‚æ­¥æ“ä½œ
-	* @warning	Login()å‡½æ•°è°ƒç”¨æˆåŠŸåªæ˜¯ä»£è¡¨äºæœåŠ¡å™¨å»ºç«‹äº†é“¾è·¯è¿æ¥ï¼Œåªæœ‰å›è°ƒOnLogin()çš„è¿”å›èƒ½æŒ‡ç¤ºç”¨æˆ·æ˜¯å¦æˆåŠŸç™»å½•äº†ã€‚
+	* @brief	·¢ÆğµÇÂ¼ÇëÇó¡£API½«ÏÈÁ¬½Ó·şÎñ£¬½¨Á¢Á´Â·£¬·¢ÆğµÇÂ¼ÈÏÖ¤¡£
+	* @details	ÔÚÊ¹ÓÃº¯Êıº¯ÊıÇ°ÓÃ»§ĞèÒªÍê³É·şÎñÆ÷µÄÉèÖÃSetHostAddress()£¬²¢ÇÒ´´½¨TapAPIQuoteLoginAuthÀàĞÍµÄÓÃ»§ĞÅÏ¢£¬
+	*			²¢ÇÒĞèÒªÉèÖÃºÃ»Øµ÷½Ó¿Ú¡£\n
+	*			Á¬½Ó½¨Á¢ºóµÄÓÃ»§ÑéÖ¤»ØÀ¡ĞÅÏ¢Í¨¹ı»Øµ÷OnLogin()·µ»Ø¸øÓÃ»§¡£\n
+	*			µÇÂ¼³É¹¦ºóAPI»á×Ô¶¯½øĞĞAPIµÄ³õÊ¼»¯£¬APIÏò·şÎñÆ÷ÇëÇó»ù´¡Êı¾İ£¬²éÑ¯ÍêÒÔºó»áÍ¨¹ı»Øµ÷OnAPIReady()
+	*			Ö¸Ê¾ÓÃ»§API³õÊ¼»¯Íê³É£¬¿ÉÒÔ½øĞĞºóĞøµÄ²Ù×÷ÁË¡£
+	* @param[in] loginAuth µÇÂ¼ÑéÖ¤ĞÅÏ¢½á¹¹Ö¸Õë¡£°üº¬µÇÂ¼ĞèÒªµÄÑéÖ¤ĞÅÏ¢¡£
+	* @retval 0 µÇÂ¼³É¹¦£¬API¿ªÊ¼×¼±¸ºóÌ¨Êı¾İ
+	* @retval ·Ç0 ´íÎóÂë
+	* @attention µÇÂ¼³É¹¦Óë·ñÒª¸ù¾İOnLogin»Øµ÷ÅĞ¶Ï¡£
+	* @operationtype Òì²½²Ù×÷
+	* @warning	Login()º¯Êıµ÷ÓÃ³É¹¦Ö»ÊÇ´ú±íÓÚ·şÎñÆ÷½¨Á¢ÁËÁ´Â·Á¬½Ó£¬Ö»ÓĞ»Øµ÷OnLogin()µÄ·µ»ØÄÜÖ¸Ê¾ÓÃ»§ÊÇ·ñ³É¹¦µÇÂ¼ÁË¡£
 	* @ingroup G_Q_Login
 	*/
 	virtual TAPIINT32 TAP_CDECL Login(const TapAPIQuoteLoginAuth *loginAuth) = 0;
 	/**
-	* @brief	æ–­å¼€å’ŒæœåŠ¡å™¨çš„é“¾è·¯è¿æ¥ã€‚
-	* @details	è°ƒç”¨å‡½æ•°åAPIå°†ç™»å‡ºå¹¶æ–­å¼€ä¸æœåŠ¡å™¨çš„è¿æ¥ã€‚
-	* @operationtype åŒæ­¥æ“ä½œ
+	* @brief	¶Ï¿ªºÍ·şÎñÆ÷µÄÁ´Â·Á¬½Ó¡£
+	* @details	µ÷ÓÃº¯ÊıºóAPI½«µÇ³ö²¢¶Ï¿ªÓë·şÎñÆ÷µÄÁ¬½Ó¡£
+	* @operationtype Òì²½²Ù×÷
 	* @ingroup G_Q_Disconnect
 	*/
 	virtual TAPIINT32 TAP_CDECL Disconnect() = 0;
 	/**
-	* @brief	ä¿®æ”¹å¯†ç ã€‚
-	* @details	æˆåŠŸåç”¨æˆ·å¯†ç å°†è¢«è®¾ç½®æˆnewPasswordã€‚
-	* @param[out]	sessionID è¿”å›æ­¤æ¬¡ä¿®æ”¹å¯†ç çš„ä¼šè¯ID;
-	* @param[in]	req è¯·æ±‚ä¿®æ”¹å¯†ç çš„ç»“æ„ä½“æŒ‡é’ˆ
-	* @retval 0 æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype å¼‚æ­¥æ“ä½œ
-	* @note æš‚æœªå®ç°
-	* @ingroup G_Q_Password
-	*/
-	virtual TAPIINT32 TAP_CDECL ChangePassword(TAPIUINT32 *sessionID, const TapAPIChangePasswordReq *req) = 0;
-	/**
-	* @brief æŸ¥è¯¢äº¤æ˜“æ‰€ä¿¡æ¯
-	* @param[out] sessionID	è¿”å›è¯·æ±‚çš„ä¼šè¯IDã€‚
-	* @retval 0 è¯·æ±‚æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype å¼‚æ­¥æ“ä½œ
-	* @ingroup G_Q_Exchange
-	*/
-	virtual TAPIINT32 TAP_CDECL QryExchange(TAPIUINT32 *sessionID) = 0;
-	/**
-	* @brief å¾—åˆ°æ‰€æœ‰å“ç§
-	* @param[out] sessionID è¿”å›è¯·æ±‚çš„ä¼šè¯IDã€‚
-	* @retval 0 è¯·æ±‚æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype å¼‚æ­¥æ“ä½œ
+	* @brief µÃµ½ËùÓĞÆ·ÖÖ
+	* @param[out] sessionID ·µ»ØÇëÇóµÄ»á»°ID¡£
+	* @retval 0 ÇëÇó³É¹¦
+	* @retval ·Ç0 ´íÎóÂë
+	* @operationtype Òì²½²Ù×÷
 	* @ingroup G_Q_Commodity
 	*/
 	virtual TAPIINT32 TAP_CDECL QryCommodity(TAPIUINT32 *sessionID) = 0;
 	/**
-	* @brief å¾—åˆ°æŒ‡å®šå“ç§çš„äº¤æ˜“æ—¶æ®µ
-	* @details	ä½¿ç”¨æ­¤å‡½æ•°å‰ä¸€èˆ¬å…ˆé€šè¿‡QryCommodityå¾—åˆ°æœåŠ¡å™¨æä¾›çš„å“ç§ä¿¡æ¯ï¼Œ
-	*			å†ä»å“ç§ä¿¡æ¯ä¸­é€‰æ‹©éœ€è¦çš„å“ç§å¡«å…¥Commodityï¼Œå®Œæˆå‡½æ•°çš„è°ƒç”¨ã€‚\n
-	* @param[out] sessionID	è¿”å›è¯·æ±‚çš„ä¼šè¯IDã€‚
-	* @param[in]	qryReq	æŒ‡å®šå“ç§ã€‚
-	* @retval 0 è¯·æ±‚æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype å¼‚æ­¥æ“ä½œ
-	* @ingroup G_Q_TradingTimeBucket
-	*/
-	virtual TAPIINT32 TAP_CDECL QryTradingTimeBucketOfCommodity(TAPIUINT32 *sessionID, const TapAPICommodity *qryReq) = 0;
-	/**
-	* @brief	æŸ¥è¯¢ç³»ç»Ÿä¸­æŒ‡å®šå“ç§çš„åˆçº¦ä¿¡æ¯
-	* @details	ä½¿ç”¨æ­¤å‡½æ•°å‰éœ€è¦å…ˆQryCommodity()å–å¾—å“ç§ä¿¡æ¯ï¼Œ
-	*			ç„¶åé€‰æ‹©éœ€è¦çš„å“ç§å°†ä¿¡æ¯å¡«å…¥TapAPICommodityç»“æ„ä½“ä¸­å®ŒæˆæŸ¥è¯¢è¯·æ±‚ã€‚
-	* @param[out] sessionID è¿”å›è¯·æ±‚çš„ä¼šè¯ID;
-	* @param[in] qryReq æŸ¥è¯¢ç³»ç»Ÿä¸­æŒ‡å®šå“ç§çš„åˆçº¦ä¿¡æ¯è¯·æ±‚çš„ç»“æ„ä½“æŒ‡é’ˆ;\n
-	*				    è¯¥å‚æ•°å„å­—æ®µä¸ºå¯é€‰å­—æ®µï¼Œå¯ä»¥ç”¨ä»¥ä¸‹æ–¹æ³•æŸ¥è¯¢ï¼š\n
-	*					1.å…¨éƒ¨ç•™ç©ºï¼šæŸ¥æ‰€æœ‰åˆçº¦\n
-	*					2.ä»…äº¤æ˜“æ‰€ç¼–ç æœ‰æ•ˆï¼šæŸ¥è¯¥äº¤æ˜“æ‰€ä¸‹æ‰€æœ‰å“ç§çš„åˆçº¦\n
-	*					3.äº¤æ˜“æ‰€ç¼–ç å’Œå“ç§ç±»å‹æœ‰æ•ˆï¼šæŸ¥è¯¥äº¤æ˜“æ‰€ä¸‹æŒ‡å®šå“ç§ç±»å‹çš„åˆçº¦\n
-	*					4.äº¤æ˜“æ‰€ç¼–ç ã€å“ç§ç±»å‹å’Œå“ç§ç¼–ç éƒ½æœ‰æ•ˆï¼šæŸ¥è¯¥å“ç§ä¸‹çš„æ‰€æœ‰åˆçº¦
-	* @retval 0 è¯·æ±‚æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype å¼‚æ­¥æ“ä½œ
+	* @brief	²éÑ¯ÏµÍ³ÖĞÖ¸¶¨Æ·ÖÖµÄºÏÔ¼ĞÅÏ¢
+	* @details	Ê¹ÓÃ´Ëº¯ÊıÇ°ĞèÒªÏÈQryCommodity()È¡µÃÆ·ÖÖĞÅÏ¢£¬
+	*			È»ºóÑ¡ÔñĞèÒªµÄÆ·ÖÖ½«ĞÅÏ¢ÌîÈëTapAPICommodity½á¹¹ÌåÖĞÍê³É²éÑ¯ÇëÇó¡£
+	* @param[out] sessionID ·µ»ØÇëÇóµÄ»á»°ID;
+	* @param[in] qryReq ²éÑ¯ÏµÍ³ÖĞÖ¸¶¨Æ·ÖÖµÄºÏÔ¼ĞÅÏ¢ÇëÇóµÄ½á¹¹ÌåÖ¸Õë;\n
+	*				    ¸Ã²ÎÊı¸÷×Ö¶ÎÎª¿ÉÑ¡×Ö¶Î£¬¿ÉÒÔÓÃÒÔÏÂ·½·¨²éÑ¯£º\n
+	*					1.È«²¿Áô¿Õ£º²éËùÓĞºÏÔ¼\n
+	*					2.½ö½»Ò×Ëù±àÂëÓĞĞ§£º²é¸Ã½»Ò×ËùÏÂËùÓĞÆ·ÖÖµÄºÏÔ¼\n
+	*					3.½»Ò×Ëù±àÂëºÍÆ·ÖÖÀàĞÍÓĞĞ§£º²é¸Ã½»Ò×ËùÏÂÖ¸¶¨Æ·ÖÖÀàĞÍµÄºÏÔ¼\n
+	*					4.½»Ò×Ëù±àÂë¡¢Æ·ÖÖÀàĞÍºÍÆ·ÖÖ±àÂë¶¼ÓĞĞ§£º²é¸ÃÆ·ÖÖÏÂµÄËùÓĞºÏÔ¼
+	* @retval 0 ÇëÇó³É¹¦
+	* @retval ·Ç0 ´íÎóÂë
+	* @operationtype Òì²½²Ù×÷
 	* @ingroup G_Q_Contract
 	*/
 	virtual TAPIINT32 TAP_CDECL QryContract(TAPIUINT32 *sessionID, const TapAPICommodity *qryReq) = 0;
 	/**
-	* @brief	è®¢é˜…æŒ‡å®šåˆçº¦çš„è¡Œæƒ…
-	* @details	å‡½æ•°å‘æœåŠ¡å™¨è¯·æ±‚contractæè¿°çš„åˆçº¦çš„è¡Œæƒ…ä¿¡æ¯ï¼Œè¡Œæƒ…è®¢é˜…æˆåŠŸåæœåŠ¡å™¨å°†æŒç»­å‘ç”¨æˆ·æ¨é€è¡Œæƒ…ä¿¡æ¯ï¼Œ
-	*			ç›´åˆ°ç”¨æˆ·é€€è®¢è¡Œæƒ…ä¿¡æ¯æˆ–è€…æ–­å¼€äºæœåŠ¡å™¨çš„é€šä¿¡ã€‚\n
-	*			è°ƒç”¨æ­¤å‡½æ•°å‰å…ˆè·å–åˆçº¦ä¿¡æ¯ï¼Œ
-	*			ç„¶åä»åˆçº¦ä¿¡æ¯ä¸­å–å‡ºåˆçº¦å¡«å…¥contractã€‚
-	* @param[out] sessionID è¿”å›è¯·æ±‚çš„ä¼šè¯IDã€‚
-	* @param[in] contract æŒ‡å®šåˆçº¦ã€‚
-	* @retval 0 è¯·æ±‚æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype å¼‚æ­¥æ“ä½œ
+	* @brief	¶©ÔÄÖ¸¶¨ºÏÔ¼µÄĞĞÇé
+	* @details	º¯ÊıÏò·şÎñÆ÷ÇëÇócontractÃèÊöµÄºÏÔ¼µÄĞĞÇéĞÅÏ¢£¬ĞĞÇé¶©ÔÄ³É¹¦ºó·şÎñÆ÷½«³ÖĞøÏòÓÃ»§ÍÆËÍĞĞÇéĞÅÏ¢£¬
+	*			Ö±µ½ÓÃ»§ÍË¶©ĞĞÇéĞÅÏ¢»òÕß¶Ï¿ªÓÚ·şÎñÆ÷µÄÍ¨ĞÅ¡£\n
+	*			µ÷ÓÃ´Ëº¯ÊıÇ°ÏÈ»ñÈ¡ºÏÔ¼ĞÅÏ¢£¬È»ºó´ÓºÏÔ¼ĞÅÏ¢ÖĞÈ¡³öºÏÔ¼ÌîÈëcontract¡£\n
+	* @param[out] sessionID ·µ»ØÇëÇóµÄ»á»°ID¡£
+	* @param[in] contract Ö¸¶¨ºÏÔ¼¡£
+	* @retval 0 ÇëÇó³É¹¦
+	* @retval ·Ç0 ´íÎóÂë
+	* @operationtype Òì²½²Ù×÷
 	* @ingroup G_Q_Quote
 	*/
 	virtual TAPIINT32 TAP_CDECL SubscribeQuote(TAPIUINT32 *sessionID, const TapAPIContract *contract) = 0;
 	/**
-	* @brief	é€€è®¢æŒ‡å®šåˆçº¦çš„è¡Œæƒ…
-	* @details	é€€è®¢å·²ç»è®¢é˜…çš„è¡Œæƒ…ä¿¡æ¯ã€‚
-	* @param[out] sessionID è¿”å›è¯·æ±‚çš„ä¼šè¯IDï¼›
-	* @param[in]	contract æŒ‡å®šåˆçº¦ã€‚
-	* @retval 0 è¯·æ±‚æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype å¼‚æ­¥æ“ä½œ
+	* @brief	ÍË¶©Ö¸¶¨ºÏÔ¼µÄĞĞÇé
+	* @details	ÍË¶©ÒÑ¾­¶©ÔÄµÄĞĞÇéĞÅÏ¢¡£
+	* @param[out] sessionID ·µ»ØÇëÇóµÄ»á»°ID£»
+	* @param[in]	contract Ö¸¶¨ºÏÔ¼¡£
+	* @retval 0 ÇëÇó³É¹¦
+	* @retval ·Ç0 ´íÎóÂë
+	* @operationtype Òì²½²Ù×÷
 	* @ingroup G_Q_Quote
 	*/
 	virtual TAPIINT32 TAP_CDECL UnSubscribeQuote(TAPIUINT32 *sessionID, const TapAPIContract *contract) = 0;
-	/**
-	* @brief æŸ¥è¯¢å†å²è¡Œæƒ…
-	* @details æ ¹æ®æ—¶é—´ç‚¹å’Œæ•°é‡æŸ¥è¯¢æŒ‡å®šåˆçº¦çš„å†å²è¡Œæƒ…
-	* @param[out]	sessionID		è¿”å›è¯·æ±‚çš„ä¼šè¯IDã€‚
-	* @param[in]	qryReq			è¯·æ±‚å†å²è¡Œæƒ…çš„ç»“æ„ä½“æŒ‡é’ˆï¼›\n
-	*								HisQuoteEndTimeå’ŒHisQuoteCandleQryCountå…±åŒå†³å®šæŸ¥è¯¢çš„Kçº¿æ ¹æ•°ï¼š\n
-	*				è¾“å…¥å‚æ•°|è¿”å›æ•°æ®
-	*				--|--							
-	*				HisQuoteEndTime:ç©º   \n HisQuoteCandleQryCount:0   | ä¸å…è®¸,return é”™è¯¯ç ã€‚
-	*				HisQuoteEndTime:ç©º   \n HisQuoteCandleQryCount:é0 | æœ€è¿‘çš„HisQuoteCandleQryCountæ¡Kçº¿ã€‚
-	*				HisQuoteEndTime:éç©º \n HisQuoteCandleQryCount:0   | ä»HisQuoteEndTimeè‡³ä»Šçš„Kçº¿ã€‚
-	*				HisQuoteEndTime:éç©º \n HisQuoteCandleQryCount:é0 | HisQuoteEndTimeä¹‹å‰(ä»¥HisQuoteEndTimeä¸ºç»ˆç‚¹)çš„\nHisQuoteCandleQryCountæ¡Kçº¿ã€‚
-	* @retval 0 è¯·æ±‚æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype å¼‚æ­¥æ“ä½œ
-	* @ingroup G_Q_HisQuote
-	*/
-	virtual TAPIINT32 TAP_CDECL QryHisQuote(TAPIUINT32 *sessionID,	const TapAPIHisQuoteQryReq *qryReq) = 0;
-
-	/**
-	* @brief è·å–æœåŠ¡å™¨å½“å‰æ—¶é—´
-	* @param[out] datetime è¿”å›çš„æœåŠ¡å™¨å½“å‰æ—¶é—´
-	* @retval 0 è¯·æ±‚æˆåŠŸ
-	* @retval é0 é”™è¯¯ç 
-	* @operationtype åŒæ­¥æ“ä½œ
-	* @ingroup G_Q_ServerTime
-	*/
-	virtual TAPIINT32 TAP_CDECL GetServerTime(TAPIDATETIME *datetime) = 0;
-	/**
-	* @brief è·å–æŒ‡å®šåˆçº¦çš„å…¨æ–‡è¡Œæƒ…
-	* @param[in] contract æŒ‡å®šçš„åˆçº¦ã€‚
-	* @retval NULL è·å–å¤±è´¥
-	* @retval !NULL åˆçº¦å…¨æ–‡è¡Œæƒ…æŒ‡é’ˆ
-	* @operationtype åŒæ­¥æ“ä½œ
-	* @ingroup G_Q_Quote
-	*/
-	virtual const TapAPIQuoteWhole *TAP_CDECL GetFullQuote(const TapAPIContract *contract) = 0;
 };
 
-//-----------------------------TapQuoteAPIå¯¼å‡ºå‡½æ•°------------------------------------
+//-----------------------------TapQuoteAPIµ¼³öº¯Êı------------------------------------
 
 
 #ifdef __cplusplus
@@ -322,49 +201,49 @@ extern "C" {
 #endif // __cplusplus
 
 /**
-* @brief	åˆ›å»ºTapQuoteAPIçš„æ¥å£å¯¹è±¡ã€‚
-* @details	åˆ›å»ºæ•´ä¸ªè¡Œæƒ…APIçš„æ¥å£
-* @param[in] appInfo åº”ç”¨ç¨‹åºç›¸å…³ä¿¡æ¯ã€‚
-* @param[in] iResult åˆ›å»ºæ¥å£çš„é”™è¯¯ç ã€‚
-* @retval NULL	åˆ›å»ºå¤±è´¥ã€‚
-* @retval !NULL	å®ç°äº†ITapQuoteAPIæ¥å£çš„å¯¹è±¡æŒ‡é’ˆã€‚
+* @brief	´´½¨TapQuoteAPIµÄ½Ó¿Ú¶ÔÏó¡£
+* @details	´´½¨Õû¸öĞĞÇéAPIµÄ½Ó¿Ú
+* @param[in] appInfo Ó¦ÓÃ³ÌĞòÏà¹ØĞÅÏ¢¡£
+* @param[in] iResult ´´½¨½Ó¿ÚµÄ´íÎóÂë¡£
+* @retval NULL	´´½¨Ê§°Ü¡£
+* @retval !NULL	ÊµÏÖÁËITapQuoteAPI½Ó¿ÚµÄ¶ÔÏóÖ¸Õë¡£
 * @ingroup G_Q_API
 */
 TAP_DLLEXPORT ITapQuoteAPI *TAP_CDECL CreateTapQuoteAPI(const TapAPIApplicationInfo *appInfo, TAPIINT32 &iResult);
 /**
-* @brief	é”€æ¯é€šè¿‡CreateTapQuoteAPIå‡½æ•°åˆ›å»ºçš„ITapQuoteAPIå¯¹è±¡ã€‚
-* @param[in] apiObj ITapQuoteAPIå¯¹è±¡æŒ‡é’ˆã€‚
+* @brief	Ïú»ÙÍ¨¹ıCreateTapQuoteAPIº¯Êı´´½¨µÄITapQuoteAPI¶ÔÏó¡£
+* @param[in] apiObj ITapQuoteAPI¶ÔÏóÖ¸Õë¡£
 * @ingroup G_Q_API
 */
 TAP_DLLEXPORT void TAP_CDECL FreeTapQuoteAPI(ITapQuoteAPI *apiObj);
 /**
-* @brief	è·å–TapQuoteAPIçš„ç‰ˆæœ¬ä¿¡æ¯
+* @brief	»ñÈ¡TapQuoteAPIµÄ°æ±¾ĞÅÏ¢
 * @ingroup G_Q_API
 */
 TAP_DLLEXPORT const TAPICHAR *TAP_CDECL GetTapQuoteAPIVersion();
 /**
-* @brief	è®¾ç½®APIè‡ªèº«ä¿å­˜æ•°æ®ç›®å½•
-* @details	è°ƒç”¨å‡½æ•°çš„åŒæ—¶ä¼šåœ¨pathæè¿°çš„ç›®å½•ä¸‹æ‰“å¼€ä»¥å¹´æœˆæ—¥ï¼ˆæ ¼å¼TapQuoteAPI[YYYYMMDD].log)å‘½åçš„æ–‡ä»¶ï¼Œ\n
-*			æ²¡æœ‰æ­¤æ–‡ä»¶çš„æƒ…å†µä¸‹ä¼šè¯•å›¾åˆ›å»ºæ­¤æ–‡ä»¶ã€‚\n
-*			æ–‡ä»¶ä¸­ä¿å­˜çš„æ•°æ®ä¸ºAPIæ¥æ”¶åˆ°çš„é‡è¦æ•°æ®å’ŒAPIçš„ä½¿ç”¨å’Œé”™è¯¯æ—¥å¿—ã€‚
-* @param[in] path ç›®å½•ã€‚å¿…é¡»å¯ç”¨ï¼Œç›®å½•ç¬¦å·Windowä¸‹ä¸ºâ€\\â€æˆ–è€…â€/â€, Linuxä¸‹ä¸ºâ€/â€ã€‚
-* @retval 0 æˆåŠŸ
-* @retval é0 é”™è¯¯ç 
-* @operationtype åŒæ­¥æ“ä½œ
+* @brief	ÉèÖÃAPI×ÔÉí±£´æÊı¾İÄ¿Â¼
+* @details	µ÷ÓÃº¯ÊıµÄÍ¬Ê±»áÔÚpathÃèÊöµÄÄ¿Â¼ÏÂ´ò¿ªÒÔÄêÔÂÈÕ£¨¸ñÊ½TapQuoteAPI[YYYYMMDD].log)ÃüÃûµÄÎÄ¼ş£¬\n
+*			Ã»ÓĞ´ËÎÄ¼şµÄÇé¿öÏÂ»áÊÔÍ¼´´½¨´ËÎÄ¼ş¡£\n
+*			ÎÄ¼şÖĞ±£´æµÄÊı¾İÎªAPI½ÓÊÕµ½µÄÖØÒªÊı¾İºÍAPIµÄÊ¹ÓÃºÍ´íÎóÈÕÖ¾¡£
+* @param[in] path Ä¿Â¼¡£±ØĞë¿ÉÓÃ£¬Ä¿Â¼·ûºÅWindowÏÂÎª¡±\\¡±»òÕß¡±/¡±, LinuxÏÂÎª¡±/¡±¡£
+* @retval 0 ³É¹¦
+* @retval ·Ç0 ´íÎóÂë
+* @operationtype Í¬²½²Ù×÷
 * @ingroup G_Q_LogConfig
 */
 TAP_DLLEXPORT TAPIINT32 TAP_CDECL SetTapQuoteAPIDataPath(const TAPICHAR *path);
 /**
-* @brief	è®¾ç½®APIçš„æ—¥å¿—çº§åˆ«
-* @details	è®¾å®šæ—¥å¿—çš„è¾“å‡ºçº§åˆ«ï¼Œåªæœ‰å½“å®é™…æ—¥å¿—çº§åˆ«ä¸æ­¤å¤„è®¾å®šçš„çº§åˆ«ç›¸åŒæˆ–æ›´é«˜æ—¶ï¼Œæ‰ä¼šå°†æ—¥å¿—å†™å…¥SetTapQuoteAPIDataPath()å‡½æ•°æ‰“å¼€çš„æ—¥å¿—æ–‡ä»¶ã€‚\n
-* @param[in]	level æ—¥å¿—çº§åˆ«ï¼š\n
-*					APILOGLEVEL_NONE	ï¼šä¸è®°å½•æ—¥å¿—\n
-*					APILOGLEVEL_ERROR	ï¼šè®°å½•Erroræ—¥å¿—\n
-*					APILOGLEVEL_WARNING	ï¼šè®°å½•Errorå’ŒWarningæ—¥å¿—\n
-*					APILOGLEVEL_DEBUG	ï¼šè®°å½•Errorã€Warningå’ŒDebugæ—¥å¿—\n
-* @retval 0 è®¾å®šæˆåŠŸ
-* @retval é0 é”™è¯¯ç 
-* @operationtype åŒæ­¥æ“ä½œ
+* @brief	ÉèÖÃAPIµÄÈÕÖ¾¼¶±ğ
+* @details	Éè¶¨ÈÕÖ¾µÄÊä³ö¼¶±ğ£¬Ö»ÓĞµ±Êµ¼ÊÈÕÖ¾¼¶±ğÓë´Ë´¦Éè¶¨µÄ¼¶±ğÏàÍ¬»ò¸ü¸ßÊ±£¬²Å»á½«ÈÕÖ¾Ğ´ÈëSetTapQuoteAPIDataPath()º¯Êı´ò¿ªµÄÈÕÖ¾ÎÄ¼ş¡£\n
+* @param[in]	level ÈÕÖ¾¼¶±ğ£º\n
+*					APILOGLEVEL_NONE	£º²»¼ÇÂ¼ÈÕÖ¾\n
+*					APILOGLEVEL_ERROR	£º¼ÇÂ¼ErrorÈÕÖ¾\n
+*					APILOGLEVEL_WARNING	£º¼ÇÂ¼ErrorºÍWarningÈÕÖ¾\n
+*					APILOGLEVEL_DEBUG	£º¼ÇÂ¼Error¡¢WarningºÍDebugÈÕÖ¾\n
+* @retval 0 Éè¶¨³É¹¦
+* @retval ·Ç0 ´íÎóÂë
+* @operationtype Í¬²½²Ù×÷
 * @ingroup G_Q_LogConfig
 */
 TAP_DLLEXPORT TAPIINT32 TAP_CDECL SetTapQuoteAPILogLevel(TAPILOGLEVEL level);

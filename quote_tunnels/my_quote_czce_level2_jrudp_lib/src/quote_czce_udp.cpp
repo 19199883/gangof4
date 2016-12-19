@@ -42,11 +42,13 @@ ZCEL2QuotSnapshotField_MY CzceUdpMD::Convert(const StdQuote5 &other,TapAPIQuoteW
 		memcpy(data.ContractID,tap_data->ContractNo1,sizeof(tap_data->ContractNo1));		/*合约编码*/
 	}
 	 
-	//时间：如2014-02-03 13:23:45
+	//时间：如2014-02-03 13:23:45   
 	system_clock::time_point today = system_clock::now();
 	std::time_t tt = system_clock::to_time_t ( today );
 	strftime(data.TimeStamp, sizeof(data.TimeStamp), "%Y-%m-%d %H:%M:%S",localtime(&tt));
 	strcpy(data.TimeStamp+11,other.updateTime);
+	//strcpy(data.TimeStamp+19,".");
+	//sprintf(data.TimeStamp+20,"%d",other.updateMS);
 
 	data.ContractIDType = 0;							/*合约类型 0->目前应该为0， 扩充：0:期货,1:期权,2:组合*/
 	data.LastPrice = InvalidToZeroD(other.price);		/*最新价*/
@@ -184,10 +186,6 @@ void CzceUdpMD::UdpDataHandler()
 				&& (subscribe_contracts_.empty() || subscribe_contracts_.find(p->instrument) != subscribe_contracts_.end()))
 			{
 				l2_quote_handler_(&data_my);
-				
-				// debug wangying
-				//string data = ToString(&data_my);
-				//MY_LOG_ERROR("CZCE_UDP - recv data:%s", data.c_str());
 			}
 
 			// 存起来
@@ -253,7 +251,7 @@ void CzceUdpMD::OnTapAPIQuoteWhole_MY(const TapAPIQuoteWhole_MY *data)
 {
 	string tap_contr = data->CommodityNo;
 	tap_contr += data->ContractNo1;
-    
+
 	TapAPIQuoteWhole_MY *tap_data = NULL;
 	{
 		tap_data =  get_data_by_tap_contr(tap_contr);

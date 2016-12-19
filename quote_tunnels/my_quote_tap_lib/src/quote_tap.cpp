@@ -40,7 +40,7 @@ MYTAPDataHandler::MYTAPDataHandler(const SubscribeContracts *subscribe_contracts
         return;
     }
 
-    sprintf(qtm_name_, "tap_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
+    sprintf(qtm_name_, "TAP - tap_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
     QuoteUpdateState(qtm_name_, QtmState::INIT);
 
     p_save_tap_ = new QuoteDataSave<TapAPIQuoteWhole_MY>(cfg_, qtm_name_, "tapl2quote", TAP_QUOTE_TYPE);
@@ -49,13 +49,24 @@ MYTAPDataHandler::MYTAPDataHandler(const SubscribeContracts *subscribe_contracts
     struct TapAPIApplicationInfo p_info_;
 
     /* 设置授权码 第一个为内盘授权码 第二个为外盘授权码 */
-    /*
-     strcpy(p_info_->AuthCode,
+	
+	// test debug
+/*	
+	strcpy(p_info_.AuthCode,
+				"B112F916FE7D27BCE7B97EB620206457946CED32E26C1EAC946CED32E26C1EAC946CED32E26C1EAC946CED32E26C1EAC5211AF9FEE541DDE9D6F622F72E25D5EF7F47AA93A738EF5A51B81D8526AB6A9D19E65B41F59D6A946CED32E26C1EACCAF8D4C61E28E2B1ABD9B8F170E14F8847D3EA0BF4E191F5DCB1B791E63DC19D1576DEAF5EC563CA3E560313C0C3411B45076795F550EB050A62C4F74D5892D2D14892E812723FAC858DEBD8D4AF9410729FB849D5D8D6EA48A1B8DC67E03781A279CE9426070929D5DA085659772E24A6F5EA52CF92A4D403F9E46083F27B19A88AD99812DADA44100324759F9FD1964EBD4F2F0FB50B51CD31C0B02BB43");
+*/	
+
+	// first
+	/*
+	strcpy(p_info_.AuthCode,
      "67EA896065459BECDFDB924B29CB7DF1946CED32E26C1EAC946CED32E26C1EAC946CED32E26C1EAC946CED32E26C1EAC5211AF9FEE541DDE41BCBAB68D525B0D111A0884D847D57163FF7F329FA574E7946CED32E26C1EAC946CED32E26C1EAC733827B0CE853869ABD9B8F170E14F8847D3EA0BF4E191F5D97B3DFE4CCB1F01842DD2B3EA2F4B20CAD19B8347719B7E20EA1FA7A3D1BFEFF22290F4B5C43E6C520ED5A40EC1D50ACDF342F46A92CCF87AEE6D73542C42EC17818349C7DEDAB0E4DB16977714F873D505029E27B3D57EB92D5BEDA0A710197EB67F94BB1892B30F58A3F211D9C3B3839BE2D73FD08DD776B9188654853DDA57675EBB7D6FBBFC");
-     */
-    strcpy(p_info_.AuthCode,
+*/
+	 // second
+
+	strcpy(p_info_.AuthCode,
         "B112F916FE7D27BCE7B97EB620206457946CED32E26C1EAC946CED32E26C1EAC946CED32E26C1EAC946CED32E26C1EAC5211AF9FEE541DDE123D2F2F8E7F3E4B946CED32E26C1EAC5A51B81D8526AB6A67D1B6302B4DDA7D946CED32E26C1EACD33D6030790F8965ABD9B8F170E14F8847D3EA0BF4E191F50905910EA362CB063C704B1E62DE54B938D80BD82C58B3980985E67B9910AF76A06C27260450E7F792D349532A6533D9952A55F6D7C8C437456145239FEDE5078EA7CBC5AB74E107BA8DC0B7CE56681E22C185C880AC2723510A31A504180EE423496CBBE968917E1A292DAECE9F5F491626856EE3C81F0C3F2F4454DC7EB391DA8AF4EC06A48782");
-    getcwd(p_info_.KeyOperationLogPath, 301);
+	
+		getcwd(p_info_.KeyOperationLogPath, 301);
 
     int iResult = 0;
 
@@ -63,7 +74,7 @@ MYTAPDataHandler::MYTAPDataHandler(const SubscribeContracts *subscribe_contracts
 
     if ( NULL == api_)
     {
-        MY_LOG_ERROR("TAP-CreateTapQuoteAPI failed, the error code is %d", iResult);
+        MY_LOG_ERROR("TAP - CreateTapQuoteAPI failed, the error code is %d", iResult);
         return;
     }
     else
@@ -73,7 +84,7 @@ MYTAPDataHandler::MYTAPDataHandler(const SubscribeContracts *subscribe_contracts
         char *addr_tmp2, *port_tmp;
 
         memcpy(addr_tmp, quote_addr_.c_str(), quote_addr_.size() + 1);
-        MY_LOG_INFO("prepare to connect quote provider: %s", quote_addr_.c_str());
+        MY_LOG_INFO("TAP - prepare to connect quote provider: %s", quote_addr_.c_str());
         addr_tmp2 = strtok(addr_tmp, ":");
         port_tmp = strtok(NULL, ":");
 
@@ -144,11 +155,11 @@ MYTAPDataHandler::req_login(int wait_seconds)
         sleep(10);
 
         if (false == check_login_) {
-            MY_LOG_ERROR("Login timeout, reconnecting.");
+            MY_LOG_ERROR("TAP - Login timeout, reconnecting.");
             goto again;
         }
 
-        MY_LOG_INFO("call Login() successful.");
+        MY_LOG_INFO("TAP - call Login() successful.");
     }
     catch (...)
     {
@@ -209,7 +220,7 @@ MYTAPDataHandler::ParseConfig()
 void
 MYTAPDataHandler::OnRspLogin(TAPIINT32 errorCode, const TapAPIQuotLoginRspInfo *info)
 {
-    MY_LOG_INFO("OnRspLogin");
+    MY_LOG_INFO("TAP - OnRspLogin");
 
     check_login_ = true;
 
@@ -221,14 +232,14 @@ MYTAPDataHandler::OnRspLogin(TAPIINT32 errorCode, const TapAPIQuotLoginRspInfo *
     else
     {
         QuoteUpdateState(qtm_name_, QtmState::LOG_ON_FAIL);
-        MY_LOG_WARN("login failed, ErrorCode = %d", errorCode);
+        MY_LOG_WARN("TAP - login failed, ErrorCode = %d", errorCode);
     }
 }
 
 void
 MYTAPDataHandler::OnAPIReady()
 {
-    MY_LOG_INFO("OnAPIReady");
+    MY_LOG_INFO("TAP - OnAPIReady");
     QuoteUpdateState(qtm_name_, QtmState::API_READY);
 
     for (SubscribeContracts::iterator it = subscribe_contracts_.begin(); it != subscribe_contracts_.end(); it++)
@@ -243,14 +254,7 @@ MYTAPDataHandler::OnAPIReady()
         contract_no_ = it->substr(split_pos1 + 1).substr(split_pos2 + 1).substr(split_pos3 + 1);
 
         /* 根据每个变量的值订阅相应的合约 */
-        if ("ALL" == exchange_no_ ||
-            "All" == exchange_no_ ||
-            "all" == exchange_no_)
-        {
-            std::thread thread_exchange_no(std::bind(&MYTAPDataHandler::qry_exchange, this));
-            thread_exchange_no.detach();
-        }
-        else if ("ALL" == commodity_no_ ||
+		if ("ALL" == commodity_no_ ||
             "All" == commodity_no_ ||
             "all" == commodity_no_)
         {
@@ -294,31 +298,17 @@ MYTAPDataHandler::OnAPIReady()
 }
 
 void
-MYTAPDataHandler::qry_exchange()
-{
-    int ret = 0;
-
-    while ((ret = api_->QryExchange(sID)) != 0)
-    {
-        MY_LOG_ERROR("QryExchange failed, errorCode is %d.", ret);
-        sleep(5);
-    }
-
-    MY_LOG_INFO("QryExchange successful.");
-}
-
-void
 MYTAPDataHandler::qry_contract(TapAPICommodity &qryReq)
 {
     int ret = 0;
 
     while ((ret = api_->QryContract(sID, &qryReq)) != 0)
     {
-        MY_LOG_ERROR("QryContract failed, ExchangeNo is %s, CommodityNo is %s, errorCode is %d.", qryReq.ExchangeNo, qryReq.CommodityNo, ret);
+        MY_LOG_ERROR("TAP - QryContract failed, ExchangeNo is %s, CommodityNo is %s, errorCode is %d.", qryReq.ExchangeNo, qryReq.CommodityNo, ret);
         sleep(5);
     }
 
-    MY_LOG_INFO("QryContract successful, ExchangeNo is %s, CommodityNo is %s.", qryReq.ExchangeNo, qryReq.CommodityNo);
+    MY_LOG_INFO("TAP - QryContract successful, ExchangeNo is %s, CommodityNo is %s.", qryReq.ExchangeNo, qryReq.CommodityNo);
 }
 
 void
@@ -328,19 +318,19 @@ MYTAPDataHandler::subscribe_quote(TapAPIContract &contract)
 
     while ((ret = api_->SubscribeQuote(sID, &contract)) != 0)
     {
-        MY_LOG_ERROR("SubscribeQuote failed, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s, errorCode is %d.",
+        MY_LOG_ERROR("TAP - SubscribeQuote failed, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s, errorCode is %d.",
             contract.Commodity.ExchangeNo, contract.Commodity.CommodityNo, contract.ContractNo1, ret);
         sleep(5);
     }
 
-    MY_LOG_INFO("SubscribeQuote successful, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s.", contract.Commodity.ExchangeNo,
+    MY_LOG_INFO("TAP - SubscribeQuote successful, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s.", contract.Commodity.ExchangeNo,
         contract.Commodity.CommodityNo, contract.ContractNo1);
 }
 
 void
 MYTAPDataHandler::OnDisconnect(TAPIINT32 reasonCode)
 {
-    MY_LOG_INFO("OnDisconnect, reasonCode is %d, reconnecting.", reasonCode);
+    MY_LOG_INFO("TAP - OnDisconnect, reasonCode is %d, reconnecting.", reasonCode);
     QuoteUpdateState(qtm_name_, QtmState::DISCONNECT);
     check_login_ = false;
     int ret;
@@ -362,17 +352,17 @@ reconnect:
     sleep(10);
 
     if (false == check_login_) {
-        MY_LOG_ERROR("Login timeout, reconnecting.");
+        MY_LOG_ERROR("TAP - Login timeout, reconnecting.");
         goto reconnect;
     }
     QuoteUpdateState(qtm_name_, QtmState::LOG_ON_SUCCESS);
-    MY_LOG_INFO("Reconnect successful.");
+    MY_LOG_INFO("TAP - Reconnect successful.");
 }
 
 void
 MYTAPDataHandler::OnRspQryExchange(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIExchangeInfo *info)
 {
-    MY_LOG_INFO("OnRspQryExchange");
+    MY_LOG_INFO("TAP - OnRspQryExchange");
 
     if (0 == errorCode)
     {
@@ -389,11 +379,11 @@ MYTAPDataHandler::OnRspQryExchange(TAPIUINT32 sessionID, TAPIINT32 errorCode, TA
             std::thread qryEx(std::bind(&MYTAPDataHandler::qry_contract_by_exchange, this));
             qryEx.detach();
         }
-        MY_LOG_INFO("QryExchange successful, ExchangeNo is %s.", info->ExchangeNo);
+        MY_LOG_INFO("TAP - QryExchange successful, ExchangeNo is %s.", info->ExchangeNo);
     }
     else
     {
-        MY_LOG_WARN("QryExchange failed, the error code is %d.", errorCode);
+        MY_LOG_WARN("TAP - QryExchange failed, the error code is %d.", errorCode);
     }
 }
 
@@ -401,7 +391,7 @@ MYTAPDataHandler::OnRspQryExchange(TAPIUINT32 sessionID, TAPIINT32 errorCode, TA
 void
 MYTAPDataHandler::qry_contract_by_exchange()
 {
-    MY_LOG_INFO("qry_contract_by_exchange");
+    MY_LOG_INFO("TAP - qry_contract_by_exchange");
 
     std::lock_guard<std::mutex> lock(exchange_list_mutex);
 
@@ -416,22 +406,22 @@ MYTAPDataHandler::qry_contract_by_exchange()
 
         while (0 != (ret = api_->QryContract(sID, &tmp)))
         {
-            MY_LOG_ERROR("QryContract failed, ExchangeNo is %s,  errorCode  is %d.", tmp.ExchangeNo, ret);
+            MY_LOG_ERROR("TAP - QryContract failed, ExchangeNo is %s,  errorCode  is %d.", tmp.ExchangeNo, ret);
             sleep(5);
         }
 
-        MY_LOG_INFO("QryContract successful, ExchangeNo is %s.", tmp.ExchangeNo);
+        MY_LOG_INFO("TAP - QryContract successful, ExchangeNo is %s.", tmp.ExchangeNo);
     }
 
     exchange_list_.clear();
 
-    MY_LOG_INFO("qry_contract_by_exchange successful.");
+    MY_LOG_INFO("TAP - qry_contract_by_exchange successful.");
 }
 
 void
 MYTAPDataHandler::OnRspQryCommodity(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIQuoteCommodityInfo *info)
 {
-    MY_LOG_INFO("OnRspQryCommodity");
+    MY_LOG_INFO("TAP - OnRspQryCommodity");
 
     if (0 == errorCode)
     {
@@ -448,11 +438,11 @@ MYTAPDataHandler::OnRspQryCommodity(TAPIUINT32 sessionID, TAPIINT32 errorCode, T
             qryCom.detach();
         }
 
-        MY_LOG_INFO("QryContract successful, CommodityNo is %s.", info->Commodity.CommodityNo);
+        MY_LOG_INFO("TAP - QryContract successful, CommodityNo is %s.", info->Commodity.CommodityNo);
     }
     else
     {
-        MY_LOG_WARN("QryCommodity failed, errorCode is %d.", errorCode);
+        MY_LOG_WARN("TAP - QryCommodity failed, errorCode is %d.", errorCode);
     }
 }
 
@@ -460,7 +450,7 @@ MYTAPDataHandler::OnRspQryCommodity(TAPIUINT32 sessionID, TAPIINT32 errorCode, T
 void
 MYTAPDataHandler::qry_contract_by_commodity()
 {
-    MY_LOG_INFO("qry_contract_by_commodity");
+    MY_LOG_INFO("TAP - qry_contract_by_commodity");
 
     std::lock_guard<std::mutex> lock(commodity_list_mutex);
 
@@ -470,20 +460,20 @@ MYTAPDataHandler::qry_contract_by_commodity()
     {
         while (0 != (ret = api_->QryContract(sID, &(*it))))
         {
-            MY_LOG_ERROR("QryContract failed, ExchangeNo is %s, CommodityNo is %s, errorCode is %d.", it->ExchangeNo, it->CommodityNo, ret);
+            MY_LOG_ERROR("TAP - QryContract failed, ExchangeNo is %s, CommodityNo is %s, errorCode is %d.", it->ExchangeNo, it->CommodityNo, ret);
             sleep(5);
         }
-        MY_LOG_INFO("QryContract successful, ExchangeNo is %s, CommodityNo is %s.", it->ExchangeNo, it->CommodityNo);
+        MY_LOG_INFO("TAP - QryContract successful, ExchangeNo is %s, CommodityNo is %s.", it->ExchangeNo, it->CommodityNo);
     }
     commodity_list_.clear();
 
-    MY_LOG_INFO("qry_contract_by_commodity successful.");
+    MY_LOG_INFO("TAP - qry_contract_by_commodity successful.");
 }
 
 void
 MYTAPDataHandler::OnRspQryContract(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIQuoteContractInfo *info)
 {
-    MY_LOG_INFO("OnRspQryContract");
+    MY_LOG_INFO("TAP - OnRspQryContract");
 
     if (0 == errorCode)
     {
@@ -499,7 +489,7 @@ MYTAPDataHandler::OnRspQryContract(TAPIUINT32 sessionID, TAPIINT32 errorCode, TA
         }
         else
         {
-            MY_LOG_WARN("OnRspQryContract the info is NULL.");
+            MY_LOG_WARN("TAP - OnRspQryContract the info is NULL.");
         }
 
         /* 最后一个时执行订阅线程 */
@@ -508,20 +498,20 @@ MYTAPDataHandler::OnRspQryContract(TAPIUINT32 sessionID, TAPIINT32 errorCode, TA
             std::thread qrtCon(std::bind(&MYTAPDataHandler::subscribe_by_contract, this));
             qrtCon.detach();
         }
-		MY_LOG_INFO("OnRspQryContract successful, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s.", info->Contract.Commodity.ExchangeNo,
+		MY_LOG_INFO("TAP - OnRspQryContract successful, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s.", info->Contract.Commodity.ExchangeNo,
 			info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
 
     }
     else
     {
-        MY_LOG_ERROR("QryContract failed, the error code is %d.", errorCode);
+        MY_LOG_ERROR("TAP - QryContract failed, the error code is %d.", errorCode);
     }
 }
 
 void
 MYTAPDataHandler::OnRtnContract(const TapAPIQuoteContractInfo *info)
 {
-    MY_LOG_INFO("OnRtnContract");
+    MY_LOG_INFO("TAP - OnRtnContract");
 
     if ( NULL != info)
     {
@@ -529,19 +519,19 @@ MYTAPDataHandler::OnRtnContract(const TapAPIQuoteContractInfo *info)
         std::thread rtn_contract(std::bind(&MYTAPDataHandler::subscribe_rtn_contract, this, tmp));
         rtn_contract.detach();
 
-        MY_LOG_INFO("OnRtnContract successful, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s.", info->Contract.Commodity.ExchangeNo,
+        MY_LOG_INFO("TAP - OnRtnContract successful, ExchangeNo is %s, CommodityNo is %s, ContractNo is %s.", info->Contract.Commodity.ExchangeNo,
             info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
     }
     else
     {
-        MY_LOG_ERROR("OnRtnContract failed, the pointer is null.");
+        MY_LOG_ERROR("TAP - OnRtnContract failed, the pointer is null.");
     }
 }
 
 void
 MYTAPDataHandler::subscribe_rtn_contract(const TapAPIContract &info)
 {
-    MY_LOG_INFO("subscribe_rtn_contract");
+    MY_LOG_INFO("TAP - subscribe_rtn_contract");
 
     int ret = 0;
 
@@ -551,14 +541,14 @@ MYTAPDataHandler::subscribe_rtn_contract(const TapAPIContract &info)
         sleep(5);
     }
 
-    MY_LOG_INFO("subscribe_rtn_contract successful");
+    MY_LOG_INFO("TAP - subscribe_rtn_contract successful");
 }
 
 /* 根据合约列表订阅行情 */
 void
 MYTAPDataHandler::subscribe_by_contract()
 {
-    MY_LOG_INFO("subscribe_by_contract");
+    MY_LOG_INFO("TAP - subscribe_by_contract");
 
     std::lock_guard<std::mutex> lock(contract_list_mutex);
 
@@ -579,13 +569,13 @@ MYTAPDataHandler::subscribe_by_contract()
         delete *it;
     }
     contract_list_.clear();
-    MY_LOG_INFO("subscribe_by_contract successful.");
+    MY_LOG_INFO("TAP - subscribe_by_contract successful.");
 }
 
 void
 MYTAPDataHandler::OnRspSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIQuoteWhole *info)
 {
-    MY_LOG_INFO("OnRspSubscribeQuote");
+    MY_LOG_INFO("TAP - OnRspSubscribeQuote");
 
     if (errorCode == 0 && NULL != info)
     {
@@ -610,19 +600,19 @@ MYTAPDataHandler::OnRspSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode,
             MY_LOG_FATAL("TAP - Unknown exception in ConsumeThread.");
         }
 
-        MY_LOG_INFO("OnRspSubscribeQuote Successful, ExchangNo is %s, CommodityNo is %s, ContractNo is %s.",
+        MY_LOG_INFO("TAP - OnRspSubscribeQuote Successful, ExchangNo is %s, CommodityNo is %s, ContractNo is %s.",
             info->Contract.Commodity.ExchangeNo, info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
     }
     else
     {
-        MY_LOG_WARN("SubscribeQuote failed, the error code is %d.", errorCode);
+        MY_LOG_WARN("TAP - SubscribeQuote failed, the error code is %d.", errorCode);
     }
 }
 
 void
 MYTAPDataHandler::OnRtnQuote(const TapAPIQuoteWhole *info)
 {
-    MY_LOG_INFO("OnRtnQuote");
+    MY_LOG_INFO("TAP - OnRtnQuote");
     if ( NULL != info)
     {
         try
@@ -646,12 +636,12 @@ MYTAPDataHandler::OnRtnQuote(const TapAPIQuoteWhole *info)
             MY_LOG_FATAL("TAP - Unknown exception in ConsumeThread.");
         }
 
-        MY_LOG_INFO("OnRtnQuote Successful, ExchangNo is %s, CommodityNo is %s, ContractNo is %s.",
+        MY_LOG_INFO("TAP - OnRtnQuote Successful, ExchangNo is %s, CommodityNo is %s, ContractNo is %s.",
             info->Contract.Commodity.ExchangeNo, info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
     }
     else
     {
-        MY_LOG_ERROR("RtnQuote failed, the pointer is null.");
+        MY_LOG_ERROR("TAP - RtnQuote failed, the pointer is null.");
     }
 
 }
@@ -728,7 +718,7 @@ MYTAPDataHandler::Convert(const TapAPIQuoteWhole &other)
 void
 MYTAPDataHandler::OnRspUnSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIContract *info)
 {
-    MY_LOG_INFO("OnRspUnSubscribeQuote");
+    MY_LOG_INFO("TAP - OnRspUnSubscribeQuote");
     if (0 == errorCode)
     {
 
@@ -742,7 +732,7 @@ MYTAPDataHandler::OnRspUnSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCod
 
         }
 
-        MY_LOG_INFO("OnRspUnSubscribeQuote Successful.");
+        MY_LOG_INFO("TAP - OnRspUnSubscribeQuote Successful.");
     }
     else
     {
@@ -753,78 +743,14 @@ MYTAPDataHandler::OnRspUnSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCod
 void
 MYTAPDataHandler::OnRspChangePassword(TAPIUINT32 sessionID, TAPIINT32 errorCode)
 {
-    MY_LOG_INFO("OnRspChangePassword");
+    MY_LOG_INFO("TAP - OnRspChangePassword");
     if (0 == errorCode)
     {
-        MY_LOG_INFO("OnRspChangePassword Successful");
+        MY_LOG_INFO("TAP - OnRspChangePassword Successful");
     }
     else
     {
-        MY_LOG_WARN("OnRspChangePassword failed, the error code is %d.", errorCode);
+        MY_LOG_WARN("TAP - OnRspChangePassword failed, the error code is %d.", errorCode);
     }
 }
 
-void
-MYTAPDataHandler::OnRspQryTimeBucketOfCommodity(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast,
-    const TapAPITimeBucketOfCommodityInfo *info)
-{
-    MY_LOG_INFO("OnRspUnSubscribeQuote");
-    if (0 == errorCode)
-    {
-
-        if ( NULL != info)
-        {
-
-        }
-
-        if (APIYNFLAG_YES == isLast)
-        {
-
-        }
-
-        MY_LOG_INFO("OnRspUnSubscribeQuote Successful.");
-    }
-    else
-    {
-        MY_LOG_WARN("OnRspUnSubscribeQuote failed, the error code is %d.", errorCode);
-    }
-}
-
-void
-MYTAPDataHandler::OnRtnTimeBucketOfCommodity(const TapAPITimeBucketOfCommodityInfo *info)
-{
-    MY_LOG_INFO("OnRtnTimeBucketOfCommodity");
-    if ( NULL != info)
-    {
-
-    }
-    else
-    {
-        MY_LOG_ERROR("OnRtnTimeBucketOfCommodity failed, the pointer is null.");
-    }
-}
-
-void
-MYTAPDataHandler::OnRspQryHisQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIHisQuoteQryRsp *info)
-{
-    MY_LOG_INFO("OnRspQryHisQuote");
-    if (0 == errorCode)
-    {
-
-        if ( NULL != info)
-        {
-
-        }
-
-        if (APIYNFLAG_YES == isLast)
-        {
-
-        }
-
-        MY_LOG_INFO("OnRspQryHisQuote Successful.");
-    }
-    else
-    {
-        MY_LOG_WARN("OnRspQryHisQuote failed, the error code is %d.", errorCode);
-    }
-}

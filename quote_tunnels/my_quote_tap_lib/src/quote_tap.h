@@ -142,16 +142,6 @@ public:
      */
     virtual void TAP_CDECL OnRtnQuote(const TapAPIQuoteWhole *info);
 
-    /**
-     * @brief 返回查询到的历史行情。
-     * @param[in] sessionID 请求的会话ID；
-     * @param[in] errorCode 错误码，当errorCode!=0时，info为NULL；
-     * @param[in] isLast 标示是否是最后一批数据；
-     * @param[in] info 返回的历史行情信息。
-     * @attention  函数调用结束，参数不再有效。
-     * @ingroup G_Q_HisQuote
-     */
-    virtual void TAP_CDECL OnRspQryHisQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIHisQuoteQryRsp *info);
 
     /**
      * @brief 通知用户密码修改结果
@@ -162,25 +152,6 @@ public:
      */
     virtual void TAP_CDECL OnRspChangePassword(TAPIUINT32 sessionID, TAPIINT32 errorCode);
 
-    /**
-     * @brief 返回品种的有效交易时段
-     * @param[in] sessionID 请求的会话ID
-     * @param[in] errorCode 错误码，当errorCode!=0时,info为NULL；
-     * @param[in] isLast 标示是否是最后一批数据；
-     * @param[in] info 是返回的信息数组的起始指针。
-     * @attention  不要修改和删除info指示的数据；函数调用结束，参数不再有效。
-     * @ingroup G_Q_TradingTimeBucket
-     */
-    virtual void TAP_CDECL OnRspQryTimeBucketOfCommodity(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast,
-        const TapAPITimeBucketOfCommodityInfo *info);
-
-    /**
-     * @brief 商品有效交易时段变化的通知
-     * @param[in] info	商品有效交易时段信息
-     * @attention 不要修改和删除info所指示的数据；函数调用结束，参数不再有效。
-     * @ingroup G_Q_TradingTimeBucket
-     */
-    virtual void TAP_CDECL OnRtnTimeBucketOfCommodity(const TapAPITimeBucketOfCommodityInfo *info);
 
     /**
      * @brief 通知合约添加
@@ -222,7 +193,7 @@ private:
     void qry_contract_by_commodity();
     void subscribe_by_contract();
     void subscribe_rtn_contract(const TapAPIContract &info);
-    void qry_exchange();
+
     void qry_contract(TapAPICommodity &qryReq);
     void subscribe_quote(TapAPIContract &contract);
 
