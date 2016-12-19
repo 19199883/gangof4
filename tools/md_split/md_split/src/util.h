@@ -32,6 +32,13 @@ inline int GetSymbolOffset(int data_type, int data_len)
 		ZCEL2QuotSnapshotField_MY md;
 		offset_in_data = (int)((char *)&(md.ContractID) - (char *)&md);
 	}
+	break;
+
+	case SHFE_EX_QUOTE_TYPE:
+	{
+		CDepthMarketDataField md;
+		offset_in_data = (int)((char *)&(md.InstrumentID) - (char *)&md);
+	}
 
 	default:
 		break;
