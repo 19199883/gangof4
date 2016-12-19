@@ -543,7 +543,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 			// ÍÆÐÐÇé
 			int sig_count = 0;
 
-			LOG4CXX_INFO(log4cxx::Logger::getRootLogger(),"*** msg len:");
+			// commented by wangying on 20161116
+			//LOG4CXX_INFO(log4cxx::Logger::getRootLogger(),"*** msg len:");
 
 			this->_model_ptr->feed_cf_quote(quotes[cur],sig_cache.data()+sig_cache_size,sig_count);
 			sig_cache_size += sig_count;

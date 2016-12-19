@@ -146,7 +146,7 @@ OnGTAQuoteData1(const QuoteT1 *quote)
 	 // maint.                                                                                       
     if(maintenance::enabled()){
        string contract = pending_quote_dao<QuoteT1>::get_symbol(quote);
-       contract += "(forwarder forward)";
+       contract += "(forwarder OnGTAQuoteData1)";
        maintenance::log(contract);
    }
 
@@ -164,7 +164,7 @@ OnGTAQuoteData2(const QuoteT2 *quote)
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT2>::get_symbol(quote);
-		contract += "(forwarder forward)";
+		contract += "(forwarder OnGTAQuoteData2)";
 		maintenance::log(contract);
 	}
 
@@ -182,7 +182,7 @@ OnGTAQuoteData3(const QuoteT3 *quote)
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT3>::get_symbol(quote);
-		contract += "(forwarder forward)";
+		contract += "(forwarder OnGTAQuoteData3)";
 		maintenance::log(contract);
 	}
 
@@ -200,7 +200,7 @@ OnGTAQuoteData4(const QuoteT4 *quote)
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT4>::get_symbol(quote);
-		contract += "(forwarder forward)";
+		contract += "(forwarder OnGTAQuoteData4)";
 		maintenance::log(contract);
 	}
 
@@ -218,7 +218,7 @@ OnGTAQuoteData5(const QuoteT5 *quote)
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT5>::get_symbol(quote);
-		contract += "(forwarder forward)";
+		contract += "(forwarder OnGTAQuoteData5)";
 		maintenance::log(contract);
 	}
 
@@ -236,7 +236,7 @@ OnGTAQuoteData6(const QuoteT6 *quote)
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT6>::get_symbol(quote);
-		contract += "(forwarder forward)";
+		contract += "(forwarder OnGTAQuoteData6)";
 		maintenance::log(contract);
 	}
 

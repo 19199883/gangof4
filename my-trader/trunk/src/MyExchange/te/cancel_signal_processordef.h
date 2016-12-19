@@ -404,8 +404,8 @@ cancel_signal_processor<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 		sync_reqs.clear();
 		rpt_ready = true;
 
-		LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),"sync_cancel_order_core end:"
-				<< rpt_ready);
+//		LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),"sync_cancel_order_core end:"
+//				<< rpt_ready);
 	} // end if(0!==sig_cnt){
 }
 
