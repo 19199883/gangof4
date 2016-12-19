@@ -44,6 +44,8 @@ ctrlc_handler(int s)
 }
 
 int main() {
+	DOMConfigurator::configure("log4cxx_config.xml");
+
 	struct sigaction intrc_handle;
 	intrc_handle.sa_handler = ctrlc_handler;
 	sigemptyset(&intrc_handle.sa_mask);
@@ -53,7 +55,6 @@ int main() {
 	 install_sig_handlers();
 	maintenance::assemble();
 
-	DOMConfigurator::configure("log4cxx_config.xml");
 	quote_setting setting("czce_quote_forwarder.xml");
 
 	forwarder<ZCEQuotCMBQuotField_MY> *forwarder1= new forwarder<ZCEQuotCMBQuotField_MY>(setting.forwarders["ZCEQuotCMBQuotField_MY"]);
