@@ -27,6 +27,10 @@
 #include "taifex_md.h"
 #include "kmds.h"
 
+#include <iostream>
+#include <chrono>
+
+
 using namespace std;
 
 void Pause() 
@@ -68,7 +72,7 @@ void MYUTIL_SaveFileHeader(int data_type, FILE * pf)
 
 int g_use_timestamp_flag = 1;
 int main(int argc, char **argv)
-{
+{	
 	std::cout << "Usage: BinaryQuote2String BinaryQuoteDataFile [use_timestamp_flag(1)]" << std::endl;
 	if (argc < 2)
 	{
