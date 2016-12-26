@@ -21,6 +21,7 @@ def main():
 	update(root)
 
 	tree.write(cur_config_file, encoding="utf-8") #, xml_declaration=True) 
+	shutil.copyfile(cur_config_file, src_config_file)
 
 def backup():
 	count = 1
