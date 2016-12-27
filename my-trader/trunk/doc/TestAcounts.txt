@@ -1,0 +1,16 @@
+1.SimNow
+  1.1 tunnel
+  address:tcp://180.168.146.187:10000
+  user:013502
+  investorid:013502
+  brokerid:9999
+  password:111111
+  encrypted password:AmvgUCydNYxRuBeHQlPB0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+
+  1.2 market data
+  address:tcp://180.168.146.187:10010
+  user:013502
+  investorid:013502
+  brokerid:9999
+  password:111111
+  encrypted password:AmvgUCydNYxRuBeHQlPB0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
