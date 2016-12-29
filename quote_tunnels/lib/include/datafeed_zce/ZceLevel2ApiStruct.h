@@ -99,8 +99,11 @@ struct StdQuote5
 {
 	char instrument[32];
 	char updateTime[9];
+	// millisecond component of update time
 	int updateMS;
+	// last price
 	double price;
+	// last quantity
 	int volume;
 	double turnover;
 	int openinterest;
