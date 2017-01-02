@@ -27,7 +27,7 @@ struct DLL_PUBLIC ZCEL2QuotSnapshotField_MY
     double AskPrice[5];     /*卖出价 下标从0开始*/
     int BidLot[5];          /*买入数量 下标从0开始*/
     int AskLot[5];          /*卖出数量 下标从0开始*/
-    int TotalVolume;        /*总成交量*/
+    int LastQty;        /*总成交量*/
     int OpenInterest;       /*持仓量*/
     double ClosePrice;      /*收盘价*/
     double SettlePrice;     /*结算价*/
