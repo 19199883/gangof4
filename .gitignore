@@ -1,0 +1,13 @@
+*.[oa~]
+*.depends
+*.cproject
+*.project
+*.swp
+bin/
+obj/
+*.swo
+tags
+.metadata/
+*~
+my-trader/trunk/lib
+dist/
