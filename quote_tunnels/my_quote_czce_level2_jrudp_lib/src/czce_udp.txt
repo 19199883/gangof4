@@ -4,8 +4,8 @@ struct StdQuote5{
     char instrument[32];
     char updateTime[9];
     int updateMS;
-    double price;
-    int volume;
+    double price; // last price
+    int volume;   // cumulate quantity
     double turnover;
     int openinterest;
     double askPrice1;

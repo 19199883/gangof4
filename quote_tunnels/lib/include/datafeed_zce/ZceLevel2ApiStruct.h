@@ -103,7 +103,7 @@ struct StdQuote5
 	int updateMS;
 	// last price
 	double price;
-	// last quantity
+	// cumulate quantity
 	int volume;
 	double turnover;
 	int openinterest;

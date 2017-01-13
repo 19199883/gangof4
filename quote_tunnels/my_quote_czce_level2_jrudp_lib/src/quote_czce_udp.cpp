@@ -46,10 +46,10 @@ ZCEL2QuotSnapshotField_MY CzceUdpMD::Convert(const StdQuote5 &other,TapAPIQuoteW
 	std::time_t tt = system_clock::to_time_t ( today );
 	strftime(data.TimeStamp, sizeof(data.TimeStamp), "%Y-%m-%d %H:%M:%S",localtime(&tt));
 	strcpy(data.TimeStamp+11,other.updateTime);
-	//strcpy(data.TimeStamp+19,".");
-	//sprintf(data.TimeStamp+20,"%d",other.updateMS);
+	strcpy(data.TimeStamp+19,".");
+	sprintf(data.TimeStamp+20,"%03d",other.updateMS);
 
-	data.LastQty = other.volume;
+	data.TotalVolume = other.volume;
 	data.ContractIDType = 0;							/*合约类型 0->目前应该为0， 扩充：0:期货,1:期权,2:组合*/
 	data.LastPrice = InvalidToZeroD(other.price);		/*最新价*/
 	data.BidPrice[0] = InvalidToZeroD(other.bidPrice1);     /*买入价格 下标从0开始*/
@@ -330,7 +330,7 @@ std::string CzceUdpMD::ToString(const ZCEL2QuotSnapshotField_MY * p)
 			p->HighPrice,                 ///< 最高价
 			p->LowPrice,                   ///< 最低价
 			p->LastPrice,        ///< 最新价
-			p->LastQty,                   ///
+			p->TotalVolume,                   ///
 			p->OpenInterest,                ///< 持仓量
 			p->ClosePrice,                  ///< 收盘价
 			p->SettlePrice,                ///< 结算价
