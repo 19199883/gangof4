@@ -3,8 +3,8 @@
 CC:=g++
 DEBUG:=n
 TOP:=..
-INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/datafeed_zce -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_czce_level2
-LIBPATH:=-L$(TOP)/lib/bin -L$(TOP)/lib/bin/datafeed_zce -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
+INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/datafeed_zce -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_czce_level2 -I$(TOP)/include_quote/include_tap
+LIBPATH:=-L$(TOP)/lib/bin/boost -L$(TOP)/lib/bin -L$(TOP)/lib/bin/datafeed_zce -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
 CPPFLAGS:= -std=c++11 $(INCPATH)
 CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL

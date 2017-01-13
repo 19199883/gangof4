@@ -216,6 +216,16 @@ cp -a bin/*.so $QT_TUNNEL_DIST
 cp -a config/* $QT_TUNNEL_DIST
 cp -a $QT_LIB_BIN_DIR/ac_xele_trade/libXeleTdAPI64.so $QT_TUNNEL_DIST
 
+# x1 tunnel (future)
+cd $QT_SOURCE_ROOT/my_tunnel_lib_x1_fut
+make clean
+make
+QT_TUNNEL_DIST=$TRADER_LIB_ROOT/tunnel/x1_fut
+mkdir -p $QT_TUNNEL_DIST
+cp -a bin/*.so $QT_TUNNEL_DIST
+cp -a config/* $QT_TUNNEL_DIST
+cp -a $QT_LIB_BIN_DIR/x1_fut/libx1_dfitc_api.so $QT_TUNNEL_DIST
+
 # xspeed tunnel (future)
 cd $QT_SOURCE_ROOT/my_tunnel_lib_xspeed_fut
 make clean

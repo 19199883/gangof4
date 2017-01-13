@@ -4,7 +4,7 @@ CC:=g++
 DEBUG:=n
 TOP:=..
 INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/ctp -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_level1
-LIBPATH:=-L$(TOP)/lib/bin -L$(TOP)/lib/bin/ctp -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
+LIBPATH:=-L$(TOP)/lib/bin/boost -L$(TOP)/lib/bin -L$(TOP)/lib/bin/ctp -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
 CPPFLAGS:= -std=c++11 $(INCPATH)
 CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL

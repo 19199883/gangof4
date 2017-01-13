@@ -6,7 +6,7 @@
 //#include "ThostFtdcMdApi.h"
 
 #include <boost/function.hpp>
-#include "ThostFtdcMdfastApi.h"
+#include "ThostFtdcMdApi.h"
 #include "quote_interface_all_level2.h"
 #include "quote_cmn_utility.h"
 #include "quote_cmn_config.h"
