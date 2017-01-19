@@ -11,6 +11,7 @@ PROJECT_NAME:=quote_forwarder_all_level2
 INCPATH:= -I$(TOP)/lib/tunnel/include \
 		  -I$(TOP)/lib/quote/include \
 		  -I$(TOP)/lib/ \
+		  -I$(TOP)/lib/include \
 	      -I$(TOP)/lib/toe \
 	      -I$(TOP)/lib/my_common \
 	      -I../utils \
