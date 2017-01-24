@@ -56,6 +56,7 @@ void quote_forwarder_agent<QuoteT>
 ::p()
 {
 	struct sembuf sem_p;
+	memset(&sem_p, 0, sizeof(sem_p));
 	sem_p.sem_num=0;
 	sem_p.sem_op=-1;
 	// TODO: consider whether there is a bug.

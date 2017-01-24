@@ -158,9 +158,10 @@ template<typename QuoteT>
 void forwarder<QuoteT>::v(int semid)
 {
 	struct sembuf sem_v;
+	memset(&sem_v, 0, sizeof(sem_v));
 	sem_v.sem_num=0;
 	sem_v.sem_op=1;
-	sem_v.sem_flg = IPC_NOWAIT;
+//	sem_v.sem_flg = IPC_NOWAIT;
 	if(semop(semid,&sem_v,1)==-1){
 		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"v operation is failed,cause:"<<strerror(errno));
 	}

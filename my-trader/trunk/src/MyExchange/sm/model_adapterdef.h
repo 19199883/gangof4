@@ -119,6 +119,7 @@ void model_adapter<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 	try	{
 		string model_log = generate_log_name(setting.config_.log_name);
 		strcpy(setting.config_.log_name,model_log.c_str());
+		setting.config_.log_id = setting.config_.st_id;
 
 		for(int i=0; i<setting.config_.symbols_cnt; i++){
 			string sym_log_name = "";
