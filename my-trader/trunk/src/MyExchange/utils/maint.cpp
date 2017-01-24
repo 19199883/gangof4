@@ -23,7 +23,7 @@ void maintenance::assemble()
 
 bool maintenance::enabled()
 {
-	return maintenance::enabled;
+	return maintenance::enabled_;
 }
 
 void maintenance::log(string &content)

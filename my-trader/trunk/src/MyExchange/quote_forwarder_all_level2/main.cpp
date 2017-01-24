@@ -56,10 +56,29 @@ int main() {
 	DOMConfigurator::configure("log4cxx_config.xml");
 	quote_setting setting("all_level2_quote_forwarder.xml");
 
-	forwarder<MYShfeMarketData> *forwarder1= new forwarder<MYShfeMarketData>(setting.forwarders["MYShfeMarketData"]);
-	forwarder<MDBestAndDeep_MY> *forwarder2= new forwarder<MDBestAndDeep_MY>(setting.forwarders["MDBestAndDeep"]);
-	forwarder<CFfexFtdcDepthMarketData> *forwarder3= new forwarder<CFfexFtdcDepthMarketData>(setting.forwarders["CFfexFtdcDepthMarketData"]);
-	forwarder<ZCEL2QuotSnapshotField_MY> *forwarder4= new forwarder<ZCEL2QuotSnapshotField_MY>(setting.forwarders["ZCEL2QuotSnapshotField_MY"]);
+	map<string,forwarder_setting>::iterator it =  setting.forwarders.find("MYShfeMarketData");
+	forwarder<MYShfeMarketData> *forwarder1=NULL; 
+	if(setting.forwarders.end() != it){
+		forwarder1= new forwarder<MYShfeMarketData>(it->second);
+	}
+
+	it =  setting.forwarders.find("MDBestAndDeep");
+	forwarder<MDBestAndDeep_MY> *forwarder2= NULL;
+	if(setting.forwarders.end() != it){
+		forwarder2= new forwarder<MDBestAndDeep_MY>(it->second);
+	}
+
+	it =  setting.forwarders.find("CFfexFtdcDepthMarketData");
+	forwarder<CFfexFtdcDepthMarketData> *forwarder3= NULL;
+	if(setting.forwarders.end() != it){
+		forwarder3= new forwarder<CFfexFtdcDepthMarketData>(it->second);
+	}
+
+	it =  setting.forwarders.find("ZCEL2QuotSnapshotField_MY");
+	forwarder<ZCEL2QuotSnapshotField_MY> *forwarder4= NULL;
+	if(setting.forwarders.end() != it){
+		forwarder4= new forwarder<ZCEL2QuotSnapshotField_MY>(it->second);
+	}
 
 	quote_sourceInc = new QuoteSourceT(setting.MarketdataConfig,setting.Subscription,forwarder1,forwarder2,forwarder3,forwarder4,NULL,NULL);
 	thread t1 = thread(bind(&QuoteSourceT::start,quote_sourceInc));

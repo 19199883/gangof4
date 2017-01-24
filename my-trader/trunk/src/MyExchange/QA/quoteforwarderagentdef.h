@@ -61,7 +61,16 @@ void quote_forwarder_agent<QuoteT>
 	// TODO: consider whether there is a bug.
 	// commented by wangying on 20160727 for CPU overly occupied
 //	sem_p.sem_flg = IPC_NOWAIT;
-	while(semop(semid,&sem_p,1)==-1){usleep(1);}
+	while(semop(semid,&sem_p,1)==-1){
+		usleep(5);
+		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"p operation failed,cause:"<<strerror(errno));
+	}
+	
+	// TODO: debug
+	union semun semopts;
+	int val = semctl(semid,0,GETVAL,semopts);
+	LOG4CXX_DEBUG(log4cxx::Logger::getRootLogger(),"sem value:" << val);
+	LOG4CXX_DEBUG(log4cxx::Logger::getRootLogger(),"sem id:" << semid);
 }
 
 template<typename QuoteT>

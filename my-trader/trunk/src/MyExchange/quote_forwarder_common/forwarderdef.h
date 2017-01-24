@@ -162,8 +162,13 @@ void forwarder<QuoteT>::v(int semid)
 	sem_v.sem_op=1;
 	sem_v.sem_flg = IPC_NOWAIT;
 	if(semop(semid,&sem_v,1)==-1){
-//		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"v operation is failed,cause:"<<strerror(errno));
+		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"v operation is failed,cause:"<<strerror(errno));
 	}
+
+	// TODO: debug
+	union semun semopts;
+	int val = semctl(semid,0,GETVAL,semopts);
+	LOG4CXX_DEBUG(log4cxx::Logger::getRootLogger(),"sem value:" << val);
 }
 
 template<typename QuoteT>

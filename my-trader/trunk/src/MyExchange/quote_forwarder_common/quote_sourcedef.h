@@ -143,6 +143,8 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData1(const QuoteT1 *quote)
 {
+	if(NULL == this->_forwarderInc1) return;
+	
 	 // maint.                                                                                       
     if(maintenance::enabled()){
        string contract = pending_quote_dao<QuoteT1>::get_symbol(quote);
@@ -161,6 +163,8 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData2(const QuoteT2 *quote)
 {
+	if(NULL == this->_forwarderInc2) return;
+
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT2>::get_symbol(quote);
@@ -179,6 +183,8 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData3(const QuoteT3 *quote)
 {
+	if(NULL == this->_forwarderInc3) return;
+
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT3>::get_symbol(quote);
@@ -197,6 +203,8 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData4(const QuoteT4 *quote)
 {
+	if(NULL == this->_forwarderInc4) return;
+
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT4>::get_symbol(quote);
@@ -215,6 +223,8 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData5(const QuoteT5 *quote)
 {
+	if(NULL == this->_forwarderInc5) return;
+
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT5>::get_symbol(quote);
@@ -233,6 +243,8 @@ void
 quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6>::
 OnGTAQuoteData6(const QuoteT6 *quote)
 {
+	if(NULL == this->_forwarderInc6) return;
+
 	 // maint.                                                                                       
 	if(maintenance::enabled()){
 		string contract = pending_quote_dao<QuoteT6>::get_symbol(quote);

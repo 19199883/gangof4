@@ -37,8 +37,8 @@ void X1Packer::CancelRequest(const TunnelConfigData& cfg, const T_CancelOrder* r
     strncpy(cancle_order.AccountID, cfg.Logon_config().clientid.c_str(), sizeof(TX1FtdcAccountIDType));
     strncpy(cancle_order.InstrumentID, req->stock_code, sizeof(TX1FtdcInstrumentIDType));
     cancle_order.LocalOrderID = org_order_ref;
-    //cancle_order.spdOrderID = req->entrust_no;
-    cancle_order.X1OrderID = -1;
+    cancle_order.X1OrderID = req->entrust_no;
+    cancle_order.SessionID= 0;
 }
 
 void X1Packer::QuoteRequest(const TunnelConfigData& cfg, const T_InsertQuote* p, OrderRefDataType new_order_ref,

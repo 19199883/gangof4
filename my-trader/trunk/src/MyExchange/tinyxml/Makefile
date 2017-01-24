@@ -2,7 +2,7 @@
 
 CC:=g++
 AR:=ar -r
-DEBUG:=n
+DEBUG:=y
 TIME_PROBER:=n
 TOP:=../../../
 INCPATH:= 
