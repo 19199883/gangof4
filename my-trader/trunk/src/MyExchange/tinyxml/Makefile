@@ -2,13 +2,13 @@
 
 CC:=g++
 AR:=ar -r
-DEBUG:=y
+DEBUG:=n
 TIME_PROBER:=n
 TOP:=../../../
 INCPATH:= 
 
 LIBPATH:=
-CPPFLAGS:= -v -c  -std=c++11 $(INCPATH) -fmessage-length=0 
+CPPFLAGS:= -v -c  -std=c++11 $(INCPATH) -fmessage-length=0 -fPIC
 CFLAGS:= 
 
 LDFLAGS:=  

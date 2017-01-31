@@ -167,9 +167,9 @@ void forwarder<QuoteT>::v(int semid)
 	}
 
 	// TODO: debug
-	union semun semopts;
-	int val = semctl(semid,0,GETVAL,semopts);
-	LOG4CXX_DEBUG(log4cxx::Logger::getRootLogger(),"sem value:" << val);
+//	union semun semopts;
+//	int val = semctl(semid,0,GETVAL,semopts);
+//	LOG4CXX_DEBUG(log4cxx::Logger::getRootLogger(),"sem value:" << val);
 }
 
 template<typename QuoteT>
