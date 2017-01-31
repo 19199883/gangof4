@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=y
+DEBUG:=n
 ASYNC_CANCEL:=n
 TOP:=..
 INCPATH:=-I$(TOP)/lib/include -I$(TOP)/my_common/include -I$(TOP)/include_tunnel
@@ -11,7 +11,7 @@ CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lmy_common_v2
+LIBS:= -lmxml -lpthread -lmy_common_v2 -ltinyxml
 DEPS:=.depends
 ifeq ($(strip $(ASYNC_CANCEL)),y)
 	CPPFLAGS+= -DASYNC_CANCEL 
