@@ -71,6 +71,20 @@ def add_strategy(strategies, strategy_temp, row, id):
 	new_strategy.set('id', str(id)) 
 	new_strategy.set('model_file', row[1]) 
 
+	# respectively copy ev file for every fl50 or fl51 strategry
+	ev_name_value = "ev/" + row[1] + ".txt"
+	new_strategy.set('ev_name', ev_name_value) 
+	strategy_name = row[1]
+	ev_file_src = ""
+	ev_file_dest = "../" + ev_name_value 
+	if 0==strategy_name.find('fl50'):
+		ev_file_src = "fl50.txt"
+		shutil.copyfile(ev_file_src, ev_file_dest)
+	if 0==strategy_name.find('fl51'):
+		ev_file_src = "fl51.txt"
+		shutil.copyfile(ev_file_src, ev_file_dest)
+
+
 	symbol = new_strategy.find("./symbol")
 	symbol.set('max_pos', row[3])
 	symbol.set('name', row[2])
