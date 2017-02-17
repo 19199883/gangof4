@@ -297,8 +297,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	if (tcs_ins == NULL) return;
 
-	ReportNotifyRecordT duplicated_records(5000);
-	duplicated_records.reserve(5000);
+	ReportNotifyRecordT duplicated_records(500);
+	duplicated_records.reserve(500);
 
 	int total = 0;
 	 while (!stopped){
@@ -448,8 +448,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	if (_qa_ptr->spif_quote_source_ptr==0) return;
 
-	typename SPIFPendingQuoteDaoT::QuoteTableRecordT quotes(50000);
-	quotes.reserve(50000);
+	typename SPIFPendingQuoteDaoT::QuoteTableRecordT quotes(5000);
+	quotes.reserve(5000);
 	int total = 0;
 	 while (!stopped){
          {
@@ -507,8 +507,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	if (_qa_ptr->cf_quote_source_ptr==0) return;
 
-	typename pending_quote_dao<CFQuoteT>::QuoteTableRecordT quotes(50000);
-	quotes.reserve(50000);
+	typename pending_quote_dao<CFQuoteT>::QuoteTableRecordT quotes(5000);
+	quotes.reserve(5000);
 	int total = 0;
 	 while (!stopped){
 		 {
@@ -562,8 +562,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	if (_qa_ptr->stock_quote_source_ptr==0) return;
 
-	typename pending_quote_dao<StockQuoteT>::QuoteTableRecordT quotes(50000);
-	quotes.reserve(50000);
+	typename pending_quote_dao<StockQuoteT>::QuoteTableRecordT quotes(5000);
+	quotes.reserve(5000);
 	int total = 0;
 	 while (!stopped){
 	   {
@@ -617,8 +617,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	if (_qa_ptr->full_depth_quote_source_ptr==0) return;
 
-	typename pending_quote_dao<FullDepthQuoteT>::QuoteTableRecordT quotes(50000);
-	quotes.reserve(50000);
+	typename pending_quote_dao<FullDepthQuoteT>::QuoteTableRecordT quotes(5000);
+	quotes.reserve(5000);
 	int total = 0;
 	 while (!stopped){
 	   {
@@ -672,8 +672,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 {
 	if (_qa_ptr->quote_source5_ptr==0) return;
 
-	typename PendingQuoteDaoT5::QuoteTableRecordT quotes(50000);
-	quotes.reserve(50000);
+	typename PendingQuoteDaoT5::QuoteTableRecordT quotes(5000);
+	quotes.reserve(5000);
 	int total = 0;
 	 while (!stopped){
 	   {
@@ -850,8 +850,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 
 	 int &model_id = this->_model_ptr->setting.id;
 	 int total = 0;
-	 vector<T_RtnForQuote> duplicated_quote_nitify_records(5000);
-	 duplicated_quote_nitify_records.reserve(5000);
+	 vector<T_RtnForQuote> duplicated_quote_nitify_records(500);
+	 duplicated_quote_nitify_records.reserve(500);
 	 while (!stopped){
 		while(!channel->quote_notify_state_[model_id]){
 			usleep(1);

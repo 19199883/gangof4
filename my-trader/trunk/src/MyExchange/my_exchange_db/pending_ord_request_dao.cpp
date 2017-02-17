@@ -48,12 +48,12 @@ set<long> pending_ord_request_dao::cl_quote_ord_id_cache = set<long>();
     }while(0)	
 
 void pending_ord_request_dao::init(const ReportNotifyTableKeyT &key){
-	rpt_notify_cache[key] = vector<my_order>(5000);
-	rpt_notify_cache.find(key)->second.reserve(5000);
+	rpt_notify_cache[key] = vector<my_order>(500);
+	rpt_notify_cache.find(key)->second.reserve(500);
 	cache_record_count[key] = 0;
 
-	quote_notify_cache[key.first] = vector<T_RtnForQuote>(5000);
-	quote_notify_cache.find(key.first)->second.reserve(5000);
+	quote_notify_cache[key.first] = vector<T_RtnForQuote>(500);
+	quote_notify_cache.find(key.first)->second.reserve(500);
 	cache_quote_notify_count[key.first] = 0;
 }
 
@@ -62,7 +62,7 @@ void pending_ord_request_dao::init(const long& model_id,set<string> &symbols){
 	OrderDatabaseModelIndexTable[model_id] = unordered_set<size_t>();
 
 	// market making. quote
-	QuoteOrderDatabase.reserve(ORDER_DATABASE_MAX_SIZE);
+	QuoteOrderDatabase.reserve(20);
 	QuoteOrderDatabaseModelIndexTable[model_id] = unordered_set<size_t>();
 
 	set<string>::iterator it = symbols.begin();

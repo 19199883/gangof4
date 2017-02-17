@@ -38,8 +38,8 @@ pending_quote_dao<QuoteT>::init(const long & model_id)
 		}
 	}    
     
-	quote_cache[model_id] = vector<QuoteT>(50000);
-	quote_cache.find(model_id)->second.reserve(50000);
+	quote_cache[model_id] = vector<QuoteT>(5000);
+	quote_cache.find(model_id)->second.reserve(5000);
 	cache_record_count[model_id] = 0;
 
 

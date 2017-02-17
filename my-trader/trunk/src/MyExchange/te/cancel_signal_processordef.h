@@ -187,8 +187,8 @@ void
 cancel_signal_processor<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 ::cancel_result_handler(tcs*tcs)
 {
-	ReportNotifyRecordT duplicated_records(5000);
-	duplicated_records.reserve(5000);
+	ReportNotifyRecordT duplicated_records(500);
+	duplicated_records.reserve(500);
 
 	while (!stopped){
 		int total = 0;
