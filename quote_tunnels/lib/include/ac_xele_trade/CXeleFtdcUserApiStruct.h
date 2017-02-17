@@ -4,9 +4,9 @@
 ///@brief 业务数据结构
 /////////////////////////////////////////////////////////////////////////
  
-#ifndef _XELE_FTDCSTRUCT_H
+#ifndef _XELE_TD_FTDCSTRUCT_H
 
-#define _XELE_FTDCSTRUCT_H
+#define _XELE_TD_FTDCSTRUCT_H
 
 #include "CXeleFtdcUserApiDataType.h"
 
@@ -186,8 +186,8 @@ struct CXeleFtdcUserPasswordUpdateField
 ///报单查询
 struct CXeleFtdcQryOrderField
 {
-    ///交易用户代码
-    TXeleFtdcUserIDType UserID;
+    ///客户代码
+    TXeleFtdcClientIDType       ClientID;
 	///合约代码
 	TXeleFtdcInstrumentIDType	InstrumentID;
 	///报单编号
@@ -201,8 +201,8 @@ struct CXeleFtdcQryOrderField
 ///成交查询
 struct CXeleFtdcQryTradeField
 {
-	///交易用户代码
-	TXeleFtdcUserIDType	UserID;
+    ///客户代码
+	TXeleFtdcClientIDType       ClientID;
 	///合约代码
 	TXeleFtdcInstrumentIDType	InstrumentID;
 	///成交编号
@@ -654,6 +654,25 @@ struct CXeleFtdcQryInstrumentStatusField
     TXeleFtdcInstrumentIDType   InstIDEnd;
 };
 
+///合约状态查询
+struct CXeleFtdcRspInstrumentPriceField
+{
+	///合约代码
+	TXeleFtdcInstrumentIDType   InstrumentID;
+	///涨停价
+	TXeleFtdcPriceType   UpperLimitPrice;
+	///跌停价
+	TXeleFtdcPriceType   LowerLimitPrice;
+};
+
+///合约状态查询
+struct CXeleFtdcReqInstrumentPriceField
+{
+	///产品代码
+	TXeleFtdcProductIDType      ProductID;
+	///合约代码
+	TXeleFtdcInstrumentIDType   InstrumentID;
+};
 #pragma pack(pop)
 
 #endif

@@ -124,7 +124,8 @@ namespace trading_channel_agent
 	class pending_ord_request_dao
 	{
 	public:
-		static int const ORDER_DATABASE_MAX_SIZE = 600000;
+		// TODO: wangying 2017-02-17
+		static int const ORDER_DATABASE_MAX_SIZE = 30000;
 	private:
 		static set<long> cl_ord_id_cache;
 		static speculative_spin_mutex lock_local_request_cache;

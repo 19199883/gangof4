@@ -101,10 +101,10 @@ std::string XeleDatatypeFormater::ToString(const CXeleFtdcQryOrderField *p)
     if (p)
     {
         snprintf(buf, sizeof(buf), "structName=CXeleFtdcQryOrderField\n"
-            "\tUserID=%s\n"
+            "\tClientID=%s\n"
             "\tOrderSysID=%s\n"
             "\tInstrumentID=%s\n",
-            p->UserID,                              ///交易用户代码
+            p->ClientID,                              ///交易用户代码
             p->OrderSysID,                          ///报单编号
             p->InstrumentID                         ///合约代码
             );
@@ -124,12 +124,12 @@ std::string XeleDatatypeFormater::ToString(const CXeleFtdcQryTradeField *p)
     if (p)
     {
         snprintf(buf, sizeof(buf), "structName=CXeleFtdcQryTradeField\n"
-            "\tUserID=%s\n"
+            "\tClientID=%s\n"
             "\tInstrumentID=%s\n"
             "\tTradeID=%s\n"
             "\tTimeStart=%s\n"
             "\tTimeEnd=%s\n",
-            p->UserID,                              ///交易用户代码
+            p->ClientID,                              ///交易用户代码
             p->InstrumentID,                        ///合约代码
             p->TradeID,                             ///成交编号
             p->TimeStart,                           ///开始时间

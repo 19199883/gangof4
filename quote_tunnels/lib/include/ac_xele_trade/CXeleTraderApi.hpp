@@ -180,6 +180,8 @@ public:
     virtual void OnRspQryOrder(CXeleFtdcOrderField* pOrderField, CXeleFtdcRspInfoField* pRspInfo, int nRequestID, bool bIsLast){};
     ///成交单查询应答
     virtual void OnRspQryTrade(CXeleFtdcTradeField* pTradeField, CXeleFtdcRspInfoField* pRspInfo, int nRequestID, bool bIsLast){};
+
+    virtual void OnRspInstrumentPrice(CXeleFtdcRspInstrumentPriceField* pTradeField, CXeleFtdcRspInfoField* pRspInfo, int nRequestID, bool bIsLast){};
 };
 
 class CXeleTraderApi
@@ -187,7 +189,8 @@ class CXeleTraderApi
 public:
     ///创建TraderApi
     ///@return 创建出的UserApi
-    static CXeleTraderApi *CreateTraderApi();
+    ///exchange=1(上期所），0或其他（中金所）
+    static CXeleTraderApi *CreateTraderApi(int exchangeID=0);
 
     ///获取系统版本号
     ///@return 系统标识字符串
@@ -277,6 +280,8 @@ public:
     virtual int ReqQryOrder(CXeleFtdcQryOrderField *pQryOrder, int nRequestID) = 0;
     ///成交查询
     virtual int ReqQryTrade(CXeleFtdcQryTradeField *pQryTrade, int nRequestID) = 0;
+
+    virtual int ReqQryInstrumentPrice(CXeleFtdcQryInstrumentField *pQryTrade, int nRequestID) = 0;
 protected:
     ~CXeleTraderApi();
 };

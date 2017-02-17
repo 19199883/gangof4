@@ -495,7 +495,7 @@ void XeleTunnel::QueryOrderDetail(const T_QryOrderDetail *pQryParam)
     memset(&qry_param, 0, sizeof(CXeleFtdcQryOrderField));
 
     const LogonConfig & log_cfg = lib_cfg_->Logon_config();
-    strncpy(qry_param.UserID, log_cfg.clientid.c_str(), sizeof(qry_param.UserID));
+    strncpy(qry_param.ClientID, log_cfg.clientid.c_str(), sizeof(qry_param.ClientID));
 
     int qry_result = p_tunnel->QryOrderDetail(&qry_param, 0);
     if (qry_result != 0)
@@ -524,7 +524,7 @@ void XeleTunnel::QueryTradeDetail(const T_QryTradeDetail *pQryParam)
     memset(&qry_param, 0, sizeof(CXeleFtdcQryTradeField));
 
     const LogonConfig & log_cfg = lib_cfg_->Logon_config();
-    strncpy(qry_param.UserID, log_cfg.clientid.c_str(), sizeof(qry_param.UserID));
+    strncpy(qry_param.ClientID, log_cfg.clientid.c_str(), sizeof(qry_param.ClientID));
 
     int qry_result = p_tunnel->QryTradeDetail(&qry_param, 0);
     if (qry_result != 0)

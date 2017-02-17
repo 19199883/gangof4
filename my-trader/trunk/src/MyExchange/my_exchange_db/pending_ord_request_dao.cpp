@@ -27,7 +27,8 @@ size_t pending_ord_request_dao::order_database_index = 0;
 speculative_spin_mutex pending_ord_request_dao::lock_quote_notify_cache;
 map<long,vector<T_RtnForQuote> > pending_ord_request_dao::quote_notify_cache;
 map<long,int> pending_ord_request_dao::cache_quote_notify_count;
-QuoteOrderDatabaseT pending_ord_request_dao::QuoteOrderDatabase(ORDER_DATABASE_MAX_SIZE);
+// TODO: wangying 2017-2-17
+QuoteOrderDatabaseT pending_ord_request_dao::QuoteOrderDatabase(20);
 QuoteOrderDatabaseClOrdIdIndexTableT pending_ord_request_dao::QuoteOrderDatabaseClOrdIdIndexTable;
 QuoteOrderDatabaseModelIndexTableT pending_ord_request_dao::QuoteOrderDatabaseModelIndexTable;
 QuoteOrderDatabaseSymbolTableT pending_ord_request_dao::QuoteOrderDatabaseSymbolTable;

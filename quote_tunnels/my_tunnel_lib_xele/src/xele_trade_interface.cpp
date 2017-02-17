@@ -570,7 +570,7 @@ void MyXeleTradeSpi::QueryAndHandleOrders()
     memset(&qry_param, 0, sizeof(CXeleFtdcQryOrderField));
 
     const LogonConfig & log_cfg = cfg_.Logon_config();
-    strncpy(qry_param.UserID, log_cfg.clientid.c_str(), sizeof(qry_param.UserID));
+    strncpy(qry_param.ClientID, log_cfg.clientid.c_str(), sizeof(qry_param.ClientID));
 
     //超时后没有完成查询，重试。为防止委托单太多，10s都回报不了，每次超时加5s
     int wait_seconds = 10;
