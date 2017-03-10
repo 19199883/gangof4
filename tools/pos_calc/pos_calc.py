@@ -1,44 +1,29 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
 # read my_exchange_fut_op_[yymmdd].log, calculate position for every strategy
 # and then save these position to files.
 #
 
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
-
-from enum import Enum
+import os
+import sys
 import xml.etree.ElementTree as ET
 from datetime import date
+import logging
 
-class RecordT(Enum):
+class RecordT():
 	plaOrd  = 'PlaceOrder'
 	ordRes = 'OrderRespond'
 	ordRtn = 'OrderReturn'
 	traRtn = 'TradeReturn'
 
-class SideT(Enum):
+class SideT():
 	buy  = '0'
 	sell = '1'
 
-
-class PosEfctT(Enum):
+class PosEfctT():
 	open_pos = '0'
 	close_pos =	'1'
-
-class StatusT(Enum):
-	# un-report
-	unreport = '0' 
-	# reported
-	reporded = 'a'
-	# partial filled
-	partial_filled = 'p'
-	# filled
-	filled = 'c'
-	# cancelling
-	cancelling = 'f'
-	# rejected
-	rejected = 'e'
-	# cancelled
-	cancelled =	'd'
 
 class Strategy:
 	def __init__(self,stra_id):
@@ -49,9 +34,11 @@ class Strategy:
 		self.contract = ""
 
 class PosCalc:
-	def __init__(self,stra_id):
+	def __init__(self):
 		# this field store strategy info, e.g. name,id,position, and so on
 		self.straDict = {}
+		os.chdir(sys.path[0])
+		logging.basicConfig(filename='pos_calc.log',level=logging.DEBUG)
 
 	# get log file name of my_exchange module 
 	def getDataSrc(self):
@@ -61,23 +48,30 @@ class PosCalc:
 	# respectively save position of every strategy 
 	# to file which name is as my_exchange_fut_yyyymmdd.log
 	def savePos(self):
+		for key in self.straDict:
+			stra = self.straDict[key]
+			posFile = stra.stra_name + ".pos"
+			with open(posFile,'w') as f:
+				f.write("{0};{1};{2};{3};{4}".format(
+								stra.stra_id,
+								stra.stra_name, 
+								stra.contract, 
+								stra.pos_long, 
+								stra.pos_short))
 
 	# process a line of data frm my_exchange_fut_yyyymmdd.log
 	def proc(self,line):
 		if -1 != line.find(RecordT.traRtn):
-			procTraRec(line)
+			self.procTraRec(line)
 
 	# process a line of traded record
-	def procTraRed(self,line):
+	def procTraRec(self,line):
 		fields = line.split(';')
 		# serial number
 		fld0 = fields[0]
 		seri_no = fld0[fld0.find('serial_no: ')+11 : ]
 		stra_id = seri_no[len(seri_no)-8 : ] 
-		targStra = straDict.get(stra_id)
-		if None == targStra:
-			targStra = Strategy(stra_id)
-			straDict[stra_id] = newStra
+		targStra = self.straDict.get(stra_id)
 
 		# filled quantity
 		fld2 = fields[2]
@@ -101,40 +95,58 @@ class PosCalc:
 			elif dire == SideT.sell:
 				targStra.pos_short += int(filled_qty)	
 			else:
-				print("error:undefined " + dire)
-
-		if posEff == PosEfctT.open_pos:
+				logging.error("error:undefined direction %d" ,dire)
+		elif posEff == PosEfctT.close_pos:
 			if dire == SideT.buy:
-				targStra.pos_short 1= int(filled_qty)	
+				targStra.pos_short -= int(filled_qty)	
 			elif dire == SideT.sell:
 				targStra.pos_long -= int(filled_qty)	
 			else:
-				print("error:undefined " + dire)
+				logging.error("error:undefined direction %d" ,dire)
+		else:
+			logging.error("error:undefined posEff %d" ,posEff)
 
 	# positions for every strategy
 	def calc(self):
-		dataSrc = getDataSrc
+		dataSrc = self.getDataSrc()
 		with open(dataSrc) as f:
 		    for line in f:
-		        proc(line)
+		        self.proc(line)
+
+	# load previous days's pssition into given strategy
+	def load(self, stra):
+		posFile = stra.stra_name + ".pos"
+		if os.path.exists(posFile):
+			with open(posFile,'r') as f:
+				for line in f:
+					fields = line.split(';')
+					fld3 = fields[3]
+					stra.pos_long = int(fld3)
+					fld4 = fields[4]
+					stra.pos_short = int(fld4)
+
 
 	# build strategy objects by trasev.config and put them into 
 	# strategies member field
 	def buildStra(self):
-		tree = ET.parse(cur_config_file)
+		tree = ET.parse("trasev.config")
 		root = tree.getroot()
-		for straEn in root.findall('./stragegy'):
+		for straEn in root.findall('.//strategy'):
 			stra_id = straEn.get('id')
 			stra_name = straEn.get('model_file')
-			Strategy stra
+			stra = Strategy(stra_id) 
 			stra.stra_id = stra_id
 			stra.stra_name = stra_name
-			straDict[stra_id] = stra
+			symbol = straEn.find("./symbol")
+			stra.contract = symbol.get("name")
+			self.load(stra)
+			self.straDict[stra_id] = stra
 
 def main():
-	buildStra()
-	calc
-	savePos
+	posCalc = PosCalc()
+	posCalc.buildStra()
+	posCalc.calc()
+	posCalc.savePos()
 
 if __name__=="__main__":   
 	main()
