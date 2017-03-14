@@ -21,6 +21,7 @@
 #include "unistd.h"
 #include "my_trade_tunnel_api.h"
 #include "perfctx.h"
+#include <stdlib.h>     /* exit, EXIT_FAILURE */
 
 using namespace std;
 using namespace log4cxx;
@@ -958,7 +959,63 @@ T_PositionReturn tcs::query_position()
 	this->channel->QueryPosition(&criteria);
 	T_PositionReturn pos = future.get();
 
+	// pos_calc, check whether recorded positions are equal to live position in exchange
+	map<string,vector<int>> pos_sum;
+	pos_calc *calc = pos_calc::instance();
+	if (calc->enabled()){
+		calc->sum(pos_sum);
+		check(pos_sum, pos);
+	}
+
 	return pos;
+}
+
+// pos_calc,
+void tcs::check(map<string,vector<int>> &recPos, T_PositionReturn &exPos )
+{
+	bool passed = true;
+
+	map<string,vector<int>> exPosMap;
+	for (PositionDetail item : exPos.datas){
+		string cont = item.stock_code;
+		if (recPos.count(cont) <= 0) exPosMap[cont] = vector(2, 0);
+		if (MY_TNL_D_BUY == item.direction) exPosMap[cont][0] = item.position;
+		if (MY_TNL_D_SELL == item.direction) exPosMap[cont][1] = item.position;
+	}
+
+	for (map<string,vector<int>>::iterator it=recPos.begin(); it!=recPos.end(); ++it){
+		string cont = it->first;
+		if (exPosMap.count(cont) <= 0){
+			passed = false;
+			LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
+						"pos_calc error: rec pos(L " << it->second[0]
+						<< ": S " << it->second[1] << ")"
+						<< "; ex pos(L 0: S 0)");
+		}else{
+			if (it->second[0]!=exPosMap[cont][0] ||
+				it->second[1]!=exPosMap[cont][1]){
+				passed = false;
+				LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
+							"pos_calc error: rec pos(L " << it->second[0]
+							<< ": S " << it->second[1] << ")"
+							<< "; ex pos(L " << exPosMap[cont][0] <<
+							<< ": S " << exPosMap[cont][1] << ")" );
+			}
+		}
+	}
+
+	for (map<string,vector<int>>::iterator it=exPosMap.begin(); it!=exPosMap.end(); ++it){
+		string cont = it->first;
+		if (recPos.count(cont) <= 0){
+			passed = false;
+			LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
+						"pos_calc error: rec pos(L 0; S 0)"
+						<< "; ex pos(L " << it->second[0] 
+						<< "; S " << it->second[1] << ")");
+		}
+	}
+
+	if (!passed) exit(EXIT_FAILURE);
 }
 
 void tcs::query_position_result_handler(const T_PositionReturn *pos)

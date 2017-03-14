@@ -17,7 +17,7 @@
 #include "engine.h"
 #include "cancel_signal_processor.h"
 #include "unistd.h"
-
+#include "pos_calcu.h"
 #include "my_trade_tunnel_api.h"
 #include <string>
 
@@ -216,21 +216,66 @@ template<typename SPIFQuoteT,typename CFQuoteT,typename StockQuoteT,typename Ful
 void
 strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 ::feed_init_pos(st_config_t &config){
-	strategy_init_pos_t init_pos;
-	bool processed_stock = false;
-	set<exchange_names>::iterator it = exchanges_.begin();
-	set<exchange_names>::iterator end = exchanges_.end();
-	for(; it!=end; ++it){
-		//DODO hwg ,add  SHANGHAI STOCK EXCHANGE
-		if(processed_stock&& (*it==exchange_names::XSHE || *it==exchange_names::XSHG || *it == exchange_names::XHKE)) continue;
+	strategy_init_pos_t init_pos_tmp;
+	init_pos_tmp.acc_cnt = 0;
+	string &sett_cont = config.symbols[0].name;
 
-		if(!processed_stock && (*it==exchange_names::XSHE || *it==exchange_names::XSHG || *it == exchange_names::XHKE )){
-			processed_stock = true;
+	// pos_calc, feed position to this stategy
+	pos_calc* pos_calc_ins = pos_calc::instance();
+	if (pos_calc.enabled()){
+		symbol_pos_t &today_pos = init_pos_tmp._today_pos.s_pos[0];
+		symbol_pos_t &yesterday_pos = init_pos_tmp._yesterday_pos.s_pos[0];
+
+		string stra = "";
+		int long_pos = 0;
+		int short_pos = 0;
+		string cont = "";
+		if (pos_calc.exists(stra)){
+			pos_calc.get_pos(stra, long_pos, short_pos, cont);
+		}else{
+			long_pos = 0;
+			short_pos = 0;
+			cont = sett_cont;
 		}
-		strategy_init_pos_t init_pos_tmp;
-		_pos_mgr.get_position(config,init_pos_tmp,*it);
-		append(init_pos,init_pos_tmp);
-	} // end for(; it!=end; ++it){
+
+		if(sett_cont != cont){
+			LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
+							"pos_calc error:" << "strategy ID(" << config.st_id << ");"
+							<< "pos contract(" << cont << ");"
+							<< "setting contract(" << ")";
+			today_pos.symbol_cnt = 0; 
+			yesterday_pos.symbol_cnt = 0; 
+		}else{
+			today_pos.symbol_cnt = 1; 
+			strncpy(today_pos.symbol, cont.c_str(), sizeof(today_pos.symbol);
+			today_pos.long_volume = long_pos;
+			today_pos.short_volume = short_pos;
+			today_pos.exchg_code = config.symbols[0].exchange; 
+
+			yesterday_pos.symbol_cnt = 1; 
+			strncpy(yesterday_pos.symbol,cont.c_str(), sizeof(yesterday_pos.symbol);
+			yesterday_pos.long_volume = long_pos;
+			yesterday_pos.short_volume = short_pos;
+			yesterday_pos.exchg_code = config.symbols[0].exchange; 
+		}
+	}else{
+		strategy_init_pos_t init_pos;
+		bool processed_stock = false;
+		set<exchange_names>::iterator it = exchanges_.begin();
+		set<exchange_names>::iterator end = exchanges_.end();
+		for(; it!=end; ++it){
+			//hwg ,add  SHANGHAI STOCK EXCHANGE
+			if(processed_stock&& (*it==exchange_names::XSHE || *it==exchange_names::XSHG || 
+							*it == exchange_names::XHKE)) continue;
+
+			if(!processed_stock && (*it==exchange_names::XSHE || *it==exchange_names::XSHG || 
+							*it == exchange_names::XHKE )){
+				processed_stock = true;
+			}
+			_pos_mgr.get_position(config,init_pos_tmp,*it);
+			append(init_pos,init_pos_tmp);
+		} // end for(; it!=end; ++it){
+	}
 
 	int sig_count = 0;
 	this->_model_ptr->feed_init_position(&init_pos,&sig_count,sig_cache.data()+sig_cache_size);

@@ -15,7 +15,7 @@
 // todo maint
 #include "maint.h"
 #include "pending_quote_dao.h"
-
+#include "pos_calcu.h"
 
 using namespace std;
 using namespace log4cxx;
@@ -53,6 +53,7 @@ engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::engine(void)
 template<typename SPIFQuoteT,typename CFQuotet,typename StockQuoteT,typename FullDepthQuoteT,typename QuoteT5>
 engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::~engine(void)
 {
+	pos_calc::destroy_instance();
 	this->finalize();
 }
 
@@ -99,6 +100,26 @@ void engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::initialize
 	_pproxy->setModuleLoadLibrary(new CModuleLoadLibraryLinux());
 	_pproxy->setBasePathLibrary(_pproxy->getexedir());
 	this->model_manager_ptr->initialize();			
+
+
+	// pos_calc, check offline strategies
+	pos_calc *calc = pos_calc::instance();
+	if (calc->enabled()){
+		list<string> stras;
+		calc->get_stras(stras);
+		for (string stra : stras){
+			bool online = false;
+			for (typename ModelAdapterListT::iterator it=model_manager_ptr->models.begin();it!=model_manager_ptr->models.end();++it){  
+				if ((*it)->setting.file == stra){
+					online = true;
+					break;
+				}
+			}
+			if (!online){
+				LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),"pos_calc error: offline(" << stra << ")" );
+			}
+		}
+	}
 
 	// 到qa模块订阅行情
 	for (typename ModelAdapterListT::iterator it=model_manager_ptr->models.begin();it!=model_manager_ptr->models.end();++it)

@@ -237,5 +237,7 @@ namespace trading_channel_agent
 		bool is_normal();
 
 		void query_ContractInfo_result_handler(const T_ContractInfoReturn *contracts);
+
+		void check(map<string,vector<int>> &recPos, T_PositionReturn &exPos );
 	};
 }
