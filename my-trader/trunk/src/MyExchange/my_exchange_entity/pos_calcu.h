@@ -12,6 +12,7 @@
 #include <iostream>     // std::cin, std::cout
 #include <string>
 #include <vector>
+#include <fstream>      // std::ifstream
 
 using namespace std;
 
@@ -22,13 +23,11 @@ class pos_calc
 
 		static void destroy_instance();
 
-		bool enabled(){
-			return enabled_;
-		}
+		bool enabled(){ return enabled_; }
 
 		bool exists(string &stra){
 			string pos_file = stra + ".pos";
-			std::ifstream is;
+			ifstream is;
 			is.open (pos_file);
 			if (is) {
 				return true;
@@ -93,7 +92,7 @@ class pos_calc
 					string cont = line.substr(cur_pos, next_pos-cur_pos);
 					
 					if(pos_sum.count(cont)<=0){
-						pos_sum[cont] = vector(2,0);
+						pos_sum[cont] = vector<int>(2,0);
 					}
 
 					cur_pos = next_pos + 1;
@@ -133,19 +132,20 @@ class pos_calc
 
 	private:
 		pos_calc(){
-			TiXmlDocument config = TiXmlDocument(sm_settings::config_path.c_str());
+			TiXmlDocument config = TiXmlDocument("trasev.config");
 			config.LoadFile();
 			TiXmlElement *RootElement = config.RootElement();
-			enabled_str = RootElement->Attribute("pos_calc");
+			string enabled_str = RootElement->Attribute("pos_calc");
 			if (0 == strcmp ("on",enabled_str.c_str())){
 				this->enabled_ = true;
 			}else{
-				this->enable_ = false;
+				this->enabled_ = false;
 			}
+		}
 
 		bool enabled_;
 		static pos_calc* ins_; 
-		static	mutex* mtx_ins_;
+		static	mutex mtx_ins_;
 };
 
 #endif /* POS_CALC_H */

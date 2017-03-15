@@ -225,6 +225,8 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 		string sett_cont = config.symbols[0].name;
 		position_t &today_pos = init_pos._today_pos;
 		position_t &yesterday_pos = init_pos._yesterday_pos;
+		today_pos.symbol_cnt = 2; 
+		strncpy(today_pos.s_pos[0].symbol, "#CASH", sizeof(today_pos.s_pos[0].symbol));
 
 		string stra = "";
 		int long_pos = 0;
@@ -246,19 +248,13 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 			today_pos.symbol_cnt = 0; 
 			yesterday_pos.symbol_cnt = 0; 
 		}else{
-			today_pos.symbol_cnt = 1; 
-			strncpy(today_pos.s_pos[0].symbol, cont.c_str(), sizeof(today_pos.s_pos[0].symbol));
-			today_pos.s_pos[0].long_volume = long_pos;
-			today_pos.s_pos[0].short_volume = short_pos;
-			today_pos.s_pos[0].exchg_code = config.symbols[0].exchange; 
-
-			yesterday_pos.symbol_cnt = 1; 
-			strncpy(yesterday_pos.s_pos[0].symbol,cont.c_str(), sizeof(yesterday_pos.s_pos[0].symbol));
-			yesterday_pos.s_pos[0].long_volume = long_pos;
-			yesterday_pos.s_pos[0].short_volume = short_pos;
-			yesterday_pos.s_pos[0].exchg_code = config.symbols[0].exchange; 
+			strncpy(today_pos.s_pos[1].symbol, cont.c_str(), sizeof(today_pos.s_pos[1].symbol));
+			today_pos.s_pos[1].long_volume = long_pos;
+			today_pos.s_pos[1].short_volume = short_pos;
+			today_pos.s_pos[1].exchg_code = config.symbols[1].exchange; 
 		}
-	}else{
+	} // if (pos_calc_ins->enabled()){
+	else{
 		strategy_init_pos_t init_pos_tmp;
 		bool processed_stock = false;
 		set<exchange_names>::iterator it = exchanges_.begin();

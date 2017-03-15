@@ -973,6 +973,7 @@ void tcs::check()
 	pos_calc *calc = pos_calc::instance();
 	if (!calc->enabled()) return; 
 	
+
 	bool passed = true;
 	T_PositionReturn exPos = this->query_position();
 	while (0 != exPos.error_no){
@@ -982,21 +983,35 @@ void tcs::check()
 
 	map<string,vector<int>> recPos;
 	calc->sum(recPos);
+	// remove empty position element
+	list<string> rmEmptyRecPos;
+	for (map<string,vector<int>>::iterator it=recPos.begin(); it!=recPos.end(); ++it){
+		if (it->second[0]==0 && it->second[1]==0) rmEmptyRecPos.push_back(it->first);
+	}
+	for (string cont : rmEmptyRecPos) recPos.erase(cont);
 
 	map<string,vector<int>> exPosMap;
 	for (PositionDetail item : exPos.datas){
 		string cont = item.stock_code;
-		if (recPos.count(cont) <= 0) exPosMap[cont] = vector<int>(2, 0);
-		if (MY_TNL_D_BUY == item.direction) exPosMap[cont][0] = item.position;
-		if (MY_TNL_D_SELL == item.direction) exPosMap[cont][1] = item.position;
+		if ("#CASH"==cont) continue;
+
+		if (exPosMap.count(cont) <= 0) exPosMap[cont] = vector<int>(2, 0);
+		if (MY_TNL_D_BUY==item.direction) exPosMap[cont][0] = item.position;
+		if (MY_TNL_D_SELL==item.direction) exPosMap[cont][1] = item.position;
 	}
+	// remove empty position element
+	list<string> rmEmptyExPos;
+	for (map<string,vector<int>>::iterator it=exPosMap.begin(); it!=exPosMap.end(); ++it){
+		if (it->second[0]==0 && it->second[1]==0) rmEmptyExPos.push_back(it->first);
+	}
+	for (string cont : rmEmptyExPos) exPosMap.erase(cont);
 
 	for (map<string,vector<int>>::iterator it=recPos.begin(); it!=recPos.end(); ++it){
 		string cont = it->first;
 		if (exPosMap.count(cont) <= 0){
 			passed = false;
 			LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
-						"pos_calc error: rec pos(L " << it->second[0]
+						"pos_calc error:" << cont << " rec pos(L " << it->second[0]
 						<< ": S " << it->second[1] << ")"
 						<< "; ex pos(L 0: S 0)");
 		}else{
@@ -1004,7 +1019,7 @@ void tcs::check()
 				it->second[1]!=exPosMap[cont][1]){
 				passed = false;
 				LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
-							"pos_calc error: rec pos(L " << it->second[0]
+							"pos_calc error: " << cont <<  " rec pos(L " << it->second[0]
 							<< ": S " << it->second[1] << ")"
 							<< "; ex pos(L " << exPosMap[cont][0] 
 							<< ": S " << exPosMap[cont][1] << ")" );
@@ -1017,7 +1032,7 @@ void tcs::check()
 		if (recPos.count(cont) <= 0){
 			passed = false;
 			LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
-						"pos_calc error: rec pos(L 0; S 0)"
+						"pos_calc error: " << cont << " rec pos(L 0; S 0)"
 						<< "; ex pos(L " << it->second[0] 
 						<< "; S " << it->second[1] << ")");
 		}
