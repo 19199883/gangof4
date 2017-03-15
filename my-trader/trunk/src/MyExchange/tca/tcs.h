@@ -238,6 +238,6 @@ namespace trading_channel_agent
 
 		void query_ContractInfo_result_handler(const T_ContractInfoReturn *contracts);
 
-		void check(map<string,vector<int>> &recPos, T_PositionReturn &exPos );
+		void check();
 	};
 }

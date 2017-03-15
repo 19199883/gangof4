@@ -22,6 +22,7 @@
 #include "my_trade_tunnel_api.h"
 #include "perfctx.h"
 #include <stdlib.h>     /* exit, EXIT_FAILURE */
+#include "pos_calcu.h" 
 
 using namespace std;
 using namespace log4cxx;
@@ -174,6 +175,9 @@ void tcs::initialize(void)
 	std::function<void (const T_CancelQuoteRespond *)> rep_of_cancel_quote_f =
 			std::bind(&tcs::rev_rep_of_cancel_quote, this, std::placeholders::_1);
 	channel->SetCallbackHandler(rep_of_cancel_quote_f);
+
+	// pos_calc, trigger position checking
+	this->check();
 
 	// cancel all uncompleted orders
 	this->cancel_orders();
@@ -959,26 +963,30 @@ T_PositionReturn tcs::query_position()
 	this->channel->QueryPosition(&criteria);
 	T_PositionReturn pos = future.get();
 
-	// pos_calc, check whether recorded positions are equal to live position in exchange
-	map<string,vector<int>> pos_sum;
-	pos_calc *calc = pos_calc::instance();
-	if (calc->enabled()){
-		calc->sum(pos_sum);
-		check(pos_sum, pos);
-	}
 
 	return pos;
 }
 
-// pos_calc,
-void tcs::check(map<string,vector<int>> &recPos, T_PositionReturn &exPos )
+// pos_calc, check whether recorded positions are equal to live position in exchange
+void tcs::check()
 {
+	pos_calc *calc = pos_calc::instance();
+	if (!calc->enabled()) return; 
+	
 	bool passed = true;
+	T_PositionReturn exPos = this->query_position();
+	while (0 != exPos.error_no){
+		this_thread::sleep_for(std::chrono::milliseconds(10));
+		exPos = this->query_position();
+	}
+
+	map<string,vector<int>> recPos;
+	calc->sum(recPos);
 
 	map<string,vector<int>> exPosMap;
 	for (PositionDetail item : exPos.datas){
 		string cont = item.stock_code;
-		if (recPos.count(cont) <= 0) exPosMap[cont] = vector(2, 0);
+		if (recPos.count(cont) <= 0) exPosMap[cont] = vector<int>(2, 0);
 		if (MY_TNL_D_BUY == item.direction) exPosMap[cont][0] = item.position;
 		if (MY_TNL_D_SELL == item.direction) exPosMap[cont][1] = item.position;
 	}
@@ -998,7 +1006,7 @@ void tcs::check(map<string,vector<int>> &recPos, T_PositionReturn &exPos )
 				LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
 							"pos_calc error: rec pos(L " << it->second[0]
 							<< ": S " << it->second[1] << ")"
-							<< "; ex pos(L " << exPosMap[cont][0] <<
+							<< "; ex pos(L " << exPosMap[cont][0] 
 							<< ": S " << exPosMap[cont][1] << ")" );
 			}
 		}
