@@ -21,9 +21,6 @@ class PosSum:
 		with open(posFile,'w') as f:
 			for key in self.posDict:
 				pos = self.posDict[key]
-				print(key)
-				print(pos.longPos)
-				print(pos.longPos)
 				f.write("{0};{1};{2}\n".format(key, pos.longPos, pos.shortPos))
 
 	def getPosFromFile(self, posFile, pos):
@@ -37,8 +34,9 @@ class PosSum:
 	def getStraPosFiles(self, posFiles):
 		items = os.listdir(".")
 		for names in items:
-			if names.endswith(".pos") and names != "pos_sum.pos":
+			if names.endswith(".pos") and names!="pos_sum.pos" and names!="stra_names.pos":
 				posFiles.append(names)
+
 
 	# positions for every strategy
 	def sumPos(self):
@@ -53,6 +51,15 @@ class PosSum:
 				posItem = self.posDict.get(pos.cont)
 			posItem.longPos += pos.longPos
 			posItem.shortPos += pos.shortPos
+
+		cursor = 0
+		straNamesfile = "stra_names.pos"
+		with open(straNamesfile,'w') as f:
+			for straFile in posFiles:
+				f.write(straFile.split('.')[0])
+				if cursor<len(posFiles)-1:
+					f.write(",")
+				cursor += 1
 
 
 

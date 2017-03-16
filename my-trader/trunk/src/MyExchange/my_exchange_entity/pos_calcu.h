@@ -37,7 +37,8 @@ class pos_calc
 			is.close();
 		}
 
-		void get_pos(string &stra, int &long_pos, int &short_pos, string &cont){
+		void get_pos(string &stra, int &long_pos, int &short_pos, string &cont)
+		{
 			string pos_file = stra + ".pos";
 			char buf[1024];
 			std::ifstream is;
@@ -77,23 +78,21 @@ class pos_calc
 		 *		pos_sum: key-contract; value-(long position, short position)
 		 *
 		 */
-		void sum(map<string,vector<int>> &pos_sum){
+		void sum(map<string,vector<int>> &pos_sum)
+		{
 			string pos_file = "pos_sum.pos";
 			char buf[1024];
 			std::ifstream is;
 			is.open (pos_file);
 			if (is) {
 				while(is.getline(buf, sizeof(buf))){
-
 					string line = buf;
 					int cur_pos = 0;
 					int next_pos = 0;
 					next_pos = line.find(';', cur_pos);
 					string cont = line.substr(cur_pos, next_pos-cur_pos);
 					
-					if(pos_sum.count(cont)<=0){
-						pos_sum[cont] = vector<int>(2,0);
-					}
+					if(pos_sum.count(cont)<=0){ pos_sum[cont] = vector<int>(2,0); }
 
 					cur_pos = next_pos + 1;
 					next_pos = line.find(';', cur_pos);
@@ -110,20 +109,23 @@ class pos_calc
 		/*
 		 * get list of strategy names
 		 */
-		void get_stras(list<string> &stras){
-			string pos_file = "pos_sum.pos";
+		void get_stras(list<string> &stras)
+		{
+			string pos_file = "stra_names.pos";
 			char buf[1024];
 			std::ifstream is;
 			is.open (pos_file);
 			if (is) {
-				while(is.getline(buf, sizeof(buf))){
-
+				if (is.getline(buf, sizeof(buf))){
 					string line = buf;
+					if (!line.empty()) line += ",";
 					int cur_pos = 0;
 					int next_pos = 0;
-					next_pos = line.find(';', cur_pos);
-					string cont = line.substr(cur_pos, next_pos-cur_pos);
-					stras.push_back(cont);
+					while (string::npos != (next_pos=line.find(',', cur_pos))){
+						string cont = line.substr(cur_pos, next_pos-cur_pos);
+						stras.push_back(cont);
+						cur_pos = next_pos + 1;
+					}
 				}
 			}
 

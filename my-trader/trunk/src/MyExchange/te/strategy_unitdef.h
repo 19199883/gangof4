@@ -228,7 +228,7 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 		today_pos.symbol_cnt = 2; 
 		strncpy(today_pos.s_pos[0].symbol, "#CASH", sizeof(today_pos.s_pos[0].symbol));
 
-		string stra = "";
+		string stra = config.st_name;
 		int long_pos = 0;
 		int short_pos = 0;
 		string cont = "";
@@ -244,14 +244,14 @@ strategy_unit<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 			LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
 							"pos_calc error:" << "strategy ID(" << config.st_id << ");"
 							<< "pos contract(" << cont << ");"
-							<< " setting contract(" << ")" );
-			today_pos.symbol_cnt = 0; 
+							<< " setting contract(" << sett_cont << ")" );
+			today_pos.symbol_cnt = 1; 
 			yesterday_pos.symbol_cnt = 0; 
 		}else{
 			strncpy(today_pos.s_pos[1].symbol, cont.c_str(), sizeof(today_pos.s_pos[1].symbol));
 			today_pos.s_pos[1].long_volume = long_pos;
 			today_pos.s_pos[1].short_volume = short_pos;
-			today_pos.s_pos[1].exchg_code = config.symbols[1].exchange; 
+			today_pos.s_pos[1].exchg_code = config.symbols[0].exchange; 
 		}
 	} // if (pos_calc_ins->enabled()){
 	else{

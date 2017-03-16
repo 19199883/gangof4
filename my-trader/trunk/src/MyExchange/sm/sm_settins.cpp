@@ -83,6 +83,8 @@ model_setting sm_settings::create_model_setting(TiXmlElement* xml_ele)
 {
 	model_setting strategy;
 
+	strcpy(strategy.config_.st_name, xml_ele->Attribute("model_file"));
+
 	strategy.config_.st_id = stoi(xml_ele->Attribute("id"));
 	// T29
 	strategy.id = stol(xml_ele->Attribute("id"));
