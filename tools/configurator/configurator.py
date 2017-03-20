@@ -7,12 +7,18 @@ from datetime import date
 import os
 import shutil
 import csv
+import logging
+import os
+import sys
 
 src_config_file = '../trasev.config'
 cur_config_file = 'trasev.config'
 stra_setting = 'stra_settings.csv'
 
 def main():
+	os.chdir(sys.path[0])
+	logging.basicConfig(filename='configurator.log',level=logging.DEBUG)
+
 	shutil.copyfile(src_config_file, 'trasev.config')
 	backup()
 
@@ -75,6 +81,11 @@ def add_strategy(strategies, strategy_temp, row, id):
 	ev_name_value = "ev/" + row[1] + ".txt"
 	new_strategy.set('ev_name', ev_name_value) 
 	strategy_name = row[1]
+	soFile = "../" + strategy_name + ".so" 
+	if not os.path.exists(soFile):
+		logging.warning("can not find " + soFile)
+
+
 	ev_file_src = ""
 	ev_file_dest = "../" + ev_name_value 
 	if 0==strategy_name.find('fl50'):
