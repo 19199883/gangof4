@@ -641,90 +641,14 @@ void
 model_adapter<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 ::trace(strategy_init_pos_t *data)
 {
-	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-		 "init pos,previous days position, "
-		<< "symbol_cnt:" <<  data->_yesterday_pos.symbol_cnt<< ","
-		);
-	for(int i=0; i<data->_yesterday_pos.symbol_cnt; i++){
-		LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-				"long_volume:" <<  data->_yesterday_pos.s_pos[i].long_volume<< ","
-				<< "long_price:" <<  data->_yesterday_pos.s_pos[i].long_price<< ","
-				<< "short_volume:" <<  data->_yesterday_pos.s_pos[i].short_volume<< ","
-				<< "short_price:" <<  data->_yesterday_pos.s_pos[i].short_price<< ","
-				<< "symbol:" <<  data->_yesterday_pos.s_pos[i].symbol<< ","
-				<< "buy_volume:" <<  data->_yesterday_pos.s_pos[i].today_buy_volume<< ","
-				<< "exchg_code:" <<  data->_yesterday_pos.s_pos[i].exchg_code << ","
-				<< "today_aver_price_sell:" <<  data->_yesterday_pos.s_pos[i].today_aver_price_sell<< ","
-				<< "sell_price:" <<  data->_yesterday_pos.s_pos[i].today_sell_volume<< ","
-				<< "sell_volume:" <<  data->_yesterday_pos.s_pos[i].today_aver_price_sell<< ","
-				<< "symbol:" <<  data->_yesterday_pos.s_pos[i].symbol<< ","
-				);
-	}
-
-	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-		 "init pos,today position, "
-		<< "symbol_cnt:" <<  data->_today_pos.symbol_cnt<< ","
-		);
+	LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
+		 this->setting.file << "," "init pos,today position, " << "symbol_cnt:" <<  data->_today_pos.symbol_cnt);
 	for(int i=0; i<data->_today_pos.symbol_cnt; i++){
-		LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-				"long_volume:" <<  data->_today_pos.s_pos[i].long_volume<< ","
-				<< "long_price:" <<  data->_today_pos.s_pos[i].long_price<< ","
-				<< "short_volume:" <<  data->_today_pos.s_pos[i].short_volume<< ","
-				<< "short_price:" <<  data->_today_pos.s_pos[i].short_price<< ","
-				<< "symbol:" <<  data->_today_pos.s_pos[i].symbol<< ","
-				<< "exchg_code:" <<  data->_today_pos.s_pos[i].exchg_code<< ","
-				<< "buy_volume:" <<  data->_today_pos.s_pos[i].today_buy_volume<< ","
-				<< "today_aver_price_buy:" <<  data->_today_pos.s_pos[i].today_aver_price_buy<< ","
-				<< "today_sell_volume:" <<  data->_today_pos.s_pos[i].today_sell_volume<< ","
-				<< "today_aver_price_sell:" <<  data->_today_pos.s_pos[i].today_aver_price_sell<< ","
-				<< "symbol:" <<  data->_today_pos.s_pos[i].symbol<< ","
-				);
+		LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
+				"Cont(" <<  data->_today_pos.s_pos[i].symbol<< ","
+				<< "L:" <<  data->_today_pos.s_pos[i].long_volume<< ","
+				<< "S:" <<  data->_today_pos.s_pos[i].short_volume<< ")");
 	}
-
-	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-			 "init pos,"
-			<< "name:" <<  data->_name<< ","
-			<< "acc_cnt:" <<  data->acc_cnt<< ","
-			);
-
-	for(int i=0; i<data->acc_cnt; i++){
-		LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-				"buy_price:" <<  data->_today_acc_volume[i].buy_price<< ","
-				<< "buy_volume:" <<  data->_today_acc_volume[i].buy_volume<< ","
-				<< "sell_price:" <<  data->_today_acc_volume[i].sell_price<< ","
-				<< "sell_volume:" <<  data->_today_acc_volume[i].sell_volume<< ","
-				<< "symbol:" <<  data->_today_acc_volume[i].symbol<< ","
-				<< "exchg_code:" <<  data->_today_acc_volume[i].exchg_code<< ","
-				);
-	}
-
-	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-		 "today_pos.symbol_cnt," << "name:" <<  data->_today_pos.symbol_cnt<< ","
-		);
-	for(int i=0; i<data->_today_pos.symbol_cnt; i++){
-		LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-				"long_price:" <<  data->_today_pos.s_pos[i].long_price << ","
-				"long_volume:" <<  data->_today_pos.s_pos[i].long_volume << ","
-				"short_price:" <<  data->_today_pos.s_pos[i].short_price << ","
-				"short_volume:" <<  data->_today_pos.s_pos[i].short_volume << ","
-				"symbol:" <<  data->_today_pos.s_pos[i].symbol << ","
-				"exchg_code:" <<  data->_today_pos.s_pos[i].exchg_code << ","
-				);
-		}
-
-	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-			 "_yesterday_pos.symbol_cnt," << "name:" <<  data->_today_pos.symbol_cnt<< ","
-			);
-	for(int i=0; i<data->_yesterday_pos.symbol_cnt; i++){
-		LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),
-				"long_price:" <<  data->_yesterday_pos.s_pos[i].long_price << ","
-				"long_volume:" <<  data->_yesterday_pos.s_pos[i].long_volume << ","
-				"short_price:" <<  data->_yesterday_pos.s_pos[i].short_price << ","
-				"short_volume:" <<  data->_yesterday_pos.s_pos[i].short_volume << ","
-				"symbol:" <<  data->_yesterday_pos.s_pos[i].symbol << ","
-				"exchg_code:" <<  data->_yesterday_pos.s_pos[i].exchg_code << ","
-				);
-		}
 }
 
 template<typename SPIFQuoteT,typename CFQuoteT,typename StockQuoteT,typename FullDepthQuoteT,typename QuoteT5>
