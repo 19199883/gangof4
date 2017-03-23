@@ -54,7 +54,8 @@ class pos_calc
 				
 				cur_pos = next_pos + 1;
 				next_pos = line.find(';', cur_pos);
-				stra = line.substr(cur_pos, next_pos-cur_pos);
+				// commented by wangying on 2017-03-23
+				// stra = line.substr(cur_pos, next_pos-cur_pos);
 				
 				cur_pos = next_pos + 1;
 				next_pos = line.find(';', cur_pos);
