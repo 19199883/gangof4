@@ -13,7 +13,7 @@ import sys
 
 src_config_file = '../trasev.config'
 cur_config_file = 'trasev.config'
-stra_setting = 'stra_settings.csv'
+stra_setting = 'stra_sett_dce_ngt28.csv'
 
 def main():
 	os.chdir(sys.path[0])
@@ -69,6 +69,35 @@ def update(root):
 	source = root.find("./tca/source")
 	source.set('models', model_ids)
 
+def check_cont(contChk):
+	# check whether the specified contract is right dominant contract
+	#
+	#param:
+	#	contChk: a contract to be checked whether it 
+	#		is right dominant contract
+	#
+	domContLst = None
+
+	# read dominant contracts
+	domContLn = None
+	domContFile = "/home/u910019/domi_contr_check/cur_domi_contrs.txt"
+	with open(domContFile) as f:
+		for line in f:
+			domContLn  = line
+			break
+
+	valid = False
+	domContLst = domContLn.split(" ")
+	for cont in domContLst:
+		if cont.find(contChk)==0:
+			valid = True
+			break
+
+	if not valid:
+		logging.warning("incorrect contract:{0}".format(contChk))
+
+
+
 def add_strategy(strategies, strategy_temp, row, id):
 	strategy_tmp_str = ET.tostring(strategy_temp, encoding="utf-8")
 	new_strategy = ET.fromstring(strategy_tmp_str)
@@ -100,6 +129,7 @@ def add_strategy(strategies, strategy_temp, row, id):
 		shutil.copyfile(ev_file_src, ev_file_dest)
 
 	symbol = new_strategy.find("./symbol")
+	check_cont(row[2]) 
 	symbol.set('max_pos', row[3])
 	symbol.set('name', row[2])
 
