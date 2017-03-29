@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include <mutex>
 #include <string>
+#include <fstream>      // std::ifstream
 
 #include "my_trade_tunnel_api.h"
 #include "config_data.h"
@@ -105,6 +106,19 @@ public:
     {
         return model_pos.RollBackPendingVolumeForQuote(sn, contract, dir, remain_volume);
     }
+
+	void get_pos(string &stra, int &long_pos, int &short_pos, string &cont);
+	bool exists(string &stra){
+		string pos_file = stra + ".pos";
+		ifstream is;
+		is.open (pos_file);
+		if (is) {
+			return true;
+		}else{
+			return false;
+		}
+		is.close();
+	}
 
     // cache query result and set flag. of position, order detail, and trade detail
 	bool qry_pos_flag;

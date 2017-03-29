@@ -87,13 +87,14 @@ void MYExConfigData::LoadModelCfg()
     TiXmlElement *strategies = RootElement->FirstChildElement("strategies");
 	TiXmlElement *strategy = strategies->FirstChildElement();
 	while (strategy != 0){
-		model_id = stoi(strategy->Attribute("id"));
+		string model_name = strategy->Attribute("model_file");
+		int model_id = stoi(strategy->Attribute("id"));
 
 		// get ev file name  ev_name="ev/ev.txt"
 		const char *ev_file_name_str = strategy->Attribute("ev_name");
 		if (ev_file_name_str && strlen(ev_file_name_str) > 1){
-			position_policy_.ev_file_name_of_model.insert(std::make_pair(model_id, std::string(ev_file_name_str)));
-			EX_LOG_INFO("model(%d) config ev file name(%s)", model_id, ev_file_name_str);
+			position_policy_.ev_file_name_of_model.insert(std::make_pair(model_id, model_name));
+			EX_LOG_INFO("model(%d) config ev file name(%s)", model_id, model_name.c_str());
 		}
 
 		TiXmlElement* st_symbol = strategy->FirstChildElement("symbol");

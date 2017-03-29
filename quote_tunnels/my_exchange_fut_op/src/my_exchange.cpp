@@ -173,6 +173,7 @@ MYExchange::MYExchange(struct my_xchg_cfg& _cfg)
         investorid = pp_tunnel_[0]->GetClientID();
     }
 
+	// TODO: wangying modify here to support saving each strategy's position respectively
     // init model position by ev file of model
     if (cfg.Position_policy().InitPosByEvfile())
     {
