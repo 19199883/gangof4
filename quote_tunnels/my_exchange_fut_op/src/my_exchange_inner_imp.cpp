@@ -28,7 +28,7 @@ struct UselessCharPred
 };
 }
 
-// TODO: wangying, modify this function to support for saving each strategy's position respectively
+// TODO: pos_calcu, wangying, modify this function to support for saving each strategy's position respectively
 void MYExchangeInnerImp::InitModelPosByEvFile()
 {
     for (const EvFileNameOfModel::value_type &v : cfg_.Position_policy().ev_file_name_of_model) {

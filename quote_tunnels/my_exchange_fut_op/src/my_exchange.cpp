@@ -768,10 +768,11 @@ void MYExchange::SendPositionReturn(const T_PositionReturn * rtn)
                 p_position_manager_->InitPosition(pos.stock_code, pos.direction, pos.position);
 
                 // if init model position from ev file, don't init when query from market
-                if (!my_exchange_inner_imp_->init_pos_from_ev_flag)
-                {
-                    my_exchange_inner_imp_->InitPosition(pos.stock_code, pos.direction, pos.position);
-                }
+				// TODO: pos_calc,wangying, modify this function to support for saving each strategy's position respectively
+                //if (!my_exchange_inner_imp_->init_pos_from_ev_flag)
+                //{
+                //    my_exchange_inner_imp_->InitPosition(pos.stock_code, pos.direction, pos.position);
+                //}
             }
             my_exchange_inner_imp_->finish_init_pos_flag = true;
         }
