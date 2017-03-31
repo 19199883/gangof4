@@ -180,7 +180,7 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                 else if (prev_dir == SHFE_FTDC_D_Buy && cur_dir == SHFE_FTDC_D_Sell)
                 {
 					// TODO: read codes,wangying on 201203-28
-					MY_LOG_WARN("ProcessThread:prev_dir == SHFE_FTDC_D_Buy && cur_dir == SHFE_FTDC_D_Sell");
+					MY_LOG_WARN("1 cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
 
                     while (p_mngr->GetPrevCode(cur_code, prev_code))
                     {
@@ -193,7 +193,7 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                 else if (prev_dir == SHFE_FTDC_D_Sell && p->field.Direction == SHFE_FTDC_D_Sell && prev_code != cur_code)
                 {
 					// TODO: read codes,wangying on 201203-28
-					MY_LOG_WARN("ProcessThread:prev_dir == SHFE_FTDC_D_Sell && p->field.Direction == SHFE_FTDC_D_Sell && prev_code != cur_code");
+					MY_LOG_WARN("2 cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
 
                     SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                     p_mngr->SendToClient(prev_code, p_snapshot_prev);
@@ -202,6 +202,9 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                     {
                         SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                         p_mngr->SendToClient(prev_code, p_snapshot_prev);
+						//
+					// TODO: read codes,wangying on 201203-28
+					MY_LOG_WARN("2 while cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
                     }
                 }
 
@@ -358,9 +361,6 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 
                 if (d_cit + 1 != it->second.end())
                 {
-					// TODO: read codes,wangying on 201203-28
-					MY_LOG_WARN("SendToClient:data_flag=1");
-
                     // not last element
                     my_data.data_flag = 1;
                     // 发给数据客户
@@ -373,9 +373,6 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
                 {
                     // last element, merged with mbl data
                     my_data.data_flag = 3;
-					
-					// TODO: read codes,wangying on 201203-28
-					MY_LOG_WARN("SendToClient:data_flag=3");
                 }
             }
             // clear all

@@ -19,49 +19,28 @@ CMdclientHandler::CMdclientHandler(const SubscribeContracts *subscribe_contracts
     // 初始化
     api_ = NULL;
 
-    SubsribeDatas code_list = cfg_.Subscribe_datas();
     const LogonConfig &logon_cfg = cfg_.Logon_config();
     int topic = atoi(logon_cfg.topic.c_str());
 
-    pp_instruments_ = NULL;
-    if (code_list.empty())
-    {
-        // 订阅全部
-        code_list.insert("*");
-    }
-    if (code_list.size() == 1 && (boost::to_upper_copy(*(code_list.begin())) == "ALL" || code_list.begin()->empty()))
-    {
-        MY_LOG_INFO("subscribe all, transfer to *: %s", code_list.begin()->c_str());
-        // 订阅全部
-        code_list.clear();
-        code_list.insert("*");
-    }
-
-    // 解析订阅列表
-    sub_count_ = code_list.size();
-    pp_instruments_ = new char *[sub_count_];
-    int i = 0;
-    BOOST_FOREACH(const std::string &value, code_list)
-    {
-        instruments_.append(value + "|");
-        pp_instruments_[i] = new char[value.length() + 1];
-        memcpy(pp_instruments_[i], value.c_str(), value.length() + 1);
-        ++i;
-    }
-
 	// TODO: wangying, here
+//    BOOST_FOREACH(const std::string &v, logon_cfg.quote_provider_addrs) {
+//		size_t ipstr_s = v.substr(v.find("//")+2;
+//		string ip = 
+//	}
     // 初始化
     //int listen_port = UDP_PORT; 
     //api_ = CMdclientApi::Create(pHand,listen_port);
     api_ = CMdclientApi::Create(this);//,10074);
 	api_->Subscribe("ag1706");
-    api_->Start();
+    int err = api_->Start();
+	MY_LOG_INFO("CMdclientApi start: %d",err);
 }
 
 CMdclientHandler::~CMdclientHandler(void)
 {
     if (api_) {
-		api_->Stop();
+		int err = api_->Stop();
+		MY_LOG_INFO("CMdclientApi stop: %d",err);
         api_ = NULL;
     }
 }
@@ -77,7 +56,7 @@ void CMdclientHandler::OnRtnDepthMarketData(CDepthMarketDataField *p)
         if (quote_data_handler_) { quote_data_handler_(&q_level1); }
     }
     catch (...) {
-        MY_LOG_FATAL("femas - Unknown exception in OnRtnDepthMarketData.");
+        MY_LOG_FATAL("CMdclientApi- Unknown exception in OnRtnDepthMarketData.");
     }
 
 }

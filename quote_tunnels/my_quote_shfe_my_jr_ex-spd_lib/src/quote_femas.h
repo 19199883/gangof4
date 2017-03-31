@@ -33,8 +33,6 @@ public:
 
 private:
 	CMdclientApi *api_;
-	char ** pp_instruments_;
-	std::string instruments_;
 	int sub_count_;
 
     // 数据处理函数对象

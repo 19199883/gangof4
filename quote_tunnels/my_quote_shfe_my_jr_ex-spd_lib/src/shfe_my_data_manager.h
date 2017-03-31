@@ -92,9 +92,6 @@ private:
 
 bool MYShfeMDManager::GetLeftCode(std::string &left_code)
 {
-	// TODO: read codes,wangying on 201203-28
-	MY_LOG_WARN("GetLeftCode:%s",left_code.c_str());
-
     bool ret = false;
     if (buy_first_idx_ < buy_codes_.size())
     {
@@ -106,9 +103,6 @@ bool MYShfeMDManager::GetLeftCode(std::string &left_code)
 }
 bool MYShfeMDManager::GetPrevCode( const std::string &cur_code, std::string &prev_code )
 {
-	// TODO: read codes,wangying on 201203-28
-	MY_LOG_WARN("GetLeftCode:%s,%s",cur_code.c_str(),prev_code.c_str());
-
 	bool ret = false;
 	if (buy_first_idx_ < buy_codes_.size() && cur_code > buy_codes_[buy_first_idx_])
 	{
@@ -120,9 +114,6 @@ bool MYShfeMDManager::GetPrevCode( const std::string &cur_code, std::string &pre
 }
 void MYShfeMDManager::PushNewBuyDirCode( const std::string &cur_code)
 {
-	// TODO: read codes,wangying on 201203-28
-	MY_LOG_WARN("PushNewBuyDirCode:%s",cur_code.c_str());
-
 	if (buy_codes_.empty())
 	{
 		buy_codes_.push_back(cur_code);
@@ -138,9 +129,6 @@ void MYShfeMDManager::PushNewBuyDirCode( const std::string &cur_code)
 
 void MYShfeMDManager::PopFirstCode( const std::string &cur_code)
 {
-	// TODO: read codes,wangying on 201203-28
-	MY_LOG_WARN("PopFirstCode:%s",cur_code.c_str());
-
 	if (buy_first_idx_ < buy_codes_.size() && cur_code == buy_codes_[buy_first_idx_])
 	{
 		++buy_first_idx_;
