@@ -361,13 +361,14 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 
                 if (d_cit + 1 != it->second.end())
                 {
+					// TODO: wangying
                     // not last element
-                    my_data.data_flag = 1;
-                    // 发给数据客户
-                    if (data_handler_)
-                    {
-                        data_handler_->OnMYShfeMDData(&my_data);
-                    }
+   //                 my_data.data_flag = 1;
+   //                 // 发给数据客户
+   //                 if (data_handler_)
+   //                 {
+   //                     data_handler_->OnMYShfeMDData(&my_data);
+   //                 }
                 }
                 else
                 {
@@ -410,6 +411,16 @@ void MYShfeMDManager::OnDepthMarketData(const CDepthMarketDataField * const pdat
     MYMutexGuard guard(depth_mutex_);
     if (pdata)
     {
+		// TODO: wangying
+		// not last element
+		MYShfeMarketData my_data;
+		// TODO: check size char []
+		memcpy(my_data.InstrumentID, pdata->InstrumentID, sizeof(pdata->InstrumentID));
+		memcpy(&my_data, pdata, sizeof(CDepthMarketDataField));
+		my_data.data_flag = 1;
+		// 发给数据客户
+		if (data_handler_) { data_handler_->OnMYShfeMDData(&my_data); }
+
         DepthDataQueueOfCode::iterator it = data_depth_.find(pdata->InstrumentID);
         if (it == data_depth_.end())
         {
