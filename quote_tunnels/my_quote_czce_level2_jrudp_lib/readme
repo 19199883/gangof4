@@ -1,3 +1,10 @@
-1. jinrui future company, udp level2 market data
-2. for data protocol over UDP to see czce_udp.txt
-3. TAP ver:9.3.0.3
+概述：
+(1) 读取第一笔一档行情TapAPIQuoteWhole_MY，并记录基本行情信息，如：涨停价，跌停价
+(2) 读取UDP行情StdQuote5
+(3) 将一档行情的基本信息与UDP行情合并成ZCEL2QuotSnapshotField_MY
+附注：
+(1)UDP行情：看czce_udp.txt
+(2)TAP ver:9.3.0.3
+(3) 依赖：libmy_quote_tap_lib.so，一档行情模块
+	配置：my_quote_tap.config，注意stock_list的订阅列表
+(4) my_quote_czce_udp.config,UDP level1行情配置
