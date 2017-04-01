@@ -1,6 +1,4 @@
-﻿//  TODO: wangying x1 status: done
-//
-#include "x1_trade_context.h"
+﻿#include "x1_trade_context.h"
 
 #include "config_data.h"
 #include "tunnel_cmn_utility.h"

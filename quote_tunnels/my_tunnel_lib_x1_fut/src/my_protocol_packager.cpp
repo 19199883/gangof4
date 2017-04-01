@@ -1,6 +1,4 @@
-﻿//  TODO: wangying x1 status: done
-//
-#include "my_protocol_packager.h"
+﻿#include "my_protocol_packager.h"
 
 #include <sstream>
 #include <stdlib.h>
@@ -12,22 +10,22 @@
 void X1Packer::OrderRequest(const TunnelConfigData& cfg, const T_PlaceOrder* req, OrderRefDataType new_order_ref,
     CX1FtdcInsertOrderField& insert_order)
 {
-    memset(&insert_order, 0, sizeof(CX1FtdcInsertOrderField));
-    strncpy(insert_order.AccountID, cfg.Logon_config().clientid.c_str(), sizeof(TX1FtdcAccountIDType));
-    insert_order.LocalOrderID = new_order_ref;
-    strncpy(insert_order.InstrumentID, req->stock_code, sizeof(TX1FtdcInstrumentIDType));
-    insert_order.InsertPrice = req->limit_price;
-    insert_order.OrderAmount = req->volume;
-    insert_order.BuySellType = X1FieldConvert::GetX1BuySell(req->direction);
-    insert_order.OpenCloseType = X1FieldConvert::GetX1OCFlag(req->open_close);
-    insert_order.Speculator = X1FieldConvert::GetX1HedgeType(req->speculator);
-    insert_order.OrderType = X1FieldConvert::GetX1PriceType(req->order_kind);
-    insert_order.OrderProperty = X1FieldConvert::GetX1OrderProperty(req->order_type);
+	memset(&insert_order, 0, sizeof(CX1FtdcInsertOrderField));
+	strncpy(insert_order.AccountID, cfg.Logon_config().clientid.c_str(), sizeof(TX1FtdcAccountIDType));
+	insert_order.LocalOrderID = new_order_ref;
+	strncpy(insert_order.InstrumentID, req->stock_code, sizeof(TX1FtdcInstrumentIDType));
+	insert_order.InsertPrice = req->limit_price;
+	insert_order.OrderAmount = req->volume;
+	insert_order.BuySellType = X1FieldConvert::GetX1BuySell(req->direction);
+	insert_order.OpenCloseType = X1FieldConvert::GetX1OCFlag(req->open_close);
+	insert_order.Speculator = X1FieldConvert::GetX1HedgeType(req->speculator);
+	insert_order.OrderType = X1FieldConvert::GetX1PriceType(req->order_kind);
+	insert_order.OrderProperty = X1FieldConvert::GetX1OrderProperty(req->order_type);
 
-    insert_order.InsertType = X1_FTDC_BASIC_ORDER;        //委托类别,默认为普通订单
+	insert_order.InsertType = X1_FTDC_BASIC_ORDER;        //委托类别,默认为普通订单
 
-    insert_order.InstrumentType = X1FTDC_INSTRUMENT_TYPE_OPT;      //合约类型, 可选值：期货、期权，默认期权
-    if (strlen(insert_order.InstrumentID) < 10) insert_order.InstrumentType = X1FTDC_INSTRUMENT_TYPE_COMM;
+	insert_order.InstrumentType = X1FTDC_INSTRUMENT_TYPE_OPT;      //合约类型, 可选值：期货、期权，默认期权
+	if (strlen(insert_order.InstrumentID) < 10) insert_order.InstrumentType = X1FTDC_INSTRUMENT_TYPE_COMM;
 }
 
 void X1Packer::CancelRequest(const TunnelConfigData& cfg, const T_CancelOrder* req,
@@ -37,8 +35,9 @@ void X1Packer::CancelRequest(const TunnelConfigData& cfg, const T_CancelOrder* r
     strncpy(cancle_order.AccountID, cfg.Logon_config().clientid.c_str(), sizeof(TX1FtdcAccountIDType));
     strncpy(cancle_order.InstrumentID, req->stock_code, sizeof(TX1FtdcInstrumentIDType));
     cancle_order.LocalOrderID = org_order_ref;
-    cancle_order.X1OrderID = req->entrust_no;
-    cancle_order.SessionID= 0;
+	// TODO: wangying, fix the bug of cancel order function:inErrorID=114,x1 order id invalid
+    cancle_order.X1OrderID = -1; //req->entrust_no; 如果提供柜台委托号(柜台委托号大于-1)，则只使用柜台委托号处理；只有当柜台委托号小于0时，才使用本地委托号进行撤单
+    //cancle_order.SessionID= 0;
 }
 
 void X1Packer::QuoteRequest(const TunnelConfigData& cfg, const T_InsertQuote* p, OrderRefDataType new_order_ref,

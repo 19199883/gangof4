@@ -1,6 +1,4 @@
-﻿//  TODO: wangying x1 status: done
-
-#include "x1_trade_interface.h"
+﻿#include "x1_trade_interface.h"
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -437,8 +435,11 @@ void MYX1Spi::OnRspInsertOrder(struct CX1FtdcRspOperOrderField* pf, struct CX1Ft
         if (p)
         {
             T_OrderRespond rsp;
-            X1Packer::OrderRespond(standard_error_no, p->serial_no, 0, entrust_status, rsp);
-
+			// TODO: wangying, fix the bug of cancel order function:inErrorID=114,x1 order id invalid
+			// give a dummy Order ID to cheat trader so that it can perform cancel order request immediately
+			// without waiting for the returned order id from counter
+			// trader won't perform cancel order request untill order id is greater than zero
+            X1Packer::OrderRespond(standard_error_no, p->serial_no, 1, entrust_status, rsp);
             if (standard_error_no != TUNNEL_ERR_CODE::RESULT_SUCCESS)
             {
                 // 报单失败，报告合规检查
@@ -750,7 +751,11 @@ void MYX1Spi::OnRtnErrorMsg(struct CX1FtdcRspErrorField* pe)
                 else
                 {
                     T_OrderRespond rsp;
-                    X1Packer::OrderRespond(standard_error_no, p->serial_no, 0, MY_TNL_OS_ERROR, rsp);
+					// TODO: wangying, fix the bug of cancel order function:inErrorID=114,x1 order id invalid
+					// give a dummy Order ID to cheat trader so that it can perform cancel order request immediately
+					// without waiting for the returned order id from counter
+					// trader won't perform cancel order request untill order id is greater than zero
+                    X1Packer::OrderRespond(standard_error_no, p->serial_no, 1, MY_TNL_OS_ERROR, rsp);
 
                     if (standard_error_no != TUNNEL_ERR_CODE::RESULT_SUCCESS)
                     {
@@ -795,10 +800,8 @@ void MYX1Spi::OnRtnMatchedInfo(struct CX1FtdcRspPriMatchInfoField* pf)
             const X1OrderInfo *p = xspeed_trade_context_.GetOrderInfoByLocalID(OrderRef);
             if (p)
             {
-                //hubo002
-                //盘后分析需要交易所委托号
-                //p->entrust_no = pf->spdOrderID;
-                p->entrust_no = atoll(pf->OrderSysID);
+				// TODO: wangying, fix the bug of cancel order function:inErrorID=114,x1 order id invalid
+                p->entrust_no = pf->X1OrderID;
 
                 /*
                  xspeed的状态有问题：
@@ -893,9 +896,8 @@ void MYX1Spi::OnRtnOrder(struct CX1FtdcRspPriOrderField* pf)
                     return;
                 }
 
-                //hubo002
-                //p->entrust_no = pf->spdOrderID;
-                p->entrust_no = atoll(pf->OrderSysID);
+				// TODO: wangying, fix the bug of cancel order function:inErrorID=114,x1 order id invalid
+                p->entrust_no = pf->X1OrderID; //柜台委托号
                 p->entrust_status = X1FieldConvert::EntrustStatusTrans(pf->OrderStatus);
 
                 //返回废单是进行回滚
@@ -1042,9 +1044,8 @@ void MYX1Spi::OnRspQryOrderInfo(struct CX1FtdcRspOrderField* pf, struct CX1FtdcR
     {
         OrderDetail od;
         strncpy(od.stock_code, pf->InstrumentID, sizeof(od.stock_code));
-        //hubo002
-        //od.entrust_no = pf->X1OrderID;
-        od.entrust_no = atoll(pf->OrderSysID);
+		// TODO: wangying, fix the bug of cancel order function:inErrorID=114,x1 order id invalid
+        od.entrust_no = pf->X1OrderID;
 
         od.order_kind = MY_TNL_OPT_LIMIT_PRICE;
         od.direction = X1FieldConvert::GetMYBuySell(pf->BuySellType);
@@ -1127,9 +1128,8 @@ void MYX1Spi::OnRspQryMatchInfo(struct CX1FtdcRspMatchField* pf, struct CX1FtdcR
         TradeDetail td;
         strncpy(td.stock_code, pf->InstrumentID, sizeof(td.stock_code));
 
-        //hubo002
-        //td.entrust_no = pf->X1OrderID;
-        td.entrust_no = -1;
+		// TODO: wangying, fix the bug of cancel order function:inErrorID=114,x1 order id invalid
+        td.entrust_no = pf->X1OrderID;
 
         td.direction = X1FieldConvert::GetMYBuySell(pf->BuySellType);
         td.open_close = X1FieldConvert::GetMYOpenClose(pf->OpenClose);
