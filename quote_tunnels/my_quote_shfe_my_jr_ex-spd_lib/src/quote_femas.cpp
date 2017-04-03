@@ -28,7 +28,7 @@ CMdclientHandler::CMdclientHandler(const SubscribeContracts *subscribe_contracts
 	string ip = "";
     BOOST_FOREACH(const std::string &v, logon_cfg.quote_provider_addrs) {
 		size_t ipstr_start = v.find("//")+2;
-		size_t ipstr_end = v.find(":");
+		size_t ipstr_end = v.find(":",ipstr_start);
 		ip = v.substr (ipstr_start, ipstr_end-ipstr_start);
 		port = stoi(v.substr(ipstr_end+1));
 
