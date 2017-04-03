@@ -5,6 +5,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
+#include <iostream>     // std::cin, std::cout
 
 #include "quote_cmn_config.h"
 #include "quote_cmn_utility.h"
@@ -23,15 +24,44 @@ CMdclientHandler::CMdclientHandler(const SubscribeContracts *subscribe_contracts
     int topic = atoi(logon_cfg.topic.c_str());
 
 	// TODO: wangying, here
-//    BOOST_FOREACH(const std::string &v, logon_cfg.quote_provider_addrs) {
-//		size_t ipstr_s = v.substr(v.find("//")+2;
-//		string ip = 
-//	}
-    // 初始化
-    //int listen_port = UDP_PORT; 
-    //api_ = CMdclientApi::Create(pHand,listen_port);
-    api_ = CMdclientApi::Create(this);//,10074);
-	api_->Subscribe("ag1706");
+	int port = -1;
+	string ip = "";
+    BOOST_FOREACH(const std::string &v, logon_cfg.quote_provider_addrs) {
+		size_t ipstr_start = v.find("//")+2;
+		size_t ipstr_end = v.find(":");
+		ip = v.substr (ipstr_start, ipstr_end-ipstr_start);
+		port = stoi(v.substr(ipstr_end+1));
+
+	}
+	char *ip_c_str = (char*)ip.c_str();
+    api_ = CMdclientApi::Create(this,port,ip_c_str);
+	MY_LOG_INFO("CMdclientApi ip:%s, port:%d",ip.c_str(),port);
+
+	string contr_file = "";
+    SubsribeDatas code_list = cfg_.Subscribe_datas();
+    BOOST_FOREACH(const std::string &value, code_list){ contr_file = value; }
+	std::ifstream is;
+	is.open (contr_file);
+	string contrs = "";
+	if (is) {
+		getline(is, contrs);
+		size_t start_pos = 0;
+		size_t end_pos = 0;
+		string contr = "";
+		while ((end_pos=contrs.find(" ",start_pos)) != string::npos){
+			contr = contrs.substr (start_pos, end_pos-start_pos);
+			api_->Subscribe((char*)contr.c_str());
+			MY_LOG_INFO("CMdclientApi subscribe:%s",contr.c_str());
+			start_pos = end_pos + 1;
+		}
+		if(contr.size()>0){
+			string contr = contrs.substr (start_pos);
+			api_->Subscribe((char*)contr.c_str());
+			MY_LOG_INFO("CMdclientApi subscribe:%s",contr.c_str());
+		}
+	}
+	else { MY_LOG_INFO("CMdclientApi can't open: %s",contr_file.c_str()); }
+
     int err = api_->Start();
 	MY_LOG_INFO("CMdclientApi start: %d",err);
 }
