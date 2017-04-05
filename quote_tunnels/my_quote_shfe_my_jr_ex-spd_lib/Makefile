@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=y
+DEBUG:=n
 TOP:=..
 INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/jr_ex-spd -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_shfe_my
 LIBPATH:=-L$(TOP)/lib/bin/boost -L$(TOP)/lib/bin -L$(TOP)/lib/bin/jr_ex-spd -L$(TOP)/my_common/bin

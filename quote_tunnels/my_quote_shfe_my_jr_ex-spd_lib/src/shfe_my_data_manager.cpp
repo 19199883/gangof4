@@ -89,7 +89,7 @@ void MYShfeMDManager::OnMBLData(const CShfeFtdcMBLMarketDataField* const pdata, 
     }
 
 	// TODO: read codes,wangying on 201203-28
-	MY_LOG_WARN("OnMBLData:%s,%c,%f,%d",pdata->InstrumentID,pdata->Direction,pdata->Price,pdata->Volume);
+//	MY_LOG_WARN("OnMBLData:%s,%c,%f,%d",pdata->InstrumentID,pdata->Direction,pdata->Price,pdata->Volume);
 }
 
 inline void ResetSnapshot(SHFEMDQuoteSnapshot* pd)
@@ -128,7 +128,7 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
             if (p->isLast)
             {
 				// TODO: read codes,wangying on 201203-28
-				MY_LOG_WARN("ProcessThread:last");
+				//MY_LOG_WARN("ProcessThread:last");
 
                 // snapshot is completed, should send to client
                 if (p->field.Volume > 0)
@@ -180,7 +180,7 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                 else if (prev_dir == SHFE_FTDC_D_Buy && cur_dir == SHFE_FTDC_D_Sell)
                 {
 					// TODO: read codes,wangying on 201203-28
-					MY_LOG_WARN("1 cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
+					//MY_LOG_WARN("1 cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
 
                     while (p_mngr->GetPrevCode(cur_code, prev_code))
                     {
@@ -193,7 +193,7 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                 else if (prev_dir == SHFE_FTDC_D_Sell && p->field.Direction == SHFE_FTDC_D_Sell && prev_code != cur_code)
                 {
 					// TODO: read codes,wangying on 201203-28
-					MY_LOG_WARN("2 cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
+					//MY_LOG_WARN("2 cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
 
                     SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                     p_mngr->SendToClient(prev_code, p_snapshot_prev);
@@ -204,7 +204,7 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                         p_mngr->SendToClient(prev_code, p_snapshot_prev);
 						//
 					// TODO: read codes,wangying on 201203-28
-					MY_LOG_WARN("2 while cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
+					//MY_LOG_WARN("2 while cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
                     }
                 }
 
@@ -391,7 +391,7 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
     if (data_handler_)
     {
 		// TODO: read codes,wangying on 201203-28
-		MY_LOG_WARN("SendToClient:data_flag=%d",my_data.data_flag);
+		//MY_LOG_WARN("SendToClient:data_flag=%d",my_data.data_flag);
 
         data_handler_->OnMYShfeMDData(&my_data);
     }
@@ -406,7 +406,7 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 void MYShfeMDManager::OnDepthMarketData(const CDepthMarketDataField * const pdata)
 {
 	// TODO: read codes,wangying on 201203-28
-	MY_LOG_WARN("OnDepthMarketData:%s",pdata->InstrumentID);
+	//MY_LOG_WARN("OnDepthMarketData:%s",pdata->InstrumentID);
 
     MYMutexGuard guard(depth_mutex_);
     if (pdata)
@@ -422,7 +422,7 @@ void MYShfeMDManager::OnDepthMarketData(const CDepthMarketDataField * const pdat
 		if (data_handler_) { 
 			data_handler_->OnMYShfeMDData(&my_data); 
 			// TODO: read codes,wangying on 201203-28
-			MY_LOG_WARN("SendToClient:data_flag=%d",my_data.data_flag);
+			//MY_LOG_WARN("SendToClient:data_flag=%d",my_data.data_flag);
 		}
 
         DepthDataQueueOfCode::iterator it = data_depth_.find(pdata->InstrumentID);
