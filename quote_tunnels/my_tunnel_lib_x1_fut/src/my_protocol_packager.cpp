@@ -36,7 +36,7 @@ void X1Packer::CancelRequest(const TunnelConfigData& cfg, const T_CancelOrder* r
     strncpy(cancle_order.InstrumentID, req->stock_code, sizeof(TX1FtdcInstrumentIDType));
     cancle_order.LocalOrderID = org_order_ref;
 	// TODO: wangying, fix the bug of cancel order function:inErrorID=114,x1 order id invalid
-    cancle_order.X1OrderID = -1; //req->entrust_no; 如果提供柜台委托号(柜台委托号大于-1)，则只使用柜台委托号处理；只有当柜台委托号小于0时，才使用本地委托号进行撤单
+    cancle_order.X1OrderID = 0;//req->entrust_no; //如果提供柜台委托号(柜台委托号大于-1)，则只使用柜台委托号处理；只有当柜台委托号小于0时，才使用本地委托号进行撤单
     //cancle_order.SessionID= 0;
 }
 
