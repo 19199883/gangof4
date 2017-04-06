@@ -139,10 +139,14 @@ class pos_calc
 			config.LoadFile();
 			TiXmlElement *RootElement = config.RootElement();
 			string enabled_str = RootElement->Attribute("pos_calc");
-			if (0 == strcmp ("on",enabled_str.c_str())){
-				this->enabled_ = true;
+			if (NULL == enabled_str){ // if there is not pos_calc attribute, false is default value of eanbled field
+					this->enabled_ = false;
 			}else{
-				this->enabled_ = false;
+				if (0 == strcmp ("on",enabled_str.c_str())){
+					this->enabled_ = true;
+				}else{
+					this->enabled_ = false;
+				}
 			}
 		}
 
