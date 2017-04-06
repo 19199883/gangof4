@@ -25,6 +25,10 @@
 #include "shfe_my_data_manager.h"
 #include "quote_femas.h"
 
+/* 1. recevies SHFEQuote by UDP and send it to MYShfeMDManager and subscriber
+ * 2. receives CDepthMarketDataField by Femas and send it to MYShfeMDManager and subscriber
+ * 3. receives MYShfeMarketData from MYShfeMDManager and subscriber
+ */
 class QuoteInterface_MY_SHFE_MD: public MYShfeMDHandler
 {
 public:

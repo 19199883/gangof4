@@ -14,6 +14,10 @@
 #include "quote_cmn_save.h"
 #include "quote_interface_shfe_my.h"
 
+/*
+ *MYFEMASDataHandler receives market data from exchange by Femas system
+ *and then send them to QuoteInterface_MY_SHFE_MD by QuoteInterface_MY_SHFE_MD::ShfeDepthMarketDataHandler 
+ */
 class MYFEMASDataHandler : public CUstpFtdcMduserSpi
 {
 public:
