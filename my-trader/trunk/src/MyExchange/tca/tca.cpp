@@ -106,24 +106,20 @@ int tca::split(string symbol,int ori_vol,vector<int> &split_vols){
 }
 
 void tca::place_orders(my_order &ord_ori,set<long> &new_ords){
-	int count = this->split(ord_ori.symbol,ord_ori.volume,_split_cache);
-	for(int i=0; i<count; i++){
-		my_order ord  = ord_ori;
-		ord.volume = _split_cache[i];
-		// ·ÖÅäClOrdID
-		ord.cl_ord_id = tca::generate_cl_ord_id(ord.model_id, ord.signal_id);
-		new_ords.insert(ord.cl_ord_id);
-		ord.state = state_options::pending_new;
-		ord.is_final = false;
-		pending_ord_request_dao::insert_request(ord);
-		tcs * target = get_tcs(pair<long,exchange_names>(ord.model_id,ord.exchange));
-		if (target != NULL){
-			target->place_request(ord);
-		}
-		else{
-			LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
-					"configuration error, one model is not mapped to certain channel. model id:" << ord.model_id);
-		}
+	my_order ord  = ord_ori;
+	// ·ÖÅäClOrdID
+	ord.cl_ord_id = tca::generate_cl_ord_id(ord.model_id, ord.signal_id);
+	new_ords.insert(ord.cl_ord_id);
+	ord.state = state_options::pending_new;
+	ord.is_final = false;
+	pending_ord_request_dao::insert_request(ord);
+	tcs * target = get_tcs(pair<long,exchange_names>(ord.model_id,ord.exchange));
+	if (target != NULL){
+		target->place_request(ord);
+	}
+	else{
+		LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),
+				"configuration error, one model is not mapped to certain channel. model id:" << ord.model_id);
 	}
 }
 
