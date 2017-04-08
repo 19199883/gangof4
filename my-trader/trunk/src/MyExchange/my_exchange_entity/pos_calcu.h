@@ -138,10 +138,11 @@ class pos_calc
 			TiXmlDocument config = TiXmlDocument("trasev.config");
 			config.LoadFile();
 			TiXmlElement *RootElement = config.RootElement();
-			string enabled_str = RootElement->Attribute("pos_calc");
-			if (NULL == enabled_str){ // if there is not pos_calc attribute, false is default value of eanbled field
-					this->enabled_ = false;
+			const char * enabled_att = RootElement->Attribute("pos_calc");
+			if (NULL == enabled_att){ // if there is not pos_calc attribute, false is default value of eanbled field
+						this->enabled_ = false;
 			}else{
+				string enabled_str = enabled_att;
 				if (0 == strcmp ("on",enabled_str.c_str())){
 					this->enabled_ = true;
 				}else{
