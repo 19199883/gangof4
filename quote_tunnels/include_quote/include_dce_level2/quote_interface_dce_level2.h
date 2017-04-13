@@ -46,6 +46,7 @@ private:
     bool InitInterface(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg);
 
     void *interface_;
+    void *interface1_;
     int quote_provider_type_;
 };
 
