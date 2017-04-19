@@ -11,6 +11,7 @@
 #include <map>
 #include <unordered_map>
 #include <mutex>
+#include "my_cmn_log.h"
 
 //typedef std::unordered_map<std::string, EsunnyContractInfo> ContractInfoMap;
 typedef std::map<std::string, TapAPITradeContractInfo> ContractInfoMap;
@@ -235,7 +236,8 @@ inline const TapAPITradeContractInfo* ESUNNYFieldConvert::GetContractInfo(const 
 inline void ESUNNYFieldConvert::AddContractInfo(const TapAPITradeContractInfo& info)
 {
     std::lock_guard<std::mutex> lock(contract_mutex);
-
+	if (TAPI_COMMODITY_TYPE_FUTURES != info.CommodityType) return;
+	
     std::string contract(info.CommodityNo);
     contract.append(info.ContractNo1);
     if (info.ContractNo2[0] != '\0')
@@ -244,6 +246,7 @@ inline void ESUNNYFieldConvert::AddContractInfo(const TapAPITradeContractInfo& i
         contract.append(info.CommodityNo);
         contract.append(info.ContractNo2);
     }
+
     ContractInfoMap::iterator it = contract_in_market.find(contract);
     if (it != contract_in_market.end())
     {
