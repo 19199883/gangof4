@@ -17,6 +17,10 @@
 
 struct CXeleFtdcDisseminationField
 {
+#ifdef __cplusplus
+    CXeleFtdcDisseminationField();
+#endif
+
 	///序列系列号
 	TXeleFtdcSequenceSeriesType	SequenceSeries;
 	///序列号
@@ -26,6 +30,10 @@ struct CXeleFtdcDisseminationField
 ///响应信息
 struct CXeleFtdcRspInfoField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspInfoField();
+#endif
+
 	///错误代码
 	TXeleFtdcErrorIDType	ErrorID;
 	///错误信息
@@ -35,6 +43,10 @@ struct CXeleFtdcRspInfoField
 ///用户登录请求
 struct CXeleFtdcReqUserLoginField
 {
+#ifdef __cplusplus
+    CXeleFtdcReqUserLoginField();
+#endif
+
 	///交易日
 	TXeleFtdcDateType	TradingDay;
 	///交易用户代码
@@ -56,6 +68,10 @@ struct CXeleFtdcReqUserLoginField
 ///用户登录应答
 struct CXeleFtdcRspUserLoginField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspUserLoginField();
+#endif
+
 	///交易日
 	TXeleFtdcDateType	TradingDay;
 	///登录成功时间
@@ -79,6 +95,10 @@ struct CXeleFtdcRspUserLoginField
 ///用户登出请求
 struct CXeleFtdcReqUserLogoutField
 {
+#ifdef __cplusplus
+    CXeleFtdcReqUserLogoutField();
+#endif
+
 	///交易用户代码
 	TXeleFtdcUserIDType	UserID;
 	///会员代码
@@ -88,6 +108,10 @@ struct CXeleFtdcReqUserLogoutField
 ///用户登出应答
 struct CXeleFtdcRspUserLogoutField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspUserLogoutField();
+#endif
+
 	///交易用户代码
 	TXeleFtdcUserIDType	UserID;
 	///会员代码
@@ -97,6 +121,10 @@ struct CXeleFtdcRspUserLogoutField
 ///输入报单
 struct CXeleFtdcInputOrderField
 {
+#ifdef __cplusplus
+    CXeleFtdcInputOrderField();
+#endif
+
 	///报单编号
 	TXeleFtdcOrderSysIDType	OrderSysID;
 	///会员代码
@@ -145,6 +173,10 @@ struct CXeleFtdcInputOrderField
 ///报单操作
 struct CXeleFtdcOrderActionField
 {
+#ifdef __cplusplus
+    CXeleFtdcOrderActionField();
+#endif
+
 	///报单编号
 	TXeleFtdcOrderSysIDType	OrderSysID;
 	///本地报单编号
@@ -172,6 +204,10 @@ struct CXeleFtdcOrderActionField
 ///用户口令修改
 struct CXeleFtdcUserPasswordUpdateField
 {
+#ifdef __cplusplus
+    CXeleFtdcUserPasswordUpdateField();
+#endif
+
 	///交易用户代码
 	TXeleFtdcUserIDType	UserID;
 	///会员代码
@@ -186,6 +222,10 @@ struct CXeleFtdcUserPasswordUpdateField
 ///报单查询
 struct CXeleFtdcQryOrderField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryOrderField();
+#endif
+
     ///客户代码
     TXeleFtdcClientIDType       ClientID;
 	///合约代码
@@ -201,6 +241,10 @@ struct CXeleFtdcQryOrderField
 ///成交查询
 struct CXeleFtdcQryTradeField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryTradeField();
+#endif
+
     ///客户代码
 	TXeleFtdcClientIDType       ClientID;
 	///合约代码
@@ -216,6 +260,10 @@ struct CXeleFtdcQryTradeField
 ///行情查询
 struct CXeleFtdcQryMarketDataField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryMarketDataField();
+#endif
+
 	///产品代码
 	TXeleFtdcProductIDType	ProductID;
 	///合约代码
@@ -226,6 +274,10 @@ struct CXeleFtdcQryMarketDataField
 ///客户持仓查询
 struct CXeleFtdcQryClientPositionField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryClientPositionField();
+#endif
+
     ///客户代码
     TXeleFtdcClientIDType       ClientID;
     ///合约代码
@@ -237,6 +289,10 @@ struct CXeleFtdcQryClientPositionField
 ///合约查询
 struct CXeleFtdcQryInstrumentField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryInstrumentField();
+#endif
+
     ///产品代码
 	TXeleFtdcProductIDType      ProductID;
 	///合约代码
@@ -246,6 +302,10 @@ struct CXeleFtdcQryInstrumentField
 ///客户持仓
 struct CXeleFtdcRspClientPositionField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspClientPositionField();
+#endif
+
 	///交易日
 	TXeleFtdcDateType	TradingDay;
 	///结算组代码
@@ -296,6 +356,10 @@ struct CXeleFtdcRspClientPositionField
 
 struct CXeleFtdcRspInstrumentField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspInstrumentField();
+#endif
+
 	///结算组代码
 	TXeleFtdcSettlementGroupIDType	SettlementGroupID;
 	///产品代码
@@ -357,6 +421,10 @@ struct CXeleFtdcRspInstrumentField
 ///Ffex合约
 struct CXeleFtdcInstrumentField
 {
+#ifdef __cplusplus
+    CXeleFtdcInstrumentField();
+#endif
+
     ///结算组代码
     TXeleFtdcSettlementGroupIDType  SettlementGroupID;
     ///产品代码
@@ -395,6 +463,10 @@ struct CXeleFtdcInstrumentField
 ///成交
 struct CXeleFtdcTradeField
 {
+#ifdef __cplusplus
+    CXeleFtdcTradeField();
+#endif
+
 	///交易日
 	TXeleFtdcDateType	TradingDay;
 	///结算组代码
@@ -444,6 +516,10 @@ struct CXeleFtdcTradeField
 ///报单
 struct CXeleFtdcOrderField
 {
+#ifdef __cplusplus
+    CXeleFtdcOrderField();
+#endif
+
 	///交易日
 	TXeleFtdcDateType	TradingDay;
 	///结算组代码
@@ -527,6 +603,10 @@ struct CXeleFtdcOrderField
 ///合约状态
 struct CXeleFtdcInstrumentStatusField
 {
+#ifdef __cplusplus
+    CXeleFtdcInstrumentStatusField();
+#endif
+
 	///结算组代码
 	TXeleFtdcSettlementGroupIDType	SettlementGroupID;
 	///合约代码
@@ -544,6 +624,10 @@ struct CXeleFtdcInstrumentStatusField
 ///客户资金查询
 struct CXeleFtdcQryClientAccountField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryClientAccountField();
+#endif
+
     ///客户代码
     TXeleFtdcClientIDType  ClientID;
     ///资金帐号
@@ -553,6 +637,10 @@ struct CXeleFtdcQryClientAccountField
 ///客户资金
 struct CXeleFtdcRspClientAccountField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspClientAccountField();
+#endif
+
     ///交易日
     TXeleFtdcDateType               TradingDay;
     ///结算组代码
@@ -589,6 +677,10 @@ struct CXeleFtdcRspClientAccountField
 
 struct CXeleFtdcQryInstrumentMarginRateField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryInstrumentMarginRateField();
+#endif
+
     ///合约代码
     TXeleFtdcInstrumentIDType       InstrumentID;
     ///客户代码
@@ -599,6 +691,10 @@ struct CXeleFtdcQryInstrumentMarginRateField
 
 struct CXeleFtdcRspInstrumentMarginRateField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspInstrumentMarginRateField();
+#endif
+
     ///合约代码
     TXeleFtdcInstrumentIDType    InstrumentID;
     ///客户代码
@@ -619,6 +715,10 @@ struct CXeleFtdcRspInstrumentMarginRateField
 
 struct CXeleFtdcQryInstrumentCommissionRateField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryInstrumentCommissionRateField();
+#endif
+
     ///合约代码
     TXeleFtdcInstrumentIDType       InstrumentID;
     ///客户代码
@@ -627,6 +727,10 @@ struct CXeleFtdcQryInstrumentCommissionRateField
 
 struct CXeleFtdcRspInstrumentCommissionRateField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspInstrumentCommissionRateField();
+#endif
+
     ///合约代码
     TXeleFtdcInstrumentIDType    InstrumentID;
     ///客户代码
@@ -648,6 +752,10 @@ struct CXeleFtdcRspInstrumentCommissionRateField
 ///合约状态查询
 struct CXeleFtdcQryInstrumentStatusField
 {
+#ifdef __cplusplus
+    CXeleFtdcQryInstrumentStatusField();
+#endif
+
     ///起始合约代码
     TXeleFtdcInstrumentIDType   InstIDStart;
     ///结束合约代码
@@ -657,6 +765,10 @@ struct CXeleFtdcQryInstrumentStatusField
 ///合约状态查询
 struct CXeleFtdcRspInstrumentPriceField
 {
+#ifdef __cplusplus
+    CXeleFtdcRspInstrumentPriceField();
+#endif
+
 	///合约代码
 	TXeleFtdcInstrumentIDType   InstrumentID;
 	///涨停价
@@ -668,11 +780,38 @@ struct CXeleFtdcRspInstrumentPriceField
 ///合约状态查询
 struct CXeleFtdcReqInstrumentPriceField
 {
+#ifdef __cplusplus
+    CXeleFtdcReqInstrumentPriceField();
+#endif
+
 	///产品代码
 	TXeleFtdcProductIDType      ProductID;
 	///合约代码
 	TXeleFtdcInstrumentIDType   InstrumentID;
 };
+
+///Internal version identify field
+struct CXeleFtdcInternalVersionIdentifyField
+{
+#ifdef __cplusplus
+    CXeleFtdcInternalVersionIdentifyField();
+#endif
+
+    ///Version information
+    TXeleFtdcUserIDType	VersionInfo;
+};
+
+///Exchange Identify field
+struct CXeleFtdcExchangeIdentifyField
+{
+#ifdef __cplusplus
+  CXeleFtdcExchangeIdentifyField();
+#endif
+
+    ///Version information
+    TXeleFtdcUserIDType	ExchangeInfo;
+};
+
 #pragma pack(pop)
 
 #endif
