@@ -444,7 +444,8 @@ void XeleTunnel::QueryPosition(const T_QryPosition *pQryPosition)
     {
         TNL_LOG_ERROR("not support tunnel when query position, please check configure file");
 
-        ret.error_no = 2;
+		// TODO: wangying, do nothing
+        ret.error_no = 0; //2;
         if (QryPosReturnHandler_) QryPosReturnHandler_(&ret);
         LogUtil::OnPositionRtn(&ret, tunnel_info_);
         return;
@@ -485,7 +486,8 @@ void XeleTunnel::QueryOrderDetail(const T_QryOrderDetail *pQryParam)
     {
         TNL_LOG_ERROR("not support tunnel when query order detail, please check configure file");
 
-        ret.error_no = 2;
+		// TODO: wangying, do nothing
+        ret.error_no = 0; // 2;
         if (QryOrderDetailReturnHandler_) QryOrderDetailReturnHandler_(&ret);
         LogUtil::OnOrderDetailRtn(&ret, tunnel_info_);
         return;
@@ -514,7 +516,8 @@ void XeleTunnel::QueryTradeDetail(const T_QryTradeDetail *pQryParam)
     {
         TNL_LOG_ERROR("not support tunnel when query trade detail, please check configure file");
 
-        ret.error_no = 2;
+		// TODO: wangying, do nothing
+        ret.error_no = 0; //2;
         if (QryTradeDetailReturnHandler_) QryTradeDetailReturnHandler_(&ret);
         LogUtil::OnTradeDetailRtn(&ret, tunnel_info_);
         return;
@@ -541,7 +544,8 @@ void XeleTunnel::QueryContractInfo(const T_QryContractInfo* pQryParam)
     T_ContractInfoReturn ret;
     TNL_LOG_ERROR("not support query contract info");
 
-    ret.error_no = TUNNEL_ERR_CODE::UNSUPPORTED_FUNCTION;
+	// TODO: wangying, do nothing
+    ret.error_no = 0;//TUNNEL_ERR_CODE::UNSUPPORTED_FUNCTION;
     if (QryContractInfoHandler_) QryContractInfoHandler_(&ret);
 
     LogUtil::OnContractInfoRtn(&ret, tunnel_info_);
