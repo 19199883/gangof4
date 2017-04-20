@@ -64,7 +64,7 @@ MyXeleTradeSpi::MyXeleTradeSpi(const TunnelConfigData &cfg)
     // create
     api_ = NULL;
     TNL_LOG_INFO("CXeleTraderApi::GetVersion() return:%s", CXeleTraderApi::GetVersion());
-    api_ = CXeleTraderApi::CreateTraderApi();
+    api_ = CXeleTraderApi::CreateTraderApi(1);
     if (api_ == NULL)
     {
         TNL_LOG_ERROR("CXeleTraderApi::CreateTraderApi() failed.");
