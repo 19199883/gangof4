@@ -1054,7 +1054,7 @@ void tcs::query_position_result_handler(const T_PositionReturn *pos)
 
 T_ContractInfoReturn tcs::query_ContractInfo()
 {
-	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),"query_ContractInfo");
+	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),"query_ContractInfo enter");
 
 	 speculative_spin_mutex::scoped_lock lock(sync_query_lock_);
 
@@ -1065,6 +1065,9 @@ T_ContractInfoReturn tcs::query_ContractInfo()
 
 	this->channel->QueryContractInfo(&criteria);
 	T_ContractInfoReturn contracts = future.get();
+
+
+	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),"query_ContractInfo exit");
 
 	return contracts;
 }
