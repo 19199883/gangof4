@@ -69,6 +69,10 @@ T_ContractInfoReturn position_manager::query_ContractInfo(st_config_t *config, e
 	}
 
 	contracts = channel_->query_ContractInfo();
+
+	// TODO: debug,wangying 2017-4-21
+	LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(), "query contracts, err:%d" << contracts.error_no);
+
 	while(0 != contracts.error_no){
 		LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),
 						"query_position failed,cause:" << contracts.error_no);
