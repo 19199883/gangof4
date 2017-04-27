@@ -11,23 +11,6 @@
 using namespace std;
 using namespace my_cmn;
 
-#pragma pack(1)
-#define MAX_PAIR 120
-struct PVPair
-{
-    double price;
-    int volume;
-};
-struct MDPack
-{
-    char instrument[10];
-    char islast;
-    int seqno;
-    char direction;
-    short count;
-    PVPair data[MAX_PAIR];
-};
-#pragma pack()
 
 static std::string ToString(const MDPack &d) {
     char msg[10240];
@@ -140,8 +123,8 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
         if (recv_len == -1)
         {
             int error_no = errno;
-            if (error_no == 0 || error_no == 251 || error_no == EWOULDBLOCK) /*251 for PARisk */ //20060224 IA64 add 0
-            {
+            if (error_no == 0 || error_no == 251 || error_no == EWOULDBLOCK) 
+            {/*251 for PARisk */ //20060224 IA64 add 0
                 continue;
             }
             else
