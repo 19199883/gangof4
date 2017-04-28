@@ -11,13 +11,13 @@ using namespace std;
 class MDPackEx
 {
 	public:
-		MDPackEx(): damaged(false)
+		MDPackEx(MDPack &content): damaged(false)
 		{
-
+			this->content_ = content;
 		}
 
-		MDPack content;
-		bool damaged;
+		MDPack content_;
+		bool damaged_;
 };
 
 /*
@@ -58,11 +58,24 @@ class repairer
 		void repair_sell_data(MDPack &data);
 		void proc_pkg_loss(MDPack &data);
 
+		/*
+		 * pull data ready to send from buy/sell queue
+		 */
+		void pull_ready_data();
+
+		/* 
+		 * flag un-integrity data with damaged
+		 */
+		void flag_damaged_data();
+
 		// record the contract of victim data when package loss occurs
 		string victim_;
 
-		queue buy_queue_;
-		queue sell_queue_;
+		queue<MDPackEx> buy_queue_;
+		queue<MDPackEx> sell_queue_;
+
+		// save data available for sending
+		queue<MDPackEx> ready_queue_;
 
 		// initial value is false; it will become true when normal data start point is found.
 		bool working_;
