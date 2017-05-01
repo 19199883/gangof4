@@ -78,6 +78,7 @@ MYShfeMDManager::~MYShfeMDManager()
 
 void MYShfeMDManager::OnMBLData(const CShfeFtdcMBLMarketDataField* const pdata, bool last_flag)
 {
+	// TODO: wangying. total sell volume
     MYMutexGuard guard(mbl_mutex_);
     if (pdata)
     {
@@ -293,12 +294,15 @@ SHFEMDQuoteSnapshot* MYShfeMDManager::GetDataCache(const std::string& code)
 
 SHFEMDQuoteSnapshot *MYShfeMDManager::PushDataToBuffer(const std::string &cur_code, MBLDataCollection::iterator &p)
 {
+	// TODO: wangying, total sell volume
     SHFEMDQuoteSnapshot * p_data = GetDataCache(cur_code);
     if (!p_data)
     {
         return p_data;
     }
 
+	// TODO: wangying, total sell volume
+	p_data->damaged = p->field.damaged;
     if (p->field.Direction == SHFE_FTDC_D_Buy)
     {
         p_data->buy_price[p_data->buy_count] = p->field.Price;
@@ -317,14 +321,19 @@ SHFEMDQuoteSnapshot *MYShfeMDManager::PushDataToBuffer(const std::string &cur_co
 
 static void FillStatisticFields(MYShfeMarketData &des_data, SHFEMDQuoteSnapshot * const src_data)
 {
+	// TODO: wangying, to here
     des_data.buy_total_volume = 0;
     des_data.buy_weighted_avg_price = 0;
     double sum_pv = 0;
-    for (int i = 0; i < src_data->buy_count; ++i)
-    {
-        des_data.buy_total_volume += src_data->buy_volume[i];
-        sum_pv += (src_data->buy_volume[i] * src_data->buy_price[i]);
-    }
+
+	// TODO: wangying, total sell volume
+	if (!src_data.damaged){
+		for (int i = 0; i < src_data->buy_count; ++i)
+		{
+			des_data.buy_total_volume += src_data->buy_volume[i];
+			sum_pv += (src_data->buy_volume[i] * src_data->buy_price[i]);
+		}
+	}
     if (des_data.buy_total_volume > 0)
     {
         des_data.buy_weighted_avg_price = sum_pv / des_data.buy_total_volume;
@@ -333,11 +342,14 @@ static void FillStatisticFields(MYShfeMarketData &des_data, SHFEMDQuoteSnapshot 
     des_data.sell_total_volume = 0;
     des_data.sell_weighted_avg_price = 0;
     sum_pv = 0;
-    for (int i = 0; i < src_data->sell_count; ++i)
-    {
-        des_data.sell_total_volume += src_data->sell_volume[i];
-        sum_pv += (src_data->sell_volume[i] * src_data->sell_price[i]);
-    }
+	// TODO: wangying, total sell volume
+	if (!src_data.damaged){
+		for (int i = 0; i < src_data->sell_count; ++i)
+		{
+			des_data.sell_total_volume += src_data->sell_volume[i];
+			sum_pv += (src_data->sell_volume[i] * src_data->sell_price[i]);
+		}
+	}
     if (des_data.sell_total_volume > 0)
     {
         des_data.sell_weighted_avg_price = sum_pv / des_data.sell_total_volume;

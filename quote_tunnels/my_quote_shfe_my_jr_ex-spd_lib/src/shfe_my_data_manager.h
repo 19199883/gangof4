@@ -30,6 +30,9 @@ struct SHFEMDQuoteSnapshot
 	int    *buy_volume;
 	double *sell_price;
 	int    *sell_volume;
+
+	// TODO: wangying, total sell volume
+	bool damaged;
 };
 
 typedef std::map<std::string, int> CodeIndex;

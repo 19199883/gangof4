@@ -1,4 +1,4 @@
-#include <exception>      // std::exception
+#includ <exception>      // std::exception
 #include <string.h>
 #include "repairer.h"
 
@@ -48,6 +48,7 @@ bool repairer::find_start_point(MDPack &data)
 void repairer::pull_ready_data()
 {
 	bool ready_data_found = false;
+	bool damaged = false;
 
 	if (!this->sell_queue_.empty()){
 		while (!this->buy_queue_.empty()){
@@ -55,7 +56,9 @@ void repairer::pull_ready_data()
 				this->buy_queue_.pop();
 			}
 			else if (strcmp(sell_queue_.front().instrument,this->buy_queue_.front().instrument)==0){
-				this->ready_queue_.push(this->buy_queue_.front());
+				MDPackEx new_data &this->buy_queue_.front();
+				if (new_data.damaged) damaged = true;
+				this->ready_queue_.push_back(ready_data);
 				this->buy_queue_.pop();
 				ready_data_found = true;
 			}
@@ -66,10 +69,23 @@ void repairer::pull_ready_data()
 		// add all sell data inti ready queue
 		if (ready_data_found ){
 			while (!this->sell_queue_.empty()){
-				this->ready_queue_.push(this->sell_queue_.front());
+				MDPackEx &new_data = this->sell_queue_.front();
+				if (new_data.damaged) damaged = true;
+				this->ready_queue_.push(new_data);
 				this->sell_queue_.pop();
 			}
+
+			// flag damaged data
+			if (damaged){
+				char instrument = this->ready_queue_.back().instrument;
+				int idx = this->ready_queue_.size()-1;
+				while (idx>=0 && strcmp(this->ready_queue_[idx].instrument, instrument)==0){
+					this->ready_queue_[idx].damaged = true;
+					idx--;
+				}
+			}
 		}
+
 	} // end if (!this->sell_queue_.empty()){
 }
 
@@ -181,10 +197,28 @@ void repairer::proc_pkg_loss(MDPack &data)
 	}
 }
 
+
+void repairer::next(MDPackEx &data, bool empty)
+{
+	empty = true;
+
+	if (!this->ready_queue_.empty()){
+		data = this->ready_queue_.front();
+		empty = false;
+		this->ready_queue_.pop();
+		return;
+	}
+}
+
 // ok
-void repaired::rev(MDPack &data)
+// entrance of repairer class
+void repairer::rev(MDPack &data)
 {
 	int new_sn_ = data.seqno / 10;
+	if (new_sn_ !=seq_no_ + 1) {
+		MY_LOG_WARN("seq no from %d to %d, packet loss", seq_no_,new_sn);
+	}
+
 
 	if (!this->working_){ // find normal data start point
 		this->working_ = this->find_start_point(data);

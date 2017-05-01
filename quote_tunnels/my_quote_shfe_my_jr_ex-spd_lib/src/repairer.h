@@ -2,7 +2,7 @@
 #define REPAIRER_H
 #include <string>
 #include <queue>
-
+#include <deque>
 #include "quote_datatype_shfe_my.h"
 #include "quote_datatype_shfe_deep.h"
 
@@ -16,8 +16,8 @@ class MDPackEx
 			this->content_ = content;
 		}
 
-		MDPack content_;
-		bool damaged_;
+		MDPack content;
+		bool damaged;
 };
 
 /*
@@ -38,7 +38,7 @@ class repairer
 		 * return null if no available data
 		 *
 		 */
-		MDPackEx next();
+		void next(MDPackEx &data, bool empty);
 	private:
 		/*		 
 		 * find normal data start point when system starts
@@ -72,10 +72,10 @@ class repairer
 		string victim_;
 
 		queue<MDPackEx> buy_queue_;
-		queue<MDPackEx> sell_queue_;
+		deque<MDPackEx> sell_queue_;
 
 		// save data available for sending
-		queue<MDPackEx> ready_queue_;
+		deque<MDPackEx> ready_queue_;
 
 		// initial value is false; it will become true when normal data start point is found.
 		bool working_;

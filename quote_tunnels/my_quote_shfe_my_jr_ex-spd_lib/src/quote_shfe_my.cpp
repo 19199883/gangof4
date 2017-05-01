@@ -89,8 +89,7 @@ QuoteInterface_MY_SHFE_MD::~QuoteInterface_MY_SHFE_MD()
 
 void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
 {
-    if (cfg_.Logon_config().mbl_data_addrs.size() != 1)
-    {
+    if (cfg_.Logon_config().mbl_data_addrs.size() != 1) {
         MY_LOG_ERROR("MY_SHFE_MD - address of mbl is wrong, please check");
         return;
     }
@@ -98,8 +97,7 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
     IPAndPortNum ip_and_port = ParseIPAndPortNum(cfg_.Logon_config().mbl_data_addrs.front());
 
     int udp_fd = CreateUdpFD(ip_and_port.first, ip_and_port.second);
-    if (udp_fd < 0)
-    {
+    if (udp_fd < 0) {
         QuoteUpdateState(qtm_name_, QtmState::CONNECT_FAIL);
         MY_LOG_ERROR("MY_SHFE_MD - CreateUdpFD failed.");
         return;
@@ -113,22 +111,20 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
     std::size_t recv_len = 0;
     QuoteUpdateState(qtm_name_, QtmState::API_READY);
 
+	repairer repairers[10];
+
     while (running_flag_)
     {
         sockaddr_in fromAddr;
         int nFromLen = sizeof(fromAddr);
-        recv_len = recvfrom(udp_fd, recv_buf, ary_len, 0, (sockaddr *)&fromAddr,
-            (socklen_t *)&nFromLen);
+        recv_len = recvfrom(udp_fd, recv_buf, ary_len, 0, (sockaddr *)&fromAddr, (socklen_t *)&nFromLen);
 
-        if (recv_len == -1)
-        {
+        if (recv_len == -1) {
             int error_no = errno;
-            if (error_no == 0 || error_no == 251 || error_no == EWOULDBLOCK) 
-            {/*251 for PARisk */ //20060224 IA64 add 0
+            if (error_no == 0 || error_no == 251 || error_no == EWOULDBLOCK) {/*251 for PARisk */ //20060224 IA64 add 0
                 continue;
             }
-            else
-            {
+            else {
                 MY_LOG_ERROR("UDP - recvfrom failed, error_no=%d.", error_no);
                 continue;
             }
@@ -137,52 +133,50 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
 
         // data handle
         MDPack *p = (MDPack *)recv_buf;
-        //MY_LOG_DEBUG("%s", ToString(*p).c_str());
+        MY_LOG_DEBUG("%s", ToString(*p).c_str());
 
-        if (p->seqno / 10 != seq_no_ + 1)
-        {
-            //update_state(qtm_name_, TYPE_QUOTE, QtmState::UNDEFINED_API_ERROR, "packet loss");
-            MY_LOG_WARN("seq no from %d to %d, may have packet loss", seq_no_, p->seqno / 10);
-        }
+		int new_svr = p->seqno % 10;
+        if (new_svr != server_) { MY_LOG_WARN("server from %d to %d", server_, new_svr); }
+		
+		repairers[new_svr].rev(*p);
+		MDPackEx data;
+		bool empty = true;
+		repairers[new_svr].next(data,empty);
+		while (!empty) { 
+			proc_udp_data(data);
+			data = repairers[new_svr].next(data,empty);
+		}
 
-        if (p->seqno % 10 != server_)
-        {
-            MY_LOG_WARN("server frome %d to %d", server_, p->seqno % 10);
-        }
-
-        timeval t;
-        gettimeofday(&t, NULL);
-
-        SHFEQuote item;
-        memset(&item, 0, sizeof(item));
-        strcpy(item.field.InstrumentID, p->instrument);
-        item.field.Direction = p->direction;
-        for (int i = 0; i < p->count; i++)
-        {
-            item.field.Price = p->data[i].price;
-            item.field.Volume = p->data[i].volume;
-            if (p->islast == true && i == p->count - 1)
-            {
-                item.isLast = true;
-            }
-            else
-            {
-                item.isLast = false;
-            }
-
-            if (shfe_deep_data_handler_
-                && (subscribe_contracts_.empty()
-                    || subscribe_contracts_.find(p->instrument) != subscribe_contracts_.end()))
-            {
-                shfe_deep_data_handler_(&item);
-            }
-            my_shfe_md_inf_.OnMBLData(&item.field, item.isLast);
-            p_shfe_deep_save_->OnQuoteData(t.tv_sec * 1000000 + t.tv_usec, &item);
-        }
-
-        seq_no_ = p->seqno / 10;
-        server_ = p->seqno % 10;
+        server_ = new_svr;
     }
+}
+
+void QuoteInterface_MY_SHFE_MD::proc_udp_data(MDPackEx &data)
+{
+	timeval t;
+	gettimeofday(&t, NULL);
+
+	SHFEQuote item;
+	memset(&item, 0, sizeof(item));
+	strcpy(item.field.InstrumentID, data.content.instrument);
+	item.field.Direction = data.direction;
+	for (int i = 0; i < data.content.count; i++){
+		item.field.Price = data.content.data[i].price;
+		item.field.Volume = data.content.data[i].volume;
+		// TODO: wangying, total sell volume
+		item.field.damaged = data.content.data[i].damaged;
+		if (data.content.islast == true && i == data.content.count - 1){ item.isLast = true; }
+		else { item.isLast = false; }
+
+		if (shfe_deep_data_handler_
+			&& (subscribe_contracts_.empty()
+				|| subscribe_contracts_.find(data.instrument) != subscribe_contracts_.end())){
+			shfe_deep_data_handler_(&item);
+		}
+		// TODO: wangying, total sell volume
+		my_shfe_md_inf_.OnMBLData(&item.field, item.isLast);
+		p_shfe_deep_save_->OnQuoteData(t.tv_sec * 1000000 + t.tv_usec, &item);
+	}
 }
 
 void QuoteInterface_MY_SHFE_MD::ShfeDepthMarketDataHandler(const CDepthMarketDataField * data)
