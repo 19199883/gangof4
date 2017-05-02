@@ -14,7 +14,7 @@ using namespace my_cmn;
 
 
 static std::string ToString(const MDPack &d) {
-    char msg[10240];
+    char msg[102400];
     int rec = sprintf(msg, "MDPack Data: \ninstrument: %s\nislast: %d\nseqno: %d\ndirection: %c\ncount: %d\n", d.instrument, (int)d.islast, d.seqno, d.direction, d.count);
     int tmp = 0;
     for(int i = 0; i < d.count; i++) {
