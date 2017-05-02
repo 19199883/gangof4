@@ -11,9 +11,9 @@ using namespace std;
 class MDPackEx
 {
 	public:
-		MDPackEx(MDPack &content): damaged(false)
+		MDPackEx(MDPack &cur_content): damaged(false)
 		{
-			this->content_ = content;
+			this->content = cur_content;
 		}
 
 		MDPack content;
@@ -27,7 +27,7 @@ class MDPackEx
 class repairer
 {
 	public:
-		repairer(int svrid);
+		repairer();
 
 		/* receive data from UDP. repaires data if it is damaged
 		 */
@@ -38,7 +38,10 @@ class repairer
 		 * return null if no available data
 		 *
 		 */
-		void next(MDPackEx &data, bool empty);
+		MDPackEx next(bool empty);
+		//
+		// udp server id
+		int server_;
 	private:
 		/*		 
 		 * find normal data start point when system starts
@@ -48,7 +51,9 @@ class repairer
 		/* check whether package loss occurs
 		 * return true if package loss occurs; otherwise, false
 		 */
-		bool lose_pkg((MDPack &data);
+		bool lose_pkg(MDPack &data);
+
+		void print_queue();
 
 		/* 
 		 */
@@ -71,7 +76,7 @@ class repairer
 		// record the contract of victim data when package loss occurs
 		string victim_;
 
-		queue<MDPackEx> buy_queue_;
+		deque<MDPackEx> buy_queue_;
 		deque<MDPackEx> sell_queue_;
 
 		// save data available for sending
@@ -82,8 +87,6 @@ class repairer
 		// record current serial number of UDP data	
 		int seq_no_;
 
-		// udp server id
-		int server_;
 };
 
 

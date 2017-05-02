@@ -24,6 +24,7 @@
 
 #include "shfe_my_data_manager.h"
 #include "quote_femas.h"
+#include "repairer.h"
 
 /* 1. recevies SHFEQuote by UDP and send it to MYShfeMDManager and subscriber
  * 2. receives CDepthMarketDataField by Femas and send it to MYShfeMDManager and subscriber
@@ -58,6 +59,8 @@ private:
     void ShfeMBLHandler();
 
     int CreateUdpFD(const std::string &addr_ip, unsigned short port);
+
+	void proc_udp_data(MDPackEx &data);
 
     // 数据处理函数对象
     boost::function<void(const SHFEQuote *)> shfe_deep_data_handler_;

@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include "quote_cmn_utility.h"
 #include "qtm.h"
+#include "repairer.h"
 
 using namespace std;
 using namespace my_cmn;
@@ -112,6 +113,7 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
     QuoteUpdateState(qtm_name_, QtmState::API_READY);
 
 	repairer repairers[10];
+	for (int i=0; i<10; i++) repairers[i].server_ = i;
 
     while (running_flag_)
     {
@@ -139,12 +141,12 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
         if (new_svr != server_) { MY_LOG_WARN("server from %d to %d", server_, new_svr); }
 		
 		repairers[new_svr].rev(*p);
-		MDPackEx data;
+		
 		bool empty = true;
-		repairers[new_svr].next(data,empty);
+		MDPackEx data = repairers[new_svr].next(empty);
 		while (!empty) { 
 			proc_udp_data(data);
-			data = repairers[new_svr].next(data,empty);
+			data = repairers[new_svr].next(empty);
 		}
 
         server_ = new_svr;
@@ -159,18 +161,19 @@ void QuoteInterface_MY_SHFE_MD::proc_udp_data(MDPackEx &data)
 	SHFEQuote item;
 	memset(&item, 0, sizeof(item));
 	strcpy(item.field.InstrumentID, data.content.instrument);
-	item.field.Direction = data.direction;
+	item.field.Direction = data.content.direction;
 	for (int i = 0; i < data.content.count; i++){
 		item.field.Price = data.content.data[i].price;
 		item.field.Volume = data.content.data[i].volume;
 		// TODO: wangying, total sell volume
-		item.field.damaged = data.content.data[i].damaged;
+		item.field.damaged = data.damaged;
 		if (data.content.islast == true && i == data.content.count - 1){ item.isLast = true; }
 		else { item.isLast = false; }
 
 		if (shfe_deep_data_handler_
 			&& (subscribe_contracts_.empty()
-				|| subscribe_contracts_.find(data.instrument) != subscribe_contracts_.end())){
+				|| subscribe_contracts_.find(data.content.instrument) != subscribe_contracts_.end())){
+			// TODO: see whether there is a problem
 			shfe_deep_data_handler_(&item);
 		}
 		// TODO: wangying, total sell volume

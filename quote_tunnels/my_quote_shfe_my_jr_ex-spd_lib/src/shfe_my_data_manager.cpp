@@ -302,7 +302,9 @@ SHFEMDQuoteSnapshot *MYShfeMDManager::PushDataToBuffer(const std::string &cur_co
     }
 
 	// TODO: wangying, total sell volume
-	p_data->damaged = p->field.damaged;
+	if (!p_data->damaged){
+		p_data->damaged = p->field.damaged;
+	}
     if (p->field.Direction == SHFE_FTDC_D_Buy)
     {
         p_data->buy_price[p_data->buy_count] = p->field.Price;
@@ -327,12 +329,15 @@ static void FillStatisticFields(MYShfeMarketData &des_data, SHFEMDQuoteSnapshot 
     double sum_pv = 0;
 
 	// TODO: wangying, total sell volume
-	if (!src_data.damaged){
+	if (!src_data->damaged){
 		for (int i = 0; i < src_data->buy_count; ++i)
 		{
 			des_data.buy_total_volume += src_data->buy_volume[i];
 			sum_pv += (src_data->buy_volume[i] * src_data->buy_price[i]);
 		}
+	}
+	else{
+		des_data.buy_total_volume = 0;
 	}
     if (des_data.buy_total_volume > 0)
     {
@@ -343,12 +348,15 @@ static void FillStatisticFields(MYShfeMarketData &des_data, SHFEMDQuoteSnapshot 
     des_data.sell_weighted_avg_price = 0;
     sum_pv = 0;
 	// TODO: wangying, total sell volume
-	if (!src_data.damaged){
+	if (!src_data->damaged){
 		for (int i = 0; i < src_data->sell_count; ++i)
 		{
 			des_data.sell_total_volume += src_data->sell_volume[i];
 			sum_pv += (src_data->sell_volume[i] * src_data->sell_price[i]);
 		}
+	}
+	else{
+		des_data.sell_total_volume = 0;
 	}
     if (des_data.sell_total_volume > 0)
     {
