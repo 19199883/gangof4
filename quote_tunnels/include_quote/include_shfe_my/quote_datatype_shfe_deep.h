@@ -9,6 +9,24 @@
 #pragma pack(push)
 #pragma pack(8)
 
+#pragma pack(1)
+#define MAX_PAIR 120
+struct PVPair
+{
+    double price;
+    int volume;
+};
+struct MDPack
+{
+    char instrument[10];
+    char islast;
+    int seqno;
+    char direction;
+    short count;
+    PVPair data[MAX_PAIR];
+};
+#pragma pack()
+
 // 上期全息委托
 typedef char TShfeFtdcInstrumentIDType[31];
 typedef char TShfeFtdcDirectionType;
@@ -31,7 +49,12 @@ struct DLL_PUBLIC CShfeFtdcMBLMarketDataField
     TShfeFtdcPriceType Price;
     ///数量
     TShfeFtdcVolumeType Volume;
+
+	// flag whethere this data is damaged for package loss
+	bool damaged;
 };
+
+
 struct DLL_PUBLIC SHFEQuote
 {
     CShfeFtdcMBLMarketDataField field;
