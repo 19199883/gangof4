@@ -14,14 +14,12 @@ using namespace my_cmn;
 
 
 static std::string ToString(const MDPack &d) {
-    char msg[102400];
-    int rec = sprintf(msg, "MDPack Data: \ninstrument: %s\nislast: %d\nseqno: %d\ndirection: %c\ncount: %d\n", d.instrument, (int)d.islast, d.seqno, d.direction, d.count);
-    int tmp = 0;
-    for(int i = 0; i < d.count; i++) {
-        rec += tmp;
-        tmp = sprintf(msg + rec, "price%d: %lf, volume%d: %d\n", i, d.data[i].price, i, d.data[i].volume);
-    }
-    return msg;
+	MY_LOG_DEBUG("server(%d)MDPack Data: \ninstrument: %s\nislast: %d\nseqno: %d\ndirection: %c\ncount: %d\n", this->server_,d.instrument, (int)d.islast, d.seqno, d.direction, d.count);
+	for(int i = 0; i < d.count; i++) {
+		 MY_LOG_DEBUG("server(%d) price%d: %lf, volume%d: %d\n",this->server_, i, d.data[i].price, i, d.data[i].volume);
+	}
+  
+  return "";
 }
 
 QuoteInterface_MY_SHFE_MD::QuoteInterface_MY_SHFE_MD(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg)
@@ -135,7 +133,7 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
 
         // data handle
         MDPack *p = (MDPack *)recv_buf;
-        MY_LOG_DEBUG("%s", ToString(*p).c_str());
+        //MY_LOG_DEBUG("%s", ToString(*p).c_str());
 
 		int new_svr = p->seqno % 10;
         if (new_svr != server_) { MY_LOG_WARN("server from %d to %d", server_, new_svr); }

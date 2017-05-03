@@ -3,6 +3,15 @@
 #include "repairer.h"
 #include "quote_cmn_utility.h"
 
+
+ std::string repairer::ToString(const MDPack &d) {
+	  MY_LOG_DEBUG("server(%d)MDPack Data: \ninstrument: %s\nislast: %d\nseqno: %d\ndirection: %c\ncount: %d\n", this->server_,d.instrument, (int)d.islast, d.seqno, d.direction, d.count);
+	  for(int i = 0; i < d.count; i++) {
+	      MY_LOG_DEBUG("server(%d) price%d: %lf, volume%d: %d\n",this->server_, i, d.data[i].price, i, d.data[i].volume);
+	  }
+	 return "";
+}
+
 // ok
 repairer::repairer()
 {
@@ -31,6 +40,10 @@ bool repairer::lose_pkg(MDPack &data)
 // ok
 bool repairer::find_start_point(MDPack &data)
 {
+	bool found = false;
+
+	MY_LOG_DEBUG("(server:%d)find start point enter,victim:%s",this->server_, this->victim);
+
 	if (this->working_){
 		throw logic_error("wrong invoke find_start_point!");
 	}
@@ -39,19 +52,21 @@ bool repairer::find_start_point(MDPack &data)
 
 	if (""==this->victim_){
 		if (SHFE_FTDC_D_Buy==data.direction){ this->victim_ = data.instrument; }
-		return false;
+		found = false;
 	}else{
-		if (data.instrument==this->victim_){ return false; }
+		if (data.instrument==this->victim_){ found = false; }
 		else{
 			MY_LOG_DEBUG("(server:%d)start point,sn:%d",this->server_, data.seqno);
 
 			this->victim_ = "";
-			return true; 
+			found = true; 
 		}
 	}
 
 
-	MY_LOG_DEBUG("(server:%d)start point, inst:%s",this->server_, data.instrument);
+	MY_LOG_DEBUG("(server:%d)start point, inst:%s,victim:%s",this->server_, data.instrument,this->victim);
+
+	return found;
 }
 
 // ok
@@ -281,13 +296,14 @@ MDPackEx repairer::next(bool empty)
 // entrance of repairer class
 void repairer::rev(MDPack &data)
 {
-	this->print_queue();
-
+	MY_LOG_DEBUG("%s", ToString(*p).c_str());
 	int new_sn = data.seqno / 10;
 	if (new_sn !=this->seq_no_ + 1) {
 		MY_LOG_WARN("seq no from %d to %d, packet loss", seq_no_,new_sn);
 	}
 
+	MY_LOG_WARN("server(%d) rev enter,seqno:%d",this->server_,this->seq_no_);
+	//this->print_queue();
 
 	if (!this->working_){ // find normal data start point
 		this->working_ = this->find_start_point(data);
@@ -325,6 +341,8 @@ void repairer::rev(MDPack &data)
 	} // end enter receiving process
 
 	this->seq_no_ = new_sn;
+
+	MY_LOG_WARN("server(%d) rev exit,seqno:%d",this->server_,this->seq_no_);
 	this->print_queue();
 }
 

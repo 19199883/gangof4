@@ -73,6 +73,8 @@ class repairer
 		 */
 		void flag_damaged_data();
 
+		 std::string repairer::ToString(const MDPack &d);
+
 		// record the contract of victim data when package loss occurs
 		string victim_;
 
