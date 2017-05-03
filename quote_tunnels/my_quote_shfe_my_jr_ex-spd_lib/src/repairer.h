@@ -38,11 +38,11 @@ class repairer
 		 * return null if no available data
 		 *
 		 */
-		MDPackEx next(bool empty);
+		MDPackEx next(bool &empty);
 		//
 		// udp server id
 		int server_;
-	private:
+
 		/*		 
 		 * find normal data start point when system starts
 		 */
@@ -73,7 +73,7 @@ class repairer
 		 */
 		void flag_damaged_data();
 
-		 std::string repairer::ToString(const MDPack &d);
+		 std::string ToString(const MDPack &d);
 
 		// record the contract of victim data when package loss occurs
 		string victim_;

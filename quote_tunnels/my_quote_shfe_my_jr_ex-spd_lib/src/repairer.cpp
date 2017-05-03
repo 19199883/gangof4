@@ -5,10 +5,10 @@
 
 
  std::string repairer::ToString(const MDPack &d) {
-	  MY_LOG_DEBUG("server(%d)MDPack Data: \ninstrument: %s\nislast: %d\nseqno: %d\ndirection: %c\ncount: %d\n", this->server_,d.instrument, (int)d.islast, d.seqno, d.direction, d.count);
-	  for(int i = 0; i < d.count; i++) {
-	      MY_LOG_DEBUG("server(%d) price%d: %lf, volume%d: %d\n",this->server_, i, d.data[i].price, i, d.data[i].volume);
-	  }
+	  MY_LOG_DEBUG("(server:%d) MDPack Data: instrument:%s islast:%d seqno:%d direction:%c count: %d", this->server_,d.instrument, (int)d.islast, d.seqno, d.direction, d.count);
+//	  for(int i = 0; i < d.count; i++) {
+//	      MY_LOG_DEBUG("(server:%d) price%d: %lf, volume%d: %d",this->server_, i, d.data[i].price, i, d.data[i].volume);
+//	  }
 	 return "";
 }
 
@@ -42,7 +42,7 @@ bool repairer::find_start_point(MDPack &data)
 {
 	bool found = false;
 
-	MY_LOG_DEBUG("(server:%d)find start point enter,victim:%s",this->server_, this->victim);
+	MY_LOG_DEBUG("(server:%d)find start point enter,victim:%s",this->server_, this->victim_.c_str());
 
 	if (this->working_){
 		throw logic_error("wrong invoke find_start_point!");
@@ -64,7 +64,7 @@ bool repairer::find_start_point(MDPack &data)
 	}
 
 
-	MY_LOG_DEBUG("(server:%d)start point, inst:%s,victim:%s",this->server_, data.instrument,this->victim);
+	MY_LOG_DEBUG("(server:%d)start point, inst:%s,victim:%s",this->server_, data.instrument,this->victim_.c_str());
 
 	return found;
 }
@@ -72,6 +72,8 @@ bool repairer::find_start_point(MDPack &data)
 // ok
 void repairer::pull_ready_data()
 {
+	MY_LOG_DEBUG("(server:%d)pull ready data",this->server_);
+
 	bool ready_data_found = false;
 	bool damaged = false;
 
@@ -111,6 +113,7 @@ void repairer::pull_ready_data()
 			}
 		}
 
+		this->sell_queue_.clear();
 	} // end if (!this->sell_queue_.empty()){
 
 	int size = this->ready_queue_.size();
@@ -118,6 +121,7 @@ void repairer::pull_ready_data()
 		MY_LOG_DEBUG("(server:%d)pull ready dta,sn:%d,damaged:%d",this->server_, this->ready_queue_[i].content.seqno,this->ready_queue_[i].damaged);
 
 	}
+	this->print_queue();
 }
 
 // ok
@@ -219,19 +223,19 @@ void repairer::flag_damaged_data()
 
 void repairer::print_queue()
 {
-	int size = this->buy_queue_.size();
-	for (int i=0; i<size; i++){
-		MY_LOG_DEBUG("(server:%d)buy queue:seqno:%d",this->server_, this->buy_queue_[i].content.seqno);
-	}
-
-
-	size = this->sell_queue_.size();
-	for (int i=0; i<size; i++){
-		MY_LOG_DEBUG("(server:%d)sell queue:seqno:%d",this->server_, this->sell_queue_[i].content.seqno);
-	}
-
-
-	size = this->ready_queue_.size();
+//	int size = this->buy_queue_.size();
+//	for (int i=0; i<size; i++){
+//		MY_LOG_DEBUG("(server:%d)buy queue:seqno:%d",this->server_, this->buy_queue_[i].content.seqno);
+//	}
+//
+//
+//	size = this->sell_queue_.size();
+//	for (int i=0; i<size; i++){
+//		MY_LOG_DEBUG("(server:%d)sell queue:seqno:%d",this->server_, this->sell_queue_[i].content.seqno);
+//	}
+//
+//
+	int size = this->ready_queue_.size();
 	for (int i=0; i<size; i++){
 		MY_LOG_DEBUG("(server:%d)ready queue:seqno:%d",this->server_, this->ready_queue_[i].content.seqno);
 	}
@@ -280,7 +284,7 @@ void repairer::proc_pkg_loss(MDPack &data)
 }
 
 
-MDPackEx repairer::next(bool empty)
+MDPackEx repairer::next(bool &empty)
 {
 	empty = true;
 
@@ -296,7 +300,7 @@ MDPackEx repairer::next(bool empty)
 // entrance of repairer class
 void repairer::rev(MDPack &data)
 {
-	MY_LOG_DEBUG("%s", ToString(*p).c_str());
+	MY_LOG_DEBUG("%s", ToString(data).c_str());
 	int new_sn = data.seqno / 10;
 	if (new_sn !=this->seq_no_ + 1) {
 		MY_LOG_WARN("seq no from %d to %d, packet loss", seq_no_,new_sn);
