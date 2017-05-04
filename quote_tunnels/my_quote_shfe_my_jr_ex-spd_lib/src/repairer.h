@@ -11,6 +11,10 @@ using namespace std;
 class MDPackEx
 {
 	public:
+		MDPackEx(): damaged(false)
+		{
+		}
+
 		MDPackEx(MDPack &cur_content): damaged(false)
 		{
 			this->content = cur_content;
