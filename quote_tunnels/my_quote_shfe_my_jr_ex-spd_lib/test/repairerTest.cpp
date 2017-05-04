@@ -336,3 +336,403 @@ TEST(RepairerTest, PullReadyDataNormal)
 	ASSERT_EQ(data6.count,rep.ready_queue_[5].content.count);
 	ASSERT_EQ(data6.direction,rep.ready_queue_[5].content.direction);
 }
+
+/*
+ * sell queue is empty
+ */
+TEST(RepairerTest, PullReadyDataSellQueueEmpty)
+{
+	repairer rep;
+
+	// items in buy queue
+	MDPackEx dataEx1;
+	MDPack &data1 = dataEx1.content;
+	data1.direction = SHFE_FTDC_D_Buy;
+	strcpy(data1.instrument,"ag1705");
+	data1.seqno = 10;
+	data1.count = 3;
+	MDPackEx dataEx2;
+	MDPack &data2 = dataEx2.content;
+	data2.direction = SHFE_FTDC_D_Buy;
+	strcpy(data2.instrument,"ag1706");
+	data2.seqno = 20;
+	data2.count = 120;
+	MDPackEx dataEx3;
+	MDPack &data3 = dataEx3.content;
+	data3.direction = SHFE_FTDC_D_Buy;
+	strcpy(data3.instrument,"ag1706");
+	data3.seqno = 30;
+	data3.count = 12;
+	rep.buy_queue_.push_back(dataEx1);
+	rep.buy_queue_.push_back(dataEx2);
+	rep.buy_queue_.push_back(dataEx3);
+	//
+	// first invoke
+	rep.pull_ready_data();
+	ASSERT_EQ(3,rep.buy_queue_.size());
+	ASSERT_STREQ(data1.instrument,rep.buy_queue_[0].content.instrument);
+	ASSERT_EQ(data1.count,rep.buy_queue_[0].content.count);
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	ASSERT_EQ(0,rep.ready_queue_.size());
+}
+
+
+/*
+ * buy queue is empty
+ */
+TEST(RepairerTest, PullReadyDataBuyQueueEmpty)
+{
+	repairer rep;
+
+	// items in sell queue
+	MDPackEx dataEx1;
+	MDPack &data1 = dataEx1.content;
+	data1.direction = SHFE_FTDC_D_Sell;
+	strcpy(data1.instrument,"ag1705");
+	data1.seqno = 10;
+	data1.count = 3;
+	rep.sell_queue_.push_back(dataEx1);
+	//
+	// first invoke
+	rep.pull_ready_data();
+	ASSERT_EQ(0,rep.buy_queue_.size());
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	ASSERT_EQ(0,rep.ready_queue_.size());
+}
+
+/*
+ * the item's instrument in buy queue is equal to the 
+ * first item's instrument in buy queue.
+ *
+ * sell_queue[0].instrument == buy_queue[0].instrument
+ * sell_queue[0].instrument == buy_queue[1].instrument
+ */
+TEST(RepairerTest, PullReadyDataPullFrontTwoItemsOfBuyQueue)
+{
+	repairer rep;
+
+	// items in buy queue
+	MDPackEx dataEx1;
+	MDPack &data1 = dataEx1.content;
+	data1.direction = SHFE_FTDC_D_Buy;
+	strcpy(data1.instrument,"ag1705");
+	data1.seqno = 10;
+	data1.count = 120;
+	MDPackEx dataEx2;
+	MDPack &data2 = dataEx2.content;
+	data2.direction = SHFE_FTDC_D_Buy;
+	strcpy(data2.instrument,"ag1705");
+	data2.seqno = 20;
+	data2.count = 12;
+	MDPackEx dataEx3;
+	MDPack &data3 = dataEx3.content;
+	data3.direction = SHFE_FTDC_D_Buy;
+	strcpy(data3.instrument,"ag1706");
+	data3.seqno = 30;
+	data3.count = 12;
+	rep.buy_queue_.push_back(dataEx1);
+	rep.buy_queue_.push_back(dataEx2);
+	rep.buy_queue_.push_back(dataEx3);
+	// sell queue
+	MDPackEx dataEx4;
+	MDPack &data4 = dataEx4.content;
+	data4.direction = SHFE_FTDC_D_Sell;
+	strcpy(data4.instrument,"ag1705");
+	data4.seqno = 40;
+	data4.count = 3;
+
+	// first invoke
+	rep.sell_queue_.push_back(dataEx4);
+	rep.pull_ready_data();
+	// buy queue
+	ASSERT_EQ(1,rep.buy_queue_.size());
+	ASSERT_STREQ(data3.instrument,rep.buy_queue_[0].content.instrument);
+	ASSERT_EQ(data3.count,rep.buy_queue_[0].content.count);
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(3,rep.ready_queue_.size());
+	ASSERT_STREQ(data1.instrument,rep.ready_queue_[0].content.instrument);
+	ASSERT_EQ(data1.count,rep.ready_queue_[0].content.count);
+	ASSERT_STREQ(data2.instrument,rep.ready_queue_[1].content.instrument);
+	ASSERT_EQ(data2.count,rep.ready_queue_[1].content.count);
+	ASSERT_STREQ(data4.instrument,rep.ready_queue_[2].content.instrument);
+	ASSERT_EQ(data4.count,rep.ready_queue_[2].content.count);
+}
+
+
+/*
+ * discard the first item in buy queue  
+ * pull the second item in buy queue  
+ *
+ * sell_queue[0].instrument > buy_queue[0].instrument
+ * sell_queue[0].instrument == buy_queue[1].instrument
+ */
+TEST(RepairerTest, PullReadyDataPullSecondItemOfBuyQueue)
+{
+	repairer rep;
+
+	// items in buy queue
+	MDPackEx dataEx1;
+	MDPack &data1 = dataEx1.content;
+	data1.direction = SHFE_FTDC_D_Buy;
+	strcpy(data1.instrument,"ag1705");
+	data1.seqno = 10;
+	data1.count = 12;
+	MDPackEx dataEx2;
+	MDPack &data2 = dataEx2.content;
+	data2.direction = SHFE_FTDC_D_Buy;
+	strcpy(data2.instrument,"ag1706");
+	data2.seqno = 20;
+	data2.count = 120;
+	MDPackEx dataEx3;
+	MDPack &data3 = dataEx3.content;
+	data3.direction = SHFE_FTDC_D_Buy;
+	strcpy(data3.instrument,"ag1706");
+	data3.seqno = 30;
+	data3.count = 12;
+	rep.buy_queue_.push_back(dataEx1);
+	rep.buy_queue_.push_back(dataEx2);
+	rep.buy_queue_.push_back(dataEx3);
+	// sell queue
+	MDPackEx dataEx4;
+	MDPack &data4 = dataEx4.content;
+	data4.direction = SHFE_FTDC_D_Sell;
+	strcpy(data4.instrument,"ag1706");
+	data4.seqno = 40;
+	data4.count = 3;
+
+	// first invoke
+	rep.sell_queue_.push_back(dataEx4);
+	rep.pull_ready_data();
+	// buy queue
+	ASSERT_EQ(0,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(3,rep.ready_queue_.size());
+	ASSERT_STREQ(data2.instrument,rep.ready_queue_[0].content.instrument);
+	ASSERT_EQ(data2.count,rep.ready_queue_[0].content.count);
+	ASSERT_STREQ(data3.instrument,rep.ready_queue_[1].content.instrument);
+	ASSERT_EQ(data3.count,rep.ready_queue_[1].content.count);
+	ASSERT_STREQ(data4.instrument,rep.ready_queue_[2].content.instrument);
+	ASSERT_EQ(data4.count,rep.ready_queue_[2].content.count);
+}
+
+
+/*
+ * the instrusmet of items in sell queue is less than all 
+ * instruments of items in buy queue.
+ *
+ * sell_queue[0].instrument < buy_queue[0].instrument
+ *
+ * items in buy queue:
+ *		the first item("ag1706")
+ *		the second item("ag1707")
+ * items in sell queue:
+ *		the first item("ag1705")
+ */
+TEST(RepairerTest, PullReadyDataPullNone1)
+{
+	repairer rep;
+
+	// items in buy queue
+	MDPackEx dataEx1;
+	MDPack &data1 = dataEx1.content;
+	data1.direction = SHFE_FTDC_D_Buy;
+	strcpy(data1.instrument,"ag1706");
+	data1.seqno = 10;
+	data1.count = 12;
+	MDPackEx dataEx2;
+	MDPack &data2 = dataEx2.content;
+	data2.direction = SHFE_FTDC_D_Buy;
+	strcpy(data2.instrument,"ag1707");
+	data2.seqno = 20;
+	data2.count = 12;
+	// sell queue
+	MDPackEx dataEx4;
+	MDPack &data4 = dataEx4.content;
+	data4.direction = SHFE_FTDC_D_Sell;
+	strcpy(data4.instrument,"ag1705");
+	data4.seqno = 40;
+	data4.count = 3;
+
+	// first invoke
+	rep.buy_queue_.push_back(dataEx1);
+	rep.buy_queue_.push_back(dataEx2);
+	rep.sell_queue_.push_back(dataEx4);
+	rep.pull_ready_data();
+	// buy queue
+	ASSERT_EQ(2,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(0,rep.ready_queue_.size());
+}
+
+
+/*
+ * sell_queue[0].instrument > buy_queue[0].instrument
+ * sell_queue[0].instrument < buy_queue[1].instrument
+ *
+ * items in buy queue:
+ *		the first item("ag1706")
+ *		the second item("ag1707")
+ * items in sell queue:
+ *		the first item("ag1705")
+ */
+TEST(RepairerTest, PullReadyDataPullNone2)
+{
+	repairer rep;
+
+	// items in buy queue
+	MDPackEx dataEx1;
+	MDPack &data1 = dataEx1.content;
+	data1.direction = SHFE_FTDC_D_Buy;
+	strcpy(data1.instrument,"ag1705");
+	data1.seqno = 10;
+	data1.count = 12;
+	MDPackEx dataEx2;
+	MDPack &data2 = dataEx2.content;
+	data2.direction = SHFE_FTDC_D_Buy;
+	strcpy(data2.instrument,"ag1707");
+	data2.seqno = 20;
+	data2.count = 120;
+	MDPackEx dataEx3;
+	MDPack &data3 = dataEx3.content;
+	data3.direction = SHFE_FTDC_D_Buy;
+	strcpy(data3.instrument,"ag1708");
+	data3.seqno = 30;
+	data3.count = 12;
+	rep.buy_queue_.push_back(dataEx1);
+	rep.buy_queue_.push_back(dataEx2);
+	rep.buy_queue_.push_back(dataEx3);
+	// sell queue
+	MDPackEx dataEx4;
+	MDPack &data4 = dataEx4.content;
+	data4.direction = SHFE_FTDC_D_Sell;
+	strcpy(data4.instrument,"ag1706");
+	data4.seqno = 40;
+	data4.count = 3;
+
+	// first invoke
+	rep.sell_queue_.push_back(dataEx4);
+	rep.pull_ready_data();
+	// buy queue
+	ASSERT_EQ(2,rep.buy_queue_.size());
+	ASSERT_STREQ(data2.instrument,rep.buy_queue_[0].content.instrument);
+	ASSERT_EQ(data2.count,rep.buy_queue_[0].content.count);
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(0,rep.ready_queue_.size());
+}
+
+/*
+ * pull damaged data.
+ * buy data damaged
+ */
+TEST(RepairerTest, PullReadyDataPullDamagedData1)
+{
+	repairer rep;
+
+	// items in buy queue
+	MDPackEx dataEx1;
+	MDPack &data1 = dataEx1.content;
+	data1.direction = SHFE_FTDC_D_Buy;
+	strcpy(data1.instrument,"ag1706");
+	data1.seqno = 10;
+	data1.count = 120;
+	ASSERT_FALSE(dataEx1.damaged);
+	MDPackEx dataEx2;
+	MDPack &data2 = dataEx2.content;
+	data2.direction = SHFE_FTDC_D_Buy;
+	strcpy(data2.instrument,"ag1706");
+	data2.seqno = 20;
+	data2.count = 120;
+	// sell queue
+	MDPackEx dataEx4;
+	MDPack &data4 = dataEx4.content;
+	data4.direction = SHFE_FTDC_D_Sell;
+	strcpy(data4.instrument,"ag1706");
+	data4.seqno = 40;
+	data4.count = 3;
+	ASSERT_FALSE(dataEx4.damaged);
+
+	// first invoke
+	dataEx1.damaged = true;
+	rep.buy_queue_.push_back(dataEx1);
+	rep.buy_queue_.push_back(dataEx2);
+	rep.sell_queue_.push_back(dataEx4);
+	rep.pull_ready_data();
+	// buy queue
+	ASSERT_EQ(0,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(3,rep.ready_queue_.size());
+	ASSERT_STREQ(data1.instrument,rep.ready_queue_[0].content.instrument);
+	ASSERT_EQ(data1.count,rep.ready_queue_[0].content.count);
+	ASSERT_TRUE(rep.ready_queue_[0].damaged);
+	ASSERT_STREQ(data2.instrument,rep.ready_queue_[1].content.instrument);
+	ASSERT_EQ(data2.count,rep.ready_queue_[1].content.count);
+	ASSERT_TRUE(rep.ready_queue_[1].damaged);
+	ASSERT_STREQ(data4.instrument,rep.ready_queue_[2].content.instrument);
+	ASSERT_EQ(data4.count,rep.ready_queue_[2].content.count);
+	ASSERT_TRUE(rep.ready_queue_[2].damaged);
+}
+
+/*
+ * pull damaged data.
+ * sell data damaged
+ */
+TEST(RepairerTest, PullReadyDataPullDamagedData2)
+{
+	repairer rep;
+
+	// items in buy queue
+	MDPackEx dataEx1;
+	MDPack &data1 = dataEx1.content;
+	data1.direction = SHFE_FTDC_D_Buy;
+	strcpy(data1.instrument,"ag1706");
+	data1.seqno = 10;
+	data1.count = 120;
+	ASSERT_FALSE(dataEx1.damaged);
+	MDPackEx dataEx2;
+	MDPack &data2 = dataEx2.content;
+	data2.direction = SHFE_FTDC_D_Buy;
+	strcpy(data2.instrument,"ag1706");
+	data2.seqno = 20;
+	data2.count = 120;
+	ASSERT_FALSE(dataEx2.damaged);
+	// sell queue
+	MDPackEx dataEx4;
+	ASSERT_FALSE(dataEx4.damaged);
+	MDPack &data4 = dataEx4.content;
+	data4.direction = SHFE_FTDC_D_Sell;
+	strcpy(data4.instrument,"ag1706");
+	data4.seqno = 40;
+	data4.count = 3;
+
+	// first invoke
+	rep.buy_queue_.push_back(dataEx1);
+	rep.buy_queue_.push_back(dataEx2);
+	dataEx4.damaged = true;
+	rep.sell_queue_.push_back(dataEx4);
+	rep.pull_ready_data();
+	// buy queue
+	ASSERT_EQ(0,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(3,rep.ready_queue_.size());
+	ASSERT_STREQ(data1.instrument,rep.ready_queue_[0].content.instrument);
+	ASSERT_EQ(data1.count,rep.ready_queue_[0].content.count);
+	ASSERT_TRUE(rep.ready_queue_[0].damaged);
+	ASSERT_STREQ(data2.instrument,rep.ready_queue_[1].content.instrument);
+	ASSERT_EQ(data2.count,rep.ready_queue_[1].content.count);
+	ASSERT_TRUE(rep.ready_queue_[1].damaged);
+	ASSERT_STREQ(data4.instrument,rep.ready_queue_[2].content.instrument);
+	ASSERT_EQ(data4.count,rep.ready_queue_[2].content.count);
+	ASSERT_TRUE(rep.ready_queue_[2].damaged);
+}
