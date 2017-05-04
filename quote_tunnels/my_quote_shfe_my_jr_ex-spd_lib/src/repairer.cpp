@@ -58,6 +58,7 @@ bool repairer::find_start_point(MDPack &data)
 		else{
 			MY_LOG_DEBUG("(server:%d)start point,sn:%d",this->server_, data.seqno);
 
+			this->working_ = true;
 			this->victim_ = "";
 			found = true; 
 		}
@@ -310,7 +311,7 @@ void repairer::rev(MDPack &data)
 	//this->print_queue();
 
 	if (!this->working_){ // find normal data start point
-		this->working_ = this->find_start_point(data);
+		this->find_start_point(data);
 
 		if (this->working_){ // the first normal UDP data as start point
 			if (SHFE_FTDC_D_Buy==data.direction){
