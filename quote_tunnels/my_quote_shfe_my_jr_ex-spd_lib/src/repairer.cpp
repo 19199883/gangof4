@@ -129,24 +129,28 @@ void repairer::pull_ready_data()
 void repairer::normal_proc_buy_data(MDPack &data)
 {
 	if (this->buy_queue_.empty()){
-		this->buy_queue_.push_back(MDPackEx(data));
+		if (!this->sell_queue_.empty()){
+			MY_LOG_ERROR("(server:%d)normal_proc_buy_data,error(sell queue in NOT empty),sn:%d",this->server_, data.seqno);
+		}
 	}
 	else{
-		if (strcmp(data.instrument,this->buy_queue_.back().content.instrument)>=0){
-			this->buy_queue_.push_back(MDPackEx(data));
-
+		if (strcmp(data.instrument,this->buy_queue_.back().content.instrument)>=0){ // in one patch
 			MY_LOG_DEBUG("(server:%d)normal_proc_buy_data,sn:%d",this->server_, data.seqno);
+			if (!this->sell_queue_.empty()){
+				MY_LOG_ERROR("(server:%d)normal_proc_buy_data,error(sell queue in NOT empty),sn:%d",this->server_, data.seqno);
+			}
 		}
-		else{
+		else{ // cross more than one patch
 			MY_LOG_DEBUG("(server:%d)normal_proc_buy_data,sn:%d",this->server_, data.seqno);
+			// pull ready data
 			this->pull_ready_data();	
-			while (!this->buy_queue_.empty()){this->buy_queue_.pop_front();}
+			// remove un-integrity data from buy queue
+			this->buy_queue_.clear();
 		}
 	}
 
-	// remove unusable data for package loss
-	// it's fact that all left sell data are unusable when receiving buy data
-	while (!this->sell_queue_.empty()){this->sell_queue_.pop_front();}
+	// add new data into buy queue
+	this->buy_queue_.push_back(MDPackEx(data));
 }
 
 // ok
