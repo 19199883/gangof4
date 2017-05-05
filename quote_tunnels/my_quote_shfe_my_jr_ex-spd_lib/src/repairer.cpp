@@ -54,7 +54,7 @@ bool repairer::find_start_point(MDPack &data)
 		if (SHFE_FTDC_D_Buy==data.direction){ this->victim_ = data.instrument; }
 		found = false;
 	}else{
-		if (data.instrument==this->victim_){ found = false; }
+		if (strcmp(data.instrument,this->victim_.c_str()) == 0){ found = false; }
 		else{
 			MY_LOG_DEBUG("(server:%d)start point,sn:%d",this->server_, data.seqno);
 
@@ -158,7 +158,7 @@ void repairer::repair_buy_data(MDPack &data)
 {
 	MY_LOG_DEBUG("(server:%d)repair_buy_data enter,sn:%d,",this->server_, data.seqno,data.instrument);
 
-	if (this->victim_!=data.instrument){
+	if (strcmp(this->victim_.c_str(),data.instrument) != 0){
 		normal_proc_buy_data(data);
 		this->victim_ = "";
 	}
@@ -167,7 +167,6 @@ void repairer::repair_buy_data(MDPack &data)
 	MY_LOG_DEBUG("(server:%d)repair_buy_data exit,sn:%d",this->server_, data.seqno);
 }
 
-// ok
 void repairer::normal_proc_sell_data(MDPack &data)
 {
 	MY_LOG_DEBUG("(server:%d)normal_proc_sell_data,sn:%d",this->server_, data.seqno);
@@ -176,12 +175,12 @@ void repairer::normal_proc_sell_data(MDPack &data)
 	if (data.count<MAX_PAIR){ this->pull_ready_data(); } 
 }
 
-// ok
+// to here
 void repairer::repair_sell_data(MDPack &data)
 {
 	MY_LOG_DEBUG("(server:%d)repair_sell_data,enter,sn:%d,victim:%s",this->server_, data.seqno,this->victim_.c_str());
 
-	if (this->victim_!=data.instrument){
+	if (strcmp(this->victim_.c_str(),data.instrument) != 0){
 		if (!this->sell_queue_.empty()) {
 			if (strcmp(data.instrument,this->sell_queue_.back().content.instrument)<0){// cross more than one patch
 				
