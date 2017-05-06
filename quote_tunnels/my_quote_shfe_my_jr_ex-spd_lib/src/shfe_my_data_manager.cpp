@@ -164,6 +164,8 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
 
             if (p->field.Volume > 0)
             {
+				// TODO:wangying, unit testing, see logic for repairer class, there a logic error perhaps
+
                 // 有效数据
                 cur_code = p->field.InstrumentID;
                 cur_dir = p->field.Direction;

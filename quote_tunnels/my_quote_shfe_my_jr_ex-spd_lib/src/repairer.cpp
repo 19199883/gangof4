@@ -178,23 +178,9 @@ void repairer::normal_proc_sell_data(MDPack &data)
 // to here
 void repairer::repair_sell_data(MDPack &data)
 {
-	MY_LOG_DEBUG("(server:%d)repair_sell_data,enter,sn:%d,victim:%s",this->server_, data.seqno,this->victim_.c_str());
-
 	if (strcmp(this->victim_.c_str(),data.instrument) != 0){
 		if (!this->sell_queue_.empty()) {
-			if (strcmp(data.instrument,this->sell_queue_.back().content.instrument)<0){// cross more than one patch
-				
-				MY_LOG_DEBUG("(server:%d)repair_sell_data,cross patch,sn:%d",this->server_, data.seqno);
-
-				this->pull_ready_data();	
-				while (!this->buy_queue_.empty()){this->buy_queue_.pop_front();}
-				while (!this->sell_queue_.empty()){this->sell_queue_.pop_front();}
-			}
-			else if (strcmp(data.instrument,this->sell_queue_.back().content.instrument)>=0){// in one patch
-				this->pull_ready_data();	
-
-				MY_LOG_DEBUG("(server:%d)repair_sell_data,one patch,sn:%d",this->server_, data.seqno);
-			}
+			MY_LOG_ERROR("(server:%d)repair_sell_data,error, sell queue should be emptyr,sn:%d,victim:%s",this->server_, data.seqno,this->victim_.c_str());
 		}
 		
 		MY_LOG_DEBUG("(server:%d)repair_sell_data,new,sn:%d",this->server_, data.seqno);

@@ -1113,3 +1113,142 @@ TEST(RepairerTest, NormalProcessSellDataOfOneSellData)
 	ASSERT_STREQ(buyData2.instrument,rep.ready_queue_[1].content.instrument);
 	ASSERT_STREQ(sellData1.instrument,rep.ready_queue_[2].content.instrument);
 }
+
+// TODO:
+/*
+ * the same instrument following the victim
+ */
+TEST(RepairerTest, RepairSellDataTwoVictims)
+{
+	repairer rep;
+	char victim[] = "ag1706";
+	rep.victim_ = victim;
+
+	// items in buy queue
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 20;
+	buyData2.count = 120;
+
+	MDPackEx buyDataEx3;
+	MDPack &buyData3 = buyDataEx3.content;
+	buyData3.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData3.instrument,"ag1707");
+	buyData3.seqno = 20;
+	buyData3.count = 120;
+
+	// sell queue
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 40;
+	sellData1.count = 12;
+
+	MDPackEx sellDataEx2;
+	MDPack &sellData2 = sellDataEx2.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData2.instrument,"ag1707");
+	sellData2.seqno = 40;
+	sellData2.count = 12;
+
+	// first invoke
+	rep.buy_queue_.push_back(buyDataEx1);
+	rep.buy_queue_.push_back(buyDataEx2);
+	rep.buy_queue_.push_back(buyDataEx3);
+	rep.repair_sell_data(sellData1);
+	ASSERT_STREQ(victim, rep.victim_.c_str());
+	// buy queue
+	ASSERT_EQ(3,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(0,rep.ready_queue_.size());
+
+	rep.repair_sell_data(sellData2);
+	ASSERT_STREQ("", rep.victim_.c_str());
+	// buy queue
+	ASSERT_EQ(0,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(2,rep.ready_queue_.size());
+	ASSERT_STREQ(buyData3.instrument,rep.ready_queue_[0].content.instrument);
+	ASSERT_STREQ(sellData2.instrument,rep.ready_queue_[1].content.instrument);
+}
+
+
+// TODO:
+/*
+ * there two data items following victim for the same instrumen
+ */
+TEST(RepairerTest, RepairSellDataOfTwoItemsForInstrument)
+{
+	repairer rep;
+	char victim[] = "ag1705";
+
+	// items in buy queue
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 120;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 20;
+	buyData2.count = 12;
+
+	// sell queue
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 40;
+	sellData1.count = 120;
+
+	MDPackEx sellDataEx2;
+	MDPack &sellData2 = sellDataEx2.content;
+	sellData2.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData2.instrument,"ag1706");
+	sellData2.seqno = 40;
+	sellData2.count = 12;
+
+	// first invoke
+	rep.buy_queue_.push_back(buyDataEx1);
+	rep.buy_queue_.push_back(buyDataEx2);
+	rep.normal_proc_sell_data(sellData1);
+	ASSERT_STREQ("", rep.victim_.c_str());
+	// buy queue
+	ASSERT_EQ(2,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(1,rep.sell_queue_.size());
+	ASSERT_STREQ(sellData1.instrument,rep.sell_queue_[0].content.instrument);
+	// ready queue
+	ASSERT_EQ(0,rep.ready_queue_.size());
+
+	rep.normal_proc_sell_data(sellData2);
+	ASSERT_STREQ("", rep.victim_.c_str());
+	// buy queue
+	ASSERT_EQ(0,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	ASSERT_STREQ(sellData1.instrument,rep.ready_queue_[0].content.instrument);
+	// ready queue
+	ASSERT_EQ(3,rep.ready_queue_.size());
+	ASSERT_STREQ(buyData2.instrument,rep.ready_queue_[0].content.instrument);
+	ASSERT_STREQ(sellData1.instrument,rep.ready_queue_[1].content.instrument);
+	ASSERT_STREQ(sellData2.instrument,rep.ready_queue_[2].content.instrument);
+}
