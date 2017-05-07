@@ -196,6 +196,7 @@ void repairer::repair_sell_data(MDPack &data)
 }
 
 // ok
+// to here
 void repairer::flag_damaged_data()
 {
 	if (!this->buy_queue_.empty()){
