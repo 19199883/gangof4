@@ -175,7 +175,6 @@ void repairer::normal_proc_sell_data(MDPack &data)
 	if (data.count<MAX_PAIR){ this->pull_ready_data(); } 
 }
 
-// to here
 void repairer::repair_sell_data(MDPack &data)
 {
 	if (strcmp(this->victim_.c_str(),data.instrument) != 0){
@@ -196,6 +195,7 @@ void repairer::repair_sell_data(MDPack &data)
 }
 
 // ok
+// to here
 void repairer::flag_damaged_data()
 {
 	if (!this->buy_queue_.empty()){
