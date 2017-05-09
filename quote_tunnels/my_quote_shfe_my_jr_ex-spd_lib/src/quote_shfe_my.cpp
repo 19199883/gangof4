@@ -110,6 +110,7 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
     std::size_t recv_len = 0;
     QuoteUpdateState(qtm_name_, QtmState::API_READY);
 
+	// wangying, repairer, unit test
 	repairer repairers[10];
 	for (int i=0; i<10; i++) repairers[i].server_ = i;
 
@@ -134,6 +135,8 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
         // data handle
         MDPack *p = (MDPack *)recv_buf;
         //MY_LOG_DEBUG("%s", ToString(*p).c_str());
+		// TODO: debug
+		MY_LOG_WARN("rev mbl:%s,sn:%d",p->instrument,p->seqno);
 
 		int new_svr = p->seqno % 10;
         if (new_svr != server_) { MY_LOG_WARN("server from %d to %d", server_, new_svr); }
@@ -151,7 +154,6 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
     }
 }
 
-// TODO: unit testing
 void QuoteInterface_MY_SHFE_MD::proc_udp_data(MDPackEx &data)
 {
 	timeval t;
@@ -164,7 +166,7 @@ void QuoteInterface_MY_SHFE_MD::proc_udp_data(MDPackEx &data)
 	for (int i = 0; i < data.content.count; i++){
 		item.field.Price = data.content.data[i].price;
 		item.field.Volume = data.content.data[i].volume;
-		// TODO: wangying, total sell volume
+		// wangying, repairer, total sell volume
 		item.field.damaged = data.damaged;
 		if (data.content.islast == true && i == data.content.count - 1){ item.isLast = true; }
 		else { item.isLast = false; }
@@ -172,10 +174,9 @@ void QuoteInterface_MY_SHFE_MD::proc_udp_data(MDPackEx &data)
 		if (shfe_deep_data_handler_
 			&& (subscribe_contracts_.empty()
 				|| subscribe_contracts_.find(data.content.instrument) != subscribe_contracts_.end())){
-			// TODO: see whether there is a problem
 			shfe_deep_data_handler_(&item);
 		}
-		// TODO: wangying, total sell volume
+		// wangying, total sell volume
 		my_shfe_md_inf_.OnMBLData(&item.field, item.isLast);
 		p_shfe_deep_save_->OnQuoteData(t.tv_sec * 1000000 + t.tv_usec, &item);
 	}

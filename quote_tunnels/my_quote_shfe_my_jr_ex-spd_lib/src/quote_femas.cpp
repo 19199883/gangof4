@@ -23,7 +23,6 @@ CMdclientHandler::CMdclientHandler(const SubscribeContracts *subscribe_contracts
     const LogonConfig &logon_cfg = cfg_.Logon_config();
     int topic = atoi(logon_cfg.topic.c_str());
 
-	// TODO: wangying, here
 	int port = -1;
 	string ip = "";
     BOOST_FOREACH(const std::string &v, logon_cfg.quote_provider_addrs) {

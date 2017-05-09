@@ -920,7 +920,6 @@ TEST(RepairerTest, NormalProcBuyDataNewDataGreaterThanLastItemOfBuyQueue)
 	ASSERT_EQ(0,rep.ready_queue_.size());
 }
 
-// TODO:
 /*
  * buy queue:
  *		data1:ag1705
@@ -1114,7 +1113,6 @@ TEST(RepairerTest, NormalProcessSellDataOfOneSellData)
 	ASSERT_STREQ(sellData1.instrument,rep.ready_queue_[2].content.instrument);
 }
 
-// TODO:
 /*
  * the same instrument following the victim
  */
@@ -1187,14 +1185,12 @@ TEST(RepairerTest, RepairSellDataTwoVictims)
 }
 
 
-// TODO:
 /*
  * there two data items following victim for the same instrumen
  */
 TEST(RepairerTest, RepairSellDataOfTwoItemsForInstrument)
 {
 	repairer rep;
-	char victim[] = "ag1705";
 
 	// items in buy queue
 	MDPackEx buyDataEx1;
@@ -1229,7 +1225,7 @@ TEST(RepairerTest, RepairSellDataOfTwoItemsForInstrument)
 	// first invoke
 	rep.buy_queue_.push_back(buyDataEx1);
 	rep.buy_queue_.push_back(buyDataEx2);
-	rep.normal_proc_sell_data(sellData1);
+	rep.repair_sell_data(sellData1);
 	ASSERT_STREQ("", rep.victim_.c_str());
 	// buy queue
 	ASSERT_EQ(2,rep.buy_queue_.size());
@@ -1239,7 +1235,7 @@ TEST(RepairerTest, RepairSellDataOfTwoItemsForInstrument)
 	// ready queue
 	ASSERT_EQ(0,rep.ready_queue_.size());
 
-	rep.normal_proc_sell_data(sellData2);
+	rep.repair_sell_data(sellData2);
 	ASSERT_STREQ("", rep.victim_.c_str());
 	// buy queue
 	ASSERT_EQ(0,rep.buy_queue_.size());
@@ -1266,7 +1262,6 @@ TEST(RepairerTest, FlagDamagedDataOfBuyAndSellQueueEmpty)
 TEST(RepairerTest, FlagDamagedDataOfLastBuyAndsellDamaged)
 {
 	repairer rep;
-	char victim[] = "ag1705";
 
 	// items in buy queue
 	MDPackEx buyDataEx1;
@@ -1303,7 +1298,7 @@ TEST(RepairerTest, FlagDamagedDataOfLastBuyAndsellDamaged)
 	rep.buy_queue_.push_back(buyDataEx2);
 	rep.sell_queue_.push_back(sellDataEx1);
 	rep.sell_queue_.push_back(sellDataEx2);
-	rep.flag_damaged_data(sellData1);
+	rep.flag_damaged_data();
 	// buy queue
 	ASSERT_FALSE(rep.buy_queue_[0].damaged);
 	ASSERT_TRUE(rep.buy_queue_[1].damaged);
@@ -1317,7 +1312,6 @@ TEST(RepairerTest, FlagDamagedDataOfLastBuyAndsellDamaged)
 TEST(RepairerTest, FlagDamagedDataOfLastBuyAndsellgood)
 {
 	repairer rep;
-	char victim[] = "ag1705";
 
 	// items in buy queue
 	MDPackEx buyDataEx1;
@@ -1354,11 +1348,813 @@ TEST(RepairerTest, FlagDamagedDataOfLastBuyAndsellgood)
 	rep.buy_queue_.push_back(buyDataEx2);
 	rep.sell_queue_.push_back(sellDataEx1);
 	rep.sell_queue_.push_back(sellDataEx2);
-	rep.flag_damaged_data(sellData1);
+	rep.flag_damaged_data();
 	// buy queue
 	ASSERT_FALSE(rep.buy_queue_[0].damaged);
 	ASSERT_FALSE(rep.buy_queue_[1].damaged);
 	// sell queue
 	ASSERT_FALSE(rep.sell_queue_[0].damaged);
 	ASSERT_FALSE(rep.sell_queue_[1].damaged);
+}
+
+/*
+ * receive data with buy dir when buy queue is empty
+ */
+TEST(RepairerTest, ProcPkgLossOfBuyQueueEmptyWhenRevBuyData)
+{
+	repairer rep;
+
+	// new data
+	MDPackEx newDataEx1;
+	MDPack &newData1 = newDataEx1.content;
+	newData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(newData1.instrument,"ag1705");
+	newData1.seqno = 10;
+	newData1.count = 12;
+
+	// sell queue
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 40;
+	sellData1.count = 120;
+
+	// first invoke
+	rep.sell_queue_.push_back(sellDataEx1);
+	rep.proc_pkg_loss(newData1);
+	ASSERT_STREQ(newData1.instrument,rep.victim_.c_str());
+	// buy queue
+	ASSERT_EQ(0,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_TRUE(rep.sell_queue_[0].damaged);
+	ASSERT_EQ(1, rep.sell_queue_.size());
+}
+
+/*
+ * there are packages loss cross more one frames when receiving a buy dir data.
+ * check the follwing data:
+ * 1. damaged: there are data damaged including both buy and sell dirs
+ * 2. ready queue:
+ * 3. both buy queue and sell queue are empty
+ */
+TEST(RepairerTest, ProcPkgLossOfCrossFrameWhenRevBuyData)
+{
+	repairer rep;
+
+	// new data
+	MDPackEx newDataEx1;
+	MDPack &newData1 = newDataEx1.content;
+	newData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(newData1.instrument,"ag1705");
+	newData1.seqno = 10;
+	newData1.count = 12;
+
+	// items in buy queue
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 20;
+	buyData2.count = 12;
+
+	// sell queue
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 40;
+	sellData1.count = 120;
+
+	MDPackEx sellDataEx2;
+	MDPack &sellData2 = sellDataEx2.content;
+	sellData2.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData2.instrument,"ag1706");
+	sellData2.seqno = 40;
+	sellData2.count = 120;
+
+	// first invoke
+	rep.buy_queue_.push_back(buyDataEx1);
+	rep.buy_queue_.push_back(buyDataEx2);
+	rep.sell_queue_.push_back(sellDataEx1);
+	rep.sell_queue_.push_back(sellDataEx2);
+	
+	rep.proc_pkg_loss(newData1);
+	
+	ASSERT_STREQ(newData1.instrument,rep.victim_.c_str());
+	// buy queue
+	ASSERT_EQ(0,rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	// reaey queue
+	ASSERT_EQ(3, rep.ready_queue_.size());
+	ASSERT_STREQ(buyData2.instrument, rep.ready_queue_[0].content.instrument);
+	ASSERT_TRUE(rep.ready_queue_[0].damaged);
+	ASSERT_STREQ(sellData1.instrument, rep.ready_queue_[1].content.instrument);
+	ASSERT_TRUE(rep.ready_queue_[1].damaged);
+	ASSERT_TRUE(rep.ready_queue_[2].damaged);
+}
+
+/*
+ * there are packages loss in one frame when receiving buy dir data
+ * check the following data:
+ * 1. victim
+ * 2. buy queue: no change
+ * 3. damaged
+ * 4. ready queue: empty
+ */
+TEST(RepairerTest, ProcPkgLossOfInOneFrameWhenRevBuyData)
+{
+	// victim is equal to the instrument of buy.queue.back()
+	repairer rep;
+
+	MDPackEx newDataEx1;
+	MDPack &newData1 = newDataEx1.content;
+	newData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(newData1.instrument,"ag1706");
+	newData1.seqno = 10;
+	newData1.count = 12;
+
+	// items in buy queue
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 10;
+	buyData2.count = 120;
+
+	// first invoke
+	rep.buy_queue_.push_back(buyDataEx1);
+	rep.buy_queue_.push_back(buyDataEx2);
+	rep.proc_pkg_loss(newData1);
+	
+	ASSERT_STREQ(newData1.instrument,rep.victim_.c_str());
+	// buy queue
+	ASSERT_EQ(2,rep.buy_queue_.size());
+	ASSERT_FALSE(rep.buy_queue_[0].damaged);
+	ASSERT_TRUE(rep.buy_queue_[1].damaged);
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	ASSERT_EQ(0,rep.ready_queue_.size());
+
+}
+
+/*
+ * there are packages loss in one frame when receiving buy dir data
+ * check the following data:
+ * 1. victim
+ * 2. buy queue: no change
+ * 3. damaged
+ * 4. ready queue: empty
+ */
+TEST(RepairerTest, ProcPkgLossOfVictimGreaterThanLastOfBuyQueueInOneFrameWhenRevBuyData)
+{
+	// victim is equal to the instrument of buy.queue.back()
+	repairer rep;
+
+	MDPackEx newDataEx1;
+	MDPack &newData1 = newDataEx1.content;
+	newData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(newData1.instrument,"zn1706");
+	newData1.seqno = 10;
+	newData1.count = 12;
+
+	// items in buy queue
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 10;
+	buyData2.count = 120;
+
+	// first invoke
+	rep.buy_queue_.push_back(buyDataEx1);
+	rep.buy_queue_.push_back(buyDataEx2);
+	rep.proc_pkg_loss(newData1);
+	
+	ASSERT_STREQ(newData1.instrument,rep.victim_.c_str());
+	// buy queue
+	ASSERT_EQ(2,rep.buy_queue_.size());
+	ASSERT_FALSE(rep.buy_queue_[0].damaged);
+	ASSERT_TRUE(rep.buy_queue_[1].damaged);
+	// sell queue
+	ASSERT_EQ(0,rep.sell_queue_.size());
+	ASSERT_EQ(0,rep.ready_queue_.size());
+
+}
+
+/*
+ * pull out nothing when receiving data with sell data
+ */
+TEST(RepairerTest, ProcPkgLossSellQueueEmptyWhenRevSellData)
+{
+	repairer rep;
+
+	MDPackEx newDataEx1;
+	MDPack &newData1 = newDataEx1.content;
+	newData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(newData1.instrument,"ag1705");
+	newData1.seqno = 10;
+	newData1.count = 12;
+
+	// items in buy queue
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 20;
+	buyData2.count = 120;
+
+	// sell queue
+//	MDPackEx sellDataEx1;
+//	MDPack &sellData1 = sellDataEx1.content;
+//	sellData1.direction = SHFE_FTDC_D_Sell;
+//	strcpy(sellData1.instrument,"ag1706");
+//	sellData1.seqno = 40;
+//	sellData1.count = 12;
+//
+//	MDPackEx sellDataEx2;
+//	MDPack &sellData2 = sellDataEx2.content;
+//	sellData2.direction = SHFE_FTDC_D_Sell;
+//	strcpy(sellData2.instrument,"ag1706");
+//	sellData2.seqno = 40;
+//	sellData2.count = 12;
+
+	// first invoke
+	rep.buy_queue_.push_back(buyDataEx1);
+	rep.buy_queue_.push_back(buyDataEx2);
+//	rep.sell_queue_.push_back(sellDataEx1);
+//	rep.sell_queue_.push_back(sellDataEx2);
+	rep.proc_pkg_loss(newData1);
+
+	ASSERT_STREQ(newData1.instrument, rep.victim_.c_str());
+	ASSERT_EQ(2, rep.buy_queue_.size());
+	// buy queue
+	ASSERT_FALSE(rep.buy_queue_[0].damaged);
+	ASSERT_TRUE(rep.buy_queue_[1].damaged);
+
+	ASSERT_EQ(0, rep.ready_queue_.size());
+}
+
+/*
+ * packages loss cross more than one frames when receiving sell dir data.
+ * check the following data:
+ * 1. damaged
+ * 2. ready queue
+ * 3. buy queue
+ * 4. sell queue
+ */
+TEST(RepairerTest, ProcPkgLossOfCrossFramesWhenRevSellData)
+{
+	repairer rep;
+
+	MDPackEx newDataEx1;
+	MDPack &newData1 = newDataEx1.content;
+	newData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(newData1.instrument,"ag1705");
+	newData1.seqno = 10;
+	newData1.count = 12;
+
+	// items in buy queue
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 20;
+	buyData2.count = 12;
+
+	// sell queue
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 40;
+	sellData1.count = 120;
+
+	// first invoke
+	rep.buy_queue_.push_back(buyDataEx1);
+	rep.buy_queue_.push_back(buyDataEx2);
+	rep.sell_queue_.push_back(sellDataEx1);
+	rep.proc_pkg_loss(newData1);
+
+	// buy queue
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(2, rep.ready_queue_.size());
+	ASSERT_TRUE(rep.ready_queue_[0].damaged);
+	ASSERT_TRUE(rep.ready_queue_[1].damaged);
+}
+
+/*
+ * package loss in one frame when receiving sell dir data.
+ * check the following data:
+ * 1. buy queue
+ * 2. sell queue
+ * 3. ready queue
+ */
+TEST(RepairerTest, ProcPkgLossOfInOneFrameWhenRevSellData)
+{
+	repairer rep;
+
+	MDPackEx newDataEx1;
+	MDPack &newData1 = newDataEx1.content;
+	newData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(newData1.instrument,"ag1706");
+	newData1.seqno = 40;
+	newData1.count = 120;
+
+	// items in buy queue
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	// sell queue
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 40;
+	sellData1.count = 120;
+
+	// first invoke
+	rep.buy_queue_.push_back(buyDataEx1);
+	rep.sell_queue_.push_back(sellDataEx1);
+	rep.proc_pkg_loss(newData1);
+
+	// buy queue
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	// sell queue
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	// ready queue
+	ASSERT_EQ(0, rep.ready_queue_.size());
+}
+
+/*
+ * invoke next function when ready queue is ready.
+ */
+TEST(RepairerTest, NextOfReadyQueueEmpty)
+{
+	repairer rep;
+	
+	bool empty = true;
+	rep.next(empty);
+	ASSERT_TRUE(empty);
+}
+
+/*
+ * there are two item in ready queue when invoking next function.
+ */
+TEST(RepairerTest, NextOfReadyQueueContainTwoItems)
+{
+	repairer rep;
+	
+	bool empty = true;
+
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 40;
+	sellData1.count = 120;
+
+	rep.ready_queue_.push_back(buyData1);
+	rep.ready_queue_.push_back(sellData1);
+	MDPackEx data = rep.next(empty);
+	ASSERT_FALSE(empty);
+	ASSERT_STREQ(buyData1.instrument, data.content.instrument);
+
+	data = rep.next(empty);
+	ASSERT_FALSE(empty);
+	ASSERT_STREQ(sellData1.instrument, data.content.instrument);
+
+	data = rep.next(empty);
+	ASSERT_TRUE(empty);
+}
+
+/*
+ * start receiving the first market data.
+ */
+TEST(RepairerTest, RevOfStartFirstDataIsBuyWithoutPackageLoss)
+{
+	repairer rep;
+	
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 20;
+	buyData2.count = 12;
+
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 30;
+	sellData1.count = 12;
+
+	rep.rev(buyData1);
+
+	ASSERT_FALSE(rep.working_);
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+
+	rep.rev(buyData2);
+
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(1, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(rep.seq_no_,buyData2.seqno / 10);
+	ASSERT_STREQ(buyData2.instrument, rep.buy_queue_[0].content.instrument);
+}
+
+TEST(RepairerTest, RevOfStartFirstDataIsSellgWithoutPackageLoss)
+{
+	repairer rep;
+	
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 20;
+	sellData1.count = 12;
+
+	rep.rev(buyData1);
+
+	ASSERT_STREQ(buyData1.instrument, rep.victim_.c_str());
+	ASSERT_FALSE(rep.working_);
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(rep.seq_no_,buyData1.seqno / 10);
+
+	rep.rev(sellData1);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(rep.seq_no_,sellData1.seqno / 10);
+}
+
+/*
+ * check the branch working is equal to false and 
+ * there are package loss.
+ * 
+ */
+TEST(RepairerTest, RevOfStartRevceivingWithPackageLoss)
+{
+	repairer rep;
+	
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 30;
+	buyData2.count = 12;
+
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1704");
+	sellData1.seqno = 40;
+	sellData1.count = 12;
+
+	rep.rev(buyData1);
+
+	ASSERT_FALSE(rep.working_);
+	ASSERT_STREQ(buyData1.instrument, rep.victim_.c_str());
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData1.seqno/10, rep.seq_no_);
+
+	rep.rev(buyData2);
+
+	ASSERT_STREQ(buyData2.instrument, rep.victim_.c_str());
+	ASSERT_FALSE(rep.working_);
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData2.seqno/10, rep.seq_no_);
+
+	rep.rev(sellData1);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(rep.seq_no_,sellData1.seqno / 10);
+}
+
+/*
+ * after object enters normal working status, receive new data 
+ * without package loss.
+ * receive data by following order:
+ * 1. buydata1
+ * 2. buydata2
+ * 3. buydata3
+ * 4. selldata1
+ *
+ */
+TEST(RepairerTest, RevOfNormalWorkingWithoutPackageLoss)
+{
+	repairer rep;
+	
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1705");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1706");
+	buyData2.seqno = 20;
+	buyData2.count = 12;
+
+	MDPackEx buyDataEx3;
+	MDPack &buyData3 = buyDataEx3.content;
+	buyData3.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData3.instrument,"ag1707");
+	buyData3.seqno = 30;
+	buyData3.count = 12;
+
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1706");
+	sellData1.seqno = 40;
+	sellData1.count = 12;
+
+	rep.rev(buyData1);
+
+	ASSERT_FALSE(rep.working_);
+	ASSERT_STREQ(buyData1.instrument, rep.victim_.c_str());
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData1.seqno/10, rep.seq_no_);
+
+	rep.rev(buyData2);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_STREQ(buyData2.instrument, rep.buy_queue_[0].content.instrument);
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(1, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData2.seqno/10, rep.seq_no_);
+
+	rep.rev(buyData3);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_STREQ(buyData3.instrument, rep.buy_queue_[1].content.instrument);
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(2, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData3.seqno/10, rep.seq_no_);
+
+	rep.rev(sellData1);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(1, rep.buy_queue_.size());
+	ASSERT_STREQ(buyData3.instrument, rep.buy_queue_[0].content.instrument);
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(2, rep.ready_queue_.size());
+	ASSERT_STREQ(buyData2.instrument, rep.ready_queue_[0].content.instrument);
+	ASSERT_STREQ(sellData1.instrument, rep.ready_queue_[1].content.instrument);
+	ASSERT_EQ(rep.seq_no_,sellData1.seqno / 10);
+}
+
+// TODO:
+/*
+ * after object enters normal working status, receive new data 
+ * with package loss.
+ * receive data by the following order:
+ * 1. buydata1(ag1704)(victim)
+ * 2. buydata2(ag1705,count=120)
+ * 3. buydata3(ag1705,loss)
+ * 4. buydata4(ag1706)(victim)
+ * 5. buydata5(ag1707)
+ * 6. buydata6(ag1708)
+ * 7. selldata1(ag1705,count=120)
+ * 8. selldata2(ag1706,loss)
+ * 9. selldata3(ag1707,victim)
+ * 10. selldata4(ag1708)
+ */
+TEST(RepairerTest, RevOfNormalWorkingWithPackageLoss)
+{
+	repairer rep;
+	
+	MDPackEx buyDataEx1;
+	MDPack &buyData1 = buyDataEx1.content;
+	buyData1.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData1.instrument,"ag1704");
+	buyData1.seqno = 10;
+	buyData1.count = 12;
+
+	MDPackEx buyDataEx2;
+	MDPack &buyData2 = buyDataEx2.content;
+	buyData2.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData2.instrument,"ag1705");
+	buyData2.seqno = 20;
+	buyData2.count = 120;
+
+	MDPackEx buyDataEx4;
+	MDPack &buyData4 = buyDataEx4.content;
+	buyData4.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData4.instrument,"ag1706");
+	buyData4.seqno = 40;
+	buyData4.count = 12;
+
+	MDPackEx buyDataEx5;
+	MDPack &buyData5 = buyDataEx5.content;
+	buyData5.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData5.instrument,"ag1707");
+	buyData5.seqno = 50;
+	buyData5.count = 12;
+
+	MDPackEx buyDataEx6;
+	MDPack &buyData6 = buyDataEx6.content;
+	buyData6.direction = SHFE_FTDC_D_Buy;
+	strcpy(buyData6.instrument,"ag1708");
+	buyData6.seqno = 60;
+	buyData6.count = 12;
+
+	MDPackEx sellDataEx1;
+	MDPack &sellData1 = sellDataEx1.content;
+	sellData1.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData1.instrument,"ag1705");
+	sellData1.seqno = 70;
+	sellData1.count = 120;
+
+	MDPackEx sellDataEx3;
+	MDPack &sellData3 = sellDataEx3.content;
+	sellData3.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData3.instrument,"ag1707");
+	sellData3.seqno = 90;
+	sellData3.count = 12;
+
+	MDPackEx sellDataEx4;
+	MDPack &sellData4 = sellDataEx4.content;
+	sellData4.direction = SHFE_FTDC_D_Sell;
+	strcpy(sellData4.instrument,"ag1708");
+	sellData4.seqno = 100;
+	sellData4.count = 12;
+
+	rep.rev(buyData1);
+
+	ASSERT_FALSE(rep.working_);
+	ASSERT_STREQ(buyData1.instrument, rep.victim_.c_str());
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData1.seqno/10, rep.seq_no_);
+
+	rep.rev(buyData2);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(1, rep.buy_queue_.size());
+	ASSERT_STREQ(buyData2.instrument, rep.buy_queue_[0].content.instrument);
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData2.seqno/10, rep.seq_no_);
+
+	rep.rev(buyData4);
+
+	ASSERT_STREQ(buyData4.instrument, rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(1, rep.buy_queue_.size());
+	ASSERT_STREQ(buyData2.instrument, rep.buy_queue_[0].content.instrument);
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData4.seqno/10, rep.seq_no_);
+
+	rep.rev(buyData5);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(2, rep.buy_queue_.size());
+	ASSERT_STREQ(buyData5.instrument, rep.buy_queue_[1].content.instrument);
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData5.seqno/10, rep.seq_no_);
+
+	rep.rev(buyData6);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(3, rep.buy_queue_.size());
+	ASSERT_STREQ(buyData6.instrument, rep.buy_queue_[2].content.instrument);
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(buyData6.seqno/10, rep.seq_no_);
+
+	rep.rev(sellData1);
+
+	ASSERT_STREQ("", rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(3, rep.buy_queue_.size());
+	ASSERT_EQ(1, rep.sell_queue_.size());
+	ASSERT_STREQ(sellData1.instrument, rep.sell_queue_[0].content.instrument);
+	ASSERT_EQ(0, rep.ready_queue_.size());
+	ASSERT_EQ(rep.seq_no_,sellData1.seqno / 10);
+
+	rep.rev(sellData3);
+
+	ASSERT_STREQ(sellData3.instrument, rep.victim_.c_str());
+	ASSERT_TRUE(rep.working_);
+	ASSERT_EQ(2, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(2, rep.ready_queue_.size());
+	ASSERT_STREQ(buyData2.instrument, rep.ready_queue_[0].content.instrument);
+	ASSERT_TRUE(rep.ready_queue_[0].damaged);
+	ASSERT_STREQ(sellData1.instrument, rep.ready_queue_[1].content.instrument);
+	ASSERT_TRUE(rep.ready_queue_[1].damaged);
+	ASSERT_EQ(rep.seq_no_,sellData3.seqno / 10);
+
+	rep.rev(sellData4);
+
+	ASSERT_EQ(0, rep.buy_queue_.size());
+	ASSERT_EQ(0, rep.sell_queue_.size());
+	ASSERT_EQ(4, rep.ready_queue_.size());
+	ASSERT_STREQ(buyData6.instrument, rep.ready_queue_[2].content.instrument);
+	ASSERT_FALSE(rep.ready_queue_[2].damaged);
+	ASSERT_STREQ(sellData4.instrument, rep.ready_queue_[3].content.instrument);
+	ASSERT_FALSE(rep.ready_queue_[3].damaged);
+	ASSERT_EQ(rep.seq_no_,sellData4.seqno / 10);
 }

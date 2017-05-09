@@ -78,7 +78,7 @@ MYShfeMDManager::~MYShfeMDManager()
 
 void MYShfeMDManager::OnMBLData(const CShfeFtdcMBLMarketDataField* const pdata, bool last_flag)
 {
-	// TODO: wangying. total sell volume
+
     MYMutexGuard guard(mbl_mutex_);
     if (pdata)
     {
@@ -88,9 +88,6 @@ void MYShfeMDManager::OnMBLData(const CShfeFtdcMBLMarketDataField* const pdata, 
     {
         data_in_.push_back(SHFEQuote(true));
     }
-
-	// TODO: read codes,wangying on 201203-28
-//	MY_LOG_WARN("OnMBLData:%s,%c,%f,%d",pdata->InstrumentID,pdata->Direction,pdata->Price,pdata->Volume);
 }
 
 inline void ResetSnapshot(SHFEMDQuoteSnapshot* pd)
@@ -112,46 +109,34 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
             // 数据交换
             MYMutexGuard guard(p_mngr->mbl_mutex_);
 
-            if (!p_mngr->data_in_.empty())
-            {
+            if (!p_mngr->data_in_.empty()) {
                 p_mngr->data_in_.swap(p_mngr->data_handle_);
             }
         }
 
-        if (p_mngr->data_handle_.empty())
-        {
+        if (p_mngr->data_handle_.empty()) {
             usleep(20);
             continue;
         }
 
-        for (MBLDataCollection::iterator p = p_mngr->data_handle_.begin(); p != p_mngr->data_handle_.end(); ++p)
-        {
-            if (p->isLast)
-            {
-				// TODO: read codes,wangying on 201203-28
-				//MY_LOG_WARN("ProcessThread:last");
-
-                // snapshot is completed, should send to client
-                if (p->field.Volume > 0)
-                {
-                    // valid data
+        for (MBLDataCollection::iterator p = p_mngr->data_handle_.begin(); p != p_mngr->data_handle_.end(); ++p) {
+			// wangying, repairer
+            if (p->isLast) { // snapshot is completed, should send to client
+                if (p->field.Volume > 0) { // valid data
                     cur_code = p->field.InstrumentID;
                     (void) p_mngr->PushDataToBuffer(cur_code, p);
                 }
 
                 // 帧结束了，将没有发送的合约数据全部发出
                 bool send_cur_flag = false;
-                while (p_mngr->GetLeftCode(prev_code))
-                {
+                while (p_mngr->GetLeftCode(prev_code)) {
                     SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                     p_mngr->SendToClient(prev_code, p_snapshot_prev);
-                    if (!send_cur_flag && cur_code == prev_code)
-                    {
+                    if (!send_cur_flag && cur_code == prev_code) {// there is only sell dir data for the same instruemnt
                         send_cur_flag = true;
                     }
                 }
-                if (!send_cur_flag)
-                {
+                if (!send_cur_flag) {
                     SHFEMDQuoteSnapshot * p_snapshot = p_mngr->GetDataCache(cur_code);
                     p_mngr->SendToClient(cur_code, p_snapshot);
                 }
@@ -162,10 +147,7 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                 continue;
             }
 
-            if (p->field.Volume > 0)
-            {
-				// TODO:wangying, unit testing, see logic for repairer class, there a logic error perhaps
-
+            if (p->field.Volume > 0) {
                 // 有效数据
                 cur_code = p->field.InstrumentID;
                 cur_dir = p->field.Direction;
@@ -174,40 +156,22 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                 (void) p_mngr->PushDataToBuffer(cur_code, p);
 
                 // 买方向合约记录
-                if (cur_dir == SHFE_FTDC_D_Buy)
-                {
-                    p_mngr->PushNewBuyDirCode(cur_code);
-                }
+                if (cur_dir == SHFE_FTDC_D_Buy) { p_mngr->PushNewBuyDirCode(cur_code); }
 
-                // 第一个卖方向数据，核对前方是否有涨停合约，该类合约无卖方向数据，应该发出
-                else if (prev_dir == SHFE_FTDC_D_Buy && cur_dir == SHFE_FTDC_D_Sell)
-                {
-					// TODO: read codes,wangying on 201203-28
-					//MY_LOG_WARN("1 cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
-
-                    while (p_mngr->GetPrevCode(cur_code, prev_code))
-                    {
+                else if (prev_dir == SHFE_FTDC_D_Buy && cur_dir == SHFE_FTDC_D_Sell) { // 第一个卖方向数据，核对前方是否有涨停合约，该类合约无卖方向数据，应该发出
+                    while (p_mngr->GetPrevCode(cur_code, prev_code)) {
                         SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                         p_mngr->SendToClient(prev_code, p_snapshot_prev);
                     }
                 }
 
-                // 卖方向中间的合约切换，将之前的合约数据发出
-                else if (prev_dir == SHFE_FTDC_D_Sell && p->field.Direction == SHFE_FTDC_D_Sell && prev_code != cur_code)
-                {
-					// TODO: read codes,wangying on 201203-28
-					//MY_LOG_WARN("2 cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
-
+                else if (prev_dir == SHFE_FTDC_D_Sell && p->field.Direction == SHFE_FTDC_D_Sell && prev_code != cur_code) { // 卖方向中间的合约切换，将之前的合约数据发出
                     SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                     p_mngr->SendToClient(prev_code, p_snapshot_prev);
 
-                    while (p_mngr->GetPrevCode(cur_code, prev_code))
-                    {
+                    while (p_mngr->GetPrevCode(cur_code, prev_code)) {
                         SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                         p_mngr->SendToClient(prev_code, p_snapshot_prev);
-						//
-					// TODO: read codes,wangying on 201203-28
-					//MY_LOG_WARN("2 while cur:s%  pre:s%",cur_code.c_str(), prev_code.c_str());
                     }
                 }
 
@@ -215,9 +179,7 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                 prev_dir = cur_dir;
                 continue;
             }
-            else
-            {
-                // invalid data, no need to handle, shouldn't reach here
+            else { // invalid data, no need to handle, shouldn't reach here
                 MY_LOG_WARN("invalid data without last flag.");
             }
         }
@@ -296,14 +258,13 @@ SHFEMDQuoteSnapshot* MYShfeMDManager::GetDataCache(const std::string& code)
 
 SHFEMDQuoteSnapshot *MYShfeMDManager::PushDataToBuffer(const std::string &cur_code, MBLDataCollection::iterator &p)
 {
-	// TODO: wangying, total sell volume
     SHFEMDQuoteSnapshot * p_data = GetDataCache(cur_code);
     if (!p_data)
     {
         return p_data;
     }
 
-	// TODO: wangying, total sell volume
+	// wangying, repairer, total sell volume
 	if (!p_data->damaged){
 		p_data->damaged = p->field.damaged;
 	}
@@ -325,12 +286,11 @@ SHFEMDQuoteSnapshot *MYShfeMDManager::PushDataToBuffer(const std::string &cur_co
 
 static void FillStatisticFields(MYShfeMarketData &des_data, SHFEMDQuoteSnapshot * const src_data)
 {
-	// TODO: wangying, to here
     des_data.buy_total_volume = 0;
     des_data.buy_weighted_avg_price = 0;
     double sum_pv = 0;
 
-	// TODO: wangying, total sell volume
+	// wangying, repairer, total sell volume
 	if (!src_data->damaged){
 		for (int i = 0; i < src_data->buy_count; ++i)
 		{
@@ -349,7 +309,7 @@ static void FillStatisticFields(MYShfeMarketData &des_data, SHFEMDQuoteSnapshot 
     des_data.sell_total_volume = 0;
     des_data.sell_weighted_avg_price = 0;
     sum_pv = 0;
-	// TODO: wangying, total sell volume
+	// wangying, repairer, total sell volume
 	if (!src_data->damaged){
 		for (int i = 0; i < src_data->sell_count; ++i)
 		{
@@ -383,18 +343,11 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 
                 if (d_cit + 1 != it->second.end())
                 {
-					// TODO: wangying
-                    // not last element
-   //                 my_data.data_flag = 1;
-   //                 // 发给数据客户
-   //                 if (data_handler_)
-   //                 {
-   //                     data_handler_->OnMYShfeMDData(&my_data);
-   //                 }
+					// send immediately when receiving CDepthMarketDataField, so do NOT send data here again.
                 }
                 else
                 {
-                    // last element, merged with mbl data
+                    // only combine the latest level one data with mbl data
                     my_data.data_flag = 3;
                 }
             }
@@ -412,9 +365,6 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
     // 发给数据客户
     if (data_handler_)
     {
-		// TODO: read codes,wangying on 201203-28
-		//MY_LOG_WARN("SendToClient:data_flag=%d",my_data.data_flag);
-
         data_handler_->OnMYShfeMDData(&my_data);
     }
 
@@ -427,24 +377,20 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 
 void MYShfeMDManager::OnDepthMarketData(const CDepthMarketDataField * const pdata)
 {
-	// TODO: read codes,wangying on 201203-28
-	//MY_LOG_WARN("OnDepthMarketData:%s",pdata->InstrumentID);
-
+	// TODO: debug
+	MY_LOG_WARN("rev dep:%s,time:%s %d",pdata->InstrumentID,pdata->UpdateTime,pdata->UpdateMillisec);
+	
     MYMutexGuard guard(depth_mutex_);
     if (pdata)
     {
-		// TODO: wangying
-		// not last element
 		MYShfeMarketData my_data;
-		// TODO: check size char []
-		memcpy(my_data.InstrumentID, pdata->InstrumentID, sizeof(pdata->InstrumentID));
+		// already check that the lengths of Instruments of two class(CDepthMarketDataField and MYShfeMarketData) are equal, it is 31.
+		memcpy(my_data.InstrumentID, pdata->InstrumentID, sizeof(my_data.InstrumentID));
 		memcpy(&my_data, pdata, sizeof(CDepthMarketDataField));
 		my_data.data_flag = 1;
 		// 发给数据客户
 		if (data_handler_) { 
 			data_handler_->OnMYShfeMDData(&my_data); 
-			// TODO: read codes,wangying on 201203-28
-			//MY_LOG_WARN("SendToClient:data_flag=%d",my_data.data_flag);
 		}
 
         DepthDataQueueOfCode::iterator it = data_depth_.find(pdata->InstrumentID);

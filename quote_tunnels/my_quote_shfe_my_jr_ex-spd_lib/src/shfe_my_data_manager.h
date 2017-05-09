@@ -11,7 +11,6 @@
 #include "quote_datatype_shfe_deep.h"
 #include "quote_datatype_level1.h"
 //
-// TODO: reade code wangying
 #include "quote_cmn_utility.h"
 
 class MYShfeMDHandler
@@ -31,7 +30,7 @@ struct SHFEMDQuoteSnapshot
 	double *sell_price;
 	int    *sell_volume;
 
-	// TODO: wangying, total sell volume
+	// wangying, repairer,total sell volume
 	bool damaged;
 };
 
