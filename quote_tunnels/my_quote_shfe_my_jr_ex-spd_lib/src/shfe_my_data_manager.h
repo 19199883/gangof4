@@ -90,6 +90,12 @@ private:
 		buy_first_idx_ = 0;
 		buy_codes_.clear();
 	}
+	
+	/*
+	 * check whether previous frame ends.
+	 * return true if previous frame ends; otherwise, false
+	 */
+	inline bool FrameCutShort(const std::string &cur_code);
 };
 
 bool MYShfeMDManager::GetLeftCode(std::string &left_code)
@@ -134,6 +140,19 @@ void MYShfeMDManager::PopFirstCode( const std::string &cur_code)
 	if (buy_first_idx_ < buy_codes_.size() && cur_code == buy_codes_[buy_first_idx_])
 	{
 		++buy_first_idx_;
+	}
+}
+	
+bool MYShfeMDManager::FrameCutShort(const std::string &cur_code)
+{
+	if (buy_codes_.empty()){
+		return false;
+	}
+	else{
+		if (cur_code < buy_codes_.back()){// frame cut short due to package loss
+			return true;
+		}
+		else{ return false; }
 	}
 }
 

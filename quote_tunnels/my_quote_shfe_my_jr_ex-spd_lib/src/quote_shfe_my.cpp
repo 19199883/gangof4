@@ -136,7 +136,7 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
         MDPack *p = (MDPack *)recv_buf;
         //MY_LOG_DEBUG("%s", ToString(*p).c_str());
 		// TODO: debug
-		MY_LOG_WARN("rev mbl:%s,sn:%d",p->instrument,p->seqno);
+		//MY_LOG_WARN("rev mbl:%s,sn:%d",p->instrument,p->seqno);
 
 		int new_svr = p->seqno % 10;
         if (new_svr != server_) { MY_LOG_WARN("server from %d to %d", server_, new_svr); }
