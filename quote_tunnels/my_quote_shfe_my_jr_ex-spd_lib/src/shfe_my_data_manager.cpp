@@ -81,9 +81,6 @@ void MYShfeMDManager::OnMBLData(const CShfeFtdcMBLMarketDataField* const pdata, 
 
     MYMutexGuard guard(mbl_mutex_);
 
-	// TODO: debug
-	//MY_LOG_WARN("OnMBL:instru:%s,dir:%c, price:%f, vol:%d",pdata->InstrumentID,pdata->Direction,pdata->Price,pdata->Volume);
-
     if (pdata)
     {
         data_in_.push_back(SHFEQuote(*pdata, last_flag));
@@ -164,7 +161,9 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
 					// repairer 
 					if (p_mngr->FrameCutShort(cur_code)) { 
 						while (p_mngr->GetLeftCode(prev_code)) {
-						MY_LOG_WARN("error:cur_dir == SHFE_FTDC_D_Buy");
+							// debug
+							//MY_LOG_WARN("error:cur_dir == SHFE_FTDC_D_Buy");
+
 							SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
 							p_mngr->SendToClient(prev_code, p_snapshot_prev);
 						}
@@ -175,7 +174,6 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
 
                 else if (prev_dir == SHFE_FTDC_D_Buy && cur_dir == SHFE_FTDC_D_Sell) { // 第一个卖方向数据，核对前方是否有涨停合约，该类合约无卖方向数据，应该发出
                     while (p_mngr->GetPrevCode(cur_code, prev_code)) {
-					MY_LOG_WARN("error:prev_dir == SHFE_FTDC_D_Buy && cur_dir == SHFE_FTDC_D_Sell");
                         SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                         p_mngr->SendToClient(prev_code, p_snapshot_prev);
                     }
@@ -185,7 +183,9 @@ void* MYShfeMDManager::ProcessThread(MYShfeMDManager* p_mngr)
                     p_mngr->SendToClient(prev_code, p_snapshot_prev);
 
                     while (p_mngr->GetPrevCode(cur_code, prev_code)) {
-					MY_LOG_WARN("error:prev_dir == SHFE_FTDC_D_Sell && p->field.Direction == SHFE_FTDC_D_Sell && prev_code != cur_code");
+						// debug
+						//MY_LOG_WARN("error:prev_dir == SHFE_FTDC_D_Sell && p->field.Direction == SHFE_FTDC_D_Sell && prev_code != cur_code");
+
                         SHFEMDQuoteSnapshot * p_snapshot_prev = p_mngr->GetDataCache(prev_code);
                         p_mngr->SendToClient(prev_code, p_snapshot_prev);
                     }
@@ -280,10 +280,9 @@ SHFEMDQuoteSnapshot *MYShfeMDManager::PushDataToBuffer(const std::string &cur_co
         return p_data;
     }
 
-	// wangying, repairer, total sell volume
-	if (!p_data->damaged){
-		p_data->damaged = p->field.damaged;
-	}
+	// wangying, repairer, total sell volume, bug dound on 2017-05-11
+	p_data->damaged = p->field.damaged;
+
     if (p->field.Direction == SHFE_FTDC_D_Buy)
     {
         p_data->buy_price[p_data->buy_count] = p->field.Price;
@@ -393,9 +392,6 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 
 void MYShfeMDManager::OnDepthMarketData(const CDepthMarketDataField * const pdata)
 {
-	// TODO: debug
-	//MY_LOG_WARN("rev dep:%s,time:%s %d",pdata->InstrumentID,pdata->UpdateTime,pdata->UpdateMillisec);
-	
     MYMutexGuard guard(depth_mutex_);
     if (pdata)
     {

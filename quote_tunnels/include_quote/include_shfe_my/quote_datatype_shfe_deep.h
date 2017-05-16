@@ -41,6 +41,11 @@ typedef int TShfeFtdcVolumeType;
 
 struct DLL_PUBLIC CShfeFtdcMBLMarketDataField
 {
+	CShfeFtdcMBLMarketDataField()
+	{
+		this->damaged = false;
+	}
+
     ///合约代码
     TShfeFtdcInstrumentIDType InstrumentID;
     ///买卖方向

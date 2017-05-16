@@ -39,8 +39,6 @@ bool repairer::find_start_point(MDPack &data)
 {
 	bool found = false;
 
-	//MY_LOG_DEBUG("(server:%d)find start point enter,victim:%s",this->server_, this->victim_.c_str());
-
 	if (this->working_){
 		throw logic_error("wrong invoke find_start_point!");
 	}
@@ -53,26 +51,17 @@ bool repairer::find_start_point(MDPack &data)
 	}else{
 		if (strcmp(data.instrument,this->victim_.c_str()) == 0){ found = false; }
 		else{
-			// TODO: debug
-			//MY_LOG_DEBUG("(server:%d)start point,sn:%d",this->server_, data.seqno);
-
 			this->working_ = true;
 			this->victim_ = "";
 			found = true; 
 		}
 	}
 
-
-	//MY_LOG_DEBUG("(server:%d)start point, inst:%s,victim:%s",this->server_, data.instrument,this->victim_.c_str());
-
 	return found;
 }
 
 void repairer::pull_ready_data()
 {
-	//TODO: debug
-	//MY_LOG_DEBUG("(server:%d)pull ready data",this->server_);
-
 	bool ready_data_found = false;
 	bool damaged = false;
 
@@ -116,12 +105,12 @@ void repairer::pull_ready_data()
 	} // end if (!this->sell_queue_.empty()){
 
 	//	TODO: debug
-//	int size = this->ready_queue_.size();
-//	for (int i=0; i< size; i++){
-//		MY_LOG_DEBUG("(server:%d)pull ready dta,sn:%d,damaged:%d",this->server_, this->ready_queue_[i].content.seqno,this->ready_queue_[i].damaged);
-//
-//	}
-	this->print_queue();
+	//int size = this->ready_queue_.size();
+	//for (int i=0; i< size; i++){
+	//	MY_LOG_DEBUG("(server:%d)pull ready dta,sn:%d,damaged:%d",this->server_, this->ready_queue_[i].content.seqno,this->ready_queue_[i].damaged);
+
+	//}
+	//this->print_queue();
 }
 
 void repairer::normal_proc_buy_data(MDPack &data)
@@ -133,16 +122,11 @@ void repairer::normal_proc_buy_data(MDPack &data)
 	}
 	else{
 		if (strcmp(data.instrument,this->buy_queue_.back().content.instrument)>=0){ // in one patch
-			// TODO: debug
-			//MY_LOG_DEBUG("(server:%d)normal_proc_buy_data,sn:%d",this->server_, data.seqno);
 			if (!this->sell_queue_.empty()){
 				MY_LOG_ERROR("(server:%d)normal_proc_buy_data,error(sell queue in NOT empty),sn:%d",this->server_, data.seqno);
 			}
 		}
 		else{ // cross more than one patch
-			// TODO:debug
-			//MY_LOG_DEBUG("(server:%d)normal_proc_buy_data,sn:%d",this->server_, data.seqno);
-			
 			// pull ready data
 			this->pull_ready_data();	
 			// remove un-integrity data from buy queue
@@ -156,24 +140,15 @@ void repairer::normal_proc_buy_data(MDPack &data)
 
 void repairer::repair_buy_data(MDPack &data)
 {
-	// TODO:debug
-	//MY_LOG_DEBUG("(server:%d)repair_buy_data enter,sn:%d,",this->server_, data.seqno,data.instrument);
-
 	if (strcmp(this->victim_.c_str(),data.instrument) != 0){
 		normal_proc_buy_data(data);
 		this->victim_ = "";
 	}
 	else{ /* discard victim data */ }
-
-	// TODO: debug
-	//MY_LOG_DEBUG("(server:%d)repair_buy_data exit,sn:%d",this->server_, data.seqno);
 }
 
 void repairer::normal_proc_sell_data(MDPack &data)
 {
-	// TODO: debug
-	//MY_LOG_DEBUG("(server:%d)normal_proc_sell_data,sn:%d",this->server_, data.seqno);
-
 	this->sell_queue_.push_back(data);
 	if (data.count<MAX_PAIR){ this->pull_ready_data(); } 
 }
@@ -184,9 +159,6 @@ void repairer::repair_sell_data(MDPack &data)
 		if (!this->sell_queue_.empty()) {
 			MY_LOG_ERROR("(server:%d)repair_sell_data,error, sell queue should be emptyr,sn:%d,victim:%s",this->server_, data.seqno,this->victim_.c_str());
 		}
-		
-		// TODO: debug
-		//MY_LOG_DEBUG("(server:%d)repair_sell_data,new,sn:%d",this->server_, data.seqno);
 
 		this->sell_queue_.push_back(data);
 		if (data.count < MAX_PAIR){ this->pull_ready_data(); }
@@ -194,9 +166,6 @@ void repairer::repair_sell_data(MDPack &data)
 		this->victim_ = "";
 	}
 	else{ /* discard victim data*/ }
-
-	// TODO: debug
-	//MY_LOG_DEBUG("(server:%d)repair_sell_data,exit,sn:%d,victim:%s",this->server_, data.seqno,this->victim_.c_str());
 }
 
 void repairer::flag_damaged_data()
@@ -241,15 +210,11 @@ void repairer::proc_pkg_loss(MDPack &data)
 {
 	this->victim_ = data.instrument;
 
-	// TODO:debug
-	//MY_LOG_DEBUG("(server:%d)proc_pkg_loss,sn:%d,victim:%s",this->server_, data.seqno,this->victim_.c_str());
-
 	this->flag_damaged_data();
 
 	if (SHFE_FTDC_D_Buy==data.direction){
 		if (!this->buy_queue_.empty()){
 			if (strcmp(data.instrument,this->buy_queue_.back().content.instrument)<0){ // cross more than one frame
-				MY_LOG_ERROR("(server:%d)proc_pkg_loss,buy, cross patch,sn:%d",this->server_, data.seqno);
 				// pull out previous frame of usable data
 				this->pull_ready_data();	
 				// clear previous frame of unusable data
@@ -262,7 +227,6 @@ void repairer::proc_pkg_loss(MDPack &data)
 	else if (SHFE_FTDC_D_Sell==data.direction){
 		if (!this->sell_queue_.empty()){
 			if (strcmp(data.instrument,this->sell_queue_.back().content.instrument)<0){ // corss more than frame
-				MY_LOG_ERROR("(server:%d)proc_pkg_loss,sell, cross patch,sn:%d",this->server_, data.seqno);
 				// pull out frevious frame of usable data
 				this->pull_ready_data();	
 				// clear previous frame of unsable data
@@ -270,7 +234,6 @@ void repairer::proc_pkg_loss(MDPack &data)
 				this->sell_queue_.clear();
 			}
 			else if (strcmp(data.instrument,this->sell_queue_.back().content.instrument)>=0){ // in one patch
-				MY_LOG_ERROR("(server:%d)proc_pkg_loss,sell, one patch,sn:%d",this->server_, data.seqno);
 				this->pull_ready_data();	
 			}
 		}
@@ -295,13 +258,12 @@ MDPackEx repairer::next(bool &empty)
 void repairer::rev(MDPack &data)
 {
 	// TODO: debug
-	//MY_LOG_DEBUG("%s", ToString(data).c_str());
+	//ToString(data).c_str();
+
 	int new_sn = data.seqno / 10;
 	if ((this->seq_no_!=-1) && new_sn !=this->seq_no_ + 1) {
 		MY_LOG_WARN("seq no from %d to %d, packet loss", seq_no_,new_sn);
 	}
-
-	MY_LOG_WARN("server(%d) rev enter,seqno:%d",this->server_,this->seq_no_);
 
 	if (!this->working_){ // find normal data start point
 		this->find_start_point(data);
@@ -339,7 +301,5 @@ void repairer::rev(MDPack &data)
 	} // end enter receiving process
 
 	this->seq_no_ = new_sn;
-
-	MY_LOG_WARN("server(%d) rev exit,seqno:%d",this->server_,this->seq_no_);
 }
 

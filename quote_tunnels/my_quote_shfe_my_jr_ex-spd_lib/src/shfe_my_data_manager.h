@@ -22,6 +22,11 @@ public:
 
 struct SHFEMDQuoteSnapshot
 {
+	SHFEMDQuoteSnapshot()
+	{
+		this->damaged = false;
+	}
+
 	int		buy_count;
 	int		sell_count;
 
