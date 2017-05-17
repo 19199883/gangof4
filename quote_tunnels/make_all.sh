@@ -351,6 +351,17 @@ cp -a bin/*.so $QT_QUOTE_DIST/bin
  cp -a $QT_LIB_BIN_DIR/tap/*.so $QT_QUOTE_DIST/bin
 
 
+ # quote: my_quote_dce_comb_lib
+cd $QT_SOURCE_ROOT/my_quote_dce_comb_lib
+QT_QUOTE_DIST=$TRADER_LIB_ROOT/quote/dce_my_com
+make clean
+make
+mkdir -p $QT_QUOTE_DIST/config
+mkdir -p $QT_QUOTE_DIST/bin
+cp -a config/* $QT_QUOTE_DIST/config
+cp -a bin/*.so $QT_QUOTE_DIST/bin
+cp -a $QT_LIB_BIN_DIR/xspeed_fut/libDFITCMdApi.so $QT_QUOTE_DIST/bin
+
  # quote: my_quote_dce_level2_jrudp_lib (dce level2 in jinrui on UDP)
 cd $QT_SOURCE_ROOT/my_quote_dce_level2_jrudp_lib
 QT_QUOTE_DIST=$TRADER_LIB_ROOT/quote/dce_my_jr_udp
