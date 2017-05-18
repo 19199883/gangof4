@@ -18,7 +18,7 @@ void XELEPacker::OrderRequest(const TunnelConfigData &cfg, const T_PlaceOrder *r
     strncpy(req_fld.InstrumentID, req->stock_code, sizeof(req_fld.InstrumentID));
     req_fld.OrderPriceType = XeleFieldConvert::GetApiPriceType(req->order_kind);
     req_fld.Direction = req->direction;
-    req_fld.CombOffsetFlag[0] = req->open_close;
+    req_fld.CombOffsetFlag[0] = XeleFieldConvert::GetOCFlag(MY_TNL_EC_SHFE, req->open_close);
     req_fld.CombHedgeFlag[0] = XeleFieldConvert::GetApiHedgeType(req->speculator);
     req_fld.LimitPrice = req->limit_price;
     req_fld.VolumeTotalOriginal = req->volume;

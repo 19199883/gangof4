@@ -21,11 +21,29 @@ public:
     inline static char GetMYEntrustStatus(char OrderStatus);
     inline static char GetMYHedgeType(char HedgeFlag);
     inline static char GetMYPriceType(char PriceType);
+	inline static char GetOCFlag(const char exch_code, const char open_close);
 };
 
 /*************************************************************
  FEMAS
  **************************************************************/
+char XeleFieldConvert::GetOCFlag(const char exch_code, const char open_close)
+{
+    if ((exch_code == MY_TNL_EC_SHFE) &&
+        ((open_close == MY_TNL_D_CLOSE) ||
+            (open_close == MY_TNL_D_CLOSETODAY)))
+    {
+        return XELE_FTDC_OF_CloseToday;
+    }
+    else if ((exch_code == MY_TNL_EC_SHFE)
+        && (open_close == MY_TNL_D_CLOSEYESTERDAY))
+    {
+        return XELE_FTDC_OF_Close;
+    }
+
+    return open_close;
+}
+
 char XeleFieldConvert::GetApiHedgeType(const char hedge_flag)
 {
     if (hedge_flag == MY_TNL_HF_SPECULATION)
