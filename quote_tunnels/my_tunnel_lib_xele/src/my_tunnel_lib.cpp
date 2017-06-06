@@ -439,13 +439,21 @@ void XeleTunnel::QueryPosition(const T_QryPosition *pQryPosition)
 {
     LogUtil::OnQryPosition(pQryPosition, tunnel_info_);
     MyXeleTradeSpi * p_tunnel = static_cast<MyXeleTradeSpi *>(trade_inf_);
+	TNL_LOG_ERROR("not support tunnel when query position, please check configure file");
+
+	// wangying, do nothing because do NOT support this interface.
+	// to be compatible with common interface,returns emty with errno==0
     T_PositionReturn ret;
+	ret.error_no = TUNNEL_ERR_CODE::RESULT_SUCCESS; //2;
+	if (QryPosReturnHandler_) QryPosReturnHandler_(&ret);
+	LogUtil::OnPositionRtn(&ret, tunnel_info_);
+	return;
+	
     if (!p_tunnel)
     {
         TNL_LOG_ERROR("not support tunnel when query position, please check configure file");
 
-		// TODO: wangying, do nothing
-        ret.error_no = 0; //2;
+        ret.error_no = 2;
         if (QryPosReturnHandler_) QryPosReturnHandler_(&ret);
         LogUtil::OnPositionRtn(&ret, tunnel_info_);
         return;
@@ -482,12 +490,18 @@ void XeleTunnel::QueryOrderDetail(const T_QryOrderDetail *pQryParam)
     LogUtil::OnQryOrderDetail(pQryParam, tunnel_info_);
     MyXeleTradeSpi * p_tunnel = static_cast<MyXeleTradeSpi *>(trade_inf_);
     T_OrderDetailReturn ret;
+	// wangying, do nothing because this interface do NOT be supported
+	// to be compatible with common interface,returns emty with errno==0
+	ret.error_no = TUNNEL_ERR_CODE::RESULT_SUCCESS; // 2;
+	if (QryOrderDetailReturnHandler_) QryOrderDetailReturnHandler_(&ret);
+	LogUtil::OnOrderDetailRtn(&ret, tunnel_info_);
+	return;
+
     if (!p_tunnel)
     {
         TNL_LOG_ERROR("not support tunnel when query order detail, please check configure file");
 
-		// TODO: wangying, do nothing
-        ret.error_no = 0; // 2;
+        ret.error_no =  2;
         if (QryOrderDetailReturnHandler_) QryOrderDetailReturnHandler_(&ret);
         LogUtil::OnOrderDetailRtn(&ret, tunnel_info_);
         return;
@@ -512,12 +526,18 @@ void XeleTunnel::QueryTradeDetail(const T_QryTradeDetail *pQryParam)
     LogUtil::OnQryTradeDetail(pQryParam, tunnel_info_);
     MyXeleTradeSpi * p_tunnel = static_cast<MyXeleTradeSpi *>(trade_inf_);
     T_TradeDetailReturn ret;
+	// wangying, do nothing
+	// to be compatible with common interface,returns emty with errno==0
+	ret.error_no = TUNNEL_ERR_CODE::RESULT_SUCCESS; //2;
+	if (QryTradeDetailReturnHandler_) QryTradeDetailReturnHandler_(&ret);
+	LogUtil::OnTradeDetailRtn(&ret, tunnel_info_);
+	return;
+
     if (!p_tunnel)
     {
         TNL_LOG_ERROR("not support tunnel when query trade detail, please check configure file");
 
-		// TODO: wangying, do nothing
-        ret.error_no = 0; //2;
+        ret.error_no = 2;
         if (QryTradeDetailReturnHandler_) QryTradeDetailReturnHandler_(&ret);
         LogUtil::OnTradeDetailRtn(&ret, tunnel_info_);
         return;
@@ -544,8 +564,9 @@ void XeleTunnel::QueryContractInfo(const T_QryContractInfo* pQryParam)
     T_ContractInfoReturn ret;
     TNL_LOG_ERROR("not support query contract info");
 
-	// TODO: wangying, do nothing
-    ret.error_no = 0;//TUNNEL_ERR_CODE::UNSUPPORTED_FUNCTION;
+	// wangying, do nothing
+	// to be compatible with common interface,returns emty with errno==0
+    ret.error_no = TUNNEL_ERR_CODE::RESULT_SUCCESS;//TUNNEL_ERR_CODE::UNSUPPORTED_FUNCTION;
     if (QryContractInfoHandler_) QryContractInfoHandler_(&ret);
 
     LogUtil::OnContractInfoRtn(&ret, tunnel_info_);
@@ -649,7 +670,13 @@ void XeleTunnel::SetCallbackHandler(std::function<void(const T_TradeDetailReturn
 
 void XeleTunnel::SetCallbackHandler(std::function<void(const T_ContractInfoReturn*)> handler)
 {
-    TNL_LOG_WARN("not support query contract when SetCallbackHandler(T_ContractInfoReturn)");
+    MyXeleTradeSpi * p_tunnel = static_cast<MyXeleTradeSpi *>(trade_inf_);
+    if (!p_tunnel)
+    {
+		TNL_LOG_WARN("not support query contract when SetCallbackHandler(T_ContractInfoReturn)");
+        return;
+    }
+    QryContractInfoHandler_= handler;
 }
 
 // added for market making

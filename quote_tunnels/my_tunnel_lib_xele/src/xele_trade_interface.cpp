@@ -43,7 +43,8 @@ MyXeleTradeSpi::MyXeleTradeSpi(const TunnelConfigData &cfg)
     }
     qry_order_t_ = NULL;
 
-    // TODO xele not support query order, shutdown two features which depend on it
+    // xele not support query order, shutdown two features which depend on it
+	// to be compatible with common interface,returns emty with errno==0
     have_handled_unterminated_orders_ = true;
     finish_query_canceltimes_ = true;
 
@@ -587,6 +588,7 @@ void MyXeleTradeSpi::QueryAndHandleOrders()
         {
             // TODO the interface not implemented by acxele
             //int qry_result = api_->ReqQryOrder(&qry_param, 0);
+			// to be compatible with common interface,returns emty with errno==0
             int qry_result = 0;
             have_handled_unterminated_orders_ = true;
             finish_query_canceltimes_ = true;

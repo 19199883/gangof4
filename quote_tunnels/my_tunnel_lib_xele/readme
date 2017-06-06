@@ -1,1 +1,10 @@
-xele ver: xeletrade_api_r2440
+1. 3rd lib:
+	(1) xele ver: xeletrade_api_r2440
+
+2. feature:
+	(1) do NOT support the following features:
+		query position
+		query contracts
+		query trade detail
+		query order info
+		but, to be compatible with the common interface, they return empty with errno==0
