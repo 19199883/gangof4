@@ -42,36 +42,9 @@ using namespace log4cxx::helpers;
 using namespace quote_agent;
 using namespace std;
 
-#ifdef rss
-	#include "rss_quote_playback.h"
-#endif
-
 template<typename QuoteT>
 quote_source<QuoteT>::quote_source(quote_source_setting setting)
 :_subscribed(false),stopped(false),setting_(setting){
-#ifdef rss
-	myself_type_ = quote_src_type_options::UNASSIGNED;
-	if (this->setting_.category==quote_category_options::SPIF){
-		myself_type_=quote_src_type_options::IF;
-	}
-	else if (this->setting_.category==quote_category_options::CF){
-		//quote_playback::my_shfe_handler = bind(&quote_source<QuoteT>::OnGTAQuoteData,this,_1);
-		//quote_playback::shfe_ex_handler = bind(&quote_source<QuoteT>::OnGTAQuoteData,this,_1);
-		myself_type_= quote_src_type_options::CF;
-	}
-	else if (this->setting_.category==quote_category_options::Stock){
-		myself_type_=quote_src_type_options::Stock;
-	}
-	else if (this->setting_.category==quote_category_options::FullDepth&&
-		IsIntegerT<QuoteT>::No){
-		throw exception();
-		myself_type_=quote_src_type_options::Full;
-	}
-	else if (this->setting_.category==quote_category_options::MDOrderStatistic){
-		myself_type_=quote_src_type_options::Quote5;
-	}
-//	quote_src_.start();
-#endif
 
 	this->setting_ = setting;
 	_forwarder = NULL;
@@ -118,6 +91,7 @@ void quote_source<QuoteT>::finalize(void){
 
 template<typename QuoteT>
 void quote_source<QuoteT>::OnGTAQuoteData(const QuoteT *quote_src){
+	// TODO: combine forwarder and trader into the same process
 	// maint.                                                    
 	if(maintenance::enabled()){                                                                                         
 		string contract = pending_quote_dao<QuoteT>::get_symbol(quote_src);
@@ -232,13 +206,11 @@ void quote_source<QuoteT>::subscribe_to_symbols(SubscribeContracts subscription)
 	}
 	else if (this->setting_.quote_type == quote_type_options::forwarder){
 		if (IsIntegerT<QuoteT>::No){
-#ifndef rss
 			_forwarder = new quote_forwarder_agent<QuoteT>(setting_);
 			function<void (const QuoteT *)> f = bind(&quote_source<QuoteT>::OnGTAQuoteData, this, _1);
 			_forwarder->SetQuoteDataHandler(f);
 			_forwarder_thread = thread(bind(&quote_forwarder_agent<QuoteT>::start,_forwarder));
 			this_thread::sleep_for(std::chrono::microseconds(10));
-#endif
 			_subscribed = true;
 		}
 	}
