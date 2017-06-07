@@ -18,54 +18,36 @@ qa<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>::qa(void)
 {
 	// 初始化qa的配置信息
 	this->setting.Initialize();
+	
+	// TODO:improve 2
+	md_provider_ = build_quote_provider(subs_);
+
 	// 加载quote_source
 	BOOST_FOREACH( quote_source_setting source_setting, this->setting.quote_sources ){
 		if (source_setting.category==quote_category_options::SPIF &&
 			IsIntegerT<SPIFQuoteT>::No){
-			quote_source<SPIFQuoteT> *source = new quote_source<SPIFQuoteT>(source_setting);
+			quote_source<SPIFQuoteT> *source = new quote_source<SPIFQuoteT>(source_setting,md_provider_ );
 			spif_quote_source_ptr = shared_ptr<quote_source<SPIFQuoteT>>(source);
-#ifdef rss
-	#ifdef STOCK_INDEX_FUTURE_YES
-			quote_playback::gta_udp_cffex_handler = bind(&quote_source<SPIFQuoteT>::OnGTAQuoteData,spif_quote_source_ptr,_1);
-	#endif
-#endif
 		}
 		else if (source_setting.category==quote_category_options::CF&&
 				IsIntegerT<CFQuoteT>::No){
-			quote_source<CFQuoteT> *source = new quote_source<CFQuoteT>(source_setting);
+			quote_source<CFQuoteT> *source = new quote_source<CFQuoteT>(source_setting,md_provider_ );
 			cf_quote_source_ptr = shared_ptr<quote_source<CFQuoteT>>(source);
-#ifdef rss
-	#ifdef COMMODITY_DBestAndDeep_MY_YES
-			quote_playback::best_and_deep_handler = bind(&quote_source<CFQuoteT>::OnGTAQuoteData,cf_quote_source_ptr,_1);
-	#endif
-	#ifdef COMMODITY_CDepthMarketDataField_YES
-			quote_playback::shfe_ex_handler = bind(&quote_source<CFQuoteT>::OnGTAQuoteData,cf_quote_source_ptr,_1);
-	#endif
-	#ifdef COMMODITY_MYShfeMarketData_YES
-			quote_playback::my_shfe_handler = bind(&quote_source<CFQuoteT>::OnGTAQuoteData,cf_quote_source_ptr,_1);
-	#endif
-
-#endif
 		}
 		else if (source_setting.category==quote_category_options::Stock&&
 				IsIntegerT<StockQuoteT>::No){
-			quote_source<StockQuoteT> *source = new quote_source<StockQuoteT>(source_setting);
+			quote_source<StockQuoteT> *source = new quote_source<StockQuoteT>(source_setting,md_provider_ );
 			stock_quote_source_ptr = shared_ptr<quote_source<StockQuoteT>>(source);
 		}
 		else if (source_setting.category==quote_category_options::FullDepth&&
 				IsIntegerT<FullDepthQuoteT>::No){
-			quote_source<FullDepthQuoteT> *source = new quote_source<FullDepthQuoteT>(source_setting);
+			quote_source<FullDepthQuoteT> *source = new quote_source<FullDepthQuoteT>(source_setting,md_provider_ );
 			full_depth_quote_source_ptr = shared_ptr<quote_source<FullDepthQuoteT>>(source);
 		}
 		else if (source_setting.category==quote_category_options::MDOrderStatistic&&
 				IsIntegerT<QuoteT5>::No){
-			quote_source<QuoteT5> *source = new quote_source<QuoteT5>(source_setting);
+			quote_source<QuoteT5> *source = new quote_source<QuoteT5>(source_setting,md_provider_ );
 			quote_source5_ptr = shared_ptr<quote_source<QuoteT5>>(source);
-#ifdef rss
-	#ifdef QUOTE5_MDOrderStatistic_YES
-			quote_playback::order_statistic_handler = bind(&quote_source<QuoteT5>::OnGTAQuoteData,quote_source5_ptr,_1);
-	#endif
-#endif
 		}
 	}
 }
@@ -102,6 +84,11 @@ void qa<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>:: finalize(void
 	if (stock_quote_source_ptr != 0) 		stock_quote_source_ptr->finalize();
 	if (full_depth_quote_source_ptr != 0) 	full_depth_quote_source_ptr->finalize();
 	if (quote_source5_ptr != 0) 			quote_source5_ptr->finalize();
+
+	if (NULL!=md_provider_){
+		delete md_provider_;
+		md_provider_ = NULL;
+	}
 
 	LOG4CXX_INFO(log4cxx::Logger::getRootLogger(),"delete qa successfully.");
 }

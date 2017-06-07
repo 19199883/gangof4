@@ -14,11 +14,12 @@
 #include <condition_variable> // std::condition_variable
 #include <memory>
 #include <thread>
-#include "quoteforwarderagent.h"
 #include <vector>
 #include <memory>
 #include "tbb/include/tbb/spin_mutex.h"
 #include "pending_quote_dao.h"
+
+#include "quote_interface_shfe_my.h"
 
 using namespace std::chrono;
 using namespace std;
@@ -40,7 +41,7 @@ namespace quote_agent{
         typedef map<long,bool> QuoteStateT;
         
 	public:
-		quote_source(quote_source_setting setting);
+		quote_source(quote_source_setting setting,MYQuoteData *md_provider);
 		~quote_source(void);
 		void intialize(void);
 		void finalize(void);		
@@ -52,8 +53,10 @@ namespace quote_agent{
 		该字段记录qa模块当前状态，如果为true，则表示该模块处于非工作状态
 		*/
 		bool stopped;
-		quote_forwarder_agent<QuoteT> *_forwarder;
 		thread _forwarder_thread;
+		
+		// TODO: improve
+		MYQuoteData *md_provider_;
 
 	public:
 		// 处理一个行情数据
@@ -77,10 +80,6 @@ namespace quote_agent{
 	};
 }
 
-#ifdef FUTURE
-	#include "fut_general_depth_quote_sourcedef.h"
-#else
-	#include "general_depth_quote_sourcedef.h"
-#endif
+#include "general_depth_quote_sourcedef.h"
 
 #endif

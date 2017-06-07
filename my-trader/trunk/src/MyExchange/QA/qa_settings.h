@@ -27,6 +27,8 @@ namespace quote_agent
 		// 行情源列表
 		list<quote_source_setting> quote_sources;
 
+		string MarketdataConfig;
+
 	private:
 		
 	public:

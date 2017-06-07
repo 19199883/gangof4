@@ -11,7 +11,6 @@ PROJECT_NAME:=quote_forwarder_shfe_jr
 INCPATH:= -I$(TOP)/lib/tunnel/include\
 		  -I$(TOP)/lib/quote/include \
 		  -I$(TOP)/lib/ \
-	  	  -I$(TOP)/lib/toe \
 	  	  -I$(TOP)/lib/my_common \
 	  	  -I../utils \
 	  	  -I../tinyxml \
@@ -20,8 +19,7 @@ INCPATH:= -I$(TOP)/lib/tunnel/include\
 	  	  -I../quote_forwarder_common \
 	  	  -I../$(PROJECT_NAME)
 
-LIBPATH:= -L$(TOP)/lib/toe \
-      -L$(TOP)/lib/common \
+LIBPATH:= -L$(TOP)/lib/common \
       -L$(TOP)/lib/quote/shfe_my_jr_cmcc/bin \
       -L../utils/bin \
 	  -L../tinyxml/bin \

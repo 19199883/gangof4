@@ -9,7 +9,6 @@ DIST_DIR:=$(TOP)/dist
 PROJECT_NAME:=mytrader_cf_shef_ctp
 
 INCPATH:= -I$(TOP)/lib/ \
-	  -I$(TOP)/lib/toe \
 	  -I$(TOP)/lib/quote/include \
 	  -I$(TOP)/lib/tunnel/include \
 	  -I$(TOP)/lib/my_common \
@@ -24,8 +23,8 @@ INCPATH:= -I$(TOP)/lib/ \
 	  -I../$(PROJECT_NAME)
 
 LIBPATH:= -L../utils/bin \
-	-L$(TOP)/lib/toe \
 	-L$(TOP)/lib/common \
+	-L$(TOP)/lib/quote/shfe_my_jr_cmcc/bin \
 	-L$(TOP)/lib/quote \
 	-L../tinyxml/bin \
 	-L../te/bin \
@@ -33,7 +32,8 @@ LIBPATH:= -L../utils/bin \
 	-L../sm/bin \
 	-L../QA/bin \
 	-L../my_exchange_entity/bin \
-	-L../my_exchange_db/bin
+	-L../my_exchange_db/bin \
+	-L$(TOP)/lib/quote
 
 CPPFLAGS:= -v -std=c++11 $(INCPATH)
 CFLAGS:= 
@@ -41,7 +41,8 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lutils -ldl -lpthread -lboost_thread -lboost_filesystem -lboost_system \
-	-lboost_date_time -llog4cxx -lssl -ltca -lsm -lmy_common_v2 -lmy_exchange_entity -ltinyxml
+	-lboost_date_time -llog4cxx -lssl -ltca -lsm -lmy_common_v2 -lmy_exchange_entity -ltinyxml \
+	-lqtm -lmy_quote_shfe_my_jrcmcc_lib -lmy_common_v2 -lUSTPmduserapi -lUSTPtraderapi 
 
 DEPS:=.depends
 
@@ -100,6 +101,8 @@ dist:
 	-cp -varf $(CURDIR)/*.xml $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(TOP)/lib/intel64 $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(TOP)/lib/common/* $(DIST_DIR)/$(PACKAGE_NAME)/	
+	-cp -vaf $(TOP)/lib/quote/shfe_my_jr_cmcc/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
+	-cp -vaf $(TOP)/lib/quote/shfe_my_jr_cmcc/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cd $(DIST_DIR); \
 		tar -cvjf $(PACKAGE_NAME)-$(VERSION).tar.bz2  $(PACKAGE_NAME)/*     
 

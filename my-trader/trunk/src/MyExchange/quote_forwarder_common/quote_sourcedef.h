@@ -127,6 +127,7 @@ start(void){
 		_forwarderInc6->start();
 	}
 
+	// TODO:improve 2
 	// use template specialization technology.
 	_quote_src = build_quote_provider(_subscription);
 	this->subscribe_to_symbols();
@@ -266,6 +267,7 @@ subscribe_to_symbols()
 	typedef quote_source<quote_src,QuoteT1,QuoteT2,QuoteT3,QuoteT4,QuoteT5,QuoteT6> QuoteSrcT;
 
 
+	// TODO:improve 1
 	if (IsIntegerT<QuoteT1>::No){
 		boost::function<void (const QuoteT1 *)> f = boost::bind(&QuoteSrcT::OnGTAQuoteData1, this, _1);
 		_quote_src->SetQuoteDataHandler(f);

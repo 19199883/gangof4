@@ -53,9 +53,6 @@ void quote_setting::read_config() {
 			if (NULL != sharedMemoryE) {
 				this->forwarders[quoteType].shm_data_key_file = sharedMemoryE->Attribute("datakey");
 				this->forwarders[quoteType].shm_data_flag_key_file = sharedMemoryE->Attribute("dataflagkey");
-#ifdef rss
-				this->forwarders[quoteType].shm_local_timestamp_key_file = sharedMemoryE->Attribute("localtimestampkey");
-#endif
 			}
 
 			// semaphores element

@@ -26,14 +26,6 @@
 #include <string>
 #include "maint.h"
 
-#ifdef rss
-	#include <typeinfo>       // operator typeid
-	#include "tcs.h"
-	#include "rss_router.h"
-	#include "rsssynchro.h"
-	using namespace trading_channel_agent;
-#endif
-
 using namespace boost::posix_time;
 using namespace std;
 using namespace log4cxx;
@@ -43,11 +35,11 @@ using namespace quote_agent;
 using namespace std;
 
 template<typename QuoteT>
-quote_source<QuoteT>::quote_source(quote_source_setting setting)
-:_subscribed(false),stopped(false),setting_(setting){
-
+quote_source<QuoteT>::quote_source(quote_source_setting setting,MYQuoteData *md_provider)
+:_subscribed(false),stopped(false),setting_(setting)
+{
+	md_provider_ = md_provider;
 	this->setting_ = setting;
-	_forwarder = NULL;
 }
 
 template<typename QuoteT>
@@ -82,16 +74,12 @@ template<typename QuoteT>
 void quote_source<QuoteT>::finalize(void){
 	stopped = true;
 
-	if (NULL != _forwarder){
-		delete _forwarder;
-		_forwarder = NULL;
-	}
 	LOG4CXX_INFO(log4cxx::Logger::getRootLogger(),"delete quote source successfully.");
 }
 
 template<typename QuoteT>
 void quote_source<QuoteT>::OnGTAQuoteData(const QuoteT *quote_src){
-	// TODO: combine forwarder and trader into the same process
+	// TODO: improve: combine forwarder and trader into the same process
 	// maint.                                                    
 	if(maintenance::enabled()){                                                                                         
 		string contract = pending_quote_dao<QuoteT>::get_symbol(quote_src);
@@ -198,22 +186,12 @@ bool quote_source<QuoteT>::match(string &lockup_value,SubscribeContracts &lookup
 
 template<typename QuoteT>
 void quote_source<QuoteT>::subscribe_to_symbols(SubscribeContracts subscription){
-	if (this->setting_.quote_type == quote_type_options::local){
+		// TODO:improve 1
 		if (IsIntegerT<QuoteT>::No){
-			LOG4CXX_TRACE(log4cxx::Logger::getRootLogger(),"mytrader do NOT sopport local type of quote.");
-			throw exception();
-		}
-	}
-	else if (this->setting_.quote_type == quote_type_options::forwarder){
-		if (IsIntegerT<QuoteT>::No){
-			_forwarder = new quote_forwarder_agent<QuoteT>(setting_);
-			function<void (const QuoteT *)> f = bind(&quote_source<QuoteT>::OnGTAQuoteData, this, _1);
-			_forwarder->SetQuoteDataHandler(f);
-			_forwarder_thread = thread(bind(&quote_forwarder_agent<QuoteT>::start,_forwarder));
-			this_thread::sleep_for(std::chrono::microseconds(10));
+			boost::function<void (const QuoteT *)> f = boost::bind(&quote_source<QuoteT>::OnGTAQuoteData, this, _1);
+			md_provider_->SetQuoteDataHandler(f);
 			_subscribed = true;
 		}
-	}
 }
 
 template<typename QuoteT>

@@ -19,6 +19,13 @@ void qa_settings::Initialize(void){
     config.LoadFile();
     //��ø�Ԫ�أ���MyExchange
     TiXmlElement *RootElement = config.RootElement();    
+
+	TiXmlElement* MarketData = RootElement->FirstChildElement("MarketData");
+	if (NULL != MarketData) {
+		MarketdataConfig = MarketData->Attribute("config");
+	}else{
+	}
+
     //��õ�һ��Quote�ڵ�
     TiXmlElement *quote = RootElement->FirstChildElement("quote");
 	if (quote != 0){
@@ -56,10 +63,6 @@ quote_source_setting qa_settings::create_quote_source(TiXmlElement* xml_ele){
 		LOG4CXX_WARN(log4cxx::Logger::getRootLogger(),"do NOT support " << category_str
 				<< "type of quote");
 	}
-
-#ifdef rss
-	xml_ele->QueryBoolAttribute("is_match_quote",&(source.is_match_quote));
-#endif
 
 	string type_str = xml_ele->Attribute("type");
 	if (type_str == "local"){

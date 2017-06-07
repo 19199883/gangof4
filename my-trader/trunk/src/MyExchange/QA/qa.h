@@ -20,6 +20,7 @@
 #include "quote_datatype_level1.h"
 #include "quote_datatype_dce_level2.h"
 
+#include "quote_interface_shfe_my.h"
 
 #include <memory>
 
@@ -79,6 +80,11 @@ namespace quote_agent
 		// 处理行情通知事件
 		void process_quote_notify(int quote);
 
+		// TODO: improve 2
+		MYQuoteData* build_quote_provider(SubscribeContracts &subscription) {
+			return new MYQuoteData(&subs_, setting.MarketdataConfig);
+		}
+
 	private:
 		// 该字段存储qa的配置对象
 		qa_settings setting;
@@ -87,6 +93,10 @@ namespace quote_agent
 		该字段记录qa模块当前状态，如果为true，则表示该模块处于非工作状态
 		*/
 		bool stopped;
+		//
+		// TODO: improve 2
+		MYQuoteData *md_provider_;
+		SubscribeContracts subs_;
 	};
 }
 

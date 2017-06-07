@@ -17,15 +17,6 @@
 #include <set>
 //#include "quote_interface_datasource.h"
 
-
-#ifdef rss
-
-#else
-	//#include "quote_interface_sec_kmds.h"
-	//#include "quote_interface_level1.h"
-#endif
-
-
 using namespace std::chrono;
 using namespace std;
 using namespace log4cxx;

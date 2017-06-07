@@ -5,7 +5,7 @@ AR:=ar
 DEBUG:=n
 TIME_PROBER:=n
 TOP:=../../../
-INCPATH:= 
+INCPATH:= $(TOP)/lib/quote/include 
 
 LIBPATH:=
 CPPFLAGS:= -v -c  -std=c++11 $(INCPATH) -fmessage-length=0 

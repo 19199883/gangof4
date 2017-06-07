@@ -12,13 +12,12 @@
 #include "ClassFactory.h"
 #include "my_cmn_log.h"
 #include "../catch_sigs.h"
-#include "../catch_sigs.h"
 #include "maint.h"
 
 using namespace trading_engine;
 using namespace std;
 
-typedef engine<CDepthMarketDataField,MYShfeMarketData,SHFEQuote,MDTenEntrust_MY,MDOrderStatistic_MY> EngineT;
+typedef engine<CDepthMarketDataField,MYShfeMarketData,int,int,int> EngineT;
 
 EngineT *engine_ins;
 
@@ -35,8 +34,13 @@ SIGINT_handler(int s)
     exit(0);        /* call exit for the signal */
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+	if (2 == argc)  {  
+		show_info(argv);  
+		return 0;  
+	}  
+
 	//hubo begin
 	/*
     struct sched_param param;

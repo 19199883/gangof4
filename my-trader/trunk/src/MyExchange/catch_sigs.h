@@ -7,6 +7,9 @@ using namespace log4cxx;
 using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
 
+#define VERSION "2.0.0" // 此处每次发布版本要手动更新  
+#define NAME    "u-trader"  
+
 /*
 SIGHUP        1       Term    Hangup detected on controlling terminal
 or death of controlling process
@@ -297,3 +300,24 @@ static void install_sig_handlers()
 	struct sigaction SIGIO_act;
 	install(SIGIO_act, SIGIO);
 }
+
+static void show_info(char *argv[])  
+{  
+	if (0 == strcmp("-v", argv[1]))  
+	{  
+		printf("%s version: %s (%s, %s)\n", NAME, VERSION, __DATE__, __TIME__);  
+		return;  
+	}  
+	else if (0 == strcmp("-h", argv[1]))  
+	{  
+		printf("Usage: %s [options]\n", NAME);  
+		printf("Options:\n");  
+		printf("  void\tRun %s\n", NAME);  
+		printf("  -v\tDisplay %s version information\n", NAME);  
+		printf("  -h\tDisplay help information\n");  
+		return;  
+	}  
+
+	printf("Usage: %s [-v | -h]\n", NAME);  
+	return;  
+}  
