@@ -466,8 +466,8 @@ cp -a bin/*.so $QT_QUOTE_DIST/bin
 cp -a $QT_LIB_BIN_DIR/ctp/lib* $QT_QUOTE_DIST/bin
 
 
-# quote: shfe_my_jr_cmcc (shfe level2 in jinrui, CMCC computer center interface)
-cd $QT_SOURCE_ROOT/my_quote_shfe_my_jr_cmcc_lib
+# quote: my_quote_shfe_my_jr_ex-spd_lib (shfe level2 in jinrui, CMCC computer center interface)
+cd $QT_SOURCE_ROOT/my_quote_shfe_my_jr_ex-spd_lib
 QT_QUOTE_DIST=$TRADER_LIB_ROOT/quote/shfe_my_jr_cmcc
 make clean
 make
@@ -475,7 +475,7 @@ mkdir -p $QT_QUOTE_DIST/config
 mkdir -p $QT_QUOTE_DIST/bin
 cp -a config/* $QT_QUOTE_DIST/config
 cp -a bin/*.so $QT_QUOTE_DIST/bin
-cp -a $QT_LIB_BIN_DIR/femas/lib* $QT_QUOTE_DIST/bin
+cp -a $QT_LIB_BIN_DIR/jr_ex-spd/lib* $QT_QUOTE_DIST/bin
 
 # quote: shfe_my (shfe level2 designed by MY)
 cd $QT_SOURCE_ROOT/my_quote_shfe_my_lib

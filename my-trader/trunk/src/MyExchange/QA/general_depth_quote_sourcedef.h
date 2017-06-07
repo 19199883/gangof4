@@ -67,7 +67,6 @@ void quote_source<QuoteT>::intialize(void){
 			}
 		}
 	}
-	this->subscribe_to_symbols(contracts);
 }
 
 template<typename QuoteT>
@@ -100,23 +99,7 @@ void quote_source<QuoteT>::OnGTAQuoteData(const QuoteT *quote_src){
 
 template<typename QuoteT>
 void quote_source<QuoteT>::process_one_quote(const QuoteT *quote){
-
-	if (!quote){
-		return ;
-	}
-
 	string symbol = pending_quote_dao<QuoteT>::get_symbol(quote);
-    bool is_inner_quote = symbol.compare("xxx") == 0;
-    //如果是内部行情，推送到所有策略
-    if (is_inner_quote){
-    	auto it = pending_quote_dao<QuoteT>::all_model.begin();
-        for (; it != pending_quote_dao<QuoteT>::all_model.end() ;++it){
-        	pending_quote_dao<QuoteT>::set_local_timestamp(quote);
-        	pending_quote_dao<QuoteT>::insert_quote(*it, quote);
-            quote_state[*it] = true;
-        }
-        return;
-    }
 
     //推送非期权策略
     int index = get_hash_index(symbol.c_str(), symbol.length());
@@ -150,19 +133,20 @@ void quote_source<QuoteT>::process_one_quote(const QuoteT *quote){
 	}
     */
 
+	// TODO: improve
     //推送期权策略
-	typedef map<long,SubscribeContracts> SubscriptionTableT;
-	SubscriptionTableT::iterator it = (pending_quote_dao<QuoteT>::quote_subscribtion).begin();
-	SubscriptionTableT::iterator end = (pending_quote_dao<QuoteT>::quote_subscribtion).end();	
-	for (; it!=end; it++){
-		long model_id = it->first;
-		SubscribeContracts &symbols = it->second;
-		if (true == this->match(symbol,symbols)){
-			pending_quote_dao<QuoteT>::set_local_timestamp(quote);
-			pending_quote_dao<QuoteT>::insert_quote(model_id, quote);
-            quote_state[model_id] = true;
-		}
-	}
+//	typedef map<long,SubscribeContracts> SubscriptionTableT;
+//	SubscriptionTableT::iterator it = (pending_quote_dao<QuoteT>::quote_subscribtion).begin();
+//	SubscriptionTableT::iterator end = (pending_quote_dao<QuoteT>::quote_subscribtion).end();	
+//	for (; it!=end; it++){
+//		long model_id = it->first;
+//		SubscribeContracts &symbols = it->second;
+//		if (true == this->match(symbol,symbols)){
+//			pending_quote_dao<QuoteT>::set_local_timestamp(quote);
+//			pending_quote_dao<QuoteT>::insert_quote(model_id, quote);
+//            quote_state[model_id] = true;
+//		}
+//	}
 }
 
 template<typename QuoteT>
@@ -201,66 +185,62 @@ void quote_source<QuoteT>::subscribe_to_quote(const long & model_id,bool isOptio
     pending_quote_dao<QuoteT>::all_model.insert(model_id);
     pending_quote_dao<QuoteT>::init(model_id);
 
-    if (isOption){
-        //如果是期权模型，使用model id做map的key
-    	pending_quote_dao<QuoteT>::quote_subscribtion.insert( pair<long, SubscribeContracts>(model_id, contracts));
-
-    }else{
-        //如果非期权(股票、期货)，使用合约名称做map的key
-    	int index = 0;
-        typename pending_quote_dao<QuoteT>::ModuleNode * p_module = NULL;
-        for (auto it : contracts){
-        	index = get_hash_index(it.c_str(), it.length());
-        	typename pending_quote_dao<QuoteT>::ContractNode* p_node = NULL;
-        	p_node = pending_quote_dao<QuoteT>::contract_model_hash_map[index];
-        	while (p_node){
-        		//存在合约节点
-        		if (0 == strcmp(it.c_str(), p_node->contract)){
-					//合约一样
-					p_module = (typename pending_quote_dao<QuoteT>::ModuleNode*)malloc(sizeof(typename pending_quote_dao<QuoteT>::ModuleNode));
-					p_module->module_id = model_id;
-					p_module->next = p_node->module;
-					p_node->module = p_module;
-					LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "add module. index:" << index <<" insert models:"<< model_id << " contract:"<< it.c_str());
-					break;
-				}
-        		p_node = p_node->next;
+	//如果非期权(股票、期货)，使用合约名称做map的key
+	int index = 0;
+	typename pending_quote_dao<QuoteT>::ModuleNode * p_module = NULL;
+	for (auto it : contracts){
+		index = get_hash_index(it.c_str(), it.length());
+		typename pending_quote_dao<QuoteT>::ContractNode* p_node = NULL;
+		p_node = pending_quote_dao<QuoteT>::contract_model_hash_map[index];
+		while (p_node){
+			//存在合约节点
+			if (0 == strcmp(it.c_str(), p_node->contract)){
+				//合约一样
+				p_module = (typename pending_quote_dao<QuoteT>::ModuleNode*)malloc(sizeof(typename pending_quote_dao<QuoteT>::ModuleNode));
+				p_module->module_id = model_id;
+				p_module->next = p_node->module;
+				p_node->module = p_module;
+				LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "add module. index:" << index <<" insert models:"<< model_id << " contract:"<< it.c_str());
+				break;
 			}
-        	if (!p_node){
+			p_node = p_node->next;
+		}
+		if (!p_node){
 
-        		p_module = (typename pending_quote_dao<QuoteT>::ModuleNode*)malloc(sizeof(typename pending_quote_dao<QuoteT>::ModuleNode));
-        		p_module->module_id = model_id;
-        		p_module->next = NULL;
+			p_module = (typename pending_quote_dao<QuoteT>::ModuleNode*)malloc(sizeof(typename pending_quote_dao<QuoteT>::ModuleNode));
+			p_module->module_id = model_id;
+			p_module->next = NULL;
 
-        		p_node = (typename pending_quote_dao<QuoteT>::ContractNode*)malloc(sizeof(typename pending_quote_dao<QuoteT>::ContractNode));
-        		strncpy(p_node->contract, it.c_str(),sizeof(p_node->contract));
-        		p_node->module = p_module;
+			p_node = (typename pending_quote_dao<QuoteT>::ContractNode*)malloc(sizeof(typename pending_quote_dao<QuoteT>::ContractNode));
+			strncpy(p_node->contract, it.c_str(),sizeof(p_node->contract));
+			p_node->module = p_module;
 
-        		typename pending_quote_dao<QuoteT>::ContractNode* block = pending_quote_dao<QuoteT>::contract_model_hash_map[index];
-        		if (block){
-        			//p_node->next = block->next;
-        			//block->next = p_node;
-        			p_node->next = block;
-                    pending_quote_dao<QuoteT>::contract_model_hash_map[index] = p_node;
-        			LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "add node. index:" << index <<" insert models:"<< model_id << " contract:"<< it.c_str());
-        		}else{
-        			pending_quote_dao<QuoteT>::contract_model_hash_map[index] = p_node;
-        			p_node->next = NULL;
-        			LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "add block. index:" << index <<" insert models:"<< model_id << " contract:"<< it.c_str());
-        		}
-        		//不存在合约节点
-        	}
-        	/*
-            auto model = pending_quote_dao<QuoteT>::contract_model_map.find(it);
-            if (model == pending_quote_dao<QuoteT>::contract_model_map.end()){
-            	set<long> models;
-            	models.insert(model_id);
-            	pending_quote_dao<QuoteT>::contract_model_map[it] = models;
-            }else{
-            	model->second.insert(model_id);
-            }
-            */
-        	//LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"insert models:"	<< it.c_str() << " model id:" << model_id);
-        }    
-    }
+			typename pending_quote_dao<QuoteT>::ContractNode* block = pending_quote_dao<QuoteT>::contract_model_hash_map[index];
+			if (block){
+				//p_node->next = block->next;
+				//block->next = p_node;
+				p_node->next = block;
+				pending_quote_dao<QuoteT>::contract_model_hash_map[index] = p_node;
+				LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "add node. index:" << index <<" insert models:"<< model_id << " contract:"<< it.c_str());
+			}else{
+				pending_quote_dao<QuoteT>::contract_model_hash_map[index] = p_node;
+				p_node->next = NULL;
+				LOG4CXX_INFO(log4cxx::Logger::getRootLogger(), "add block. index:" << index <<" insert models:"<< model_id << " contract:"<< it.c_str());
+			}
+			//不存在合约节点
+		}
+		/*
+		auto model = pending_quote_dao<QuoteT>::contract_model_map.find(it);
+		if (model == pending_quote_dao<QuoteT>::contract_model_map.end()){
+			set<long> models;
+			models.insert(model_id);
+			pending_quote_dao<QuoteT>::contract_model_map[it] = models;
+		}else{
+			model->second.insert(model_id);
+		}
+		*/
+		//LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"insert models:"	<< it.c_str() << " model id:" << model_id);
+	}    
+    
+	this->subscribe_to_symbols(contracts);
 }

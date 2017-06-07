@@ -2,3 +2,4 @@
 2. depth market data (for structure definition to see shde-deep-client.txt)
 3 a combination of level one of market data on UDP and full depth of market data on UDP.
 
+备注：该项目已经被my_quote_shfe_my_jr_ex-spd_lib取代。
