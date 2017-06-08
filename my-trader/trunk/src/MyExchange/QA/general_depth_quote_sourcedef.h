@@ -149,24 +149,24 @@ void quote_source<QuoteT>::process_one_quote(const QuoteT *quote){
 //	}
 }
 
-template<typename QuoteT>
-bool quote_source<QuoteT>::match(string &lockup_value,SubscribeContracts &lookup_array){
+//template<typename QuoteT>
+//bool quote_source<QuoteT>::match(string &lockup_value,SubscribeContracts &lookup_array){
+//
+//	bool found = false;
+//
+//	SubscribeContracts::iterator it = lookup_array.begin();
+//	SubscribeContracts::iterator end = lookup_array.end();
+//	for( ; it!=end; ++it){
+//		std::regex rex = std::regex((*it).c_str());
+//		if (std::regex_match(lockup_value.c_str(),rex)){
+//		//if (0 == strcmp(lockup_value.c_str(),(*it).c_str())){
+//			found = true;
+//			break;
+//		}
+//	}
 
-	bool found = false;
-
-	SubscribeContracts::iterator it = lookup_array.begin();
-	SubscribeContracts::iterator end = lookup_array.end();
-	for( ; it!=end; ++it){
-		std::regex rex = std::regex((*it).c_str());
-		if (std::regex_match(lockup_value.c_str(),rex)){
-		//if (0 == strcmp(lockup_value.c_str(),(*it).c_str())){
-			found = true;
-			break;
-		}
-	}
-
-	return found;
-}
+	//return found;
+//}
 
 template<typename QuoteT>
 void quote_source<QuoteT>::subscribe_to_symbols(SubscribeContracts subscription){
