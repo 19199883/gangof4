@@ -25,6 +25,7 @@
 #include <regex>
 #include <string>
 #include "maint.h"
+#include <perfctx.h>
 
 using namespace boost::posix_time;
 using namespace std;
@@ -77,7 +78,15 @@ void quote_source<QuoteT>::finalize(void){
 }
 
 template<typename QuoteT>
-void quote_source<QuoteT>::OnGTAQuoteData(const QuoteT *quote_src){
+void quote_source<QuoteT>::OnGTAQuoteData(const QuoteT *quote_src){	
+#ifdef LATENCY_MEASURE
+	// latency measure
+	static int cnt = 0;
+	perf_ctx::insert_t0(cnt);
+	cnt++;
+#endif
+                 
+
 	// TODO: improve: combine forwarder and trader into the same process
 	// maint.                                                    
 	if(maintenance::enabled()){                                                                                         
@@ -110,7 +119,6 @@ void quote_source<QuoteT>::process_one_quote(const QuoteT *quote){
 		if (0 == strcmp(p_node->contract, symbol.c_str())){
 			p_module = p_node->module;
 			while (p_module){
-				pending_quote_dao<QuoteT>::set_local_timestamp(quote);
 				pending_quote_dao<QuoteT>::insert_quote(p_module->module_id, quote);
 		        quote_state[p_module->module_id] = true;
 		        p_module = p_module->next;
