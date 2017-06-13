@@ -372,7 +372,6 @@ cancel_signal_processor<SPIFQuoteT,CFQuoteT,StockQuoteT,FullDepthQuoteT,QuoteT5>
 
 	if(0 != sig_cnt){
 		wait_for_ord_id(model_id,sig_ids);
-		wait_for_quote_id(model_id,sig_ids);
 
 		bool timeout = true;
 		while(timeout){
