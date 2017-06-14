@@ -1,0 +1,21 @@
+u-trader 2.0.0 (2017-06-07)
+============================
+New Features, Improvements
+--------------------------
+将quote_forwarder与trader合并成一个进程。
+需要注意的修改：
+-trasev.config：增加MarketData配置项
+-增加查询版本的功能
+-需要拷贝如下文件：
+	libmy_quote_shfe_my_jrcmcc_lib.so
+	libUSTPmduserapi.so
+	libUSTPtraderapi.so
+	libmdclient.so
+	my_quote_shfe_my.config
+
+
+Fixed Bugs
+----------
+
+
+
