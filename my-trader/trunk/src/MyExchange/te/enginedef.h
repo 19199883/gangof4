@@ -34,8 +34,7 @@ template<typename SPIFQuoteT,typename CFQuotet,typename StockQuoteT,typename Ful
 engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::engine(void)
 	:model_manager_ptr(new ModelManagerT()),
 	 qa_ptr(new QaT()),
-	 tca_ptr(new tca()),
-	 listen_(0)
+	 tca_ptr(new tca())
 {
 	disposed = false;
 	this->_pproxy = NULL;
@@ -61,14 +60,6 @@ template<typename SPIFQuoteT,typename CFQuotet,typename StockQuoteT,typename Ful
 void engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::finalize(void)
 {
 	if (false == disposed){
-
-		io_service_.stop();
-		monitor_proxy_->stop();
-		if(NULL != monitor_proxy_){
-			delete monitor_proxy_;
-			monitor_proxy_ = NULL;
-		}
-
 		this->qa_ptr->finalize();
 		this->tca_ptr->finalize();
 
@@ -90,10 +81,6 @@ void engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::initialize
 	maintenance::assemble();
 
 	engine::stopped = false;
-	TiXmlDocument config = TiXmlDocument(sm_settings::config_path.c_str());
-	config.LoadFile();
-	TiXmlElement *RootElement = config.RootElement();
-	RootElement->QueryIntAttribute("listen",&this->listen_);
 
 	// 初始化te依赖的各个模块
 	_pproxy = CLoadLibraryProxy::CreateLoadLibraryProxy();
@@ -187,14 +174,6 @@ void engine<SPIFQuoteT,CFQuotet,StockQuoteT,FullDepthQuoteT,QuoteT5>::run(void)
 		unit_tmp.push_back(unit_ptr);
 		unit_ptr->run();
 		this_thread::sleep_for(std::chrono::milliseconds(10));
-        
-        if ((model_ptr->setting.isOption) && (this->listen_ > 0)){
-    		tcp::endpoint endpoint(tcp::v4(), this->listen_);
-    		monitor_proxy_ = new monitor_proxy(io_service_,endpoint);
-    		monitor_proxy_->start(unit_ptr);
-    		thread t = thread(boost::bind(&boost::asio::io_service::run,boost::ref(io_service_)));
-    		t.detach();
-        }
 	}	
 	this->qa_ptr->Initialize();
 

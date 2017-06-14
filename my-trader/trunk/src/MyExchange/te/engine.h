@@ -15,7 +15,6 @@
 #include "moduleloadlibrarylinux.h"
 #include "loadlibraryproxy.h"
 #include <memory>
-#include "proxy.h"
 
 using namespace trading_channel_agent;
 using namespace quote_agent;
@@ -52,11 +51,6 @@ namespace trading_engine
 		CLoadLibraryProxy *_pproxy;
 
 		bool disposed;
-		monitor_proxy *monitor_proxy_;
-
-		/* a tcp port used to accept connection from tcp client*/
-		int listen_;
-		boost::asio::io_service io_service_;
 
 	public:
 		void finalize(void);
