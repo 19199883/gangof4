@@ -7,12 +7,15 @@ New Features, Improvements
 -trasev.config：增加MarketData配置项
 -增加查询版本的功能
 -需要拷贝如下文件：
-	libmy_quote_shfe_my_jrcmcc_lib.so
+--shfe
+----libmy_quote_shfe_my_jrcmcc_lib.so
 	libUSTPmduserapi.so
 	libUSTPtraderapi.so
 	libmdclient.so
 	my_quote_shfe_my.config
-
+--dce
+---my_quote_dce_udp.config
+---libmy_quote_dce_level2_jrudp_lib.so
 
 Fixed Bugs
 ----------

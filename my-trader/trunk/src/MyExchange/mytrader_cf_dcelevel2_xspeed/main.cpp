@@ -35,8 +35,14 @@ SIGINT_handler(int s)
 	exit(0);		/* call exit for the signal */
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+	if (2 == argc)  {
+		show_info(argv);
+		return 0;
+	}
+
+
 	(void) my_cmn::my_log::instance(NULL);
 
 	// Load configuration file
