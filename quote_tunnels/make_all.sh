@@ -150,7 +150,7 @@ QT_TUNNEL_DIST=$TRADER_LIB_ROOT/tunnel/femas
 mkdir -p $QT_TUNNEL_DIST
 cp -a bin/*.so $QT_TUNNEL_DIST
 cp -a config/* $QT_TUNNEL_DIST
-cp -a $QT_LIB_BIN_DIR/femas/libUSTPtraderapi.so $QT_TUNNEL_DIST
+cp -a $QT_LIB_BIN_DIR/femas/*.so $QT_TUNNEL_DIST
 
 # ib api tunnel
 cd $QT_SOURCE_ROOT/my_tunnel_lib_ib_api

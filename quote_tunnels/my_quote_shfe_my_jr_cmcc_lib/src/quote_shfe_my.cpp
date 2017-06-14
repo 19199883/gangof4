@@ -11,23 +11,23 @@
 using namespace std;
 using namespace my_cmn;
 
-#pragma pack(1)
-#define MAX_PAIR 120
-struct PVPair
-{
-    double price;
-    int volume;
-};
-struct MDPack
-{
-    char instrument[10];
-    char islast;
-    int seqno;
-    char direction;
-    short count;
-    PVPair data[MAX_PAIR];
-};
-#pragma pack()
+//#pragma pack(1)
+//#define MAX_PAIR 120
+//struct PVPair
+//{
+//    double price;
+//    int volume;
+//};
+//struct MDPack
+//{
+//    char instrument[10];
+//    char islast;
+//    int seqno;
+//    char direction;
+//    short count;
+//    PVPair data[MAX_PAIR];
+//};
+//#pragma pack()
 
 static std::string ToString(const MDPack &d) {
     char msg[10240];
