@@ -65,6 +65,12 @@ public:
 	///用户退出应答
 	virtual void OnRspUserLogout(CUstpFtdcRspUserLogoutField *pRspUserLogout, CUstpFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {};
 
+	///订阅主题应答
+	virtual void OnRspSubscribeTopic(CUstpFtdcDisseminationField *pDissemination, CUstpFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {};
+
+	///主题查询应答
+	virtual void OnRspQryTopic(CUstpFtdcDisseminationField *pDissemination, CUstpFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {};
+
 	///深度行情通知
 	virtual void OnRtnDepthMarketData(CUstpFtdcDepthMarketDataField *pDepthMarketData) {};
 
@@ -73,9 +79,6 @@ public:
 
 	///退订合约的相关信息
 	virtual void OnRspUnSubMarketData(CUstpFtdcSpecificInstrumentField *pSpecificInstrument, CUstpFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {};
-
-	///获取行情主题信息应答
-	virtual void OnRspGetMarketTopic(CUstpFtdcRspMarketTopicField *pRspMarketTopic, CUstpFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {};
 };
 
 class MDUSER_API_EXPORT CUstpFtdcMduserApi
@@ -171,14 +174,7 @@ public:
 	///@param ppInstrumentID 合约ID  
 	///@param nCount 要订阅/退订行情的合约个数
 	///@remark 
-	virtual int UnSubMarketData(char *ppInstrumentID[], int nCount)=0;
-
-	///获取行情订阅号。
-	///@param *ppExchangeID 合约ID  
-	///@param nCount 要获取行情订阅号的交易所个数
-	///@remark 
-	virtual int GetMarketTopic(char *pExchangeID)=0;
-		
+	virtual int UnSubMarketData(char *ppInstrumentID[], int nCount)=0;		
 	
 	///设置心跳超时时间。
 	///@param timeout 心跳超时时间(秒)  
@@ -190,6 +186,18 @@ public:
 
 	///用户退出请求
 	virtual int ReqUserLogout(CUstpFtdcReqUserLogoutField *pReqUserLogout, int nRequestID) = 0;
+
+	///订阅主题请求
+	virtual int ReqSubscribeTopic(CUstpFtdcDisseminationField *pDissemination, int nRequestID) = 0;
+
+	///主题查询请求
+	virtual int ReqQryTopic(CUstpFtdcDisseminationField *pDissemination, int nRequestID) = 0;
+
+	///订阅合约的相关信息
+	virtual int ReqSubMarketData(CUstpFtdcSpecificInstrumentField *pSpecificInstrument, int nRequestID) = 0;
+
+	///退订合约的相关信息
+	virtual int ReqUnSubMarketData(CUstpFtdcSpecificInstrumentField *pSpecificInstrument, int nRequestID) = 0;
 protected:
 	~CUstpFtdcMduserApi(){};
 };

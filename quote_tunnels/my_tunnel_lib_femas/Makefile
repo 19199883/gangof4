@@ -10,7 +10,7 @@ CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lmy_compliance_checker -lqtm -lmymarketdata -lUSTPtraderapi
+LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lmy_compliance_checker -lqtm -lmymarketdata -lUSTPtraderapiAF
 DEPS:=.depends
 OUT:=libfemas_tunnel.so
 
