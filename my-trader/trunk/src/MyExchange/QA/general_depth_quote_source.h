@@ -19,7 +19,6 @@
 #include "tbb/include/tbb/spin_mutex.h"
 #include "pending_quote_dao.h"
 
-#include "quote_interface_shfe_my.h"
 
 using namespace std::chrono;
 using namespace std;

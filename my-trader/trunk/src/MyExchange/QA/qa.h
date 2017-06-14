@@ -20,7 +20,6 @@
 #include "quote_datatype_level1.h"
 #include "quote_datatype_dce_level2.h"
 
-#include "quote_interface_shfe_my.h"
 
 #include <memory>
 

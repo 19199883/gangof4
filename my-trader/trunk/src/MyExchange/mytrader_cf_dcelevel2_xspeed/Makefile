@@ -23,12 +23,12 @@ INCPATH:= -I$(TOP)/lib/ \
 	  -I../QA \
 	  -I../$(PROJECT_NAME)
 
-LIBPATH:=-L$(TOP)/lib/toe \
-		-L$(TOP)/lib/common \
+LIBPATH:=-L$(TOP)/lib/common \
 		-L$(TOP)/lib/quote\
 		-L../tinyxml/bin \
 		-L../te/bin \
 		-L../tca/bin \
+		-L$(TOP)/lib/quote/dce_my_jr_udp/bin \
 		-L../sm/bin \
 		-L../QA/bin \
 		-L../my_exchange_entity/bin \
@@ -42,6 +42,7 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lutils -ldl -lpthread -lboost_thread -lboost_filesystem -lboost_system \
+	-lqtm -lmy_quote_dce_level2_jrudp_lib \
 	-lboost_date_time -llog4cxx -lssl -ltca -lsm -lmy_common_v2 -lmy_exchange_entity -ltinyxml
 
 DEPS:=.depends
@@ -101,6 +102,8 @@ dist:
 	-cp -varf $(CURDIR)/*.xml $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(TOP)/lib/intel64 $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(TOP)/lib/common/* $(DIST_DIR)/$(PACKAGE_NAME)/	
+	-cp -vaf $(TOP)/lib/quote/dce_my_jr_udp/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
+	-cp -vaf $(TOP)/lib/quote/dce_my_jr_udp/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cd $(DIST_DIR); \
 		tar -cvjf $(PACKAGE_NAME)-$(VERSION).tar.bz2  $(PACKAGE_NAME)/*     
 

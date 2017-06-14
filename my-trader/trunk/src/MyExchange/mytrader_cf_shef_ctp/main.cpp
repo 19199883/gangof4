@@ -1,6 +1,7 @@
 // main.cpp : �������̨Ӧ�ó������ڵ㡣
 //
 
+#include "quote_interface_shfe_my.h"
 #include <functional>   // std::bind
 #include <thread>
 #include <stdio.h>      /* printf, tmpnam, L_tmpnam, remove */
@@ -9,10 +10,10 @@
 #include <string>
 #include "engine.h"
 #include "quote_entity.h"
-#include "ClassFactory.h"
 #include "my_cmn_log.h"
 #include "../catch_sigs.h"
 #include "maint.h"
+#include "ClassFactory.h"
 
 using namespace trading_engine;
 using namespace std;

@@ -1,6 +1,7 @@
 // main.cpp : �������̨Ӧ�ó������ڵ㡣
 //
 
+#include "quote_interface_dce_level2.h"
 #include <functional>   // std::bind
 #include <thread>
 #include <stdio.h>      /* printf, tmpnam, L_tmpnam, remove */
@@ -17,7 +18,7 @@
 using namespace trading_engine;
 using namespace std;
 
-typedef engine<CFfexFtdcDepthMarketData,MDBestAndDeep_MY,MDTenEntrust_MY,CDepthMarketDataField,MDOrderStatistic_MY> EngineT;
+typedef engine<int,MDBestAndDeep_MY,int,int,MDOrderStatistic_MY> EngineT;
 
 EngineT *engine_ins;
 
