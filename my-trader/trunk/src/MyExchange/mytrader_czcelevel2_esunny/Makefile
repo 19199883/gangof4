@@ -9,7 +9,6 @@ DIST_DIR:=$(TOP)/dist
 PROJECT_NAME:=mytrader_czcelevel2_esunny
 
 INCPATH:= -I$(TOP)/lib/ \
-	  -I$(TOP)/lib/toe \
 	  -I$(TOP)/lib/quote/include \
 	  -I$(TOP)/lib/tunnel/include \
 	  -I$(TOP)/lib/my_common \
@@ -23,8 +22,8 @@ INCPATH:= -I$(TOP)/lib/ \
 	  -I../QA \
 	  -I../$(PROJECT_NAME)
 
-LIBPATH:=-L$(TOP)/lib/toe \
-		-L$(TOP)/lib/common \
+LIBPATH:=-L$(TOP)/lib/common \
+		-L$(TOP)/lib/quote/czce_jr_udp_level2/bin \
 		-L$(TOP)/lib/quote\
         -L../utils/bin \
 	  	-L../tinyxml/bin \
@@ -41,7 +40,8 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lutils -ldl -lpthread -lboost_thread -lboost_filesystem -lboost_system \
-	-lboost_date_time -llog4cxx -lssl -ltca -lsm -lmy_common_v2 -lmy_exchange_entity -ltinyxml
+	-lboost_date_time -llog4cxx -lssl -ltca -lsm -lmy_common_v2 -lmy_exchange_entity \
+	-ltinyxml -lmy_quote_tap_lib -lTapQuoteAPI  -lmy_quote_czce_level2_jrudp_lib -lqtm
 
 DEPS:=.depends
 
@@ -100,6 +100,8 @@ dist:
 	-cp -varf $(CURDIR)/*.xml $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(TOP)/lib/intel64 $(DIST_DIR)/$(PACKAGE_NAME)/
 	-cp -varf $(TOP)/lib/common/* $(DIST_DIR)/$(PACKAGE_NAME)/	
+	-cp -vaf $(TOP)/lib/quote/czce_jr_udp_level2/bin/* $(DIST_DIR)/$(PACKAGE_NAME)/
+	-cp -vaf $(TOP)/lib/quote/czce_jr_udp_level2/config/* $(DIST_DIR)/$(PACKAGE_NAME)/	
 	-cd $(DIST_DIR); \
 		tar -cvjf $(PACKAGE_NAME)-$(VERSION).tar.bz2  $(PACKAGE_NAME)/*     
 

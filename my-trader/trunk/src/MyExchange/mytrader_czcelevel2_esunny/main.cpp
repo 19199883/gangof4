@@ -1,6 +1,7 @@
 // main.cpp : �������̨Ӧ�ó������ڵ㡣
 //
 //#include "quote_handler.h"
+ #include "quote_interface_czce_level2.h"
 #include <functional>   // std::bind
 #include <thread>
 #include <stdio.h>      /* printf, tmpnam, L_tmpnam, remove */
@@ -12,13 +13,12 @@
 #include "ClassFactory.h"
 #include "my_cmn_log.h"
 #include "../catch_sigs.h"
-#include "../catch_sigs.h"
 #include "maint.h"
 
 using namespace trading_engine;
 using namespace std;
 
-typedef engine<ZCEL2QuotSnapshotField_MY,ZCEL2QuotSnapshotField_MY,MDTenEntrust_MY,SHFEQuote,ZCEQuotCMBQuotField_MY> EngineT;
+typedef engine<int,ZCEL2QuotSnapshotField_MY,int,int,int> EngineT;
 
 EngineT *engine_ins;
 
@@ -35,8 +35,12 @@ SIGINT_handler(int s)
 	exit(0);		/* call exit for the signal */
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+	if (2 == argc)  {  
+		show_info(argv);  
+		return 0;  
+	}  
 	/*
 	struct sched_param param;
 	param.sched_priority = 99;

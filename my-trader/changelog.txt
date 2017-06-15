@@ -16,6 +16,11 @@ New Features, Improvements
 --dce
 ---my_quote_dce_udp.config
 ---libmy_quote_dce_level2_jrudp_lib.so
+--czce
+---libmy_quote_tap_lib.so
+---libTapQuoteAPI.so
+---libmy_quote_czce_level2_jrudp_lib.so
+---my_quote_czce_udp.config
 
 Fixed Bugs
 ----------
