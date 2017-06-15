@@ -1,6 +1,6 @@
 概述：接收一档UDP行情和深度一档行情，并单独发送一档行情内容(data_flag=1),单独发送深度行情(data_flag=2)以及合并行情(data_flag=3)
 1.UDP深度行情：定义见 shde-deep-client.txt
-2.UDP一档行情：文件见 mdclient接口使用说明.docx；定义见mdclient.h；例子见main.cpp
+2.UDP一档行情：文件见 mdclient接口使用说明.docx（FEMAS极速行情.rar）；定义见mdclient.h；例子见main.cpp
 3.合并行情：定义见quote_datatype_shfe_my.h
 
 备注：目前在金瑞进行测试

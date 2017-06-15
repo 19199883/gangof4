@@ -42,7 +42,7 @@ OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lutils -ldl -lpthread -lboost_thread -lboost_filesystem -lboost_system \
 	-lboost_date_time -llog4cxx -lssl -ltca -lsm -lmy_common_v2 -lmy_exchange_entity -ltinyxml \
-	-lqtm -lmy_quote_shfe_my_jrcmcc_lib -lmy_common_v2 -lUSTPmduserapi -lUSTPtraderapi 
+	-lqtm -lmy_quote_shfe_my_jrcmcc_lib -lmy_common_v2  -lmdclient 
 
 DEPS:=.depends
 
