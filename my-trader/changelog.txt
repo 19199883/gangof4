@@ -1,3 +1,18 @@
+u-trader 2.0.0 (2017-06-26)
+============================
+New Features, Improvements
+--------------------------
+1. my_quote_shfe_my_jr_ex-spd_lib，数据接口变更:
+----由于上海商品期货交易所变更了全挡数据接口。 新数据接口：委买列表，委卖列表按价格排序与旧数据正好相反
+----为了区分旧的历史数据：
+------data_flag=2  替换为：5；data_flag=3  替换为：6
+
+
+Fixed Bugs
+----------
+
+
+
 u-trader 2.0.0 (2017-06-07)
 ============================
 New Features, Improvements
@@ -9,8 +24,6 @@ New Features, Improvements
 -需要拷贝如下文件：
 --shfe
 ----libmy_quote_shfe_my_jrcmcc_lib.so
-	libUSTPmduserapi.so
-	libUSTPtraderapi.so
 	libmdclient.so
 	my_quote_shfe_my.config
 --dce
@@ -21,6 +34,7 @@ New Features, Improvements
 ---libTapQuoteAPI.so
 ---libmy_quote_czce_level2_jrudp_lib.so
 ---my_quote_czce_udp.config
+---my_quote_tap.config
 
 Fixed Bugs
 ----------
