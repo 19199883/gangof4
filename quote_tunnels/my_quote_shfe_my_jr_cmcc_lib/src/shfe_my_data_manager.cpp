@@ -364,6 +364,8 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
             it->second.clear();
         }
     }
+
+	// TODO: new; damaged, set 0; else set value of 30 values of tail
     memcpy(my_data.buy_price, p_data->buy_price, std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->buy_count) * sizeof(double));
     memcpy(my_data.buy_volume, p_data->buy_volume, std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->buy_count) * sizeof(int));
     memcpy(my_data.sell_price, p_data->sell_price, std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->sell_count) * sizeof(double));

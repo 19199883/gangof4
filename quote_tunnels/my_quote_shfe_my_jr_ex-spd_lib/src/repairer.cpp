@@ -103,14 +103,6 @@ void repairer::pull_ready_data()
 
 		this->sell_queue_.clear();
 	} // end if (!this->sell_queue_.empty()){
-
-	//	TODO: debug
-	//int size = this->ready_queue_.size();
-	//for (int i=0; i< size; i++){
-	//	MY_LOG_DEBUG("(server:%d)pull ready dta,sn:%d,damaged:%d",this->server_, this->ready_queue_[i].content.seqno,this->ready_queue_[i].damaged);
-
-	//}
-	//this->print_queue();
 }
 
 void repairer::normal_proc_buy_data(MDPack &data)
@@ -201,9 +193,6 @@ void repairer::print_queue()
 	//for (int i=0; i<size; i++){
 	//	MY_LOG_DEBUG("(server:%d)ready queue:seqno:%d",this->server_, this->ready_queue_[i].content.seqno);
 	//}
-	
-	// TODO: debug
-	//MY_LOG_DEBUG("(server:%d)buy queue:%d, sell queue:%d, ready queue:%d",this->server_, buy_size, sell_size, ready_size);
 }
 
 void repairer::proc_pkg_loss(MDPack &data)
@@ -257,9 +246,6 @@ MDPackEx repairer::next(bool &empty)
 // entrance of repairer class
 void repairer::rev(MDPack &data)
 {
-	// TODO: debug
-	//ToString(data).c_str();
-
 	int new_sn = data.seqno / 10;
 	if ((this->seq_no_!=-1) && new_sn !=this->seq_no_ + 1) {
 		MY_LOG_WARN("seq no from %d to %d, packet loss", seq_no_,new_sn);

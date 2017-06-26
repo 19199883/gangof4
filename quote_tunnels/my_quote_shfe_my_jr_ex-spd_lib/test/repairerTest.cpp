@@ -1999,7 +1999,6 @@ TEST(RepairerTest, RevOfNormalWorkingWithoutPackageLoss)
 	ASSERT_EQ(rep.seq_no_,sellData1.seqno / 10);
 }
 
-// TODO:
 /*
  * after object enters normal working status, receive new data 
  * with package loss.

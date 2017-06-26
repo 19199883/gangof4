@@ -81,6 +81,10 @@ private:
 	SHFEMDQuoteSnapshot *PushDataToBuffer(const std::string &cur_code, MBLDataCollection::iterator &p);
 
 	void SendToClient(const std::string &code, SHFEMDQuoteSnapshot * const p_data);
+
+	// TODO: new data
+	std::string ToString(const MYShfeMarketData &d);
+
 	MYShfeMDHandler *data_handler_;
 
 	// for checking data finish status

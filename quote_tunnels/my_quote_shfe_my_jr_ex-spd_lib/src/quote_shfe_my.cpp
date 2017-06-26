@@ -13,14 +13,14 @@ using namespace std;
 using namespace my_cmn;
 
 
-//static std::string ToString(const MDPack &d) {
-//	MY_LOG_DEBUG("server(%d)MDPack Data: \ninstrument: %s\nislast: %d\nseqno: %d\ndirection: %c\ncount: %d\n", this->server_,d.instrument, (int)d.islast, d.seqno, d.direction, d.count);
-//	for(int i = 0; i < d.count; i++) {
-//		 MY_LOG_DEBUG("server(%d) price%d: %lf, volume%d: %d\n",this->server_, i, d.data[i].price, i, d.data[i].volume);
-//	}
-//  
-//  return "";
-//}
+std::string QuoteInterface_MY_SHFE_MD::ToString(const MDPack &d) {
+	MY_LOG_DEBUG("server(%d)MDPack Data: \ninstrument: %s\nislast: %d\nseqno: %d\ndirection: %c\ncount: %d\n", this->server_,d.instrument, (int)d.islast, d.seqno, d.direction, d.count);
+	for(int i = 0; i < d.count; i++) {
+		 MY_LOG_DEBUG("server(%d) price%d: %lf, volume%d: %d",this->server_, i, d.data[i].price, i, d.data[i].volume);
+	}
+  
+  return "";
+}
 
 QuoteInterface_MY_SHFE_MD::QuoteInterface_MY_SHFE_MD(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg)
     : cfg_(cfg), seq_no_(0), server_(0), p_shfe_deep_save_(NULL), p_shfe_ex_save_(NULL), p_my_shfe_md_save_(NULL),
@@ -134,10 +134,10 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
 
         // data handle
         MDPack *p = (MDPack *)recv_buf;
-        //MY_LOG_DEBUG("%s", ToString(*p).c_str());
-		// TODO: debug
-		//MY_LOG_WARN("rev mbl:%s,sn:%d",p->instrument,p->seqno);
 
+		// TODO:debug
+		//ToString(*p);
+		
 		int new_svr = p->seqno % 10;
         if (new_svr != server_) { MY_LOG_WARN("server from %d to %d", server_, new_svr); }
 		

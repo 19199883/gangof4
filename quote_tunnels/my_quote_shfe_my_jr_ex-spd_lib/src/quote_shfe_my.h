@@ -67,6 +67,8 @@ private:
     boost::function<void(const CDepthMarketDataField *)> shfe_ex_handler_;
     boost::function<void(const MYShfeMarketData *)> my_shfe_md_handler_;
 
+	std::string ToString(const MDPack &d);
+
     // 订阅合约集合
     SubscribeContracts subscribe_contracts_;
 

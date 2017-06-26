@@ -6,6 +6,23 @@
 #define SHFE_MD_CODE_COUNT_INIT 200
 #define SHFE_PRICE_COUNT_INIT   600
 
+std::string MYShfeMDManager::ToString(const MYShfeMarketData &d) {
+	MY_LOG_DEBUG("MYShfeMarketData: instrument:%s, data_flag:%d,buy_total_volume:%d; sell_total_volume:%d; buy_weighted_avg_price:%lf; sell_weighted_avg_price:%lf",
+				d.InstrumentID, d.data_flag, d.buy_total_volume,d.sell_total_volume,d.buy_weighted_avg_price,d.sell_weighted_avg_price);
+
+	MY_LOG_DEBUG("dir:buy; price, volume");
+	for(int i = 0; i < 30; i++) {
+		 MY_LOG_DEBUG("price%d: %lf, volume%d: %d\n", i, d.buy_price[i], i, d.buy_volume[i]);
+	}
+
+	MY_LOG_DEBUG("dir:sell; price, volume");
+	for(int i = 0; i < 30; i++) {
+		 MY_LOG_DEBUG("price%d: %lf, volume%d: %d\n", i, d.sell_price[i], i, d.sell_volume[i]);
+	}
+  
+  return "";
+}
+
 static SHFEMDQuoteSnapshot ** AllocateSnapshotBuffer(int code_count, int price_pos_count)
 {
     SHFEMDQuoteSnapshot ** pp = new SHFEMDQuoteSnapshot *[code_count];
@@ -281,6 +298,14 @@ SHFEMDQuoteSnapshot *MYShfeMDManager::PushDataToBuffer(const std::string &cur_co
     }
 
 	// wangying, repairer, total sell volume, bug dound on 2017-05-11
+	// new data on 2017-0625
+	// TODO: new data, debug, print
+	//MY_LOG_DEBUG("damaged: %d; instrument:%s", p->field.damaged, p->field.InstrumentID);
+	if (p->field.damaged){
+		p->field.Price = 0;
+		p->field.Volume = 0;	
+	}
+
 	p_data->damaged = p->field.damaged;
 
     if (p->field.Direction == SHFE_FTDC_D_Buy)
@@ -345,8 +370,10 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 {
     // prepare my data
     MYShfeMarketData my_data;
+
     memcpy(my_data.InstrumentID, code.c_str(), code.size() + 1);
-    my_data.data_flag = 2;
+    //my_data.data_flag = 2;
+    my_data.data_flag = 5;
     {
         MYMutexGuard guard(depth_mutex_);
         DepthDataQueueOfCode::iterator it = data_depth_.find(code);
@@ -363,17 +390,24 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
                 else
                 {
                     // only combine the latest level one data with mbl data
-                    my_data.data_flag = 3;
+                    //my_data.data_flag = 3;
+                    my_data.data_flag = 6;
                 }
             }
             // clear all
             it->second.clear();
         }
     }
-    memcpy(my_data.buy_price, p_data->buy_price, std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->buy_count) * sizeof(double));
-    memcpy(my_data.buy_volume, p_data->buy_volume, std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->buy_count) * sizeof(int));
-    memcpy(my_data.sell_price, p_data->sell_price, std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->sell_count) * sizeof(double));
-    memcpy(my_data.sell_volume, p_data->sell_volume, std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->sell_count) * sizeof(int));
+
+	// new data, copy 30 elements at the end on 2017-06-25
+	int buy_el_cpy_cnt = std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->buy_count);
+	memcpy(my_data.buy_price, p_data->buy_price + (p_data->buy_count - buy_el_cpy_cnt), buy_el_cpy_cnt * sizeof(double));
+	memcpy(my_data.buy_volume, p_data->buy_volume + (p_data->buy_count - buy_el_cpy_cnt), buy_el_cpy_cnt * sizeof(int));
+	int sell_el_cpy_cnt = std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->sell_count);
+	memcpy(my_data.sell_price, p_data->sell_price + (p_data->sell_count - sell_el_cpy_cnt), sell_el_cpy_cnt * sizeof(double));
+	memcpy(my_data.sell_volume, p_data->sell_volume + (p_data->sell_count - sell_el_cpy_cnt), sell_el_cpy_cnt * sizeof(int));
+	// TODO: new data, debug, print
+	//ToString(my_data);
 
     FillStatisticFields(my_data, p_data);
 
