@@ -25,7 +25,8 @@ std::string MY_SHFE_MD_QuoteToString(const SaveData_MY_SHFE_MD * const p_data )
 
 	const SaveData_SHFE_EX * const p = (const SaveData_SHFE_EX * const)p_data;	
 	int total_volume = 0;
-	if (p_data->data_.data_flag != 2)
+	if (p_data->data_.data_flag != 2 &&
+		p_data->data_.data_flag != 5)
 	{
 		total_volume = p->data_.Volume;
 	}
@@ -34,18 +35,24 @@ std::string MY_SHFE_MD_QuoteToString(const SaveData_MY_SHFE_MD * const p_data )
 
 	ss << p_data->data_.InstrumentID << " - data_flag|" << p_data->data_.data_flag 
 		<< "|" << p->t_ << "|" << total_volume << std::endl;
-	if (p_data->data_.data_flag == 1 || p_data->data_.data_flag == 3)
+	if (p_data->data_.data_flag == 1 || 
+		p_data->data_.data_flag == 3 || 
+		p_data->data_.data_flag == 6)
 	{
 		std::string ex_str = SHFE_EX_ToString(p);
 		ss << ex_str;
 	}
 
-	if (p_data->data_.data_flag == 3)
+	if (p_data->data_.data_flag == 3||
+		p_data->data_.data_flag == 6)
 	{
 		ss << std::endl;
 	}
 
-	if (p_data->data_.data_flag == 2 || p_data->data_.data_flag == 3)
+	if (p_data->data_.data_flag == 2 || 
+		p_data->data_.data_flag == 3 || 
+		p_data->data_.data_flag == 5 || 
+		p_data->data_.data_flag == 6)
 	{
 		ss <<p_data->data_.InstrumentID << " - stats|" << p_data->data_.buy_total_volume << "|" << p_data->data_.buy_weighted_avg_price << "|" 
 			<< p_data->data_.sell_total_volume << "|" << p_data->data_.sell_weighted_avg_price << "|"
