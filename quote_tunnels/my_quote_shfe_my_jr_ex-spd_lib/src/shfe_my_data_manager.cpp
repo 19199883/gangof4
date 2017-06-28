@@ -401,15 +401,29 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 
 	// new data, copy 30 elements at the end on 2017-06-25
 	int buy_el_cpy_cnt = std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->buy_count);
-	memcpy(my_data.buy_price, p_data->buy_price + (p_data->buy_count - buy_el_cpy_cnt), buy_el_cpy_cnt * sizeof(double));
-	memcpy(my_data.buy_volume, p_data->buy_volume + (p_data->buy_count - buy_el_cpy_cnt), buy_el_cpy_cnt * sizeof(int));
+	if (buy_el_cpy_cnt==MY_SHFE_QUOTE_PRICE_POS_COUNT){
+		memcpy(my_data.buy_price,  p_data->buy_price  + (p_data->buy_count - buy_el_cpy_cnt), buy_el_cpy_cnt * sizeof(double));
+		memcpy(my_data.buy_volume, p_data->buy_volume + (p_data->buy_count - buy_el_cpy_cnt), buy_el_cpy_cnt * sizeof(int));
+	}
+	else{
+		memcpy(my_data.buy_price  + (MY_SHFE_QUOTE_PRICE_POS_COUNT - buy_el_cpy_cnt), p_data->buy_price , buy_el_cpy_cnt * sizeof(double));
+		memcpy(my_data.buy_volume + (MY_SHFE_QUOTE_PRICE_POS_COUNT - buy_el_cpy_cnt), p_data->buy_volume, buy_el_cpy_cnt * sizeof(int));
+	}
+
 	int sell_el_cpy_cnt = std::min(MY_SHFE_QUOTE_PRICE_POS_COUNT, p_data->sell_count);
-	memcpy(my_data.sell_price, p_data->sell_price + (p_data->sell_count - sell_el_cpy_cnt), sell_el_cpy_cnt * sizeof(double));
-	memcpy(my_data.sell_volume, p_data->sell_volume + (p_data->sell_count - sell_el_cpy_cnt), sell_el_cpy_cnt * sizeof(int));
-	// TODO: new data, debug, print
-	//ToString(my_data);
+	if (sell_el_cpy_cnt==MY_SHFE_QUOTE_PRICE_POS_COUNT){
+		memcpy(my_data.sell_price,  p_data->sell_price  + (p_data->sell_count - sell_el_cpy_cnt), sell_el_cpy_cnt * sizeof(double));
+		memcpy(my_data.sell_volume, p_data->sell_volume + (p_data->sell_count - sell_el_cpy_cnt), sell_el_cpy_cnt * sizeof(int));
+	}
+	else{
+		memcpy(my_data.sell_price  + (MY_SHFE_QUOTE_PRICE_POS_COUNT - sell_el_cpy_cnt), p_data->sell_price, sell_el_cpy_cnt * sizeof(double));
+		memcpy(my_data.sell_volume + (MY_SHFE_QUOTE_PRICE_POS_COUNT - sell_el_cpy_cnt), p_data->sell_volume, sell_el_cpy_cnt * sizeof(int));
+	}
 
     FillStatisticFields(my_data, p_data);
+
+	// TODO: new data, debug, print
+	//ToString(my_data);
 
     // 发给数据客户
     if (data_handler_)
