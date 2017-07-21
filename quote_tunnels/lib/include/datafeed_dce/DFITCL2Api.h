@@ -1,13 +1,13 @@
 /**
- * ç‰ˆæƒæ‰€æœ‰(C)2012-2016, å¤§è¿é£åˆ›ä¿¡æ¯æŠ€æœ¯æœ‰é™å…¬å¸
- * æ–‡ä»¶åç§°ï¼šDFITCL2Api.h
- * æ–‡ä»¶è¯´æ˜ï¼šå®šä¹‰level 2è¡Œæƒ…APIæ¥å£
- * å½“å‰ç‰ˆæœ¬ï¼š1.0.7
- * ä½œè€…ï¼šDatafeedé¡¹ç›®ç»„
- * å‘å¸ƒæ—¥æœŸï¼š2015å¹´03æœˆ17æ—¥
- */                         
-#ifndef DLMDAPI_H_
-#define DLMDAPI_H_
+ * °æÈ¨ËùÓĞ(C)2012-2016, ´óÁ¬·É´´ĞÅÏ¢¼¼ÊõÓĞÏŞ¹«Ë¾
+ * ÎÄ¼şÃû³Æ£ºDFITCL2Api.h
+ * ÎÄ¼şËµÃ÷£º¶¨Òålevel 2ĞĞÇéAPI½Ó¿Ú
+ * µ±Ç°°æ±¾£º1.1.2
+ * ×÷Õß£ºDatafeedÏîÄ¿×é
+ * ·¢²¼ÈÕÆÚ£º2017Äê2ÔÂ28ÈÕ
+ */
+#ifndef _DFITC_L2_API_H_
+#define _DFITC_L2_API_H_
 
 #ifdef WIN32 
 
@@ -25,194 +25,196 @@
 #include "DFITCL2ApiDataType.h"
 
 namespace DFITC_L2 {
-	class DFITCL2Spi
-	{
-	public:
-		DFITCL2Spi() {}
-		/**
-		* è¿æ¥æˆåŠŸå“åº”:å½“ç”¨æˆ·è¿æ¥æˆåŠŸåï¼Œæ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚
-		*/   
-		virtual void OnConnected() { }
+    class DFITCL2Spi
+    {
+    public:
+        DFITCL2Spi() {}
+        /**
+        * Á¬½Ó³É¹¦ÏìÓ¦:µ±ÓÃ»§Á¬½Ó³É¹¦ºó£¬´Ë·½·¨»á±»µ÷ÓÃ¡£
+        */
+        virtual void OnConnected() { }
 
-		/**
-		* è¿æ¥æ–­å¼€å“åº”:å½“apiä¸level 2 serverå¤±å»è¿æ¥æ—¶æ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚apiä¼šè‡ªåŠ¨é‡æ–°è¿æ¥ï¼Œå®¢æˆ·ç«¯å¯ä¸åšå¤„ç†
-		* /@param nReason é”™è¯¯åŸå› 
-		*        1 å¿ƒè·³è¶…æ—¶
-		*        2 ç½‘ç»œæ–­å¼€
-		*		 3 æ”¶åˆ°é”™è¯¯æŠ¥æ–‡
-		*		 4 å¤šæ’­è¡Œæƒ…æ¨¡å¼ä¸‹ï¼Œé”€æ¯å®ä¾‹æ—¶é€šçŸ¥å®¢æˆ·
-		*/   
-		virtual void OnDisconnected(int pReason) { }
+        /**
+        * Á¬½Ó¶Ï¿ªÏìÓ¦:µ±apiÓëlevel 2 serverÊ§È¥Á¬½ÓÊ±´Ë·½·¨»á±»µ÷ÓÃ¡£api»á×Ô¶¯ÖØĞÂÁ¬½Ó£¬¿Í»§¶Ë¿É²»×ö´¦Àí
+        * /@param nReason ´íÎóÔ­Òò
+        *        1 ĞÄÌø³¬Ê±
+        *        2 ÍøÂç¶Ï¿ª
+        *        3 ÊÕµ½´íÎó±¨ÎÄ
+        *        4 ¶à²¥ĞĞÇéÄ£Ê½ÏÂ£¬Ïú»ÙÊµÀıÊ±Í¨Öª¿Í»§
+        *        5 ·¢ËÍ±¨ÎÄ¹ı³¤
+        */
+        virtual void OnDisconnected(int pReason) { }
 
-		/**
-		* ç™»å½•è¯·æ±‚å“åº”:å½“ç”¨æˆ·å‘å‡ºç™»å½•è¯·æ±‚åï¼Œlevel 2 serverè¿”å›å“åº”æ—¶æ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ï¼Œé€šçŸ¥ç”¨æˆ·ç™»å½•æ˜¯å¦æˆåŠŸã€‚
-		* @param pErrorField:ç”¨æˆ·ç™»å½•è¿”å›ä¿¡æ¯ã€‚
-		*/           
-		virtual void OnRspUserLogin(struct ErrorRtnField * pErrorField) { }
+        /**
+        * µÇÂ¼ÇëÇóÏìÓ¦:µ±ÓÃ»§·¢³öµÇÂ¼ÇëÇóºó£¬level 2 server·µ»ØÏìÓ¦Ê±´Ë·½·¨»á±»µ÷ÓÃ£¬Í¨ÖªÓÃ»§µÇÂ¼ÊÇ·ñ³É¹¦¡£
+        * @param pErrorField:ÓÃ»§µÇÂ¼·µ»ØĞÅÏ¢¡£
+        */
+        virtual void OnRspUserLogin(struct ErrorRtnField * pErrorField) { }
 
-		/**
-		* ç™»å‡ºè¯·æ±‚å“åº”:å½“ç”¨æˆ·å‘å‡ºç™»å‡ºè¯·æ±‚åï¼Œlevel 2 serverè¿”å›å“åº”æ—¶æ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ï¼Œé€šçŸ¥ç”¨æˆ·ç™»å‡ºæ˜¯å¦æˆåŠŸã€‚
-		* @param pErrorField:ç”¨æˆ·ç™»å‡ºè¿”å›ä¿¡æ¯ã€‚
-		*/  
-		virtual void OnRspUserLogout(struct ErrorRtnField * pErrorField) { }
-		
-		/**
-		* è®¢é˜…è¯·æ±‚å“åº”:å½“ç”¨æˆ·å‘å‡ºè®¢é˜…è¯·æ±‚åï¼Œlevel 2 serverè¿”å›å“åº”æ—¶æ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ï¼Œé€šçŸ¥ç”¨æˆ·è®¢é˜…æ˜¯å¦æˆåŠŸã€‚
-		* @param pErrorField:ç”¨æˆ·è®¢é˜…è¿”å›ä¿¡æ¯ã€‚
-		*/  
-		virtual void OnRspSubscribeMarketData(struct ErrorRtnField * pErrorField) { }
+        /**
+        * µÇ³öÇëÇóÏìÓ¦:µ±ÓÃ»§·¢³öµÇ³öÇëÇóºó£¬level 2 server·µ»ØÏìÓ¦Ê±´Ë·½·¨»á±»µ÷ÓÃ£¬Í¨ÖªÓÃ»§µÇ³öÊÇ·ñ³É¹¦¡£
+        * @param pErrorField:ÓÃ»§µÇ³ö·µ»ØĞÅÏ¢¡£
+        */
+        virtual void OnRspUserLogout(struct ErrorRtnField * pErrorField) { }
 
-		/**
-		* å–æ¶ˆè®¢é˜…è¯·æ±‚å“åº”:å½“ç”¨æˆ·å‘å‡ºå–æ¶ˆè®¢é˜…è¯·æ±‚åï¼Œlevel 2 serverè¿”å›å“åº”æ—¶æ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ï¼Œé€šçŸ¥ç”¨æˆ·å–æ¶ˆè®¢é˜…æ˜¯å¦æˆåŠŸã€‚
-		* @param pErrorField:å–æ¶ˆè®¢é˜…è¿”å›ä¿¡æ¯ã€‚
-		*/  
-		virtual void OnRspUnSubscribeMarketData(struct ErrorRtnField * pErrorField) { }
+        /**
+        * ¶©ÔÄÇëÇóÏìÓ¦:µ±ÓÃ»§·¢³ö¶©ÔÄÇëÇóºó£¬level 2 server·µ»ØÏìÓ¦Ê±´Ë·½·¨»á±»µ÷ÓÃ£¬Í¨ÖªÓÃ»§¶©ÔÄÊÇ·ñ³É¹¦¡£
+        * @param pErrorField:ÓÃ»§¶©ÔÄ·µ»ØĞÅÏ¢¡£
+        */
+        virtual void OnRspSubscribeMarketData(struct ErrorRtnField * pErrorField) { }
 
-		/**
-		* å…¨éƒ¨è®¢é˜…è¯·æ±‚å“åº”:å½“ç”¨æˆ·å‘å‡ºå…¨éƒ¨è®¢é˜…è¯·æ±‚åï¼Œlevel 2 serverè¿”å›å“åº”æ—¶æ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ï¼Œé€šçŸ¥ç”¨æˆ·å…¨éƒ¨è®¢é˜…æ˜¯å¦æˆåŠŸã€‚
-		* @param pErrorField:ç”¨æˆ·å…¨éƒ¨è®¢é˜…è¿”å›ä¿¡æ¯ã€‚
-		*/  
-		virtual void OnRspSubscribeAll(struct ErrorRtnField * pErrorField) { }
+        /**
+        * È¡Ïû¶©ÔÄÇëÇóÏìÓ¦:µ±ÓÃ»§·¢³öÈ¡Ïû¶©ÔÄÇëÇóºó£¬level 2 server·µ»ØÏìÓ¦Ê±´Ë·½·¨»á±»µ÷ÓÃ£¬Í¨ÖªÓÃ»§È¡Ïû¶©ÔÄÊÇ·ñ³É¹¦¡£
+        * @param pErrorField:È¡Ïû¶©ÔÄ·µ»ØĞÅÏ¢¡£
+        */
+        virtual void OnRspUnSubscribeMarketData(struct ErrorRtnField * pErrorField) { }
 
-		/**
-		* å–æ¶ˆå…¨éƒ¨è®¢é˜…è¯·æ±‚å“åº”:å½“ç”¨æˆ·å‘å‡ºå–æ¶ˆå…¨éƒ¨è®¢é˜…è¯·æ±‚åï¼Œlevel 2 serverè¿”å›å“åº”æ—¶æ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ï¼Œé€šçŸ¥ç”¨æˆ·å–æ¶ˆå…¨éƒ¨è®¢é˜…æ˜¯å¦æˆåŠŸã€‚
-		* @param pErrorField:å–æ¶ˆå…¨éƒ¨è®¢é˜…è¿”å›ä¿¡æ¯ã€‚
-		*/  
-		virtual void OnRspUnSubscribeAll(struct ErrorRtnField * pErrorField) { }
+        /**
+        * È«²¿¶©ÔÄÇëÇóÏìÓ¦:µ±ÓÃ»§·¢³öÈ«²¿¶©ÔÄÇëÇóºó£¬level 2 server·µ»ØÏìÓ¦Ê±´Ë·½·¨»á±»µ÷ÓÃ£¬Í¨ÖªÓÃ»§È«²¿¶©ÔÄÊÇ·ñ³É¹¦¡£
+        * @param pErrorField:ÓÃ»§È«²¿¶©ÔÄ·µ»ØĞÅÏ¢¡£
+        */
+        virtual void OnRspSubscribeAll(struct ErrorRtnField * pErrorField) { }
 
-		/**
-		* ä¿®æ”¹å¯†ç è¯·æ±‚å“åº”:å½“ç”¨æˆ·å‘å‡ºä¿®æ”¹å¯†ç è¯·æ±‚åï¼Œlevel 2 serverè¿”å›å“åº”æ—¶æ­¤æ–¹æ³•ä¼šè¢«è°ƒç”¨ï¼Œé€šçŸ¥ç”¨æˆ·ä¿®æ”¹å¯†ç æ˜¯å¦æˆåŠŸã€‚
-		* @param pErrorField:ä¿®æ”¹å¯†ç è¿”å›ä¿¡æ¯ã€‚
-		*/  
-		virtual void OnRspModifyPassword(struct ErrorRtnField * pErrorField) { }
-		
-		/**
-		* æœ€ä¼˜ä¸äº”æ¡£æ·±åº¦è¡Œæƒ…æ¶ˆæ¯åº”ç­”:å¦‚æœè®¢é˜…è¡Œæƒ…æˆåŠŸä¸”æœ‰è¡Œæƒ…è¿”å›æ—¶ï¼Œè¯¥æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚
-		* @param pQuote:æŒ‡å‘æœ€ä¼˜ä¸äº”æ¡£æ·±åº¦è¡Œæƒ…ä¿¡æ¯ç»“æ„çš„æŒ‡é’ˆï¼Œç»“æ„ä½“ä¸­åŒ…å«å…·ä½“çš„è¡Œæƒ…ä¿¡æ¯ã€‚
-		*/             
-		virtual void OnBestAndDeep(struct MDBestAndDeep * const pQuote) { }
-		
-		/**
-		* å¥—åˆ©è¡Œæƒ…æ¶ˆæ¯åº”ç­”:å¦‚æœè®¢é˜…è¡Œæƒ…æˆåŠŸä¸”æœ‰è¡Œæƒ…è¿”å›æ—¶ï¼Œè¯¥æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚
-		* @param pQuote:å¥—åˆ©è¡Œæƒ…ä¿¡æ¯ç»“æ„çš„æŒ‡é’ˆï¼Œç»“æ„ä½“ä¸­åŒ…å«å…·ä½“çš„è¡Œæƒ…ä¿¡æ¯ã€‚
-		*/ 
-		virtual void OnArbi(struct MDBestAndDeep * const pQuote) { }
+        /**
+        * È¡ÏûÈ«²¿¶©ÔÄÇëÇóÏìÓ¦:µ±ÓÃ»§·¢³öÈ¡ÏûÈ«²¿¶©ÔÄÇëÇóºó£¬level 2 server·µ»ØÏìÓ¦Ê±´Ë·½·¨»á±»µ÷ÓÃ£¬Í¨ÖªÓÃ»§È¡ÏûÈ«²¿¶©ÔÄÊÇ·ñ³É¹¦¡£
+        * @param pErrorField:È¡ÏûÈ«²¿¶©ÔÄ·µ»ØĞÅÏ¢¡£
+        */
+        virtual void OnRspUnSubscribeAll(struct ErrorRtnField * pErrorField) { }
 
-		/**
-		* æœ€ä¼˜ä»·ä½ä¸Šåç¬”å§”æ‰˜è¡Œæƒ…æ¶ˆæ¯åº”ç­”:å¦‚æœè®¢é˜…è¡Œæƒ…æˆåŠŸä¸”æœ‰è¡Œæƒ…è¿”å›æ—¶ï¼Œè¯¥æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚
-		* @param pQuote:æœ€ä¼˜ä»·ä½ä¸Šåç¬”å§”æ‰˜è¡Œæƒ…ä¿¡æ¯ç»“æ„çš„æŒ‡é’ˆï¼Œç»“æ„ä½“ä¸­åŒ…å«å…·ä½“çš„è¡Œæƒ…ä¿¡æ¯ã€‚
-		*/
-		virtual void OnTenEntrust(struct MDTenEntrust * const pQuote) { }
+        /**
+        * ĞŞ¸ÄÃÜÂëÇëÇóÏìÓ¦:µ±ÓÃ»§·¢³öĞŞ¸ÄÃÜÂëÇëÇóºó£¬level 2 server·µ»ØÏìÓ¦Ê±´Ë·½·¨»á±»µ÷ÓÃ£¬Í¨ÖªÓÃ»§ĞŞ¸ÄÃÜÂëÊÇ·ñ³É¹¦¡£
+        * @param pErrorField:ĞŞ¸ÄÃÜÂë·µ»ØĞÅÏ¢¡£
+        */
+        virtual void OnRspModifyPassword(struct ErrorRtnField * pErrorField) { }
 
-		/**
-		* å®æ—¶ç»“ç®—ä»·è¡Œæƒ…æ¶ˆæ¯åº”ç­”:å¦‚æœè®¢é˜…è¡Œæƒ…æˆåŠŸä¸”æœ‰è¡Œæƒ…è¿”å›æ—¶ï¼Œè¯¥æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚
-		* @param pQuote:å®æ—¶ç»“ç®—ä»·è¡Œæƒ…ä¿¡æ¯ç»“æ„çš„æŒ‡é’ˆï¼Œç»“æ„ä½“ä¸­åŒ…å«å…·ä½“çš„è¡Œæƒ…ä¿¡æ¯ã€‚
-		*/
-		virtual void OnRealtime(struct MDRealTimePrice * const pQuote) { }
-		
-		/**
-		* åŠ æƒå¹³å‡åŠå§”æ‰˜è¡Œæƒ…æ¶ˆæ¯åº”ç­”:å¦‚æœè®¢é˜…è¡Œæƒ…æˆåŠŸä¸”æœ‰è¡Œæƒ…è¿”å›æ—¶ï¼Œè¯¥æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚
-		* @param pQuote:åŠ æƒå¹³å‡åŠå§”æ‰˜è¡Œæƒ…ä¿¡æ¯ç»“æ„çš„æŒ‡é’ˆï¼Œç»“æ„ä½“ä¸­åŒ…å«å…·ä½“çš„è¡Œæƒ…ä¿¡æ¯ã€‚
-		*/
-		virtual void OnOrderStatistic(struct MDOrderStatistic * const pQuote) { }
+        /**
+        * ×îÓÅÓëÎåµµÉî¶ÈĞĞÇéÏûÏ¢Ó¦´ğ:Èç¹û¶©ÔÄĞĞÇé³É¹¦ÇÒÓĞĞĞÇé·µ»ØÊ±£¬¸Ã·½·¨»á±»µ÷ÓÃ¡£
+        * @param pQuote:Ö¸Ïò×îÓÅÓëÎåµµÉî¶ÈĞĞÇéĞÅÏ¢½á¹¹µÄÖ¸Õë£¬½á¹¹ÌåÖĞ°üº¬¾ßÌåµÄĞĞÇéĞÅÏ¢¡£
+        */
+        virtual void OnBestAndDeep(struct MDBestAndDeep * const pQuote) { }
 
-		/**
-		* åˆ†ä»·ä½æˆäº¤è¡Œæƒ…æ¶ˆæ¯åº”ç­”:å¦‚æœè®¢é˜…è¡Œæƒ…æˆåŠŸä¸”æœ‰è¡Œæƒ…è¿”å›æ—¶ï¼Œè¯¥æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚
-		* @param pQuote:åˆ†ä»·ä½æˆäº¤è¡Œæƒ…ä¿¡æ¯ç»“æ„çš„æŒ‡é’ˆï¼Œç»“æ„ä½“ä¸­åŒ…å«å…·ä½“çš„è¡Œæƒ…ä¿¡æ¯ã€‚
-		*/
-		virtual void OnMarchPrice(struct MDMarchPriceQty * const pQuote) { }
+        /**
+        * Ì×ÀûĞĞÇéÏûÏ¢Ó¦´ğ:Èç¹û¶©ÔÄĞĞÇé³É¹¦ÇÒÓĞĞĞÇé·µ»ØÊ±£¬¸Ã·½·¨»á±»µ÷ÓÃ¡£
+        * @param pQuote:Ì×ÀûĞĞÇéĞÅÏ¢½á¹¹µÄÖ¸Õë£¬½á¹¹ÌåÖĞ°üº¬¾ßÌåµÄĞĞÇéĞÅÏ¢¡£
+        */
+        virtual void OnArbi(struct MDBestAndDeep * const pQuote) { }
 
-		/**
-		* å¿ƒè·³ä¸¢å¤±æ¶ˆæ¯åº”ç­”:å¦‚æœä¸level 2 serverå¿ƒè·³ä¸¢å¤±æˆ–ç½‘ç»œå‡ºç°é—®é¢˜ï¼Œè¯¥æ–¹æ³•ä¼šè¢«è°ƒç”¨ã€‚
-		*/
-		virtual void OnHeartBeatLost() { }
+        /**
+        * ×îÓÅ¼ÛÎ»ÉÏÊ®±ÊÎ¯ÍĞĞĞÇéÏûÏ¢Ó¦´ğ:Èç¹û¶©ÔÄĞĞÇé³É¹¦ÇÒÓĞĞĞÇé·µ»ØÊ±£¬¸Ã·½·¨»á±»µ÷ÓÃ¡£
+        * @param pQuote:×îÓÅ¼ÛÎ»ÉÏÊ®±ÊÎ¯ÍĞĞĞÇéĞÅÏ¢½á¹¹µÄÖ¸Õë£¬½á¹¹ÌåÖĞ°üº¬¾ßÌåµÄĞĞÇéĞÅÏ¢¡£
+        */
+        virtual void OnTenEntrust(struct MDTenEntrust * const pQuote) { }
 
-		virtual ~DFITCL2Spi(){}
-	};
+        /**
+        * ÊµÊ±½áËã¼ÛĞĞÇéÏûÏ¢Ó¦´ğ:Èç¹û¶©ÔÄĞĞÇé³É¹¦ÇÒÓĞĞĞÇé·µ»ØÊ±£¬¸Ã·½·¨»á±»µ÷ÓÃ¡£
+        * @param pQuote:ÊµÊ±½áËã¼ÛĞĞÇéĞÅÏ¢½á¹¹µÄÖ¸Õë£¬½á¹¹ÌåÖĞ°üº¬¾ßÌåµÄĞĞÇéĞÅÏ¢¡£
+        */
+        virtual void OnRealtime(struct MDRealTimePrice * const pQuote) { }
 
-	class DFITC_L2API_API DFITCL2Api{
-		
-	public:
-	    /**
-		* åˆ›å»ºè¡Œæƒ…APIå®ä¾‹
-		* @return åˆ›å»ºå‡ºçš„UserApi
-		*/   
-		static DFITCL2Api *CreateDFITCMdApi();
-		
-		/**
-		* é”€æ¯ä¸€ä¸ªapiå®ä¾‹ã€‚
-		* @return 0 - æˆåŠŸ; é0 - å¤±è´¥
-		*/           
-		static int DestoryDFITCMdApi(DFITCL2Api * & p);
-		
-		/**
-		* ç”¨æˆ·å‘å‡ºç™»é™†è¯·æ±‚
-		* @param pReqUserLoginField:æŒ‡å‘ç”¨æˆ·ç™»å½•è¯·æ±‚ç»“æ„çš„åœ°å€ã€‚
-		* @return 0 - ç™»å½•æˆåŠŸ; é0 - å¤±è´¥ã€‚
-		*/       
-		virtual int ReqUserLogin(struct DFITCUserLoginField * pReqUserLoginField);
-		
-		/**
-		* è¿æ¥æ·±åº¦è¡Œæƒ…æœåŠ¡å™¨:é€‰æ‹©æ¥æ”¶è¡Œæƒ…æ–¹å¼0ä¸ºudpã€‚
-		* @param pszSvrAddr:level 2 serverç½‘ç»œåœ°å€ã€‚
-		*                  ä¾‹"tcp://127.0.0.1:10915"
-		*                  127.0.0.1ä¸ºlevel 2 serveråœ°å€
-		*                  10915ä¸ºlevel 2 serveræœåŠ¡å™¨æ¥æ”¶tcpè¿æ¥çš„ç«¯å£
-		* @param pSpi:DFITCL2Spiå¯¹è±¡å®ä¾‹åœ°å€
-		* @param RecvQuoteType:0ä¸ºudpæ¥æ”¶è¡Œæƒ…ï¼Œ1ä¸ºtcpæ¥æ”¶è¡Œæƒ…ï¼Œ2ä¸ºå¤šæ’­æ¥æ”¶è¡Œæƒ…
-		* @return 0 - æˆåŠŸ;é0 - å¤±è´¥ã€‚
-		*/                         
-		virtual int Connect(char * pszSvrAddr, DFITCL2Spi * pSpi, unsigned int RecvQuoteType = 0);
-		
-		/**
-		* è®¢é˜…è¡Œæƒ…:è¯¥æ–¹æ³•å‘å‡ºè®¢é˜…æŸä¸ªæˆ–è€…æŸäº›åˆçº¦è¡Œæƒ…è¯·æ±‚ã€‚
-		* @param ppInstrumentID[]:æŒ‡é’ˆæ•°ç»„ï¼Œæ¯ä¸ªæŒ‡é’ˆæŒ‡å‘ä¸€ä¸ªåˆçº¦.  
-		* @param nCount:åˆçº¦ä¸ªæ•°
-		* @return 0 - æˆåŠŸ;é0 - å¤±è´¥ã€‚
-		*/                   
-		virtual int SubscribeMarketData(char * ppInstrumentID[], int nCount);
+        /**
+        * ¼ÓÈ¨Æ½¾ù¼°Î¯ÍĞĞĞÇéÏûÏ¢Ó¦´ğ:Èç¹û¶©ÔÄĞĞÇé³É¹¦ÇÒÓĞĞĞÇé·µ»ØÊ±£¬¸Ã·½·¨»á±»µ÷ÓÃ¡£
+        * @param pQuote:¼ÓÈ¨Æ½¾ù¼°Î¯ÍĞĞĞÇéĞÅÏ¢½á¹¹µÄÖ¸Õë£¬½á¹¹ÌåÖĞ°üº¬¾ßÌåµÄĞĞÇéĞÅÏ¢¡£
+        */
+        virtual void OnOrderStatistic(struct MDOrderStatistic * const pQuote) { }
 
-		/**
-		* é€€è®¢è¡Œæƒ…:è¯¥æ–¹æ³•å‘å‡ºé€€è®¢æŸä¸ª/æŸäº›åˆçº¦è¡Œæƒ…è¯·æ±‚ã€‚
-		* @param ppInstrumentID[]:æŒ‡é’ˆæ•°ç»„ï¼Œæ¯ä¸ªæŒ‡é’ˆæŒ‡å‘ä¸€ä¸ªåˆçº¦.  
-		* @param nCount:åˆçº¦ä¸ªæ•°
-		* @return 0 - æˆåŠŸ;é0 - å¤±è´¥ã€‚
-		*/            
-		virtual int UnSubscribeMarketData(char * ppInstrumentID[], int nCount);
-		/**
-		* è®¢é˜…å…¨éƒ¨åˆçº¦è¡Œæƒ…:è¯¥æ–¹æ³•å‘é€è®¢é˜…å…¨éƒ¨åˆçº¦è¯·æ±‚ã€‚
-		* @return 0 - æˆåŠŸ;é0 - å¤±è´¥ã€‚
-		*/ 
-		virtual int SubscribeAll();
+        /**
+        * ·Ö¼ÛÎ»³É½»ĞĞÇéÏûÏ¢Ó¦´ğ:Èç¹û¶©ÔÄĞĞÇé³É¹¦ÇÒÓĞĞĞÇé·µ»ØÊ±£¬¸Ã·½·¨»á±»µ÷ÓÃ¡£
+        * @param pQuote:·Ö¼ÛÎ»³É½»ĞĞÇéĞÅÏ¢½á¹¹µÄÖ¸Õë£¬½á¹¹ÌåÖĞ°üº¬¾ßÌåµÄĞĞÇéĞÅÏ¢¡£
+        */
+        virtual void OnMarchPrice(struct MDMarchPriceQty * const pQuote) { }
 
-		/**
-		* å–æ¶ˆè®¢é˜…å…¨éƒ¨åˆçº¦è¡Œæƒ…:è¯¥æ–¹æ³•å‘é€å–æ¶ˆè®¢é˜…å…¨éƒ¨åˆçº¦è¯·æ±‚ã€‚
-		* @return 0 - æˆåŠŸ;é0 - å¤±è´¥ã€‚
-		*/ 
-		virtual int UnSubscribeAll();
-		
-		/**
-		* ç”¨æˆ·å‘å‡ºç™»å‡ºè¯·æ±‚
-		* @param pReqUserLogoutField:æŒ‡å‘ç”¨æˆ·ç™»å½•è¯·å‡ºç»“æ„çš„åœ°å€ã€‚
-		* @return 0 - ç™»å‡ºæˆåŠŸ; é0 - å¤±è´¥ã€‚
-		*/              
-		virtual int ReqUserLogout(struct DFITCUserLogoutField * pReqUserLogoutField);
-		
-		/**
-		* ç”¨æˆ·å‘å‡ºå¯†ç ä¿®æ”¹è¯·æ±‚
-		* @param pReqUserPasswdChangeField:æŒ‡å‘ç”¨æˆ·å¯†ç ä¿®æ”¹è¯·ç»“æ„çš„åœ°å€ã€‚
-		* @return 0 - ç™»å‡ºæˆåŠŸ; é0 - å¤±è´¥ã€‚
-		*/  
-		virtual int ReqChangePassword(struct DFITCPasswdChangeField * pReqUserPasswdChangeField);
+        /**
+        * ĞÄÌø¶ªÊ§ÏûÏ¢Ó¦´ğ:Èç¹ûÓëlevel 2 serverĞÄÌø¶ªÊ§»òÍøÂç³öÏÖÎÊÌâ£¬¸Ã·½·¨»á±»µ÷ÓÃ¡£
+        */
+        virtual void OnHeartBeatLost() { }
 
-		virtual ~DFITCL2Api();
-	protected:
-		DFITCL2Api();
-	};
+        virtual ~DFITCL2Spi(){}
+    };
+
+    class DFITC_L2API_API DFITCL2Api
+    {
+    public:
+        /**
+        * ´´½¨ĞĞÇéAPIÊµÀı
+        * @return ´´½¨³öµÄUserApi
+        */
+        static DFITCL2Api *CreateDFITCMdApi();
+
+        /**
+        * Ïú»ÙÒ»¸öapiÊµÀı¡£
+        * @return 0 - ³É¹¦; ·Ç0 - Ê§°Ü
+        */
+        static int DestoryDFITCMdApi(DFITCL2Api * & p);
+
+        /**
+        * ÓÃ»§·¢³öµÇÂ½ÇëÇó
+        * @param pReqUserLoginField:Ö¸ÏòÓÃ»§µÇÂ¼ÇëÇó½á¹¹µÄµØÖ·¡£
+        * @return 0 - µÇÂ¼³É¹¦; ·Ç0 - Ê§°Ü¡£
+        */
+        virtual int ReqUserLogin(struct DFITCUserLoginField * pReqUserLoginField);
+
+        /**
+        * Á¬½ÓÉî¶ÈĞĞÇé·şÎñÆ÷:Ñ¡Ôñ½ÓÊÕĞĞÇé·½Ê½0Îªudp¡£
+        * @param pszSvrAddr:level 2 serverÍøÂçµØÖ·¡£
+        *                  Àı"tcp://127.0.0.1:10915"
+        *                  127.0.0.1Îªlevel 2 serverµØÖ·
+        *                  10915Îªlevel 2 server·şÎñÆ÷½ÓÊÕtcpÁ¬½ÓµÄ¶Ë¿Ú
+        * @param pSpi:DFITCL2Spi¶ÔÏóÊµÀıµØÖ·
+        * @param RecvQuoteType:0Îªudp½ÓÊÕĞĞÇé£¬1Îªtcp½ÓÊÕĞĞÇé£¬2Îª¶à²¥½ÓÊÕĞĞÇé
+        * @return 0 - ³É¹¦; ·Ç0 - Ê§°Ü¡£
+        */
+        virtual int Connect(char * pszSvrAddr, DFITCL2Spi * pSpi, unsigned int RecvQuoteType = 0);
+
+        /**
+        * ¶©ÔÄĞĞÇé:¸Ã·½·¨·¢³ö¶©ÔÄÄ³¸ö»òÕßÄ³Ğ©ºÏÔ¼ĞĞÇéÇëÇó¡£
+        * @param ppInstrumentID[]:Ö¸ÕëÊı×é£¬Ã¿¸öÖ¸ÕëÖ¸ÏòÒ»¸öºÏÔ¼.  
+        * @param nCount:ºÏÔ¼¸öÊı
+        * @return 0 - ³É¹¦; ·Ç0 - Ê§°Ü¡£
+        */
+        virtual int SubscribeMarketData(char * ppInstrumentID[], int nCount);
+
+        /**
+        * ÍË¶©ĞĞÇé:¸Ã·½·¨·¢³öÍË¶©Ä³¸ö/Ä³Ğ©ºÏÔ¼ĞĞÇéÇëÇó¡£
+        * @param ppInstrumentID[]:Ö¸ÕëÊı×é£¬Ã¿¸öÖ¸ÕëÖ¸ÏòÒ»¸öºÏÔ¼.  
+        * @param nCount:ºÏÔ¼¸öÊı
+        * @return 0 - ³É¹¦; ·Ç0 - Ê§°Ü¡£
+        */
+        virtual int UnSubscribeMarketData(char * ppInstrumentID[], int nCount);
+
+        /**
+        * ¶©ÔÄÈ«²¿ºÏÔ¼ĞĞÇé:¸Ã·½·¨·¢ËÍ¶©ÔÄÈ«²¿ºÏÔ¼ÇëÇó¡£
+        * @return 0 - ³É¹¦; ·Ç0 - Ê§°Ü¡£
+        */
+        virtual int SubscribeAll();
+
+        /**
+        * È¡Ïû¶©ÔÄÈ«²¿ºÏÔ¼ĞĞÇé:¸Ã·½·¨·¢ËÍÈ¡Ïû¶©ÔÄÈ«²¿ºÏÔ¼ÇëÇó¡£
+        * @return 0 - ³É¹¦; ·Ç0 - Ê§°Ü¡£
+        */
+        virtual int UnSubscribeAll();
+
+        /**
+        * ÓÃ»§·¢³öµÇ³öÇëÇó
+        * @param pReqUserLogoutField:Ö¸ÏòÓÃ»§µÇÂ¼Çë³ö½á¹¹µÄµØÖ·¡£
+        * @return 0 - µÇ³ö³É¹¦; ·Ç0 - Ê§°Ü¡£
+        */
+        virtual int ReqUserLogout(struct DFITCUserLogoutField * pReqUserLogoutField);
+
+        /**
+        * ÓÃ»§·¢³öÃÜÂëĞŞ¸ÄÇëÇó
+        * @param pReqUserPasswdChangeField:Ö¸ÏòÓÃ»§ÃÜÂëĞŞ¸ÄÇë½á¹¹µÄµØÖ·¡£
+        * @return 0 - µÇ³ö³É¹¦; ·Ç0 - Ê§°Ü¡£
+        */
+        virtual int ReqChangePassword(struct DFITCPasswdChangeField * pReqUserPasswdChangeField);
+
+        virtual ~DFITCL2Api();
+    protected:
+        DFITCL2Api();
+    };
 }
-// åˆ›å»ºè¿æ¥æ·±åº¦è¡Œæƒ…æœåŠ¡å™¨apiå¯¹è±¡
+// ´´½¨Á¬½ÓÉî¶ÈĞĞÇé·şÎñÆ÷api¶ÔÏó
 #define NEW_CONNECTOR()     DFITC_L2::DFITCL2Api::CreateDFITCMdApi()
-// é”€æ¯å¯¹è±¡
+// Ïú»Ù¶ÔÏó
 #define DELETE_CONNECTOR(p) DFITC_L2::DFITCL2Api::DestoryDFITCMdApi(p)
 
 

@@ -4,7 +4,7 @@
 typedef unsigned char     BYTE;
 typedef unsigned short    WORD;
 typedef unsigned long     ULONG;
-typedef long			  LONG;
+typedef long              LONG;
 typedef char              INT1;
 typedef short             INT2;
 typedef int               INT4;

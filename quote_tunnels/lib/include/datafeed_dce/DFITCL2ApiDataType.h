@@ -1,10 +1,10 @@
 /**
- * ç‰ˆæƒæ‰€æœ‰(C)2012-2016, å¤§è¿é£åˆ›ä¿¡æ¯æŠ€æœ¯æœ‰é™å…¬å¸
- * æ–‡ä»¶åç§°ï¼šDFITCL2ApiDataType.h
- * æ–‡ä»¶è¯´æ˜ï¼šå®šä¹‰æ¥å£æ‰€éœ€çš„æ•°æ®ç±»å‹çš„å¤´æ–‡ä»¶
- * å½“å‰ç‰ˆæœ¬ï¼š1.0.7
- * ä½œè€…ï¼šDatafeedé¡¹ç›®ç»„
- * å‘å¸ƒæ—¥æœŸï¼š2015å¹´03æœˆ17æ—¥
+ * °æÈ¨ËùÓĞ(C)2012-2016, ´óÁ¬·É´´ĞÅÏ¢¼¼ÊõÓĞÏŞ¹«Ë¾
+ * ÎÄ¼şÃû³Æ£ºDFITCL2ApiDataType.h
+ * ÎÄ¼şËµÃ÷£º¶¨Òå½Ó¿ÚËùĞèµÄÊı¾İÀàĞÍµÄÍ·ÎÄ¼ş
+ * µ±Ç°°æ±¾£º1.1.2
+ * ×÷Õß£ºDatafeedÏîÄ¿×é
+ * ·¢²¼ÈÕÆÚ£º2017Äê2ÔÂ28ÈÕ
  */             
 #if !defined(AFX_HYQUOTE_H__INCLUDED_)
 #define AFX_HYQUOTE_H__INCLUDED_
@@ -13,208 +13,208 @@
 #pragma pack(4)
 namespace DFITC_L2 {
 ////////////////////////////////////////////////
-///MDBestAndDeepï¼šæœ€ä¼˜ä¸äº”æ¡£æ·±åº¦è¡Œæƒ…
+///MDBestAndDeep£º×îÓÅÓëÎåµµÉî¶ÈĞĞÇé
 ////////////////////////////////////////////////
 typedef struct MDBestAndDeep{
-    INT1        Type;                                 //è¡Œæƒ…åŸŸæ ‡è¯†
-    UINT4       Length;                               //æŠ¥æ–‡é•¿åº¦
-    UINT4       Version;                              //ç‰ˆæœ¬ä»1å¼€å§‹
-    UINT4       Time;                                 //é¢„ç•™å­—æ®µ
-    INT1        Exchange[3];                          //äº¤æ˜“æ‰€
-    INT1        Contract[80];                         //åˆçº¦ä»£ç 
-    BOOL        SuspensionSign;                       //åœç‰Œæ ‡å¿—
-    REAL4       LastClearPrice;                       //æ˜¨ç»“ç®—ä»·
-    REAL4       ClearPrice;                           //ä»Šç»“ç®—ä»·
-    REAL4       AvgPrice;                             //æˆäº¤å‡ä»·
-    REAL4       LastClose;                            //æ˜¨æ”¶ç›˜
-    REAL4       Close;                                //ä»Šæ”¶ç›˜
-    REAL4       OpenPrice;                            //ä»Šå¼€ç›˜
-    UINT4       LastOpenInterest;                     //æ˜¨æŒä»“é‡
-    UINT4       OpenInterest;                         //æŒä»“é‡
-    REAL4       LastPrice;                            //æœ€æ–°ä»·
-    UINT4       MatchTotQty;                          //æˆäº¤æ•°é‡
-    REAL8       Turnover;                             //æˆäº¤é‡‘é¢
-    REAL4       RiseLimit;                            //æœ€é«˜æŠ¥ä»·
-    REAL4       FallLimit;                            //æœ€ä½æŠ¥ä»·
-    REAL4       HighPrice;                            //æœ€é«˜ä»·
-    REAL4       LowPrice;                             //æœ€ä½ä»·
-    REAL4       PreDelta;                             //æ˜¨è™šå®åº¦
-    REAL4       CurrDelta;                            //ä»Šè™šå®åº¦
-    REAL4       BuyPriceOne;                          //ä¹°å…¥ä»·æ ¼1
-    UINT4       BuyQtyOne;                            //ä¹°å…¥æ•°é‡1
-    UINT4       BuyImplyQtyOne;                       //ä¹°1æ¨å¯¼é‡
-    REAL4       BuyPriceTwo;                          //ä¹°å…¥ä»·æ ¼2
-    UINT4       BuyQtyTwo;                            //ä¹°å…¥æ•°é‡2
-    UINT4       BuyImplyQtyTwo;                       //ä¹°2æ¨å¯¼é‡
-    REAL4       BuyPriceThree;                        //ä¹°å…¥ä»·æ ¼3
-    UINT4       BuyQtyThree;                          //ä¹°å…¥æ•°é‡3
-    UINT4       BuyImplyQtyThree;                     //ä¹°3æ¨å¯¼é‡
-    REAL4       BuyPriceFour;                         //ä¹°å…¥ä»·æ ¼4
-    UINT4       BuyQtyFour;                           //ä¹°å…¥æ•°é‡4
-    UINT4       BuyImplyQtyFour;                      //ä¹°4æ¨å¯¼é‡
-    REAL4       BuyPriceFive;                         //ä¹°å…¥ä»·æ ¼5
-    UINT4       BuyQtyFive;                           //ä¹°å…¥æ•°é‡5
-    UINT4       BuyImplyQtyFive;                      //ä¹°5æ¨å¯¼é‡
-    REAL4       SellPriceOne;                         //å–å‡ºä»·æ ¼1
-    UINT4       SellQtyOne;                           //å–å‡ºæ•°é‡1
-    UINT4       SellImplyQtyOne;                      //å–1æ¨å¯¼é‡
-    REAL4       SellPriceTwo;                         //å–å‡ºä»·æ ¼2
-    UINT4       SellQtyTwo;                           //å–å‡ºæ•°é‡2
-    UINT4       SellImplyQtyTwo;                      //å–2æ¨å¯¼é‡
-    REAL4       SellPriceThree;                       //å–å‡ºä»·æ ¼3
-    UINT4       SellQtyThree;                         //å–å‡ºæ•°é‡3
-    UINT4       SellImplyQtyThree;                    //å–3æ¨å¯¼é‡
-    REAL4       SellPriceFour;                        //å–å‡ºä»·æ ¼4
-    UINT4       SellQtyFour;                          //å–å‡ºæ•°é‡4
-    UINT4       SellImplyQtyFour;                     //å–4æ¨å¯¼é‡
-    REAL4       SellPriceFive;                        //å–å‡ºä»·æ ¼5
-    UINT4       SellQtyFive;                          //å–å‡ºæ•°é‡5
-    UINT4       SellImplyQtyFive;                     //å–5æ¨å¯¼é‡
-    INT1        GenTime[13];                          //è¡Œæƒ…äº§ç”Ÿæ—¶é—´
-    UINT4       LastMatchQty;                         //æœ€æ–°æˆäº¤é‡
-    INT4        InterestChg;                          //æŒä»“é‡å˜åŒ–
-    REAL4       LifeLow;                              //å†å²æœ€ä½ä»·
-    REAL4       LifeHigh;                             //å†å²æœ€é«˜ä»·
+    INT1        Type;                                 //ĞĞÇéÓò±êÊ¶
+    UINT4       Length;                               //±¨ÎÄ³¤¶È
+    UINT4       Version;                              //°æ±¾´Ó1¿ªÊ¼
+    UINT4       Time;                                 //Ô¤Áô×Ö¶Î
+    INT1        Exchange[3];                          //½»Ò×Ëù
+    INT1        Contract[80];                         //ºÏÔ¼´úÂë
+    BOOL        SuspensionSign;                       //Í£ÅÆ±êÖ¾
+    REAL8       LastClearPrice;                       //×ò½áËã¼Û
+    REAL8       ClearPrice;                           //½ñ½áËã¼Û
+    REAL8       AvgPrice;                             //³É½»¾ù¼Û
+    REAL8       LastClose;                            //×òÊÕÅÌ
+    REAL8       Close;                                //½ñÊÕÅÌ
+    REAL8       OpenPrice;                            //½ñ¿ªÅÌ
+    UINT4       LastOpenInterest;                     //×ò³Ö²ÖÁ¿
+    UINT4       OpenInterest;                         //³Ö²ÖÁ¿
+    REAL8       LastPrice;                            //×îĞÂ¼Û
+    UINT4       MatchTotQty;                          //³É½»ÊıÁ¿
+    REAL8       Turnover;                             //³É½»½ğ¶î
+    REAL8       RiseLimit;                            //×î¸ß±¨¼Û
+    REAL8       FallLimit;                            //×îµÍ±¨¼Û
+    REAL8       HighPrice;                            //×î¸ß¼Û
+    REAL8       LowPrice;                             //×îµÍ¼Û
+    REAL8       PreDelta;                             //×òĞéÊµ¶È
+    REAL8       CurrDelta;                            //½ñĞéÊµ¶È
+    REAL8       BuyPriceOne;                          //ÂòÈë¼Û¸ñ1
+    UINT4       BuyQtyOne;                            //ÂòÈëÊıÁ¿1
+    UINT4       BuyImplyQtyOne;                       //Âò1ÍÆµ¼Á¿
+    REAL8       BuyPriceTwo;                          //ÂòÈë¼Û¸ñ2
+    UINT4       BuyQtyTwo;                            //ÂòÈëÊıÁ¿2
+    UINT4       BuyImplyQtyTwo;                       //Âò2ÍÆµ¼Á¿
+    REAL8       BuyPriceThree;                        //ÂòÈë¼Û¸ñ3
+    UINT4       BuyQtyThree;                          //ÂòÈëÊıÁ¿3
+    UINT4       BuyImplyQtyThree;                     //Âò3ÍÆµ¼Á¿
+    REAL8       BuyPriceFour;                         //ÂòÈë¼Û¸ñ4
+    UINT4       BuyQtyFour;                           //ÂòÈëÊıÁ¿4
+    UINT4       BuyImplyQtyFour;                      //Âò4ÍÆµ¼Á¿
+    REAL8       BuyPriceFive;                         //ÂòÈë¼Û¸ñ5
+    UINT4       BuyQtyFive;                           //ÂòÈëÊıÁ¿5
+    UINT4       BuyImplyQtyFive;                      //Âò5ÍÆµ¼Á¿
+    REAL8       SellPriceOne;                         //Âô³ö¼Û¸ñ1
+    UINT4       SellQtyOne;                           //Âô³öÊıÁ¿1
+    UINT4       SellImplyQtyOne;                      //Âô1ÍÆµ¼Á¿
+    REAL8       SellPriceTwo;                         //Âô³ö¼Û¸ñ2
+    UINT4       SellQtyTwo;                           //Âô³öÊıÁ¿2
+    UINT4       SellImplyQtyTwo;                      //Âô2ÍÆµ¼Á¿
+    REAL8       SellPriceThree;                       //Âô³ö¼Û¸ñ3
+    UINT4       SellQtyThree;                         //Âô³öÊıÁ¿3
+    UINT4       SellImplyQtyThree;                    //Âô3ÍÆµ¼Á¿
+    REAL8       SellPriceFour;                        //Âô³ö¼Û¸ñ4
+    UINT4       SellQtyFour;                          //Âô³öÊıÁ¿4
+    UINT4       SellImplyQtyFour;                     //Âô4ÍÆµ¼Á¿
+    REAL8       SellPriceFive;                        //Âô³ö¼Û¸ñ5
+    UINT4       SellQtyFive;                          //Âô³öÊıÁ¿5
+    UINT4       SellImplyQtyFive;                     //Âô5ÍÆµ¼Á¿
+    INT1        GenTime[13];                          //ĞĞÇé²úÉúÊ±¼ä
+    UINT4       LastMatchQty;                         //×îĞÂ³É½»Á¿
+    INT4        InterestChg;                          //³Ö²ÖÁ¿±ä»¯
+    REAL8       LifeLow;                              //ÀúÊ·×îµÍ¼Û
+    REAL8       LifeHigh;                             //ÀúÊ·×î¸ß¼Û
     REAL8       Delta;                                //delta
     REAL8       Gamma;                                //gama
     REAL8       Rho;                                  //rho
     REAL8       Theta;                                //theta
     REAL8       Vega;                                 //vega
-    INT1        TradeDate[9];                         //è¡Œæƒ…æ—¥æœŸ
-    INT1        LocalDate[9];                         //æœ¬åœ°æ—¥æœŸï¼Œé¢„ç•™å­—æ®µ
+    INT1        TradeDate[9];                         //ĞĞÇéÈÕÆÚ
+    INT1        LocalDate[9];                         //±¾µØÈÕÆÚ£¬Ô¤Áô×Ö¶Î
 }THYQuote;
 
 ////////////////////////////////////////////////
-///MDTenEntrustï¼šæœ€ä¼˜ä»·ä½ä¸Šåç¬”å§”æ‰˜
+///MDTenEntrust£º×îÓÅ¼ÛÎ»ÉÏÊ®±ÊÎ¯ÍĞ
 ////////////////////////////////////////////////
 typedef struct MDTenEntrust{
-    INT1        Type;                                 //è¡Œæƒ…åŸŸæ ‡è¯†
-    UINT4       Len;                                  //æŠ¥æ–‡é•¿åº¦
-    INT1        Contract[80];                         //åˆçº¦ä»£ç 
-    REAL8       BestBuyOrderPrice;                    //æœ€æœ‰ä¹°ä»·æ ¼
-    UINT4       BestBuyOrderQtyOne;                   //å§”æ‰˜é‡1
-    UINT4       BestBuyOrderQtyTwo;                   //å§”æ‰˜é‡2
-    UINT4       BestBuyOrderQtyThree;                 //å§”æ‰˜é‡3
-    UINT4       BestBuyOrderQtyFour;                  //å§”æ‰˜é‡4
-    UINT4       BestBuyOrderQtyFive;                  //å§”æ‰˜é‡5
-    UINT4       BestBuyOrderQtySix;                   //å§”æ‰˜é‡6
-    UINT4       BestBuyOrderQtySeven;                 //å§”æ‰˜é‡7
-    UINT4       BestBuyOrderQtyEight;                 //å§”æ‰˜é‡8
-    UINT4       BestBuyOrderQtyNine;                  //å§”æ‰˜é‡9
-    UINT4       BestBuyOrderQtyTen;                   //å§”æ‰˜é‡10
-    REAL8       BestSellOrderPrice;                   //æœ€æœ‰å–ä»·æ ¼
-    UINT4       BestSellOrderQtyOne;                  //å§”æ‰˜é‡1
-    UINT4       BestSellOrderQtyTwo;                  //å§”æ‰˜é‡2
-    UINT4       BestSellOrderQtyThree;                //å§”æ‰˜é‡3
-    UINT4       BestSellOrderQtyFour;                 //å§”æ‰˜é‡4
-    UINT4       BestSellOrderQtyFive;                 //å§”æ‰˜é‡5
-    UINT4       BestSellOrderQtySix;                  //å§”æ‰˜é‡6
-    UINT4       BestSellOrderQtySeven;                //å§”æ‰˜é‡7
-    UINT4       BestSellOrderQtyEight;                //å§”æ‰˜é‡8
-    UINT4       BestSellOrderQtyNine;                 //å§”æ‰˜é‡9
-    UINT4       BestSellOrderQtyTen;                  //å§”æ‰˜é‡10
-    INT1        GenTime[13];                          //ç”Ÿæˆæ—¶é—´
+    INT1        Type;                                 //ĞĞÇéÓò±êÊ¶
+    UINT4       Len;                                  //±¨ÎÄ³¤¶È
+    INT1        Contract[80];                         //ºÏÔ¼´úÂë
+    REAL8       BestBuyOrderPrice;                    //×îÓÅÂò¼Û¸ñ
+    UINT4       BestBuyOrderQtyOne;                   //Î¯ÍĞÁ¿1
+    UINT4       BestBuyOrderQtyTwo;                   //Î¯ÍĞÁ¿2
+    UINT4       BestBuyOrderQtyThree;                 //Î¯ÍĞÁ¿3
+    UINT4       BestBuyOrderQtyFour;                  //Î¯ÍĞÁ¿4
+    UINT4       BestBuyOrderQtyFive;                  //Î¯ÍĞÁ¿5
+    UINT4       BestBuyOrderQtySix;                   //Î¯ÍĞÁ¿6
+    UINT4       BestBuyOrderQtySeven;                 //Î¯ÍĞÁ¿7
+    UINT4       BestBuyOrderQtyEight;                 //Î¯ÍĞÁ¿8
+    UINT4       BestBuyOrderQtyNine;                  //Î¯ÍĞÁ¿9
+    UINT4       BestBuyOrderQtyTen;                   //Î¯ÍĞÁ¿10
+    REAL8       BestSellOrderPrice;                   //×îÓÅÂô¼Û¸ñ
+    UINT4       BestSellOrderQtyOne;                  //Î¯ÍĞÁ¿1
+    UINT4       BestSellOrderQtyTwo;                  //Î¯ÍĞÁ¿2
+    UINT4       BestSellOrderQtyThree;                //Î¯ÍĞÁ¿3
+    UINT4       BestSellOrderQtyFour;                 //Î¯ÍĞÁ¿4
+    UINT4       BestSellOrderQtyFive;                 //Î¯ÍĞÁ¿5
+    UINT4       BestSellOrderQtySix;                  //Î¯ÍĞÁ¿6
+    UINT4       BestSellOrderQtySeven;                //Î¯ÍĞÁ¿7
+    UINT4       BestSellOrderQtyEight;                //Î¯ÍĞÁ¿8
+    UINT4       BestSellOrderQtyNine;                 //Î¯ÍĞÁ¿9
+    UINT4       BestSellOrderQtyTen;                  //Î¯ÍĞÁ¿10
+    INT1        GenTime[13];                          //Éú³ÉÊ±¼ä
 }TENENTRUST;
 
 ////////////////////////////////////////////////
-///MDOrderStatisticï¼šåŠ æƒå¹³å‡ä»¥åŠå§”æ‰˜æ€»é‡è¡Œæƒ…
+///MDOrderStatistic£º¼ÓÈ¨Æ½¾ùÒÔ¼°Î¯ÍĞ×ÜÁ¿ĞĞÇé
 ////////////////////////////////////////////////
 typedef struct MDOrderStatistic{
-    INT1        Type;                                 //è¡Œæƒ…åŸŸæ ‡è¯†
-    UINT4       Len;                                  //æŠ¥æ–‡é•¿åº¦
-    INT1        ContractID[80];                       //åˆçº¦å·
-    UINT4       TotalBuyOrderNum;                     //ä¹°å§”æ‰˜æ€»é‡
-    UINT4       TotalSellOrderNum;                    //å–å§”æ‰˜æ€»é‡
-    REAL8       WeightedAverageBuyOrderPrice;         //åŠ æƒå¹³å‡å§”ä¹°ä»·æ ¼
-    REAL8       WeightedAverageSellOrderPrice;        //åŠ æƒå¹³å‡å§”å–ä»·æ ¼
+    INT1        Type;                                 //ĞĞÇéÓò±êÊ¶
+    UINT4       Len;                                  //±¨ÎÄ³¤¶È
+    INT1        ContractID[80];                       //ºÏÔ¼ºÅ
+    UINT4       TotalBuyOrderNum;                     //ÂòÎ¯ÍĞ×ÜÁ¿
+    UINT4       TotalSellOrderNum;                    //ÂôÎ¯ÍĞ×ÜÁ¿
+    REAL8       WeightedAverageBuyOrderPrice;         //¼ÓÈ¨Æ½¾ùÎ¯Âò¼Û¸ñ
+    REAL8       WeightedAverageSellOrderPrice;        //¼ÓÈ¨Æ½¾ùÎ¯Âô¼Û¸ñ
 }ORDERSTATISTIC;
 
 ////////////////////////////////////////////////
-///MDRealTimePriceï¼šå®æ—¶ç»“ç®—ä»·
+///MDRealTimePrice£ºÊµÊ±½áËã¼Û
 ////////////////////////////////////////////////
 typedef struct MDRealTimePrice{
-    INT1        Type;                                 //è¡Œæƒ…åŸŸæ ‡è¯†
-    UINT4       Len;                                  //æŠ¥æ–‡é•¿åº¦
-    INT1        ContractID[80];                       //åˆçº¦å·
-    REAL8       RealTimePrice;                        //å®æ—¶ç»“ç®—ä»·
+    INT1        Type;                                 //ĞĞÇéÓò±êÊ¶
+    UINT4       Len;                                  //±¨ÎÄ³¤¶È
+    INT1        ContractID[80];                       //ºÏÔ¼ºÅ
+    REAL8       RealTimePrice;                        //ÊµÊ±½áËã¼Û
 }REALTIMEPRICE;
 
 ////////////////////////////////////////////////
-///MDMarchPriceQtyï¼šåˆ†ä»·ä½æˆäº¤
+///MDMarchPriceQty£º·Ö¼ÛÎ»³É½»
 ////////////////////////////////////////////////
 typedef struct MDMarchPriceQty{
-    INT1        Type;                                 //è¡Œæƒ…åŸŸæ ‡è¯†
-    UINT4       Len;                                  //æŠ¥æ–‡é•¿åº¦
-    INT1        ContractID[80];                       //åˆçº¦å·
-    REAL8       PriceOne;                             //ä»·æ ¼
-    UINT4       PriceOneBOQty;                        //ä¹°å¼€æ•°é‡
-    UINT4       PriceOneBEQty;                        //ä¹°å¹³æ•°é‡
-    UINT4       PriceOneSOQty;                        //å–å¼€æ•°é‡
-    UINT4       PriceOneSEQty;                        //å–å¹³æ•°é‡
-    REAL8       PriceTwo;                             //ä»·æ ¼
-    UINT4       PriceTwoBOQty;                        //ä¹°å¼€æ•°é‡
-    UINT4       PriceTwoBEQty;                        //ä¹°å¹³æ•°é‡
-    UINT4       PriceTwoSOQty;                        //å–å¼€æ•°é‡
-    UINT4       PriceTwoSEQty;                        //å–å¹³æ•°é‡
-    REAL8       PriceThree;                           //ä»·æ ¼
-    UINT4       PriceThreeBOQty;                      //ä¹°å¼€æ•°é‡
-    UINT4       PriceThreeBEQty;                      //ä¹°å¹³æ•°é‡
-    UINT4       PriceThreeSOQty;                      //å–å¼€æ•°é‡
-    UINT4       PriceThreeSEQty;                      //å–å¹³æ•°é‡
-    REAL8       PriceFour;                            //ä»·æ ¼
-    UINT4       PriceFourBOQty;                       //ä¹°å¼€æ•°é‡
-    UINT4       PriceFourBEQty;                       //ä¹°å¹³æ•°é‡
-    UINT4       PriceFourSOQty;                       //å–å¼€æ•°é‡
-    UINT4       PriceFourSEQty;                       //å–å¹³æ•°é‡
-    REAL8       PriceFive;                            //ä»·æ ¼
-    UINT4       PriceFiveBOQty;                       //ä¹°å¼€æ•°é‡
-    UINT4       PriceFiveBEQty;                       //ä¹°å¹³æ•°é‡
-    UINT4       PriceFiveSOQty;                       //å–å¼€æ•°é‡
-    UINT4       PriceFiveSEQty;                       //å–å¹³æ•°é‡
+    INT1        Type;                                 //ĞĞÇéÓò±êÊ¶
+    UINT4       Len;                                  //±¨ÎÄ³¤¶È
+    INT1        ContractID[80];                       //ºÏÔ¼ºÅ
+    REAL8       PriceOne;                             //¼Û¸ñ
+    UINT4       PriceOneBOQty;                        //Âò¿ªÊıÁ¿
+    UINT4       PriceOneBEQty;                        //ÂòÆ½ÊıÁ¿
+    UINT4       PriceOneSOQty;                        //Âô¿ªÊıÁ¿
+    UINT4       PriceOneSEQty;                        //ÂôÆ½ÊıÁ¿
+    REAL8       PriceTwo;                             //¼Û¸ñ
+    UINT4       PriceTwoBOQty;                        //Âò¿ªÊıÁ¿
+    UINT4       PriceTwoBEQty;                        //ÂòÆ½ÊıÁ¿
+    UINT4       PriceTwoSOQty;                        //Âô¿ªÊıÁ¿
+    UINT4       PriceTwoSEQty;                        //ÂôÆ½ÊıÁ¿
+    REAL8       PriceThree;                           //¼Û¸ñ
+    UINT4       PriceThreeBOQty;                      //Âò¿ªÊıÁ¿
+    UINT4       PriceThreeBEQty;                      //ÂòÆ½ÊıÁ¿
+    UINT4       PriceThreeSOQty;                      //Âô¿ªÊıÁ¿
+    UINT4       PriceThreeSEQty;                      //ÂôÆ½ÊıÁ¿
+    REAL8       PriceFour;                            //¼Û¸ñ
+    UINT4       PriceFourBOQty;                       //Âò¿ªÊıÁ¿
+    UINT4       PriceFourBEQty;                       //ÂòÆ½ÊıÁ¿
+    UINT4       PriceFourSOQty;                       //Âô¿ªÊıÁ¿
+    UINT4       PriceFourSEQty;                       //ÂôÆ½ÊıÁ¿
+    REAL8       PriceFive;                            //¼Û¸ñ
+    UINT4       PriceFiveBOQty;                       //Âò¿ªÊıÁ¿
+    UINT4       PriceFiveBEQty;                       //ÂòÆ½ÊıÁ¿
+    UINT4       PriceFiveSOQty;                       //Âô¿ªÊıÁ¿
+    UINT4       PriceFiveSEQty;                       //ÂôÆ½ÊıÁ¿
 }MARCHPRICEQTY;
 
 ////////////////////////////////////////////////
-///DFITCUserLoginFieldï¼šç™»å½•ä¿¡æ¯
+///DFITCUserLoginField£ºµÇÂ¼ĞÅÏ¢
 ////////////////////////////////////////////////
 struct DFITCUserLoginField
 {
-    LONG		lRequestID;                           //ä¿ç•™
-    INT1		accountID[30];                        //ç”¨æˆ·å
-    INT1		passwd[30];                           //å¯†ç 
+    LONG        lRequestID;                           //±£Áô
+    INT1        accountID[30];                        //ÓÃ»§Ãû
+    INT1        passwd[30];                           //ÃÜÂë
 };
 
 ////////////////////////////////////////////////
-///DFITCPasswdChangeFieldï¼šä¿®æ”¹å¯†ç ä¿¡æ¯
+///DFITCPasswdChangeField£ºĞŞ¸ÄÃÜÂëĞÅÏ¢
 ////////////////////////////////////////////////
 struct DFITCPasswdChangeField
 {
-    LONG		RequestID;                            //ä¿ç•™
-    INT1		AccountID[30];                        //ç”¨æˆ·å
-    INT1		OldPassword[30];                      //æ—§å¯†ç 
-    INT1		NewPassword[30];                      //æ–°å¯†ç 
+    LONG        RequestID;                            //±£Áô
+    INT1        AccountID[30];                        //ÓÃ»§Ãû
+    INT1        OldPassword[30];                      //¾ÉÃÜÂë
+    INT1        NewPassword[30];                      //ĞÂÃÜÂë
 };
 
 ////////////////////////////////////////////////
-///DFITCUserLogoutFieldï¼šç™»å‡ºä¿¡æ¯
+///DFITCUserLogoutField£ºµÇ³öĞÅÏ¢
 ////////////////////////////////////////////////
 struct DFITCUserLogoutField
 {
-    LONG		RequestID;                            //ä¿ç•™
-    INT1		AccountID[30];                        //ç”¨æˆ·å
+    LONG        RequestID;                            //±£Áô
+    INT1        AccountID[30];                        //ÓÃ»§Ãû
 };
 
 ////////////////////////////////////////////////
-///ErrorRtnFieldï¼šç™»å½•ï¼Œç™»å‡ºï¼Œä¿®æ”¹å¯†ç è¿”å›ä¿¡æ¯
+///ErrorRtnField£ºµÇÂ¼£¬µÇ³ö£¬ĞŞ¸ÄÃÜÂë·µ»ØĞÅÏ¢
 ////////////////////////////////////////////////
 struct ErrorRtnField
 {
-    LONG		LocalOrderID;                         //ä¿ç•™
-    INT4		ErrorID;                              //0ä¸ºæˆåŠŸ é0ä¸ºå¤±è´¥
-    INT1		ErrorMsg[128];                        //å¤±è´¥æ—¶ï¼Œè¿”å›é”™è¯¯ä¿¡æ¯
+    LONG        LocalOrderID;                         //±£Áô
+    INT4        ErrorID;                              //0Îª³É¹¦ ·Ç0ÎªÊ§°Ü
+    INT1        ErrorMsg[128];                        //Ê§°ÜÊ±£¬·µ»Ø´íÎóĞÅÏ¢
 };
 
 ////////////////////////////////////////////////
-///MAX_DBLï¼šè¡Œæƒ…ä¸­å‡ºç°çš„æ— æ„ä¹‰doubleç±»å‹å€¼çš„è¡¨ç¤º
+///MAX_DBL£ºĞĞÇéÖĞ³öÏÖµÄÎŞÒâÒådoubleÀàĞÍÖµµÄ±íÊ¾
 //////////////////////////////////////////////// 
 double const MAX_DBL =  (std::numeric_limits<double>::max)();
 }
