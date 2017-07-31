@@ -976,6 +976,14 @@ void MYX1Spi::OnRtnOrder(struct CX1FtdcRspPriOrderField* pf)
 void MYX1Spi::OnRtnCancelOrder(struct CX1FtdcRspPriCancelOrderField* pf)
 {
     TNL_LOG_DEBUG("OnRtnCancelOrder:  \n%s", X1DatatypeFormater::ToString(pf).c_str());
+
+	if (pf->OrderStatus!=X1_FTDC_SPD_CANCELED &&
+		pf->OrderStatus!=X1_FTDC_SPD_PARTIAL_CANCELED &&
+		pf->OrderStatus!=X1_FTDC_SPD_IN_CANCELED)
+	{
+		return;
+	}
+
     try
     {
         if (pf && pf->SessionID == session_id_)
