@@ -612,7 +612,7 @@ MYTAPDataHandler::OnRspSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode,
 void
 MYTAPDataHandler::OnRtnQuote(const TapAPIQuoteWhole *info)
 {
-    MY_LOG_INFO("TAP - OnRtnQuote");
+    //MY_LOG_INFO("TAP - OnRtnQuote");
     if ( NULL != info)
     {
         try
@@ -636,8 +636,8 @@ MYTAPDataHandler::OnRtnQuote(const TapAPIQuoteWhole *info)
             MY_LOG_FATAL("TAP - Unknown exception in ConsumeThread.");
         }
 
-        MY_LOG_INFO("TAP - OnRtnQuote Successful, ExchangNo is %s, CommodityNo is %s, ContractNo is %s.",
-            info->Contract.Commodity.ExchangeNo, info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
+      //  MY_LOG_INFO("TAP - OnRtnQuote Successful, ExchangNo is %s, CommodityNo is %s, ContractNo is %s.",
+       //     info->Contract.Commodity.ExchangeNo, info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
     }
     else
     {
