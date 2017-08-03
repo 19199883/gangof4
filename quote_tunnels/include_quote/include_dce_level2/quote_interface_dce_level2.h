@@ -5,8 +5,7 @@
 
 #include <set>
 #include <string>
-#include <boost/function.hpp>
-//#include <functional>
+#include <functional>
 
 
 // 订阅的合约，集合类型
@@ -26,14 +25,14 @@ public:
     MYQuoteData(const SubscribeContracts *subscribe_contracts, const std::string &provider_config_file);
 
     // 飞创的行情服务，包括五档行情、10笔委托，等6种类型数据
-    void SetQuoteDataHandler(boost::function<void(const MDBestAndDeep_MY *)> quote_handler);
-    void SetQuoteDataHandler(boost::function<void(const MDTenEntrust_MY *)> quote_handler);
-    void SetQuoteDataHandler(boost::function<void(const MDArbi_MY *)> quote_handler);
-    void SetQuoteDataHandler(boost::function<void(const MDOrderStatistic_MY *)> quote_handler);
-    void SetQuoteDataHandler(boost::function<void(const MDRealTimePrice_MY *)> quote_handler);
-    void SetQuoteDataHandler(boost::function<void(const MDMarchPriceQty_MY *)> quote_handler);
+    void SetQuoteDataHandler(std::function<void(const MDBestAndDeep_MY *)> quote_handler);
+    void SetQuoteDataHandler(std::function<void(const MDTenEntrust_MY *)> quote_handler);
+    void SetQuoteDataHandler(std::function<void(const MDArbi_MY *)> quote_handler);
+    void SetQuoteDataHandler(std::function<void(const MDOrderStatistic_MY *)> quote_handler);
+    void SetQuoteDataHandler(std::function<void(const MDRealTimePrice_MY *)> quote_handler);
+    void SetQuoteDataHandler(std::function<void(const MDMarchPriceQty_MY *)> quote_handler);
 	
-	void SetQuoteDataHandler(boost::function<void(const int *)> quote_handler){}
+	void SetQuoteDataHandler(std::function<void(const int *)> quote_handler){}
 
     ~MYQuoteData();
 
