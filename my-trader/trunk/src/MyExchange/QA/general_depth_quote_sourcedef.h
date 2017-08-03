@@ -180,7 +180,7 @@ template<typename QuoteT>
 void quote_source<QuoteT>::subscribe_to_symbols(SubscribeContracts subscription){
 		// TODO:improve 1
 		if (IsIntegerT<QuoteT>::No){
-			boost::function<void (const QuoteT *)> f = boost::bind(&quote_source<QuoteT>::OnGTAQuoteData, this, _1);
+			std::function<void (const QuoteT *)> f = std::bind(&quote_source<QuoteT>::OnGTAQuoteData, this, _1);
 			md_provider_->SetQuoteDataHandler(f);
 			_subscribed = true;
 		}
