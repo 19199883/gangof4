@@ -26,27 +26,27 @@ public:
     DceUdpMD(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg);
 
     // 数据处理回调函数设置
-    void SetQuoteDataHandler(boost::function<void(const MDBestAndDeep_MY *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const MDBestAndDeep_MY *)> quote_data_handler)
     {
         best_and_deep_handler_ = quote_data_handler;
     }
-    void SetQuoteDataHandler(boost::function<void(const MDOrderStatistic_MY *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const MDOrderStatistic_MY *)> quote_data_handler)
     {
         order_statistic_handler_ = quote_data_handler;
     }
-    void SetQuoteDataHandler(boost::function<void(const MDTenEntrust_MY *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const MDTenEntrust_MY *)> quote_data_handler)
     {
         MY_LOG_WARN("DCE_UDP - not support datatype TenEntrust");
     }
-    void SetQuoteDataHandler(boost::function<void(const MDArbi_MY *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const MDArbi_MY *)> quote_data_handler)
     {
         MY_LOG_WARN("DCE_UDP - not support datatype Arbi");
     }
-    void SetQuoteDataHandler(boost::function<void(const MDRealTimePrice_MY *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const MDRealTimePrice_MY *)> quote_data_handler)
     {
         MY_LOG_WARN("DCE_UDP - not support datatype RealTimePrice");
     }
-    void SetQuoteDataHandler(boost::function<void(const MDMarchPriceQty_MY *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const MDMarchPriceQty_MY *)> quote_data_handler)
     {
         MY_LOG_WARN("DCE_UDP - not support datatype MarchPriceQty");
     }
@@ -59,8 +59,8 @@ private:
     int CreateUdpFD(const std::string &addr_ip, unsigned short port);
 
     // 数据处理函数对象
-    boost::function<void(const MDBestAndDeep_MY *)> best_and_deep_handler_;
-    boost::function<void(const MDOrderStatistic_MY *)> order_statistic_handler_;
+    std::function<void(const MDBestAndDeep_MY *)> best_and_deep_handler_;
+    std::function<void(const MDOrderStatistic_MY *)> order_statistic_handler_;
 
     // 订阅合约集合
     SubscribeContracts subscribe_contracts_;

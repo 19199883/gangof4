@@ -143,7 +143,7 @@ DceUdpMD::DceUdpMD(const SubscribeContracts *subscribe_contracts, const ConfigDa
     p_save_order_statistic_ = new QuoteDataSave<MDOrderStatistic_MY>(cfg_, qtm_name_, "orderstatistic", DCE_MDORDERSTATISTIC_QUOTE_TYPE, false);
 
     // start recv threads
-    p_md_handler_ = new boost::thread(boost::bind(&DceUdpMD::UdpDataHandler, this));
+    p_md_handler_ = new boost::thread(std::bind(&DceUdpMD::UdpDataHandler, this));
 }
 
 DceUdpMD::~DceUdpMD()
