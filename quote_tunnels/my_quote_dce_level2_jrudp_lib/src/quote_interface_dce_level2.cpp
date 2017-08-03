@@ -70,7 +70,7 @@ bool MYQuoteData::InitInterface(const SubscribeContracts *subscribe_contracts, c
     return true;
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDBestAndDeep_MY*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const MDBestAndDeep_MY*)> quote_handler)
 {
     if (interface_)
     {
@@ -82,7 +82,7 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDBestAndDeep_M
     }
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDTenEntrust_MY*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const MDTenEntrust_MY*)> quote_handler)
 {
     if (interface_)
     {
@@ -94,7 +94,7 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDTenEntrust_MY
     }
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDArbi_MY*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const MDArbi_MY*)> quote_handler)
 {
     if (interface_)
     {
@@ -106,7 +106,7 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDArbi_MY*)> qu
     }
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDOrderStatistic_MY*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const MDOrderStatistic_MY*)> quote_handler)
 {
     if (interface_)
     {
@@ -118,7 +118,7 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDOrderStatisti
     }
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDRealTimePrice_MY*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const MDRealTimePrice_MY*)> quote_handler)
 {
     if (interface_)
     {
@@ -130,7 +130,7 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDRealTimePrice
     }
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MDMarchPriceQty_MY*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const MDMarchPriceQty_MY*)> quote_handler)
 {
     if (interface_)
     {
