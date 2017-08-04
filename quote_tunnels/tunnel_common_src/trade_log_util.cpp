@@ -18,7 +18,6 @@
 #include <list>
 #include <mutex>
 
-#include "qtm_with_code.h"
 #include "my_trade_tunnel_struct.h"
 #include "tunnel_cmn_utility.h"
 #include "share_mem.h"
@@ -1105,7 +1104,6 @@ void LogUtil::SaveAll(const OrderAndTimes &place_orders_t,
         {
             case '1':
                 {
-                acquire_tca_order(p->tunnel_info.qtm_name.c_str(), act_request, p->time, ((const T_PlaceOrder *) p->p_data)->serial_no);
                 log_file_ << ToString(p->time, (const T_PlaceOrder *) p->p_data, p->tunnel_info.account) << std::endl;
                 break;
             }
@@ -1114,13 +1112,11 @@ void LogUtil::SaveAll(const OrderAndTimes &place_orders_t,
                 // report serial no of place order instead of cancel serial no. modified on 20160426
                 const T_CancelOrder * co = (const T_CancelOrder *) p->p_data;
                 cancel_sn_to_sn_.insert(std::make_pair(co->serial_no, co->org_serial_no));
-                acquire_tca_order(p->tunnel_info.qtm_name.c_str(), act_cancel_request, p->time, co->org_serial_no);
                 log_file_ << ToString(p->time, (const T_CancelOrder *) p->p_data, p->tunnel_info.account) << std::endl;
                 break;
             }
             case '3':
                 {
-                acquire_tca_order(p->tunnel_info.qtm_name.c_str(), act_response, p->time, ((const T_OrderRespond *) p->p_data)->serial_no);
                 log_file_ << ToString(p->time, (const T_OrderRespond *) p->p_data, p->tunnel_info.account) << std::endl;
                 break;
             }
@@ -1134,19 +1130,16 @@ void LogUtil::SaveAll(const OrderAndTimes &place_orders_t,
                 {
                     po_sn = cit->second;
                 }
-                acquire_tca_order(p->tunnel_info.qtm_name.c_str(), act_cancel_rtn, p->time, po_sn);
                 log_file_ << ToString(p->time, (const T_CancelRespond *) p->p_data, p->tunnel_info.account) << std::endl;
                 break;
             }
             case '5':
                 {
-                acquire_tca_order(p->tunnel_info.qtm_name.c_str(), act_response, p->time, ((const T_OrderReturn *) p->p_data)->serial_no);
                 log_file_ << ToString(p->time, (const T_OrderReturn *) p->p_data, p->tunnel_info.account) << std::endl;
                 break;
             }
             case '6':
                 {
-                acquire_tca_order(p->tunnel_info.qtm_name.c_str(), act_tradertn, p->time, ((const T_TradeReturn *) p->p_data)->serial_no);
                 log_file_ << ToString(p->time, (const T_TradeReturn *) p->p_data, p->tunnel_info.account) << std::endl;
                 break;
 

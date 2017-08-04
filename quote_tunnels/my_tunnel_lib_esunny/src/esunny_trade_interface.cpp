@@ -11,7 +11,6 @@
 #include "esunny_data_formater.h"
 #include "TapAPIError.h"
 
-#include "qtm_with_code.h"
 
 using namespace std;
 
@@ -60,10 +59,6 @@ void MYEsunnyTradeSpi::ReportErrorState(int api_error_no, const std::string &err
     }
     if (!cfg_.IsKnownErrorNo(api_error_no))
     {
-        char err_msg[127];
-        sprintf(err_msg, "api error no: %d, error msg: %s", api_error_no, error_msg.c_str());
-        update_state(tunnel_info_.qtm_name.c_str(), TYPE_TCA, QtmState::UNDEFINED_API_ERROR, err_msg);
-        TNL_LOG_INFO("update_state: name: %s, State: %d, Description: %s.", tunnel_info_.qtm_name.c_str(), QtmState::UNDEFINED_API_ERROR, err_msg);
     }
 }
 
@@ -161,7 +156,6 @@ bool MYEsunnyTradeSpi::ParseConfig()
 
 void MYEsunnyTradeSpi::OnConnect()
 {
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::CONNECT_SUCCESS);
     TNL_LOG_INFO("OnConnect");
 }
 
@@ -173,8 +167,6 @@ void MYEsunnyTradeSpi::OnRspLogin(TAPIINT32 errorCode, const TapAPITradeLoginRsp
     {
         logoned_ = true;
         in_init_state_ = false;
-
-        TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::LOG_ON_SUCCESS);
     }
 }
 
@@ -191,8 +183,6 @@ void MYEsunnyTradeSpi::OnDisconnect(TAPIINT32 reasonCode)
 {
     TNL_LOG_ERROR("OnDisconnect, reasonCode:%d", reasonCode);
     logoned_ = false;
-
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::DISCONNECT);
 }
 
 void MYEsunnyTradeSpi::OnRspChangePassword(TAPIUINT32 sessionID, TAPIINT32 errorCode)
@@ -254,14 +244,12 @@ void MYEsunnyTradeSpi::OnRspQryContract(TAPIUINT32 sessionID, TAPIINT32 errorCod
             // start thread for cancel unterminated orders
             if (!HaveFinishQueryOrders())
             {
-                TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::QUERY_CONTRACT_SUCCESS);
 
                 std::thread qry_order(&MYEsunnyTradeSpi::QueryAndHandleOrders, this);
                 qry_order.detach();
             }
             else
             {
-                TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::API_READY);
             }
         }
     }
@@ -483,7 +471,6 @@ void MYEsunnyTradeSpi::OnRspQryOrder(TAPIUINT32 sessionID, TAPIINT32 errorCode, 
                 }
                 cancel_times_of_contract.clear();
                 finish_query_canceltimes_ = true;
-                TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::QUERY_CANCEL_TIMES_SUCCESS);
             }
         }
 
@@ -504,11 +491,6 @@ void MYEsunnyTradeSpi::OnRspQryOrder(TAPIUINT32 sessionID, TAPIINT32 errorCode, 
             {
                 qry_order_finish_cond_.notify_one();
             }
-        }
-
-        if (TunnelIsReady())
-        {
-            TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::API_READY);
         }
 
         TNL_LOG_INFO("OnRspQryOrder when cancel unterminated orders or stats cancel times, order: 0X%X, last: %c", info, isLast);

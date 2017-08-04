@@ -4,7 +4,6 @@
 #include <mutex>
 #include <condition_variable>
 
-#include "qtm_with_code.h"
 #include "my_cmn_util_funcs.h"
 #include "my_cmn_log.h"
 
@@ -38,9 +37,6 @@ static void InitOnce()
         std::string log_file_name = "esunny_tunnel_log_" + my_cmn::GetCurrentDateTimeString();
         (void) my_log::instance(log_file_name.c_str());
         TNL_LOG_INFO("start init tunnel library.");
-
-        // initialize tunnel monitor
-        qtm_init(TYPE_TCA);
 
         s_have_init = true;
     }
@@ -168,7 +164,6 @@ EsunnyTunnel::EsunnyTunnel(const std::string &provider_config_file)
     memset(qtm_tmp_name, 0, sizeof(qtm_tmp_name));
     sprintf(qtm_tmp_name, "esunny_%s_%u", tunnel_info_.account.c_str(), getpid());
     tunnel_info_.qtm_name = qtm_tmp_name;
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::INIT);
 
     // start log output thread
     LogUtil::Start("my_tunnel_lib_esunny", lib_cfg_->App_cfg().share_memory_key);
@@ -210,8 +205,6 @@ bool EsunnyTunnel::InitInf(const TunnelConfigData &cfg)
 
     char init_msg[127];
     sprintf(init_msg, "%s: Init compliance check", tunnel_info_.account.c_str());
-    update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::OPEN_ORDER_LIMIT, QtmComplianceState::INIT_COMPLIANCE_CHECK, init_msg);
-    update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT, QtmComplianceState::INIT_COMPLIANCE_CHECK, init_msg);
 
     trade_inf_ = new MYEsunnyTradeSpi(cfg);
 
@@ -248,10 +241,6 @@ void EsunnyTunnel::PlaceOrder(const T_PlaceOrder *p)
             // 日志
             if (process_result == TUNNEL_ERR_CODE::CFFEX_EXCEED_LIMIT)
             {
-                update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::OPEN_ORDER_LIMIT,
-                    QtmComplianceState::OPEN_POSITIONS_EXCEED_LIMITS,
-                    GetComplianceDescriptionWithState(QtmComplianceState::OPEN_POSITIONS_EXCEED_LIMITS, tunnel_info_.account.c_str(),
-                        p->stock_code).c_str());
                 TNL_LOG_WARN("forbid open because current open volumn: %lld", return_param);
             }
             else if (process_result == TUNNEL_ERR_CODE::POSSIBLE_SELF_TRADE)
@@ -260,10 +249,6 @@ void EsunnyTunnel::PlaceOrder(const T_PlaceOrder *p)
             }
             else if (process_result == TUNNEL_ERR_CODE::CANCEL_TIMES_REACH_WARN_THRETHOLD)
             {
-                update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT,
-                    QtmComplianceState::CANCEL_TIME_OVER_WARNING_THRESHOLD,
-                    GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_OVER_WARNING_THRESHOLD, tunnel_info_.account.c_str(),
-                        p->stock_code).c_str());
                 TNL_LOG_WARN("reach the warn threthold of cancel time, forbit open new position.");
             }
         }
@@ -271,17 +256,10 @@ void EsunnyTunnel::PlaceOrder(const T_PlaceOrder *p)
         {
             if (process_result == TUNNEL_ERR_CODE::OPEN_EQUAL_LIMIT)
             {
-                update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT,
-                    QtmComplianceState::OPEN_POSITIONS_EQUAL_LIMITS,
-                    GetComplianceDescriptionWithState(QtmComplianceState::OPEN_POSITIONS_EQUAL_LIMITS, tunnel_info_.account.c_str(), p->stock_code).c_str());
                 TNL_LOG_WARN("equal the warn threthold of open position.");
             }
             else if (process_result == TUNNEL_ERR_CODE::CANCEL_EQUAL_LIMIT)
             {
-                update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT,
-                    QtmComplianceState::CANCEL_TIME_EQUAL_WARNING_THRESHOLD,
-                    GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_EQUAL_WARNING_THRESHOLD, tunnel_info_.account.c_str(),
-                        p->stock_code).c_str());
                 TNL_LOG_WARN("equal the warn threthold of cancel time.");
             }
             // 下单
@@ -337,25 +315,14 @@ void EsunnyTunnel::CancelOrder(const T_CancelOrder *p)
 
         if (process_result == TUNNEL_ERR_CODE::CANCEL_TIMES_REACH_WARN_THRETHOLD)
         {
-            update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT,
-                QtmComplianceState::CANCEL_TIME_OVER_WARNING_THRESHOLD,
-                GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_OVER_WARNING_THRESHOLD, tunnel_info_.account.c_str(),
-                    p->stock_code).c_str());
             TNL_LOG_WARN("cancel time approaches threshold");
         }
         if (process_result == TUNNEL_ERR_CODE::CANCEL_REACH_LIMIT)
         {
-            update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT,
-                QtmComplianceState::CANCEL_TIME_OVER_MAXIMUN,
-                GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_OVER_MAXIMUN, tunnel_info_.account.c_str(),
-                    p->stock_code).c_str());
             TNL_LOG_WARN("cancel time reach limitation");
         }
         if (process_result == TUNNEL_ERR_CODE::CANCEL_EQUAL_LIMIT)
         {
-            update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT,
-                QtmComplianceState::CANCEL_TIME_EQUAL_WARNING_THRESHOLD,
-                GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_EQUAL_WARNING_THRESHOLD, tunnel_info_.account.c_str(), p->stock_code).c_str());
             TNL_LOG_WARN("cancel time equal threshold");
         }
 
@@ -630,7 +597,6 @@ EsunnyTunnel::~EsunnyTunnel()
         delete p_tunnel;
         trade_inf_ = NULL;
     }
-    qtm_finish();
     LogUtil::Stop();
 }
 

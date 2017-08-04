@@ -8,7 +8,6 @@
 #include <float.h>
 
 #include "my_cmn_log.h"
-#include "qtm.h"
 
 #define DLL_PUBLIC __attribute__ ((visibility ("default")))
 
