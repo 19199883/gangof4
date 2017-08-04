@@ -49,6 +49,4 @@ IPAndPortStr ParseIPAndPortStr(const std::string &addr_cfg)
 
 void QuoteUpdateState(const char *name, int s)
 {
-    update_state(name, TYPE_QUOTE, s, GetDescriptionWithState(s).c_str());
-    MY_LOG_INFO("update_state: name: %s, State: %d, Description: %s.", name, s, GetDescriptionWithState(s).c_str());
 }

@@ -11,7 +11,6 @@
 
 #include "my_cmn_log.h"
 #include "my_cmn_util_funcs.h"
-#include "qtm_with_code.h"
 
 #ifndef DLL_PUBLIC
 #define DLL_PUBLIC __attribute__ ((visibility ("default")))
@@ -124,11 +123,9 @@ void MYUTIL_UpdateQuoteTime(const std::string &qtm_name, const std::vector<DataT
         std::string quote_time = it->data_.GetQuoteTime();
         if (quote_time.empty())
         {
-        	acquire_quote_time_field(qtm_name.c_str(), my_cmn::GetCurrentTimeWithMilisecString().c_str());
         }
         else if(quote_time.size() == 12)
         {
-        	acquire_quote_time_field(qtm_name.c_str(), quote_time.c_str());
         }
     }
 }

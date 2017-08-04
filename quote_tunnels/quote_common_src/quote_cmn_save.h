@@ -17,7 +17,6 @@
 #include "my_cmn_util_funcs.h"
 #include "quote_cmn_config.h"
 #include "quote_cmn_utility.h"
-#include "qtm.h"
 #include "quote_cmn_config.h"
 
 // 行情类型标识定义

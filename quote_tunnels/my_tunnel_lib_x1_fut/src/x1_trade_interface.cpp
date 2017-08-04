@@ -34,8 +34,6 @@ void MYX1Spi::ReportErrorState(int api_error_no, const std::string &error_msg)
     {
         char err_msg[127];
         sprintf(err_msg, "api error no: %d, error msg: %s", api_error_no, error_msg.c_str());
-        update_state(tunnel_info_.qtm_name.c_str(), TYPE_TCA, QtmState::UNDEFINED_API_ERROR, err_msg);
-        TNL_LOG_INFO("update_state: name: %s, State: %d, Description: %s.", tunnel_info_.qtm_name.c_str(), QtmState::UNDEFINED_API_ERROR, err_msg);
     }
 }
 

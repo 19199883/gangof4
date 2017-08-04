@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=n
+DEBUG:=y
 TOP:=../../../
 VERSION:=v2.6.x
 DIST_DIR:=$(TOP)/dist

@@ -50,6 +50,5 @@ IPAndPortStr ParseIPAndPortStr(const std::string &addr_cfg)
 
 void TunnelUpdateState(const char *name, int s)
 {
-    update_state(name, TYPE_TCA, s, GetDescriptionWithState(s).c_str());
     TNL_LOG_INFO("update_state: name: %s, State: %d, Description: %s.", name, s, GetDescriptionWithState(s).c_str());
 }

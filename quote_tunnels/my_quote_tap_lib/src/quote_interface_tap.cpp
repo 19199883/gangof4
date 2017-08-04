@@ -48,8 +48,6 @@ InitOnce()
             (void) my_log::instance(log_file_name.c_str());
             MY_LOG_INFO("start init quote library.");
 
-            qtm_init(TYPE_QUOTE);
-
             s_have_init = true;
         }
     }

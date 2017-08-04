@@ -54,8 +54,6 @@ static void InitOnce()
         (void) my_log::instance(log_file_name.c_str());
         TNL_LOG_INFO("start init xspeed tunnel library. version = %s", XSPEED_VER);
 
-        // initialize tunnel monitor
-        qtm_init(TYPE_TCA);
         TIME_PROBER_INIT;
         s_have_init = true;
     }
@@ -191,8 +189,6 @@ X1Tunnel::X1Tunnel(const std::string &provider_config_file)
     int tmp_int  = counter_.load();
     sprintf(qtm_tmp_name, "xspeed_fut_%s_%u_%d", tunnel_info_.account.c_str(), getpid(), tmp_int);
     tunnel_info_.qtm_name = qtm_tmp_name;
-    update_state(tunnel_info_.qtm_name.c_str(), TYPE_TCA, QtmState::INIT, GetDescriptionWithState(QtmState::INIT).c_str());
-    TNL_LOG_INFO("update_state: name: %s, State: %d, Description: %s.", tunnel_info_.qtm_name.c_str(), QtmState::INIT, GetDescriptionWithState(QtmState::INIT).c_str());
 
     // start tunnel log object
     LogUtil::Start("my_tunnel_lib_xspeed", lib_cfg_->App_cfg().share_memory_key);
