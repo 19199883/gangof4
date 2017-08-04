@@ -189,7 +189,9 @@ void CzceUdpMD::UdpDataHandler()
 
 			// 存起来
 			if (tap_data != NULL) { p_save_zcel2_quote_snap_snapshot_->OnQuoteData(t.tv_sec * 1000000 + t.tv_usec, &data_my); }
-			else { MY_LOG_WARN("rev no level one market data."); }
+			else {
+				//MY_LOG_WARN("rev no level one market data:%s", udp_contr.c_str() ); 
+			}
         }
     }
 }
