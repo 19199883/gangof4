@@ -825,6 +825,7 @@ void MYEsunnyTradeSpi::QueryAndHandleOrders()
         while (true)
         {
             TAPIUINT32 session_id;
+			qry_param.OrderQryType = TAPI_ORDER_QRY_TYPE_ALL;
             int qry_result = api_->QryOrder(&session_id, &qry_param);
             TNL_LOG_INFO("QryOrder (for cancel unterminated orders or stats cancel times) - session_id:%d, return:%d", session_id,
                 qry_result);

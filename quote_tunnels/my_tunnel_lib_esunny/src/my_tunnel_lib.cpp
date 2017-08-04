@@ -383,8 +383,8 @@ void EsunnyTunnel::QueryPosition(const T_QryPosition *pQryPosition)
         return;
     }
 
-    TapAPICloseQryReq qry_param;
-    memset(&qry_param, 0, sizeof(TapAPICloseQryReq));
+    TapAPIPositionQryReq qry_param;
+    memset(&qry_param, 0, sizeof(TapAPIPositionQryReq));
 
     int qry_result = p_tunnel->QryPosition(&qry_param, 0);
     if (qry_result != 0)
