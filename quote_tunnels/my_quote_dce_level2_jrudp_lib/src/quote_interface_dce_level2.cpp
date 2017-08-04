@@ -10,7 +10,6 @@
 #include "quote_cmn_utility.h"
 
 #include "quote_dce_udp.h"
-#include "qtm_with_code.h"
 
 using namespace std;
 using namespace my_cmn;

@@ -6,7 +6,6 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include "quote_cmn_utility.h"
-#include "qtm.h"
 
 #include "DFITCL2ApiDataType.h"
 
