@@ -10,7 +10,6 @@
 #include "quote_cmn_utility.h"
 
 #include "quote_czce_udp.h"
-#include "qtm_with_code.h"
 
 using namespace std;
 using namespace my_cmn;
@@ -34,9 +33,6 @@ void InitOnce()
         std::string log_file_name = "my_quote_lib_" + my_cmn::GetCurrentDateTimeString();
         (void) my_log::instance(log_file_name.c_str());
         MY_LOG_INFO("start init quote library.");
-
-        // initialize quote monitor
-        qtm_init(TYPE_QUOTE);
 
         s_have_init = true;
     }
