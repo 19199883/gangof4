@@ -50,7 +50,11 @@ bool ESUNNYPacker::OrderRequest(const TunnelConfigData& cfg, const T_PlaceOrder*
     new_or.TriggerCondition = TAPI_TRIGGER_CONDITION_NONE;
     new_or.TriggerPriceType = TAPI_TRIGGER_PRICE_NONE;
     new_or.AddOneIsValid = APIYNFLAG_NO;
+    // new_or.OrderQty2 = 0;
     new_or.HedgeFlag2 = new_or.HedgeFlag;
+    new_or.MarketLevel= TAPI_MARKET_LEVEL_0;
+    new_or.OrderDeleteByDisConnFlag = APIYNFLAG_NO;
+    //new_or.UpperChannelNo = 
 
     return true;
 }
