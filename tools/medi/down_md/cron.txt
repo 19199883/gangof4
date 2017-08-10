@@ -1,0 +1,1 @@
+00 16 * * 1-6 sh /home/wangying/work/medi/download_data/download_alldata.sh
