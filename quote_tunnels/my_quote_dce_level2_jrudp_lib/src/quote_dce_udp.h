@@ -8,9 +8,9 @@
 #include <string>
 #include <vector>
 
-#include <boost/bind.hpp>
-#include <boost/thread.hpp>
-#include <boost/atomic.hpp>
+#include <functional>
+#include <thread>
+#include <mutex>
 
 #include "my_cmn_util_funcs.h"
 #include "quote_cmn_utility.h"
@@ -75,7 +75,7 @@ private:
 
     // receive threads
     volatile bool running_flag_;
-    boost::thread *p_md_handler_;
+    std::thread *p_md_handler_;
 };
 
 #endif

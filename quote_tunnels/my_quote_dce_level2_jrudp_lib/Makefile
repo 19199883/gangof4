@@ -4,13 +4,13 @@ CC:=g++
 DEBUG:=n
 TOP:=..
 INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/datafeed_dce -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_dce_level2
-LIBPATH:=-L$(TOP)/lib/bin/boost -L$(TOP)/lib/bin -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
+LIBPATH:= -L$(TOP)/lib/bin -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
 CPPFLAGS:= -std=c++11 $(INCPATH)
 CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time 
+LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 
 DEPS:=.depends
 OUT:=libmy_quote_dce_level2_jrudp_lib.so
 
