@@ -132,7 +132,7 @@ COMPRESS="gz"
 download
 
 SRC="${DEST}/${EXT}_stra_${SUFFIX}_`date +%y%m%d`.tar.${COMPRESS}"
-tar -C ${DEST} -xvjf ${SRC}
+tar -C ${DEST} -xvzf ${SRC}
 rm -r ${SRC}
 
 host_ip="123.149.20.60"
@@ -144,19 +144,25 @@ EXT="czce"
 COMPRESS="gz"
 download_zp
 SRC_ZP="${DEST}/${EXT}_stra_${SUFFIX}_`date +%y%m%d`.tar.${COMPRESS}"
-tar -C $DEST -xvjf ${SRC_ZP}
+tar -C $DEST -xvzf ${SRC_ZP}
 rm -r ${SRC_ZP}
 
 tar -cvjf $SRC_ZP -C $DEST "./backup"
 rm -r "${DEST}/backup"
 
 # download data form dce server for medi
+host_ip="123.149.20.60"
+host_user="u910019"
+host_port="8008"
+EXT="czce"
+TRADE_GROUP="medi"
+COMPRESS="gz"
 SUFFIX="ngt"
 DAY_NGT="night"
 download
 
 SRC="${DEST}/${EXT}_stra_${SUFFIX}_`date +%y%m%d`.tar.${COMPRESS}"
-tar -C $DEST -xvjf ${SRC}
+tar -C $DEST -xvzf ${SRC}
 rm -r $SRC
 
 host_ip="123.149.20.60"
@@ -168,7 +174,7 @@ SUFFIX="ngt"
 DAY_NGT="night"
 download_zp
 SRC_ZP="${DEST}/${EXT}_stra_${SUFFIX}_`date +%y%m%d`.tar.${COMPRESS}"
-tar -C $DEST -xvjf $SRC_ZP
+tar -C $DEST -xvzf $SRC_ZP
 rm -r $SRC_ZP
 tar -cvjf $SRC_ZP -C $DEST "./backup"
 rm -r "${DEST}/backup"
