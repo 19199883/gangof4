@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=y
+DEBUG:=n
 TOP:=../../../
 VERSION:=v2.6.x
 DIST_DIR:=$(TOP)/dist
@@ -21,7 +21,6 @@ INCPATH:= -I$(TOP)/lib/tunnel/include \
 	  	  -I../$(PROJECT_NAME)
 
 LIBPATH:= -L$(TOP)/utils/bin \
-	  -L$(TOP)/lib/toe \
       -L$(TOP)/lib/common \
       -L$(TOP)/lib/quote/cffex_level2/bin \
 	  -L../tinyxml/bin \
@@ -38,7 +37,7 @@ OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem -lboost_system -ltinyxml \
 		-lpthread -llog4cxx -lssl -lqtm -lUSTPmduserapi_lnx64 -lutils\
-		-lac_xele_md -lmy_quote_cffex_level2_lib -lmy_common_v2 -lXeleMdAPI64
+		-lmy_quote_cffex_level2_lib -lmy_common_v2
 
 DEPS:=.depends
 
