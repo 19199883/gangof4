@@ -7,7 +7,7 @@
 #include <set>
 
 #include <boost/property_tree/ptree.hpp>
-#include <boost/thread.hpp>
+#include <thread>
 
 #define DLL_LOCAL  __attribute__ ((visibility ("hidden")))
 

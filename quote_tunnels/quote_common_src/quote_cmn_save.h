@@ -8,7 +8,8 @@
 #include <fstream>
 #include <iomanip>
 #include <boost/tuple/tuple.hpp>
-#include <boost/thread.hpp>
+#include <thread>
+#include <functional>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -132,42 +133,32 @@ public:
         // 文件存储
         //Create Directory
         std::string full_path = boost::filesystem::initial_path<boost::filesystem::path>().string() + "/Data";
-        if (!boost::filesystem::exists(full_path))
-        {
+        if (!boost::filesystem::exists(full_path)) {
             (void) boost::filesystem::create_directories(full_path);
         }
 
         //Create output file
-        if (boost::filesystem::exists(full_path))
-        {
+        if (boost::filesystem::exists(full_path)) {
             std::string strTime = boost::gregorian::to_iso_string(boost::gregorian::day_clock::local_day());
             std::string str = full_path + "/" + quote_name + postfix + strTime + ".dat";
-            if (param.save_to_txt_file)
-            {
+            if (param.save_to_txt_file) {
                 quote_file_ = fopen(str.c_str(), "wb+");
 
-                if (quote_file_)
-                {
+                if (quote_file_) {
                     // fill file header
                     MYUTIL_SaveFileHeader<SaveDataStruct<DataType>, SaveFileHeaderStruct>(data_type, quote_file_);
                     MY_LOG_INFO("file <%s> open success, write file header.", str.c_str());
-                }
-                else
-                {
+                } else {
                     MY_LOG_ERROR("file <%s> open failed.", str.c_str());
                 }
-            }
-            else
-            {
+            } else {
                 MY_LOG_WARN("configure to not save market data.");
             }
-        }
-        else
-        {
+        } else {
             MY_LOG_WARN("data file path not exist.");
         }
 
-        save_thread_ = new boost::thread(boost::bind(&QuoteDataSave::SaveImp, this));
+        save_thread_ = new std::thread(std::bind(&QuoteDataSave::SaveImp, this));
     }
     ~QuoteDataSave()
     {
@@ -255,7 +246,7 @@ private:
     }
 
     volatile bool running_flag_;
-    boost::thread *save_thread_;
+    std::thread *save_thread_;
     pthread_spinlock_t save_sync_;
 
     std::vector<SaveDataStruct<DataType> > datas_;
