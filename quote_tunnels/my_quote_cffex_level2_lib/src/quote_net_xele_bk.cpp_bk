@@ -1,14 +1,4 @@
-﻿#include "quote_loc_xele.h"
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+﻿#include "quote_net_xele.h"
 #include <iomanip>
 #include <vector>
 #include <boost/foreach.hpp>
@@ -22,15 +12,7 @@
 using namespace my_cmn;
 using namespace std;
 
-inline long long GetNanosFromEpoch()
-{
-    // get ns(nano seconds) from Unix Epoch
-    struct timespec ts;
-    clock_gettime(CLOCK_REALTIME, &ts);
-    return ts.tv_sec * 1000000000 + ts.tv_nsec;
-}
-
-LocXeleDataHandler::LocXeleDataHandler(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg)
+NetXeleDataHandler::NetXeleDataHandler(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg)
     : cfg_(cfg), p_save_(NULL), qry_md_thread_(NULL), running_flag_(true)
 {
     if (subscribe_contracts)
@@ -38,137 +20,114 @@ LocXeleDataHandler::LocXeleDataHandler(const SubscribeContracts *subscribe_contr
         subscribe_contracts_ = *subscribe_contracts;
     }
 
-    sprintf(qtm_name_, "loc_xele_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
-
-
-    if (false == AcXeleMDInit())
-    {
-        QuoteUpdateState(qtm_name_, QtmState::QUOTE_INIT_FAIL);
-        MY_LOG_ERROR("AcXeleMDInit failed");
-        return;
-    }
-    QuoteUpdateState(qtm_name_, QtmState::INIT);
+    sprintf(qtm_name_, "net_xele_%s_%u", cfg.Logon_config().account.c_str(), getpid());
 
     // 初始化
-    p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_loc_xele", GTA_UDP_CFFEX_QUOTE_TYPE);
+    api_ = NULL;
+    p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_level2", GTA_UDP_CFFEX_QUOTE_TYPE);
 
-    qry_md_thread_ = new boost::thread(&LocXeleDataHandler::QryDepthMarketData, this);
+    api_ = CXeleMdApi::CreateMdApi(this);
+    if (api_)
+    {
+        MY_LOG_INFO("CXeleMdApi::GetVersion:%s", api_->GetVersion());
+    }
+    else
+    {
+        MY_LOG_ERROR("CXeleMdApi::CreateMDApi failed");
+        return;
+    }
+
+    CXeleMdFtdcReqUserLoginField login_field;
+    strcpy(login_field.UserID, cfg_.Logon_config().account.c_str());
+    strcpy(login_field.Password, cfg_.Logon_config().password.c_str());
+    strcpy(login_field.ProtocolInfo, "");
+
+    int ret = api_->LoginInit(cfg_.Logon_config().quote_provider_addrs.front().c_str(),
+        cfg_.Logon_config().trade_server_addr.c_str(),
+        cfg_.Logon_config().broker_id.c_str(),
+        &login_field);
+
+    if (ret == XELEAPI_SUCCESS)
+    {
+        qry_md_thread_ = new boost::thread(&NetXeleDataHandler::QryDepthMarketData, this);
+    }
+    else
+    {
+        MY_LOG_ERROR("CXeleMdApi::LoginInit failed, return:%d", ret);
+    }
 }
 
-//#define FPGA_CMP_TEST
-
-#ifdef FPGA_CMP_TEST
-    #define IOCTL_TIMER 0x8080
-    static int s_stats_count = 0;
-    static int s_stats_max = 100000;
-    static int s_stats_result[100000];
-#endif
-
-LocXeleDataHandler::~LocXeleDataHandler(void)
+NetXeleDataHandler::~NetXeleDataHandler(void)
 {
-#ifdef FPGA_CMP_TEST
-    MY_LOG_INFO("s_stats_count: %d", s_stats_count);
-    for (int i = 0; i < s_stats_count; ++i)
-    {
-        MY_LOG_INFO("used(ns):%d", s_stats_result[i]);
-        if (i % 8888 == 0) usleep(50 * 1000);
-    }
-    if (s_stats_count > 0) usleep(200 * 1000);
-#endif
-
     if (qry_md_thread_ && qry_md_thread_->joinable())
     {
         running_flag_ = false;
         qry_md_thread_->join();
     }
+
+    if (api_)
+    {
+        api_->Release();
+        api_ = NULL;
+    }
 }
 
-void LocXeleDataHandler::QryDepthMarketData()
+void NetXeleDataHandler::OnFrontUserLoginSuccess()
+{
+
+}
+
+void NetXeleDataHandler::OnFrontDisconnected(int nReason)
+{
+
+}
+
+void NetXeleDataHandler::QryDepthMarketData()
 {
     try
-    {    // 获取行情数据共享内存首地址
-        const DepthMarketDataField *md = AcXeleMDData();
-        QuoteUpdateState(qtm_name_, QtmState::API_READY);
-        int last_count = 0;
-        int current_count = AcXeleMDCount();
-
-        // 丢弃旧数据，以免盘中启动时，大量过期的重复数据
-        if (current_count > 1)
-        {
-            last_count = current_count - 1;
-        }
-
-#ifdef FPGA_CMP_TEST
-        int fd = open("/dev/mytest", O_RDWR);
-        if (fd < 0)
-        {
-            printf("open /dev/mytest failed");
-        }
-        int high_level_v = 0x0;
-        int low_level_v = 0xff;
-#endif
-
+    {
+        MarketDataTick mdtick;
+        bool have_data = false;
         while (running_flag_)
         {
-            current_count = AcXeleMDCount();
+            have_data = api_->RecvMarketDataTick(&mdtick);
 
-            for (int i = last_count; i < current_count; ++i)
+            if (!have_data)
             {
-                long long cur_tp = GetNanosFromEpoch();
-
-#ifdef FPGA_CMP_TEST
-                // TODO for performance compare
-                ioctl(fd, IOCTL_TIMER, &high_level_v);
-                usleep(10);
-                ioctl(fd, IOCTL_TIMER, &low_level_v);
-                //printf("%s - current_count:%d\n", buffer.InstrumentID, current_count);
-                printf("current_count:%d\n", current_count);
-#endif
-
-                const DepthMarketDataField *p = md + i;
-
-                DepthMarketDataField d(*p);
-                RalaceInvalidValue(d);
-                CFfexFtdcDepthMarketData q_cffex_level2 = Convert(d);
-
-                if (quote_data_handler_
-                    && (subscribe_contracts_.empty() || subscribe_contracts_.find(d.InstrumentID) != subscribe_contracts_.end()))
-                {
-                    quote_data_handler_(&q_cffex_level2);
-                }
-
-                // 存起来
-                p_save_->OnQuoteData(cur_tp / 1000, &q_cffex_level2);
-
-#ifdef FPGA_CMP_TEST
-                if (s_stats_count < s_stats_max)
-                {
-                    long long fin_tp = GetNanosFromEpoch();
-                    s_stats_result[s_stats_count] = (int) (fin_tp - cur_tp);
-                    ++s_stats_count;
-                }
-#endif
+                continue;
             }
-            last_count = current_count;
-        }
 
-#ifdef FPGA_CMP_TEST
-        if (fd >= 0) close(fd);
-#endif
+            const CXeleMdFtdcDepthMarketDataField *p = &mdtick.data;
+            timeval t;
+            gettimeofday(&t, NULL);
+
+            CXeleMdFtdcDepthMarketDataField d(*p);
+            RalaceInvalidValue(d);
+            CFfexFtdcDepthMarketData q_cffex_level2 = Convert(d);
+
+            if (quote_data_handler_
+                && (subscribe_contracts_.empty() || subscribe_contracts_.find(d.InstrumentID) != subscribe_contracts_.end()))
+            {
+                quote_data_handler_(&q_cffex_level2);
+            }
+
+            // 存起来
+            p_save_->OnQuoteData(t.tv_sec * 1000000 + t.tv_usec, &q_cffex_level2);
+        }
     }
     catch (...)
     {
         MY_LOG_FATAL("xele - Unknown exception in OnRtnDepthMarketData.");
     }
+
 }
 
-void LocXeleDataHandler::SetQuoteDataHandler(
-    boost::function<void(const CFfexFtdcDepthMarketData *)> quote_data_handler)
+void NetXeleDataHandler::SetQuoteDataHandler(boost::function<void(const CFfexFtdcDepthMarketData *)> quote_data_handler)
 {
     quote_data_handler_ = quote_data_handler;
 }
 
-void LocXeleDataHandler::RalaceInvalidValue(DepthMarketDataField &d)
+void NetXeleDataHandler::RalaceInvalidValue(CXeleMdFtdcDepthMarketDataField &d)
 {
     d.Turnover = InvalidToZeroD(d.Turnover);
     d.LastPrice = InvalidToZeroD(d.LastPrice);
@@ -201,8 +160,7 @@ void LocXeleDataHandler::RalaceInvalidValue(DepthMarketDataField &d)
     d.CurrDelta = InvalidToZeroD(d.CurrDelta);
 }
 
-CFfexFtdcDepthMarketData LocXeleDataHandler::Convert(
-    const DepthMarketDataField &xele_data)
+CFfexFtdcDepthMarketData NetXeleDataHandler::Convert(const CXeleMdFtdcDepthMarketDataField &xele_data)
 {
     CFfexFtdcDepthMarketData q2;
     memset(&q2, 0, sizeof(CFfexFtdcDepthMarketData));

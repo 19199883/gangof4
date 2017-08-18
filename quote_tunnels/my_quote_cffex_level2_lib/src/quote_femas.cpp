@@ -29,7 +29,6 @@ MYFEMASDataHandler::MYFEMASDataHandler(const SubscribeContracts *subscribe_contr
     int topic = atoi(logon_cfg.topic.c_str());
 
     sprintf(qtm_name_, "cffex_femas_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
-    QuoteUpdateState(qtm_name_, QtmState::INIT);
 
     p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_level2", GTA_UDP_CFFEX_QUOTE_TYPE);
 
@@ -70,7 +69,6 @@ MYFEMASDataHandler::MYFEMASDataHandler(const SubscribeContracts *subscribe_contr
         char *addr_tmp = new char[v.size() + 1];
         memcpy(addr_tmp, v.c_str(), v.size() + 1);
         api_->RegisterFront(addr_tmp);
-        QuoteUpdateState(qtm_name_, QtmState::SET_ADDRADRESS_SUCCESS);
         MY_LOG_INFO("femas - RegisterFront, addr: %s", addr_tmp);
         delete[] addr_tmp;
     }
@@ -105,7 +103,6 @@ void MYFEMASDataHandler::ReqLogin()
 void MYFEMASDataHandler::OnFrontConnected()
 {
     MY_LOG_INFO("femas - OnFrontConnected");
-    QuoteUpdateState(qtm_name_, QtmState::CONNECT_SUCCESS);
     CUstpFtdcReqUserLoginField req_login;
     memset(&req_login, 0, sizeof(CUstpFtdcReqUserLoginField));
     strncpy(req_login.BrokerID, cfg_.Logon_config().broker_id.c_str(), sizeof(TUstpFtdcBrokerIDType));
@@ -119,7 +116,6 @@ void MYFEMASDataHandler::OnFrontConnected()
 void MYFEMASDataHandler::OnFrontDisconnected(int nReason)
 {
     logoned_ = false;
-    QuoteUpdateState(qtm_name_, QtmState::DISCONNECT);
     MY_LOG_ERROR("femas - OnFrontDisconnected, nReason: %d", nReason);
 }
 
@@ -131,7 +127,6 @@ void MYFEMASDataHandler::OnRspUserLogin(CUstpFtdcRspUserLoginField *pRspUserLogi
 
     if (error_code == 0)
     {
-        QuoteUpdateState(qtm_name_, QtmState::API_READY);
         logoned_ = true;
         int ret = api_->SubMarketData(pp_instruments_, sub_count_);
         MY_LOG_INFO("femas - SubMarketData, codelist: %s, result: %d", instruments_.c_str(), ret);

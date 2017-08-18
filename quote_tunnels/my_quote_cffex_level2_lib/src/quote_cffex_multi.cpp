@@ -18,7 +18,6 @@ MDCffexMultiResouce::MDCffexMultiResouce(const SubscribeContracts *subscribe_con
     filter_flag = cfg.Transfer_policy().filter_duplicate_flag;
 
     sprintf(qtm_name_, "cffex_multiresource_%s_%u", cfg.Logon_config().account.c_str(), getpid());
-    QuoteUpdateState(qtm_name_, QtmState::INIT);
 
     p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg, qtm_name_, "cffex_level2", GTA_UDP_CFFEX_QUOTE_TYPE);
 
@@ -27,25 +26,7 @@ MDCffexMultiResouce::MDCffexMultiResouce(const SubscribeContracts *subscribe_con
         ConfigData *cfg = new ConfigData();
         cfg->Load(cfg_file);
         int provider_type = cfg->App_cfg().provider_type;
-        if (provider_type == QuoteProviderType::PROVIDERTYPE_MYFPGA)
-        {
-            MYFPGACffexDataHandler * t = new MYFPGACffexDataHandler(subscribe_contracts, *cfg);
-            t->SetQuoteDataHandler(boost::bind(&MDCffexMultiResouce::DataHandler, this, _1));
-            my_fpga_interfaces_.push_back(t);
-        }
-        else if (provider_type == QuoteProviderType::PROVIDERTYPE_NET_XELE)
-        {
-            NetXeleDataHandler * t = new NetXeleDataHandler(subscribe_contracts, *cfg);
-            t->SetQuoteDataHandler(boost::bind(&MDCffexMultiResouce::DataHandler, this, _1));
-            net_xele_interfaces_.push_back(t);
-        }
-        else if (provider_type == QuoteProviderType::PROVIDERTYPE_LOC_XELE)
-        {
-            LocXeleDataHandler * t = new LocXeleDataHandler(subscribe_contracts, *cfg);
-            t->SetQuoteDataHandler(boost::bind(&MDCffexMultiResouce::DataHandler, this, _1));
-            loc_xele_interfaces_.push_back(t);
-        }
-        else if (provider_type == QuoteProviderType::PROVIDERTYPE_FEMAS)
+        if (provider_type == QuoteProviderType::PROVIDERTYPE_FEMAS)
         {
             MYFEMASDataHandler * t = new MYFEMASDataHandler(subscribe_contracts, *cfg);
             t->SetQuoteDataHandler(boost::bind(&MDCffexMultiResouce::DataHandler, this, _1));
@@ -62,21 +43,10 @@ MDCffexMultiResouce::MDCffexMultiResouce(const SubscribeContracts *subscribe_con
             MY_LOG_ERROR("not support quote provider type for cffex multi, configure file:%s, provider type:%d.", cfg_file.c_str(), provider_type);
         }
     }
-    QuoteUpdateState(qtm_name_, QtmState::API_READY);
 }
 
 MDCffexMultiResouce::~MDCffexMultiResouce()
 {
-for (NetXeleDataHandler * p : net_xele_interfaces_)
-{
-    delete p;
-}
-
-for (LocXeleDataHandler * p : loc_xele_interfaces_)
-{
-    delete p;
-}
-
 for (MYFEMASDataHandler * p : femas_interfaces_)
 {
     delete p;
@@ -87,10 +57,6 @@ for (FemasMulticastMDHandler * p : femas_mc_interfaces_)
     delete p;
 }
 
-for (MYFPGACffexDataHandler * p : my_fpga_interfaces_)
-{
-    delete p;
-}
 
 if (p_save_)
     delete p_save_;

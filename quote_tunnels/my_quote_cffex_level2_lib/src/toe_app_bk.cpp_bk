@@ -17,8 +17,6 @@
 #include <arpa/inet.h>
 #include <signal.h>
 
-#include "toe_app.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif	

@@ -21,7 +21,6 @@ FemasMulticastMDHandler::FemasMulticastMDHandler(const SubscribeContracts* subsc
     run_flag_ = true;
 
     sprintf(qtm_name_, "cffex_femas_multicast_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
-    QuoteUpdateState(qtm_name_, QtmState::INIT);
 
     p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_l2", GTA_UDP_CFFEX_QUOTE_TYPE);
     p_hbt_check_ = NULL;
@@ -62,7 +61,6 @@ FemasMulticastMDHandler::~FemasMulticastMDHandler(void)
         {
             MY_LOG_WARN("logout failed, ErrorID:%d, ErrorMsg:%s", rspInfo.ErrorID, rspInfo.ErrorMsg);
         }
-        QuoteUpdateState(qtm_name_, QtmState::LOG_OUT);
         DestroyUserHandle(handle_);
     }
     handle_ = NULL;
@@ -74,7 +72,6 @@ bool FemasMulticastMDHandler::Init()
     CUstpRspInfo rspInfo;
     if (!InitAPI(5000, &rspInfo))
     {
-        QuoteUpdateState(qtm_name_, QtmState::QUOTE_INIT_FAIL);
         MY_LOG_WARN("InitAPI failed, ErrorID:%d, ErrorMsg:%s", rspInfo.ErrorID, rspInfo.ErrorMsg);
         return false;
     }
@@ -84,7 +81,6 @@ bool FemasMulticastMDHandler::Init()
         char *addr_tmp = new char[v.size() + 1];
         memcpy(addr_tmp, v.c_str(), v.size() + 1);
         RegisterFront(addr_tmp);
-        QuoteUpdateState(qtm_name_, QtmState::SET_ADDRADRESS_SUCCESS);
         MY_LOG_INFO("femas_multicast - RegisterFront, addr: %s", addr_tmp);
         delete[] addr_tmp;
     }
@@ -102,7 +98,6 @@ void FemasMulticastMDHandler::Login()
         MY_LOG_ERROR("ConnectFront failed, ErrorID:%d, ErrorMsg:%s", rspInfo.ErrorID, rspInfo.ErrorMsg);
         sleep(retry_wait_seconds);
     }
-    QuoteUpdateState(qtm_name_, QtmState::CONNECT_SUCCESS);
     MY_LOG_INFO("ConnectFront success");
 
     CUstpFtdcReqUserLoginField_MC loginField;
@@ -116,7 +111,6 @@ void FemasMulticastMDHandler::Login()
         MY_LOG_ERROR("ReqUserLogin failed, ErrorID:%d, ErrorMsg:%s", rspInfo.ErrorID, rspInfo.ErrorMsg);
         sleep(retry_wait_seconds);
     }
-    QuoteUpdateState(qtm_name_, QtmState::LOG_ON_SUCCESS);
     MY_LOG_INFO("ReqUserLogin success");
 
     // wait and query snapshot
@@ -153,7 +147,6 @@ void FemasMulticastMDHandler::Login()
         boost::unique_lock<boost::mutex> lock(login_sync_);
         is_ready_ = true;
     }
-    QuoteUpdateState(qtm_name_, QtmState::API_READY);
     login_con_.notify_all();
 }
 

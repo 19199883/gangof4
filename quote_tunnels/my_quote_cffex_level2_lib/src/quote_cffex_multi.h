@@ -14,9 +14,6 @@
 
 #include "quote_femas.h"
 #include "quote_femas_multicast.h"
-#include "quote_net_xele.h"
-#include "quote_loc_xele.h"
-#include "quote_my_fpga.h"
 
 typedef std::unordered_set<std::string> ID_Collection;
 
@@ -31,9 +28,10 @@ public:
     virtual ~MDCffexMultiResouce();
 
 private:
-    std::vector<MYFPGACffexDataHandler *> my_fpga_interfaces_;
-    std::vector<NetXeleDataHandler *> net_xele_interfaces_;
-    std::vector<LocXeleDataHandler *> loc_xele_interfaces_;
+
+    //std::vector<MYFPGACffexDataHandler *> my_fpga_interfaces_;
+    //std::vector<NetXeleDataHandler *> net_xele_interfaces_;
+    //std::vector<LocXeleDataHandler *> loc_xele_interfaces_;
     std::vector<MYFEMASDataHandler *> femas_interfaces_;
     std::vector<FemasMulticastMDHandler *> femas_mc_interfaces_;
 

@@ -4,13 +4,13 @@ CC:=g++
 DEBUG:=n
 TOP:=..
 INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/ac_xele_md_r839 -I$(TOP)/lib/include/femas_datafeed -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_cffex_level2
-LIBPATH:=-L$(TOP)/lib/bin/boost -L$(TOP)/lib/bin -L$(TOP)/lib/bin/ac_xele_md_r839 -L$(TOP)/lib/bin/femas_datafeed -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
+LIBPATH:=-L$(TOP)/lib/bin/boost -L$(TOP)/lib/bin  -L$(TOP)/lib/bin/femas_datafeed -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin
 CPPFLAGS:= -std=c++11 $(INCPATH)
 CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lssl -lmy_common_v2  -lUSTPmduserapi_lnx64 -lac_xele_md -lustpmdapi -lboost_system   -lboost_filesystem -lboost_date_time 
+LIBS:= -lmxml -lpthread -lssl -lmy_common_v2  -lUSTPmduserapi_lnx64 -lustpmdapi -lboost_filesystem -lboost_thread 
 DEPS:=.depends
 OUT:=libmy_quote_cffex_level2_lib.so
 

@@ -16,7 +16,6 @@
 #include "quote_cmn_utility.h"
 #include "quote_cmn_config.h"
 #include "quote_cmn_save.h"
-#include "toe_app.h"
 
 class MYFPGACffexDataHandler
 {
