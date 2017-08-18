@@ -1,0 +1,6 @@
+2017-07-31
+----修复bug：当OnRtnCancelOrder方法返回的pCancelOrderData->OrderStatus==X1_FTDC_SPD_ERROR,会出现模型仓位错误：exchange
+	ERROR [GetPosImp] position of model error。
+	原因：错误的将撤单请求的拒绝放置到了被撤的单上的状态了
+	修复：OnRtnCancelOrder回调中，忽略不是全部撤单、部成部撤、柜台已接收，柜台内部直接撤单这三种状态的其它状态
+
