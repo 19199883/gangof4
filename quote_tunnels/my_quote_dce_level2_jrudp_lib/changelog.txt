@@ -1,2 +1,5 @@
+--20170810
+	(1) remove boost dependencies.
+
 --20170804
 	(1) replace std::function with boost::function
