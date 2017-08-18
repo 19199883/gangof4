@@ -8,7 +8,7 @@
 #include "my_exchange_utility.h"
 #include "config_data.h"
 //#include "my_tunnel_lib.h"
-#include <boost/thread.hpp>
+#include <thread>
 #include <dlfcn.h>
 #include "log_util_myex.h"
 
