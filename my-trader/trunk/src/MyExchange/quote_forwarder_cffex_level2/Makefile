@@ -36,7 +36,7 @@ LDFLAGS:=
 OBJPATH:=./obj
 BINPATH:=./bin
 LIBS:=  -lquote_forwarder_common -lboost_thread -lboost_filesystem -lboost_system -ltinyxml \
-		-lpthread -llog4cxx -lssl -lqtm -lUSTPmduserapi_lnx64 -lutils\
+		-lpthread -llog4cxx -lssl -lUSTPmduserapi -lutils\
 		-lmy_quote_cffex_level2_lib -lmy_common_v2
 
 DEPS:=.depends

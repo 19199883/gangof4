@@ -10,7 +10,7 @@ CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lssl -lmy_common_v2  -lUSTPmduserapi_lnx64 -lustpmdapi -lboost_filesystem -lboost_thread 
+LIBS:= -lmxml -lpthread -lssl -lmy_common_v2  -lUSTPmduserapi -lboost_filesystem -lboost_thread -lustpmdapi
 DEPS:=.depends
 OUT:=libmy_quote_cffex_level2_lib.so
 

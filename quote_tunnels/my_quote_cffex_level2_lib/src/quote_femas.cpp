@@ -30,7 +30,7 @@ MYFEMASDataHandler::MYFEMASDataHandler(const SubscribeContracts *subscribe_contr
 
     sprintf(qtm_name_, "cffex_femas_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
 
-    p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_level2", GTA_UDP_CFFEX_QUOTE_TYPE);
+    p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_level2", GTAEX_CFFEX_QUOTE_TYPE);
 
     pp_instruments_ = NULL;
     if (code_list.empty())
@@ -134,7 +134,7 @@ void MYFEMASDataHandler::OnRspUserLogin(CUstpFtdcRspUserLoginField *pRspUserLogi
     else
     {
         //MonitorClient::instance()->SendMonitorMessage('S', 1, "login failed");
-        MY_LOG_WARN("femas - Logon fail, error code: %d", error_code);
+        MY_LOG_WARN("femas - Logon fail, error code: %d; errmsg:%s", error_code, pRspInfo->ErrorMsg);
 
         // 登录失败，不断重试
         boost::thread(boost::bind(&MYFEMASDataHandler::ReqLogin, this));
