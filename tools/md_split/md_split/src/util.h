@@ -36,7 +36,7 @@ inline int GetSymbolOffset(int data_type, int data_len)
 	// add by wangying on 2017-08-21
 	case GTAEX_CFFEX_QUOTE_TYPE:
 	{
-		CFfexFtdcDepthMarketData md;
+		CFfexFtdcDepthMarketData md; 
 		offset_in_data = (int)((char *)&(md.szInstrumentID) - (char *)&md);
 	}
 	break;
