@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=n
+DEBUG:=y
 TOP:=..
 INCPATH:=-I$(TOP)/lib/include -I$(TOP)/lib/include/ac_xele_md_r839 -I$(TOP)/lib/include/femas_datafeed -I$(TOP)/lib/include/my -I$(TOP)/my_common/include -I$(TOP)/quote_common_src -I$(TOP)/include_quote/include_cffex_level2
 LIBPATH:=-L$(TOP)/lib/bin/boost -L$(TOP)/lib/bin  -L$(TOP)/lib/bin/femas_datafeed -L$(TOP)/lib/bin/my -L$(TOP)/my_common/bin

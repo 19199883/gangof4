@@ -30,7 +30,7 @@ MYFEMASDataHandler::MYFEMASDataHandler(const SubscribeContracts *subscribe_contr
 
     sprintf(qtm_name_, "cffex_femas_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
 
-    p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_level2", GTAEX_CFFEX_QUOTE_TYPE);
+    p_save_ = new QuoteDataSave<CFfexFtdcDepthMarketData>(cfg_, qtm_name_, "cffex_level2", GTA_UDP_CFFEX_QUOTE_TYPE);
 
     pp_instruments_ = NULL;
     if (code_list.empty())

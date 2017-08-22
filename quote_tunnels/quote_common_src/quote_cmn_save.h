@@ -21,7 +21,7 @@
 #include "quote_cmn_config.h"
 
 // 行情类型标识定义
-//#define GTAEX_CFFEX_QUOTE_TYPE          1 // obsolete; replace by type 11
+// #define GTAEX_CFFEX_QUOTE_TYPE          1 // obsolete; replace by type 11
 #define DCE_MDBESTANDDEEP_QUOTE_TYPE    2
 #define DCE_ARBI_QUOTE_TYPE             3
 #define DCE_MDTENENTRUST_QUOTE_TYPE     4
