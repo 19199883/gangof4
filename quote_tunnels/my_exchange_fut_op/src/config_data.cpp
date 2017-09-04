@@ -76,7 +76,8 @@ std::string MYExConfigData::GetOneNodeStringValue(mxml_node_t *node, const std::
 
 void MYExConfigData::LoadModelCfg()
 {
-	TiXmlDocument config = TiXmlDocument("trasev.config");
+	// modified by wangying on 2017-09-04
+	TiXmlDocument config = TiXmlDocument("x-trader.config");
     config.LoadFile();
     TiXmlElement *RootElement = config.RootElement();    
 

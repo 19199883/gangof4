@@ -122,14 +122,14 @@ void MYExConfigData::LoadCfg()
 
 void MYExConfigData::LoadModelCfg()
 {
-    mxml_node_t *tree = LoadFileInTree("trasev.config");
+    mxml_node_t *tree = LoadFileInTree("x-trader.config");
 
     if (tree)
     {
         try
         {
             // get root
-            mxml_node_t *root = mxmlFindElement(tree, tree, "MyExchange", NULL, NULL, MXML_DESCEND);
+            mxml_node_t *root = mxmlFindElement(tree, tree, "X-Trader", NULL, NULL, MXML_DESCEND);
             if (root == NULL)
             {
                 throw std::bad_exception();
