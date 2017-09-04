@@ -597,10 +597,6 @@ void LogUtil::Stop()
         save_thread->join();
         save_thread = NULL;
     }
-    if (shm_addr)
-    {
-        env_fini(shm_addr);
-    }
 }
 
 void LogUtil::SaveImp()
