@@ -11,8 +11,6 @@
 #include "check_schedule.h"
 #include "x1_data_formater.h"
 
-#include "qtm_with_code.h"
-
 using namespace std;
 using namespace x1ftdcapi;
 
@@ -179,7 +177,6 @@ void MYX1Spi::QueryAllBeforeReady()
         }
     }
     TNL_LOG_INFO("QryPosition success");
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::QUERY_POSITION_SUCCESS);
 
     while (query_info_.query_order_status != QueryStatus::QUERY_SUCCESS)
     {
@@ -234,7 +231,6 @@ void MYX1Spi::QueryAllBeforeReady()
         }
     }
     TNL_LOG_INFO("QryOrderDetail success");
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::QUERY_ORDER_SUCCESS);
 
     while (query_info_.query_trade_status != QueryStatus::QUERY_SUCCESS)
     {
@@ -285,10 +281,8 @@ void MYX1Spi::QueryAllBeforeReady()
         }
     }
     TNL_LOG_INFO("QryTradeDetails success");
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::QUERY_TRADE_SUCCESS);
 
     query_is_ready_ = true;
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::API_READY);
 }
 
 void MYX1Spi::OnFrontConnected()
@@ -304,7 +298,6 @@ void MYX1Spi::OnFrontConnected()
     // 成功登录后，断开不再重新登录
     if (in_init_state_)
     {
-        TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::CONNECT_SUCCESS);
         int rtn = api_->ReqUserLogin(&login_data);
         TNL_LOG_INFO("ReqLogin:  err_no,%d",rtn );
         TNL_LOG_INFO("ReqLogin:  \n%s", X1DatatypeFormater::ToString(&login_data).c_str());
@@ -317,7 +310,6 @@ void MYX1Spi::OnFrontDisconnected(int nReason)
     logoned_ = false;
     is_ready_ = false;
 
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::DISCONNECT);
     TNL_LOG_WARN("OnFrontDisconnected, nReason=%d", nReason);
 }
 
@@ -337,7 +329,6 @@ void MYX1Spi::OnRspUserLogin(struct CX1FtdcRspUserLoginField* pf, struct CX1Ftdc
         in_init_state_ = false;
 
         is_ready_ = true;
-        TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::LOG_ON_SUCCESS);
         std::thread qry_thread(std::bind(&MYX1Spi::QueryAllBeforeReady, this));
         qry_thread.detach();
             /*
@@ -372,7 +363,6 @@ void MYX1Spi::OnRspUserLogin(struct CX1FtdcRspUserLoginField* pf, struct CX1Ftdc
         // 重新登陆
         std::thread reLogin(std::bind(&MYX1Spi::ReqLogin, this));
         reLogin.detach();
-        TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::LOG_ON_FAIL);
     }
 }
 
@@ -385,7 +375,6 @@ void MYX1Spi::OnRspUserLogout(struct CX1FtdcRspUserLogoutInfoField* pf, struct C
     try
     {
         logoned_ = false;
-        TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::LOG_OUT);
     }
     catch (...)
     {

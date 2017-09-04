@@ -6,7 +6,6 @@
 #include <condition_variable>
 
 #include "my_tunnel_lib.h"
-#include "qtm_with_code.h"
 #include "my_cmn_util_funcs.h"
 #include "my_cmn_log.h"
 #include "my_trade_tunnel_struct.h"
@@ -226,8 +225,6 @@ bool X1Tunnel::InitInf(const TunnelConfigData &cfg)
 
     char init_msg[127];
     sprintf(init_msg, "%s: Init compliance check", tunnel_info_.account.c_str());
-    update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::OPEN_ORDER_LIMIT, QtmComplianceState::INIT_COMPLIANCE_CHECK, init_msg);
-    update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT, QtmComplianceState::INIT_COMPLIANCE_CHECK, init_msg);
     trade_inf_ = new MYX1Spi(cfg, tunnel_info_);
     return true;
 }
@@ -293,8 +290,6 @@ void X1Tunnel::PlaceOrder(const T_PlaceOrder *pPlaceOrder)
             // 日志
             if (process_result == TUNNEL_ERR_CODE::CFFEX_EXCEED_LIMIT)
             {
-            	update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::OPEN_ORDER_LIMIT, QtmComplianceState::OPEN_POSITIONS_EXCEED_LIMITS,
-            			GetComplianceDescriptionWithState(QtmComplianceState::OPEN_POSITIONS_EXCEED_LIMITS, tunnel_info_.account.c_str(), pPlaceOrder->stock_code).c_str());
                 TNL_LOG_WARN("forbid open because current open volumn: %lld", return_param);
             }
             else if (process_result == TUNNEL_ERR_CODE::POSSIBLE_SELF_TRADE)
@@ -303,8 +298,6 @@ void X1Tunnel::PlaceOrder(const T_PlaceOrder *pPlaceOrder)
             }
             else if (process_result == TUNNEL_ERR_CODE::CANCEL_TIMES_REACH_WARN_THRETHOLD)
             {
-            	update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT, QtmComplianceState::CANCEL_TIME_OVER_WARNING_THRESHOLD,
-            			GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_OVER_WARNING_THRESHOLD, tunnel_info_.account.c_str(), pPlaceOrder->stock_code).c_str());
                 TNL_LOG_WARN("reach the warn threthold of cancel time, forbit open new position.");
             }
 
@@ -312,12 +305,8 @@ void X1Tunnel::PlaceOrder(const T_PlaceOrder *pPlaceOrder)
         else
         {
         	if (process_result == TUNNEL_ERR_CODE::OPEN_EQUAL_LIMIT) {
-        		update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT, QtmComplianceState::OPEN_POSITIONS_EQUAL_LIMITS,
-        		            			GetComplianceDescriptionWithState(QtmComplianceState::OPEN_POSITIONS_EQUAL_LIMITS, tunnel_info_.account.c_str(), pPlaceOrder->stock_code).c_str());
         		TNL_LOG_WARN("equal the warn threthold of open position.");
         	} else if (process_result == TUNNEL_ERR_CODE::CANCEL_EQUAL_LIMIT) {
-        		update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT, QtmComplianceState::CANCEL_TIME_EQUAL_WARNING_THRESHOLD,
-        		            			GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_EQUAL_WARNING_THRESHOLD, tunnel_info_.account.c_str(), pPlaceOrder->stock_code).c_str());
         		TNL_LOG_WARN("equal the warn threthold of cancel time.");
         	}
 #ifdef PROBE_COST
@@ -422,24 +411,14 @@ void X1Tunnel::CancelOrder(const T_CancelOrder *pCancelOrder)
 #endif
         if (process_result == TUNNEL_ERR_CODE::CANCEL_TIMES_REACH_WARN_THRETHOLD)
         {
-            update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT,
-                QtmComplianceState::CANCEL_TIME_OVER_WARNING_THRESHOLD,
-                GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_OVER_WARNING_THRESHOLD, tunnel_info_.account.c_str(),
-                    pCancelOrder->stock_code).c_str());
             TNL_LOG_WARN("cancel time approaches threshold");
         }
         if (process_result == TUNNEL_ERR_CODE::CANCEL_REACH_LIMIT)
         {
-            update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT,
-                QtmComplianceState::CANCEL_TIME_OVER_MAXIMUN,
-                GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_OVER_MAXIMUN, tunnel_info_.account.c_str(),
-                    pCancelOrder->stock_code).c_str());
             TNL_LOG_WARN("cancel time reach limitation");
         }
         if (process_result == TUNNEL_ERR_CODE::CANCEL_EQUAL_LIMIT)
         {
-    		update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT, QtmComplianceState::CANCEL_TIME_EQUAL_WARNING_THRESHOLD,
-    		            			GetComplianceDescriptionWithState(QtmComplianceState::CANCEL_TIME_EQUAL_WARNING_THRESHOLD, tunnel_info_.account.c_str(), pCancelOrder->stock_code).c_str());
         	TNL_LOG_WARN("cancel time equal threshold");
         }
 #ifdef PROBE_COST
@@ -820,7 +799,6 @@ X1Tunnel::~X1Tunnel()
         trade_inf_ = NULL;
     }
     TIME_PROBER_EXIT;
-    qtm_finish();
     LogUtil::Stop();
 }
 
