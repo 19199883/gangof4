@@ -59,7 +59,8 @@ _get_order_index(const uint64_t serial_no)
 {
     //return (serial_no % 1000000000) / 1000;
     // modified at 20160321: last 8 digits used for model id (ABCDxxxx)
-    return (serial_no % 100000000000000) / 100000000;
+	// support c-trader, modified by wangying on 20170905
+    return serial_no / 1000;
 }
 
 template <class DataType>

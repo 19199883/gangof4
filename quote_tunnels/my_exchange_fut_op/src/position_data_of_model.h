@@ -170,7 +170,8 @@ inline int ModelPositionManager::GetModelIdBySn(SerialNoType sn)
 {
     //return (int) (sn % 1000);
     // modified on 20160321, use 8 digits for model id (ABCDxxxx)
-    return (int) (sn % 100000000);
+	// support c-trader by wangying on 20170905
+    return (int) (sn % 1000);
 }
 
 inline ModelPositionData *ModelPositionManager::GetPosImp(int model_id, const std::string &contract)
