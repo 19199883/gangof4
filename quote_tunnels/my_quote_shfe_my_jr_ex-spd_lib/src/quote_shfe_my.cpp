@@ -6,7 +6,6 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include "quote_cmn_utility.h"
-#include "qtm.h"
 #include "repairer.h"
 
 using namespace std;
@@ -45,8 +44,6 @@ QuoteInterface_MY_SHFE_MD::QuoteInterface_MY_SHFE_MD(const SubscribeContracts *s
 
     running_flag_ = true;
 
-    sprintf(qtm_name_, "shfe_jr_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
-    QuoteUpdateState(qtm_name_, QtmState::INIT);
 
     p_shfe_deep_save_ = new QuoteDataSave<SHFEQuote>(cfg_, qtm_name_, "shfe_deep", SHFE_DEEP_QUOTE_TYPE, false);
     p_shfe_ex_save_ = new QuoteDataSave<CDepthMarketDataField>(cfg_, qtm_name_, "quote_level1", SHFE_EX_QUOTE_TYPE, false);
@@ -97,18 +94,15 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
 
     int udp_fd = CreateUdpFD(ip_and_port.first, ip_and_port.second);
     if (udp_fd < 0) {
-        QuoteUpdateState(qtm_name_, QtmState::CONNECT_FAIL);
         MY_LOG_ERROR("MY_SHFE_MD - CreateUdpFD failed.");
         return;
     }
 
-    QuoteUpdateState(qtm_name_, QtmState::CONNECT_SUCCESS);
 
     int recv_struct_len = sizeof(MDPack);
     int ary_len = recv_struct_len;
     char *recv_buf = new char[ary_len];
     std::size_t recv_len = 0;
-    QuoteUpdateState(qtm_name_, QtmState::API_READY);
 
 	// wangying, repairer, unit test
 	repairer repairers[10];
@@ -231,7 +225,6 @@ int QuoteInterface_MY_SHFE_MD::CreateUdpFD(const std::string& addr_ip, unsigned 
     if (bind(udp_client_fd, (sockaddr *) &servaddr, sizeof(servaddr)) != 0)
     {
         MY_LOG_FATAL("UDP - bind failed: %s:%d", addr_ip.c_str(), port);
-        QuoteUpdateState(qtm_name_, QtmState::CONNECT_FAIL);
         return -1;
     }
 

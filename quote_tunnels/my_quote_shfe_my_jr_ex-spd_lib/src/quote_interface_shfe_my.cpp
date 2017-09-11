@@ -10,7 +10,6 @@
 #include "quote_cmn_utility.h"
 
 #include "quote_shfe_my.h"
-#include "qtm_with_code.h"
 
 using namespace std;
 using namespace my_cmn;
@@ -34,9 +33,6 @@ void InitOnce()
         std::string log_file_name = "my_quote_lib_" + my_cmn::GetCurrentDateTimeString();
         (void) my_log::instance(log_file_name.c_str());
         MY_LOG_INFO("start init quote library.");
-
-        // initialize quote monitor
-        qtm_init(TYPE_QUOTE);
 
         s_have_init = true;
     }
@@ -77,7 +73,7 @@ bool MYQuoteData::InitInterface(const SubscribeContracts *subscribe_contracts, c
     return true;
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const SHFEQuote*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const SHFEQuote*)> quote_handler)
 {
     if (interface_)
     {
@@ -89,7 +85,7 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const SHFEQuote*)> qu
     }
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const CDepthMarketDataField*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const CDepthMarketDataField*)> quote_handler)
 {
     if (interface_)
     {
@@ -101,7 +97,7 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const CDepthMarketDat
     }
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MYShfeMarketData*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const MYShfeMarketData*)> quote_handler)
 {
     if (interface_)
     {
@@ -116,5 +112,4 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const MYShfeMarketDat
 MYQuoteData::~MYQuoteData()
 {
     if (interface_) delete ((QuoteInterface_MY_SHFE_MD *)interface_);
-    qtm_finish();
 }

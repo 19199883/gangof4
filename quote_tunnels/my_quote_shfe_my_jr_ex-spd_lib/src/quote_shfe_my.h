@@ -7,9 +7,9 @@
 #include <string>
 #include <vector>
 
-#include <boost/bind.hpp>
-#include <boost/thread.hpp>
-#include <boost/atomic.hpp>
+#include <functional>   // std::bind
+#include <thread>         // std::thread
+#include <mutex>          // std::mutex, std::lock_guard
 
 #include "my_cmn_util_funcs.h"
 #include "quote_cmn_utility.h"
@@ -37,15 +37,15 @@ public:
     QuoteInterface_MY_SHFE_MD(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg);
 
     // 数据处理回调函数设置
-    void SetQuoteDataHandler(boost::function<void(const SHFEQuote *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const SHFEQuote *)> quote_data_handler)
     {
         shfe_deep_data_handler_ = quote_data_handler;
     }
-    void SetQuoteDataHandler(boost::function<void(const CDepthMarketDataField *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const CDepthMarketDataField *)> quote_data_handler)
     {
         shfe_ex_handler_ = quote_data_handler;
     }
-    void SetQuoteDataHandler(boost::function<void(const MYShfeMarketData *)> quote_data_handler)
+    void SetQuoteDataHandler(std::function<void(const MYShfeMarketData *)> quote_data_handler)
     {
         my_shfe_md_handler_ = quote_data_handler;
     }
@@ -63,9 +63,9 @@ private:
 	void proc_udp_data(MDPackEx &data);
 
     // 数据处理函数对象
-    boost::function<void(const SHFEQuote *)> shfe_deep_data_handler_;
-    boost::function<void(const CDepthMarketDataField *)> shfe_ex_handler_;
-    boost::function<void(const MYShfeMarketData *)> my_shfe_md_handler_;
+    std::function<void(const SHFEQuote *)> shfe_deep_data_handler_;
+    std::function<void(const CDepthMarketDataField *)> shfe_ex_handler_;
+    std::function<void(const MYShfeMarketData *)> my_shfe_md_handler_;
 
 	std::string ToString(const MDPack &d);
 
@@ -86,7 +86,7 @@ private:
 
     // receive threads
     volatile bool running_flag_;
-    boost::thread *p_mbl_handler_;
+    std::thread *p_mbl_handler_;
 
     MYShfeMDManager my_shfe_md_inf_;
 
