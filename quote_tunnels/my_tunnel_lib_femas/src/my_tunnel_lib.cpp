@@ -3,7 +3,6 @@
 #include <string>
 #include <mutex>
 #include <condition_variable>
-#include "qtm_with_code.h"
 #include "my_cmn_util_funcs.h"
 #include "my_cmn_log.h"
 
@@ -37,9 +36,6 @@ void InitOnce()
         std::string log_file_name = "my_tunnel_lib_" + my_cmn::GetCurrentDateTimeString();
         (void) my_log::instance(log_file_name.c_str());
         TNL_LOG_INFO("start init tunnel library.");
-
-        // initialize tunnel monitor
-        qtm_init(TYPE_TCA);
 
         s_have_init = true;
     }
@@ -169,7 +165,6 @@ FemasTunnel::FemasTunnel(const std::string &provider_config_file)
     memset(qtm_tmp_name, 0, sizeof(qtm_tmp_name));
     sprintf(qtm_tmp_name, "femas_%s_%u", tunnel_info_.account.c_str(), getpid());
     tunnel_info_.qtm_name = qtm_tmp_name;
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::INIT);
 
     // start log output thread
     LogUtil::Start("my_tunnel_lib_femas", lib_cfg_->App_cfg().share_memory_key);
@@ -209,8 +204,6 @@ bool FemasTunnel::InitInf(const TunnelConfigData& cfg)
 
     char init_msg[127];
     sprintf(init_msg, "%s: Init compliance check", tunnel_info_.account.c_str());
-    update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::OPEN_ORDER_LIMIT, QtmComplianceState::INIT_COMPLIANCE_CHECK, init_msg);
-    update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::CANCEL_ORDER_LIMIT, QtmComplianceState::INIT_COMPLIANCE_CHECK, init_msg);
     trade_inf_ = new MyFemasTradeSpi(cfg);
     return true;
 }
@@ -254,10 +247,6 @@ void FemasTunnel::PlaceOrder(const T_PlaceOrder *pPlaceOrder)
             // 日志
             if (process_result == TUNNEL_ERR_CODE::CFFEX_EXCEED_LIMIT)
             {
-                update_compliance(tunnel_info_.qtm_name.c_str(), tag_compl_type_enum::OPEN_ORDER_LIMIT,
-                    QtmComplianceState::OPEN_POSITIONS_EXCEED_LIMITS,
-                    GetComplianceDescriptionWithState(QtmComplianceState::OPEN_POSITIONS_EXCEED_LIMITS, tunnel_info_.account.c_str(),
-                        pPlaceOrder->stock_code).c_str());
                 TNL_LOG_WARN("forbid open because current open volumn: %ld", return_param);
             }
             else if (process_result == TUNNEL_ERR_CODE::POSSIBLE_SELF_TRADE)
