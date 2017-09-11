@@ -3,7 +3,6 @@
 
 #include "my_protocol_packager.h"
 #include "check_schedule.h"
-#include "qtm_with_code.h"
 #include "femas_data_formater.h"
 
 using namespace std;
@@ -19,8 +18,6 @@ void MyFemasTradeSpi::ReportErrorState(int api_error_no, const std::string &erro
     {
         char err_msg[127];
         sprintf(err_msg, "api error no: %d, error msg: %s", api_error_no, error_msg.c_str());
-        update_state(tunnel_info_.qtm_name.c_str(), TYPE_TCA, QtmState::UNDEFINED_API_ERROR, err_msg);
-        TNL_LOG_INFO("update_state: name: %s, State: %d, Description: %s.", tunnel_info_.qtm_name.c_str(), QtmState::UNDEFINED_API_ERROR, err_msg);
     }
 }
 
@@ -116,7 +113,6 @@ void MyFemasTradeSpi::OnFrontDisconnected(int nReason)
 {
     connected_ = false;
     logoned_ = false;
-    TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::DISCONNECT);
     TNL_LOG_WARN("OnFrontDisconnected, nReason: %d", nReason);
 }
 
@@ -154,7 +150,6 @@ bool bIsLast)
         }
         else
         {
-            TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::LOG_ON_SUCCESS);
         }
     }
     else
@@ -165,7 +160,6 @@ bool bIsLast)
         TNL_LOG_WARN("OnRspUserLogin, external errorid: %d; Internal errorid: %d",
             pRspInfo->ErrorID, standard_error_no);
 
-        TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::LOG_ON_FAIL);
     }
 }
 
@@ -175,7 +169,6 @@ bool bIsLast)
     try
     {
         logoned_ = false;
-        TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::LOG_OUT);
         TNL_LOG_WARN("OnRspUserLogout: requestid = %d, last_flag=%d \n%s \n%s",
             nRequestID, bIsLast,
             FEMASDatatypeFormater::ToString(pRspUserLogout).c_str(),
@@ -945,7 +938,6 @@ void MyFemasTradeSpi::OnRspQryOrder(CUstpFtdcOrderField *pOrder, CUstpFtdcRspInf
 
         if (TunnelIsReady())
         {
-            TunnelUpdateState(tunnel_info_.qtm_name.c_str(), QtmState::API_READY);
         }
 
         TNL_LOG_INFO("OnRspQryOrder when cancel unterminated orders or stats cancel times, order: 0X%X, last: %d", pOrder, bIsLast);

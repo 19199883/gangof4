@@ -9,10 +9,10 @@ LIBPATH:=-L$(TOP)/lib/bin -L$(TOP)/lib/bin/x1_fut -L$(TOP)/lib/bin/my -L$(TOP)/m
 CPPFLAGS:= -std=c++11 $(INCPATH)
 ifeq ($(strip $(TIME_PROBER)),y)
 	CFLAGS:= -pg -DPROBE_COST -fPIC -fvisibility=hidden
-	LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lmy_compliance_checker -lqtm -lmymarketdata -lx1_dfitc_api -ltimeprober
+	LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lmy_compliance_checker  -lx1_dfitc_api -ltimeprober
 else
 	CFLAGS:= -fPIC -fvisibility=hidden
-	LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lmy_compliance_checker -lqtm -lmymarketdata -lx1_dfitc_api
+	LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lmy_compliance_checker -lx1_dfitc_api
 endif
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
