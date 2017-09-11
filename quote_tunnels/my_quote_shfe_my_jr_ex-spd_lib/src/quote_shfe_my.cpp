@@ -10,6 +10,7 @@
 
 using namespace std;
 using namespace my_cmn;
+using namespace std::placeholders;    // adds visibility of _1, _2, _3,...
 
 
 std::string QuoteInterface_MY_SHFE_MD::ToString(const MDPack &d) {
@@ -52,10 +53,10 @@ QuoteInterface_MY_SHFE_MD::QuoteInterface_MY_SHFE_MD(const SubscribeContracts *s
     my_shfe_md_inf_.SetDataHandler(this);
 
     // start recv threads
-    p_mbl_handler_ = new boost::thread(boost::bind(&QuoteInterface_MY_SHFE_MD::ShfeMBLHandler, this));
+    p_mbl_handler_ = new std::thread(std::bind(&QuoteInterface_MY_SHFE_MD::ShfeMBLHandler, this));
 
     femas_inf_ = new CMdclientHandler(NULL, cfg_);
-    femas_inf_->SetQuoteDataHandler(boost::bind(&QuoteInterface_MY_SHFE_MD::ShfeDepthMarketDataHandler, this, _1));
+    femas_inf_->SetQuoteDataHandler(std::bind(&QuoteInterface_MY_SHFE_MD::ShfeDepthMarketDataHandler, this, placeholders::_1));
 }
 
 QuoteInterface_MY_SHFE_MD::~QuoteInterface_MY_SHFE_MD()
@@ -64,7 +65,7 @@ QuoteInterface_MY_SHFE_MD::~QuoteInterface_MY_SHFE_MD()
     running_flag_ = false;
     if (p_mbl_handler_)
     {
-        p_mbl_handler_->interrupt();
+        //p_mbl_handler_->interrupt();
     }
 
     if (femas_inf_)

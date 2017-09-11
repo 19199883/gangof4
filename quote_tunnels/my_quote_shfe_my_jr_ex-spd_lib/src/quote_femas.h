@@ -7,7 +7,6 @@
 #include <unordered_map>
 #include <map>
 #include "mdclient.h"
-#include <boost/function.hpp>
 #include "quote_datatype_level1.h"
 #include "quote_cmn_utility.h"
 #include "quote_cmn_config.h"
@@ -24,7 +23,7 @@ public:
 	CMdclientHandler(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg);
 
     // 数据处理回调函数设置
-    void SetQuoteDataHandler(boost::function<void(const CDepthMarketDataField *)> quote_data_handler);
+    void SetQuoteDataHandler(std::function<void(const CDepthMarketDataField *)> quote_data_handler);
 
     virtual ~CMdclientHandler(void);
 
@@ -36,7 +35,7 @@ private:
 	int sub_count_;
 
     // 数据处理函数对象
-    boost::function<void(const CDepthMarketDataField *)> quote_data_handler_;
+    std::function<void(const CDepthMarketDataField *)> quote_data_handler_;
 
     // 配置数据对象
     ConfigData cfg_;

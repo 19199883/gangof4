@@ -11,7 +11,7 @@ OBJPATH:=./obj
 BINPATH:=./bin
 DEPS:=.depends
 CPPFLAGS:= -std=c++11 $(INCPATH)	
-LIBS:= -lmxml -lpthread -lmy_common_v2 -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time -lmdclient 
+LIBS:= -lmxml -lpthread -lmy_common_v2 -lboost_system -lboost_filesystem -lmdclient 
 OUT:=libmy_quote_shfe_my_jrcmcc_lib.so
 
 

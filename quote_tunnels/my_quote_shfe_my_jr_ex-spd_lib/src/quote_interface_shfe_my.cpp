@@ -1,8 +1,8 @@
 ﻿#include "quote_interface_shfe_my.h"
 
 #include <string>
-#include <boost/thread.hpp>
-
+#include <thread>         // std::thread
+#include <mutex>          // std::mutex, std::lock_guard
 #include "my_cmn_util_funcs.h"
 #include "my_cmn_log.h"
 
@@ -17,7 +17,7 @@ using namespace my_cmn;
 void InitOnce()
 {
     static volatile bool s_have_init = false;
-    static boost::mutex s_init_sync;
+    static std::mutex s_init_sync;
 
     if (s_have_init)
     {
@@ -25,7 +25,7 @@ void InitOnce()
     }
     else
     {
-        boost::mutex::scoped_lock lock(s_init_sync);
+		std::lock_guard<std::mutex> lock(s_init_sync);
         if (s_have_init)
         {
             return;

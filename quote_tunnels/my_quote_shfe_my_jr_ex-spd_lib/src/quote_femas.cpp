@@ -1,10 +1,6 @@
 ﻿#include "quote_femas.h"
 #include <iomanip>
 #include <vector>
-#include <boost/foreach.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/thread.hpp>
 #include <iostream>     // std::cin, std::cout
 
 #include "quote_cmn_config.h"
@@ -25,7 +21,7 @@ CMdclientHandler::CMdclientHandler(const SubscribeContracts *subscribe_contracts
 
 	int port = -1;
 	string ip = "";
-    BOOST_FOREACH(const std::string &v, logon_cfg.quote_provider_addrs) {
+    for(const std::string &v : logon_cfg.quote_provider_addrs) {
 		size_t ipstr_start = v.find("//")+2;
 		size_t ipstr_end = v.find(":",ipstr_start);
 		ip = v.substr (ipstr_start, ipstr_end-ipstr_start);
@@ -90,7 +86,7 @@ void CMdclientHandler::OnRtnDepthMarketData(CDepthMarketDataField *p)
 
 }
 
-void CMdclientHandler::SetQuoteDataHandler(boost::function<void(const CDepthMarketDataField *)> quote_data_handler)
+void CMdclientHandler::SetQuoteDataHandler(std::function<void(const CDepthMarketDataField *)> quote_data_handler)
 {
     quote_data_handler_ = quote_data_handler;
 }
