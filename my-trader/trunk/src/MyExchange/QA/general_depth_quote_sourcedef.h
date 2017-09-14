@@ -34,6 +34,7 @@ using namespace log4cxx::xml;
 using namespace log4cxx::helpers;
 using namespace quote_agent;
 using namespace std;
+using namespace std::placeholders;    // adds visibility of _1, _2, _3,..
 
 template<typename QuoteT>
 quote_source<QuoteT>::quote_source(quote_source_setting setting,MYQuoteData *md_provider)
@@ -180,7 +181,7 @@ template<typename QuoteT>
 void quote_source<QuoteT>::subscribe_to_symbols(SubscribeContracts subscription){
 		// TODO:improve 1
 		if (IsIntegerT<QuoteT>::No){
-			std::function<void (const QuoteT *)> f = std::bind(&quote_source<QuoteT>::OnGTAQuoteData, this, _1);
+			std::function<void (const QuoteT *)> f = std::bind(&quote_source<QuoteT>::OnGTAQuoteData, this, placeholders::_1);
 			md_provider_->SetQuoteDataHandler(f);
 			_subscribed = true;
 		}
