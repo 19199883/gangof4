@@ -16,7 +16,7 @@
 #include <vector>
 #include <mutex>          // std::mutex, std::lock_guard
 
-//#define LATENCY_MEASURE
+#define LATENCY_MEASURE
 
 using namespace std;
 using namespace std::chrono;

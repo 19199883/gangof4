@@ -1,7 +1,7 @@
 # Makefile 
 
 CC:=g++
-DEBUG:=n
+DEBUG:=y
 ASYNC_CANCEL:=n
 TOP:=..
 INCPATH:=-I$(TOP)/lib/include -I$(TOP)/my_common/include -I$(TOP)/include_tunnel

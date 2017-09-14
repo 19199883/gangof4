@@ -737,11 +737,10 @@ void tcs::place_request(const my_order &ord)
 		chn_ord.volume = ord.volume;
 
 #ifdef LATENCY_MEASURE
-        // latency measure
-//		int latency = perf_ctx::calcu_latency(ord.model_id,ord.signal_id);
-//        if(latency > 0){
-//                LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"place latency:" << latency << " us");
-//        }
+		int latency = perf_ctx::calcu_latency(ord.model_id,ord.signal_id);
+        if(latency > 0){
+                LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"place latency:" << latency << " us");
+        }
 #endif
 		this->channel->PlaceOrder(&chn_ord);
 	}
@@ -844,11 +843,10 @@ void tcs::cancel_request(const my_order &ord)
 				"cancel_request,org_serial_no:" << chn_ord.org_serial_no
 				<< "entrust_no:" << chn_ord.entrust_no);
 #ifdef LATENCY_MEASURE
-        // latency measure
-//		int latency = perf_ctx::calcu_latency(ord.model_id,ord.signal_id);
-//        if(latency > 0){
-//                LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"cancel latency:" << latency << " us");
-//        }
+		int latency = perf_ctx::calcu_latency(ord.model_id,ord.signal_id);
+        if(latency > 0){
+                LOG4CXX_ERROR(log4cxx::Logger::getRootLogger(),"cancel latency:" << latency << " us");
+        }
 #endif
 		this->channel->CancelOrder(&chn_ord);
 	}

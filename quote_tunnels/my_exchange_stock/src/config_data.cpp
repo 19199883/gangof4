@@ -122,7 +122,7 @@ void MYExConfigData::LoadCfg()
 
 void MYExConfigData::LoadModelCfg()
 {
-    mxml_node_t *tree = LoadFileInTree("x-trader.config");
+    mxml_node_t *tree = LoadFileInTree("trasev.config");
 
     if (tree)
     {

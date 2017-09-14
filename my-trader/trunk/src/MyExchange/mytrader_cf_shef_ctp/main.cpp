@@ -18,7 +18,7 @@
 using namespace trading_engine;
 using namespace std;
 
-typedef engine<CDepthMarketDataField,MYShfeMarketData,int,int,int> EngineT;
+typedef engine<int,MYShfeMarketData,int,int,int> EngineT;
 
 EngineT *engine_ins;
 
