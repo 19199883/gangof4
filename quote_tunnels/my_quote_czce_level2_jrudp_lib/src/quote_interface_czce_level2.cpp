@@ -66,7 +66,7 @@ bool MYQuoteData::InitInterface(const SubscribeContracts *subscribe_contracts, c
     return true;
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const ZCEL2QuotSnapshotField_MY*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const ZCEL2QuotSnapshotField_MY*)> quote_handler)
 {
     if (interface_)
     {
@@ -78,7 +78,7 @@ void MYQuoteData::SetQuoteDataHandler(boost::function<void(const ZCEL2QuotSnapsh
     }
 }
 
-void MYQuoteData::SetQuoteDataHandler(boost::function<void(const ZCEQuotCMBQuotField_MY*)> quote_handler)
+void MYQuoteData::SetQuoteDataHandler(std::function<void(const ZCEQuotCMBQuotField_MY*)> quote_handler)
 {
     if (interface_)
     {

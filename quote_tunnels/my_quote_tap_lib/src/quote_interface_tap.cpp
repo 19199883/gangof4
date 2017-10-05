@@ -91,7 +91,7 @@ MYQuoteData::InitInterface(const SubscribeContracts *subscribe_contracts, const 
 }
 
 void
-MYQuoteData::SetQuoteDataHandler(boost::function<void(const TapAPIQuoteWhole_MY *)> quote_handler)
+MYQuoteData::SetQuoteDataHandler(std::function<void(const TapAPIQuoteWhole_MY *)> quote_handler)
 {
     if (interface_)
     {

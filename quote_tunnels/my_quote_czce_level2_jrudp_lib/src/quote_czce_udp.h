@@ -7,8 +7,7 @@
 #include <string>
 #include <vector>
 
-#include <boost/bind.hpp>
-#include <boost/thread.hpp>
+#include <thread>
 #include <boost/atomic.hpp>
 
 #include "my_cmn_util_funcs.h"
@@ -33,11 +32,11 @@ public:
 
 	// added by wangying on 20161028
     // 数据处理回调函数设置
-	 void SetQuoteDataHandler(boost::function<void(const ZCEL2QuotSnapshotField_MY *)> quote_data_handler)
+	 void SetQuoteDataHandler(std::function<void(const ZCEL2QuotSnapshotField_MY *)> quote_data_handler)
      {
 	     l2_quote_handler_ = quote_data_handler;
 	 }
-	void SetQuoteDataHandler(boost::function<void(const ZCEQuotCMBQuotField_MY *)> quote_data_handler)
+	void SetQuoteDataHandler(std::function<void(const ZCEQuotCMBQuotField_MY *)> quote_data_handler)
 	{
         MY_LOG_WARN("CZCE_UDP - ZCEQuotCMBQuotField_MY not supported");
 	}
@@ -50,7 +49,7 @@ private:
     int CreateUdpFD(const std::string &addr_ip, unsigned short port);
 
     // 数据处理函数对象
-    boost::function<void(const ZCEL2QuotSnapshotField_MY*)> l2_quote_handler_;
+    std::function<void(const ZCEL2QuotSnapshotField_MY*)> l2_quote_handler_;
 
     // 订阅合约集合
     SubscribeContracts subscribe_contracts_;
@@ -69,7 +68,7 @@ private:
 
     // receive threads
     volatile bool running_flag_;
-    boost::thread *p_md_handler_;
+    std::thread *p_md_handler_;
 
 	TAP::MYQuoteData *lvl1_provider_;
 	// the first market data for TapAPIQuoteWhole_MY type

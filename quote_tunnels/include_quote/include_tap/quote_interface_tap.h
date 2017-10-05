@@ -12,7 +12,7 @@
 
 #include <set>
 #include <string>
-#include <boost/function.hpp>
+#include <functional>
 
 
 // 订阅的合约，集合类型
@@ -34,9 +34,9 @@ namespace TAP
 			MYQuoteData(const SubscribeContracts *subscribe_contracts, const std::string &provider_config_file);
 
 			// tap market data handlers
-			void SetQuoteDataHandler(boost::function<void(const  TapAPIQuoteWhole_MY *)> quote_handler);
+			void SetQuoteDataHandler(std::function<void(const  TapAPIQuoteWhole_MY *)> quote_handler);
 			
-			void SetQuoteDataHandler(boost::function<void(const int *)> quote_handler){}
+			void SetQuoteDataHandler(std::function<void(const int *)> quote_handler){}
 
 			~MYQuoteData();
 
