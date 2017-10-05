@@ -10,7 +10,7 @@ CFLAGS:= -fPIC -fvisibility=hidden
 LDFLAGS:= -shared -Wl,--exclude-libs,ALL
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lqtm -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time -lmy_quote_tap_lib 
+LIBS:= -lmxml -lpthread -lssl -lmy_common_v2 -lboost_system -lboost_thread -lboost_filesystem -lboost_date_time -lmy_quote_tap_lib 
 DEPS:=.depends
 OUT:=libmy_quote_czce_level2_jrudp_lib.so
 

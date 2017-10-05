@@ -113,6 +113,5 @@ MYQuoteData::~MYQuoteData()
     {
         MY_LOG_ERROR("not support quote provider type(%d) for destroy interface.", quote_provider_type_);
     }
-    qtm_finish();
     interface_ = NULL;
 }

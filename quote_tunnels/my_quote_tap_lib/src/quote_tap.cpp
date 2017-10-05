@@ -41,7 +41,6 @@ MYTAPDataHandler::MYTAPDataHandler(const SubscribeContracts *subscribe_contracts
     }
 
     sprintf(qtm_name_, "TAP - tap_%s_%u", cfg_.Logon_config().account.c_str(), getpid());
-    QuoteUpdateState(qtm_name_, QtmState::INIT);
 
     p_save_tap_ = new QuoteDataSave<TapAPIQuoteWhole_MY>(cfg_, qtm_name_, "tapl2quote", TAP_QUOTE_TYPE);
 
@@ -91,11 +90,9 @@ MYTAPDataHandler::MYTAPDataHandler(const SubscribeContracts *subscribe_contracts
         /* 设置服务器地址 */
         if (0 == api_->SetHostAddress(addr_tmp2, atoi(port_tmp)))
         {
-            QuoteUpdateState(qtm_name_, QtmState::SET_ADDRADRESS_SUCCESS);
         }
         else
         {
-            QuoteUpdateState(qtm_name_, QtmState::SET_ADDRADRESS_FAIL);
             return;
         }
         delete[] addr_tmp;
@@ -147,7 +144,6 @@ MYTAPDataHandler::req_login(int wait_seconds)
  again:
         while (0 != (ret = api_->Login(&login_)))
         {
-            QuoteUpdateState(qtm_name_, QtmState::LOG_ON_FAIL);
             MY_LOG_ERROR("TAP - login failed, the error code is %d", ret);
             sleep(10);
         }
@@ -227,11 +223,9 @@ MYTAPDataHandler::OnRspLogin(TAPIINT32 errorCode, const TapAPIQuotLoginRspInfo *
     if (0 == errorCode)
     {
         logoned_ = true;
-        QuoteUpdateState(qtm_name_, QtmState::LOG_ON_SUCCESS);
     }
     else
     {
-        QuoteUpdateState(qtm_name_, QtmState::LOG_ON_FAIL);
         MY_LOG_WARN("TAP - login failed, ErrorCode = %d", errorCode);
     }
 }
@@ -240,7 +234,6 @@ void
 MYTAPDataHandler::OnAPIReady()
 {
     MY_LOG_INFO("TAP - OnAPIReady");
-    QuoteUpdateState(qtm_name_, QtmState::API_READY);
 
     for (SubscribeContracts::iterator it = subscribe_contracts_.begin(); it != subscribe_contracts_.end(); it++)
     {
@@ -331,7 +324,6 @@ void
 MYTAPDataHandler::OnDisconnect(TAPIINT32 reasonCode)
 {
     MY_LOG_INFO("TAP - OnDisconnect, reasonCode is %d, reconnecting.", reasonCode);
-    QuoteUpdateState(qtm_name_, QtmState::DISCONNECT);
     check_login_ = false;
     int ret;
 
@@ -344,7 +336,6 @@ MYTAPDataHandler::OnDisconnect(TAPIINT32 reasonCode)
 reconnect:
     while (0 != (ret = api_->Login(&login_)))
     {
-        QuoteUpdateState(qtm_name_, QtmState::LOG_ON_FAIL);
         MY_LOG_ERROR("TAP - login failed, the error code is %d", ret);
         sleep(10);
     }
@@ -355,7 +346,6 @@ reconnect:
         MY_LOG_ERROR("TAP - Login timeout, reconnecting.");
         goto reconnect;
     }
-    QuoteUpdateState(qtm_name_, QtmState::LOG_ON_SUCCESS);
     MY_LOG_INFO("TAP - Reconnect successful.");
 }
 

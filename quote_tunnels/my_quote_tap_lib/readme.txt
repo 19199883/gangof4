@@ -1,0 +1,3 @@
+郑州一档行情。libmy_quote_czce_level2_jrudp_lib使用一档行情获取盘前行情数据。
+实盘使用该版本
+依赖的API：内盘启明星TapAPI

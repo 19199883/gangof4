@@ -30,7 +30,6 @@
 #include "quote_cmn_utility.h"
 #include "quote_cmn_config.h"
 #include "quote_cmn_save.h"
-#include "qtm_with_code.h"
 
 typedef list<string> listex_t;
 typedef list<TapAPICommodity> listcm_t;
