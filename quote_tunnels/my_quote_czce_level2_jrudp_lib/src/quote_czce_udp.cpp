@@ -110,7 +110,7 @@ CzceUdpMD::CzceUdpMD(const SubscribeContracts *subscribe_contracts, const Config
     p_save_zcel2_quote_snap_snapshot_= new QuoteDataSave<ZCEL2QuotSnapshotField_MY>(cfg_, qtm_name_, "czce_level2", CZCE_LEVEL2_QUOTE_TYPE);
 
     // start recv threads
-    p_md_handler_ = new boost::thread(boost::bind(&CzceUdpMD::UdpDataHandler, this));
+    p_md_handler_ = new std::thread(boost::bind(&CzceUdpMD::UdpDataHandler, this));
 }
 
 CzceUdpMD::~CzceUdpMD()
@@ -119,7 +119,7 @@ CzceUdpMD::~CzceUdpMD()
     running_flag_ = false;
     if (p_md_handler_)
     {
-        p_md_handler_->interrupt();
+        //p_md_handler_->interrupt();
     }
 
     // destroy all save object
