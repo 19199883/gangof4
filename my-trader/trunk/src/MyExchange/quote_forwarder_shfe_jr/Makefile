@@ -33,9 +33,9 @@ CFLAGS:=
 LDFLAGS:= 
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:=  -lquote_forwarder_common -lqtm -ltinyxml -lboost_system \
+LIBS:=  -lquote_forwarder_common -ltinyxml -lboost_system \
 		-lpthread -lboost_thread -llog4cxx -lmy_quote_shfe_my_jrcmcc_lib \
-		-lmy_common_v2 -lUSTPmduserapi -lUSTPtraderapi -lutils
+		-lmy_common_v2 -lutils -lmdclient -lssl
 
 DEPS:=.depends
 
