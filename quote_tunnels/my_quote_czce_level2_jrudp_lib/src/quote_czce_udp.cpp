@@ -1,4 +1,5 @@
-﻿#include "quote_czce_udp.h"
+﻿#include <functional>   // std::bind
+#include "quote_czce_udp.h"
 #include <sys/socket.h>
 #include <unistd.h>
 #include <errno.h>
@@ -10,6 +11,7 @@
 #include <ratio>
 #include <chrono>
 
+using namespace std::placeholders;
 using namespace std;
 using namespace my_cmn;
 using std::chrono::system_clock;
@@ -33,8 +35,6 @@ ZCEL2QuotSnapshotField_MY CzceUdpMD::Convert(const StdQuote5 &other,TapAPIQuoteW
 		data.LowLimit = InvalidToZeroD(tap_data->QLimitDownPrice);	/*跌停板*/
 		data.LifeHigh = InvalidToZeroD(tap_data->QHisHighPrice);	/*历史最高成交价格*/
 		data.LifeLow = InvalidToZeroD(tap_data->QHisLowPrice);	/*历史最低成交价格*/
-		data.TotalBidLot = (int)tap_data->QTotalBidQty;	/*委买总量*/
-		data.TotalAskLot = (int)tap_data->QTotalAskQty;	/*委卖总量*/
 		data.AveragePrice = InvalidToZeroD(tap_data->QAveragePrice);	/*均价*/
 		data.OpenInterest = (int)tap_data->QPositionQty;	/*持仓量*/
 		memcpy(data.ContractID,tap_data->ContractNo1,sizeof(tap_data->ContractNo1));		/*合约编码*/
@@ -47,6 +47,9 @@ ZCEL2QuotSnapshotField_MY CzceUdpMD::Convert(const StdQuote5 &other,TapAPIQuoteW
 	strcpy(data.TimeStamp+11,other.updateTime);
 	strcpy(data.TimeStamp+19,".");
 	sprintf(data.TimeStamp+20,"%03d",other.updateMS);
+
+	data.TotalBidLot = (int)other.totalbid;	/*委买总量*/
+	data.TotalAskLot = (int)other.totalask;	/*委卖总量*/
 
 	data.TotalVolume = other.volume;
 	data.ContractIDType = 0;							/*合约类型 0->目前应该为0， 扩充：0:期货,1:期权,2:组合*/
@@ -82,7 +85,7 @@ CzceUdpMD::CzceUdpMD(const SubscribeContracts *subscribe_contracts, const Config
 {
 	// initialize level1 market data provider
 	lvl1_provider_ = new TAP::MYQuoteData(subscribe_contracts,"my_quote_tap.config");
-	boost::function<void (const TapAPIQuoteWhole_MY*)> f2 = boost::bind(&CzceUdpMD::OnTapAPIQuoteWhole_MY, this, _1);
+	auto f2 = std::bind(&CzceUdpMD::OnTapAPIQuoteWhole_MY, this,std::placeholders::_1);
 	lvl1_provider_->SetQuoteDataHandler(f2);
 	MY_LOG_INFO("CZCE_UDP - lvl1_provider initialized ");
 	
@@ -110,7 +113,7 @@ CzceUdpMD::CzceUdpMD(const SubscribeContracts *subscribe_contracts, const Config
     p_save_zcel2_quote_snap_snapshot_= new QuoteDataSave<ZCEL2QuotSnapshotField_MY>(cfg_, qtm_name_, "czce_level2", CZCE_LEVEL2_QUOTE_TYPE);
 
     // start recv threads
-    p_md_handler_ = new std::thread(boost::bind(&CzceUdpMD::UdpDataHandler, this));
+    p_md_handler_ = new std::thread(std::bind(&CzceUdpMD::UdpDataHandler, this));
 }
 
 CzceUdpMD::~CzceUdpMD()
@@ -179,6 +182,9 @@ void CzceUdpMD::UdpDataHandler()
 
 			ZCEL2QuotSnapshotField_MY data_my = Convert(*p,tap_data );
 			
+			// TODO: debug
+			ToString(&data_my);
+
 			// 发出去
 			if (tap_data != NULL
 				&& l2_quote_handler_

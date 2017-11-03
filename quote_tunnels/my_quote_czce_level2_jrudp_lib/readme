@@ -5,6 +5,6 @@
 附注：
 (1)UDP行情：看czce_udp.txt
 (2)TAP ver:9.3.0.3
-(3) 依赖：libmy_quote_tap_lib.so，一档行情模块
+(3) 依赖：libmy_quote_tap_lib.so，一档行情模块(project: my_quote_tap_lib)
 	配置：my_quote_tap.config，注意stock_list的订阅列表
 (4) my_quote_czce_udp.config,UDP level1行情配置

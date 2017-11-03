@@ -8,7 +8,6 @@
 #include <vector>
 
 #include <thread>
-#include <boost/atomic.hpp>
 
 #include "my_cmn_util_funcs.h"
 #include "quote_cmn_utility.h"
