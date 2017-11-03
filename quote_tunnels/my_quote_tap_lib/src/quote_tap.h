@@ -15,7 +15,7 @@
 #include <list>
 #include <iomanip>
 #include <vector>
-#include <boost/function.hpp>
+#include <functional>
 #include <string.h>
 #include <string>
 #include <thread>
@@ -42,7 +42,7 @@ public:
     MYTAPDataHandler(const SubscribeContracts *subscribe_contracts, const ConfigData &cfg);
 
     /* 数据处理回调函数设置 */
-    void SetQuoteDataHandler(boost::function<void(const TapAPIQuoteWhole_MY *)> quote_handler)
+    void SetQuoteDataHandler(std::function<void(const TapAPIQuoteWhole_MY *)> quote_handler)
     {
         tap_handler_ = quote_handler;
     }
@@ -197,7 +197,7 @@ private:
     void subscribe_quote(TapAPIContract &contract);
 
     /* 数据处理函数对象 */
-    boost::function<void(const TapAPIQuoteWhole_MY *)> tap_handler_;
+    std::function<void(const TapAPIQuoteWhole_MY *)> tap_handler_;
 
     /* 订阅合约集合 */
     SubscribeContracts subscribe_contracts_;
