@@ -480,6 +480,7 @@ MYTAPDataHandler::OnRspQryContract(TAPIUINT32 sessionID, TAPIINT32 errorCode, TA
         else
         {
             MY_LOG_WARN("TAP - OnRspQryContract the info is NULL.");
+			return;
         }
 
         /* 最后一个时执行订阅线程 */
