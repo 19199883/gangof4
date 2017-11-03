@@ -127,6 +127,8 @@ struct StdQuote5
 	int askVolume5;
 	double bidPrice5;
 	int bidVolume5;
+	unsigned long long totalbid;
+	unsigned long long totalask;		 
 };
 
 #pragma pack(pop)
