@@ -39,7 +39,7 @@ CFLAGS:=
 LDFLAGS:= 
 OBJPATH:=./obj
 BINPATH:=./bin
-LIBS:=  -lutils -ldl -lpthread -lboost_thread -lboost_filesystem -lboost_system \
+LIBS:=  -lutils -ldl -lpthread -lboost_filesystem -lboost_system \
 	-lboost_date_time -llog4cxx -lssl -ltca -lsm -lmy_common_v2 -lmy_exchange_entity \
 	-ltinyxml -lmy_quote_tap_lib -lTapQuoteAPI  -lmy_quote_czce_level2_jrudp_lib -lqtm
 
