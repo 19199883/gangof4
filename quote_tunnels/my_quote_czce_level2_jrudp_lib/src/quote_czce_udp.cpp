@@ -181,9 +181,6 @@ void CzceUdpMD::UdpDataHandler()
 			TapAPIQuoteWhole_MY *tap_data = get_data_by_udp_contr(udp_contr );
 
 			ZCEL2QuotSnapshotField_MY data_my = Convert(*p,tap_data );
-			
-			// TODO: debug
-			//ToString(&data_my);
 
 			// 发出去
 			if (tap_data != NULL

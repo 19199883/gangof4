@@ -612,10 +612,6 @@ MYTAPDataHandler::OnRtnQuote(const TapAPIQuoteWhole *info)
             gettimeofday(&t, NULL);
             TapAPIQuoteWhole_MY data_my = Convert(*info);
 
-			// TODO:debug
-			//MY_LOG_INFO("TAP - OnRtnQuote, CommodityNo is %s, ContractNo is %s.", info->Contract.Commodity.ExchangeNo,
-			//	info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
-
             /* 发出去 */
             if (tap_handler_)
             {
