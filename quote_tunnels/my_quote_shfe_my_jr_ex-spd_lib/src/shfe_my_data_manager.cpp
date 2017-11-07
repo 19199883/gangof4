@@ -299,7 +299,6 @@ SHFEMDQuoteSnapshot *MYShfeMDManager::PushDataToBuffer(const std::string &cur_co
 
 	// wangying, repairer, total sell volume, bug dound on 2017-05-11
 	// new data on 2017-0625
-	// TODO: new data, debug, print
 	//MY_LOG_DEBUG("damaged: %d; instrument:%s", p->field.damaged, p->field.InstrumentID);
 	if (p->field.damaged){
 		p->field.Price = 0;
@@ -421,9 +420,6 @@ void MYShfeMDManager::SendToClient(const std::string &code, SHFEMDQuoteSnapshot 
 	}
 
     FillStatisticFields(my_data, p_data);
-
-	// TODO: new data, debug, print
-	//ToString(my_data);
 
     // 发给数据客户
     if (data_handler_)

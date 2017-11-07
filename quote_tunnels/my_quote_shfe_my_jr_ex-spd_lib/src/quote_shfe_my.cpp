@@ -130,9 +130,6 @@ void QuoteInterface_MY_SHFE_MD::ShfeMBLHandler()
         // data handle
         MDPack *p = (MDPack *)recv_buf;
 
-		// TODO:debug
-		//ToString(*p);
-		
 		int new_svr = p->seqno % 10;
         if (new_svr != server_) { MY_LOG_WARN("server from %d to %d", server_, new_svr); }
 		

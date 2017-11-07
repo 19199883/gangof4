@@ -42,6 +42,8 @@ private:
 
     // save assistant object
     void RalaceInvalidValue_Femas(CDepthMarketDataField &d);
+
+	void ToString(CDepthMarketDataField &data);
 };
 
 #endif // GTA_QUOTE_INTERFACE_H_
