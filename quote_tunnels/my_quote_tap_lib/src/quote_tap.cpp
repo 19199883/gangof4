@@ -603,7 +603,7 @@ MYTAPDataHandler::OnRspSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode,
 void
 MYTAPDataHandler::OnRtnQuote(const TapAPIQuoteWhole *info)
 {
-    //MY_LOG_INFO("TAP - OnRtnQuote");
+    MY_LOG_INFO("TAP - OnRtnQuote");
     if ( NULL != info)
     {
         try
