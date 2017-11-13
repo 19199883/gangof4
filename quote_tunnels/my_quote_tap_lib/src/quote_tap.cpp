@@ -566,7 +566,7 @@ MYTAPDataHandler::subscribe_by_contract()
 void
 MYTAPDataHandler::OnRspSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode, TAPIYNFLAG isLast, const TapAPIQuoteWhole *info)
 {
-    MY_LOG_INFO("TAP - OnRspSubscribeQuote");
+    MY_LOG_INFO("TAP - OnRspSubscribeQuote contract:%s%s", info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
 
     if (errorCode == 0 && NULL != info)
     {
@@ -603,7 +603,7 @@ MYTAPDataHandler::OnRspSubscribeQuote(TAPIUINT32 sessionID, TAPIINT32 errorCode,
 void
 MYTAPDataHandler::OnRtnQuote(const TapAPIQuoteWhole *info)
 {
-    MY_LOG_INFO("TAP - OnRtnQuote");
+    MY_LOG_INFO("TAP - OnRtnQuote contract:%s%s", info->Contract.Commodity.CommodityNo, info->Contract.ContractNo1);
     if ( NULL != info)
     {
         try
