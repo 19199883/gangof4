@@ -177,6 +177,9 @@ void CzceUdpMD::UdpDataHandler()
 
 			StdQuote5 * p = (StdQuote5 *) (buf);
 
+			// TODO:
+			//MY_LOG_INFO("CZCE_UDP - StdQuote5 contract:%s", p->instrument);
+
 			string udp_contr = p->instrument;
 			TapAPIQuoteWhole_MY *tap_data = get_data_by_udp_contr(udp_contr );
 
@@ -254,21 +257,12 @@ void CzceUdpMD::OnTapAPIQuoteWhole_MY(const TapAPIQuoteWhole_MY *data)
 	string tap_contr = data->CommodityNo;
 	tap_contr += data->ContractNo1;
 
-	TapAPIQuoteWhole_MY *tap_data = NULL;
-	{
-		tap_data =  get_data_by_tap_contr(tap_contr);
-	}
+	// TODO:
+	//MY_LOG_INFO("CZCE_UDP - TapAPIQuoteWhole_MY comm:%s; contract:%s", data->CommodityNo, data->ContractNo1);
 
-	if(tap_data != NULL)
-	{
-		return;
-	}
-	else
-	{
-		lock_guard<std::mutex> lck (first_data_each_contract_lock_);
-		first_data_each_contract_[tap_contr] = *data; 
-		memcpy(first_data_each_contract_[tap_contr].ContractNo1,tap_contr.c_str(),sizeof(tap_contr.c_str()));	
-	}
+	lock_guard<std::mutex> lck (first_data_each_contract_lock_);
+	first_data_each_contract_[tap_contr] = *data; 
+	memcpy(first_data_each_contract_[tap_contr].ContractNo1,tap_contr.c_str(),sizeof(tap_contr.c_str()));	
 }
 
 std::string CzceUdpMD::ToString(const ZCEL2QuotSnapshotField_MY * p)
@@ -390,7 +384,15 @@ TapAPIQuoteWhole_MY *CzceUdpMD::get_data_by_tap_contr(string &tap_fmt_contract)
 TapAPIQuoteWhole_MY *CzceUdpMD::get_data_by_udp_contr(string &contract)
 {
 	string tap_fmt_contract = contract;
+
+	// TODO:
+	//MY_LOG_INFO("CZCE_UDP -before get_data_by_udp_contr contract:%s", tap_fmt_contract.c_str());
+
 	tap_fmt_contract.erase(2,1); 
+	
+	// TODO:
+	//MY_LOG_INFO("CZCE_UDP - get_data_by_udp_contr contract:%s", tap_fmt_contract.c_str());
+
 	return this->get_data_by_tap_contr(tap_fmt_contract);
 }
 

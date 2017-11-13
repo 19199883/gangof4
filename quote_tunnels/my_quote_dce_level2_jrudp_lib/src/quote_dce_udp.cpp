@@ -207,10 +207,13 @@ void DceUdpMD::UdpDataHandler()
                     }
                     continue;
                 }
+				// TODO: add an switch to control log output
                 timeval t;
                 gettimeofday(&t, NULL);
 
+				// TODO: 加主力合约列表，使用主力合约进行过滤
                 MDBestAndDeep * p = (MDBestAndDeep *) (buf + 1);
+				// TODO: add a buffer for MDBestAndDeep_MY 
                 MDBestAndDeep_MY data_my = Convert(*p);
 
                 // 发出去
@@ -276,6 +279,7 @@ int DceUdpMD::CreateUdpFD(const std::string& addr_ip, unsigned short port)
         return -1;
     }
 
+	// TODO: use the following option
     // set nonblock flag
 //    int socket_ctl_flag = fcntl(udp_client_fd, F_GETFL);
 //    if (socket_ctl_flag < 0)
