@@ -177,7 +177,6 @@ void CzceUdpMD::UdpDataHandler()
 
 			StdQuote5 * p = (StdQuote5 *) (buf);
 
-			// TODO:
 			//MY_LOG_INFO("CZCE_UDP - StdQuote5 contract:%s", p->instrument);
 
 			string udp_contr = p->instrument;
@@ -257,7 +256,6 @@ void CzceUdpMD::OnTapAPIQuoteWhole_MY(const TapAPIQuoteWhole_MY *data)
 	string tap_contr = data->CommodityNo;
 	tap_contr += data->ContractNo1;
 
-	// TODO:
 	//MY_LOG_INFO("CZCE_UDP - TapAPIQuoteWhole_MY comm:%s; contract:%s", data->CommodityNo, data->ContractNo1);
 
 	lock_guard<std::mutex> lck (first_data_each_contract_lock_);
@@ -385,12 +383,10 @@ TapAPIQuoteWhole_MY *CzceUdpMD::get_data_by_udp_contr(string &contract)
 {
 	string tap_fmt_contract = contract;
 
-	// TODO:
 	//MY_LOG_INFO("CZCE_UDP -before get_data_by_udp_contr contract:%s", tap_fmt_contract.c_str());
 
 	tap_fmt_contract.erase(2,1); 
 	
-	// TODO:
 	//MY_LOG_INFO("CZCE_UDP - get_data_by_udp_contr contract:%s", tap_fmt_contract.c_str());
 
 	return this->get_data_by_tap_contr(tap_fmt_contract);
