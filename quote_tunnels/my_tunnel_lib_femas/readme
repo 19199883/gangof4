@@ -1,3 +1,6 @@
+2018-1-17
+升级Femas：FemasAllFuturesAPI_1.01_20170526(fm4)_new
+
 1. 如果支持FM2.0
    include:lib\include\femas2.0
    so:lib\bin\femas2.0
