@@ -28,7 +28,6 @@ MYCTPDataHandler::MYCTPDataHandler(const SubscribeContracts *subscribe_contracts
     char qtm_name_buf[64];
     sprintf(qtm_name_buf, "ctp_level1_%lu", getpid());
     qtm_name = qtm_name_buf;
-    QuoteUpdateState(qtm_name.c_str(), QtmState::INIT);
 
     // get information of contracts
     if (!MYCTPTradeInterface::securities_get_finished)
@@ -96,14 +95,12 @@ MYCTPDataHandler::MYCTPDataHandler(const SubscribeContracts *subscribe_contracts
         MY_LOG_INFO("CTP - RegisterFront, addr: %s", addr_tmp);
         delete[] addr_tmp;
     }
-    QuoteUpdateState(qtm_name.c_str(), QtmState::SET_ADDRADRESS_SUCCESS);
 
     api_->Init();
 }
 
 MYCTPDataHandler::~MYCTPDataHandler(void)
 {
-    QuoteUpdateState(qtm_name.c_str(), QtmState::LOG_OUT);
 
     if (api_)
     {
@@ -119,7 +116,6 @@ MYCTPDataHandler::~MYCTPDataHandler(void)
 void MYCTPDataHandler::OnFrontConnected()
 {
     MY_LOG_INFO("shfe_ex(CTP): OnFrontConnected");
-    QuoteUpdateState(qtm_name.c_str(), QtmState::CONNECT_SUCCESS);
 
     CThostFtdcReqUserLoginField req_login;
     memset(&req_login, 0, sizeof(CThostFtdcReqUserLoginField));
@@ -132,7 +128,6 @@ void MYCTPDataHandler::OnFrontDisconnected(int nReason)
 {
     logoned_ = false;
     MY_LOG_ERROR("CTP - OnFrontDisconnected, nReason: %d", nReason);
-    QuoteUpdateState(qtm_name.c_str(), QtmState::DISCONNECT);
 }
 
 void MYCTPDataHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin, CThostFtdcRspInfoField *pRspInfo, int nRequestID,
@@ -146,7 +141,6 @@ void MYCTPDataHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin
         logoned_ = true;
         api_->SubscribeMarketData(pp_instruments_, sub_count_);
         MY_LOG_INFO("CTP - SubMarketData, codelist: %s", instruments_.c_str());
-        QuoteUpdateState(qtm_name.c_str(), QtmState::LOG_ON_SUCCESS);
     }
     else
     {
@@ -158,7 +152,6 @@ void MYCTPDataHandler::OnRspUserLogin(CThostFtdcRspUserLoginField *pRspUserLogin
         MY_LOG_WARN("CTP - Logon fail, error code: %d; error info: %s", error_code, err_str.c_str());
 
         // 登录失败
-        QuoteUpdateState(qtm_name.c_str(), QtmState::LOG_ON_FAIL);
     }
 }
 
@@ -168,7 +161,6 @@ void MYCTPDataHandler::OnRspSubMarketData(CThostFtdcSpecificInstrumentField *pSp
     MY_LOG_DEBUG("CTP - OnRspSubMarketData, code: %s", pSpecificInstrument->InstrumentID);
     if (bIsLast)
     {
-        QuoteUpdateState(qtm_name.c_str(), QtmState::API_READY);
     }
 }
 
