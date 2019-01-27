@@ -26,6 +26,7 @@
 #include "ksg.h"
 #include "taifex_md.h"
 #include "kmds.h"
+#include "cme.h"
 
 #include <iostream>
 #include <chrono>
@@ -358,6 +359,36 @@ int main(int argc, char **argv)
 					SaveData_FutureQuote_KMDS t;
 					f_in.read((char *)&t, sizeof(t));
 					f_out << KMDS_QuoteToString(&t) << std::endl;
+					break;
+				}
+
+			/////// CME
+			case DEPTHMARKETDATA_QUOTE_TYPE:
+				{
+					SaveData_depthMarketData t;
+					f_in.read((char *)&t, sizeof(t));
+					f_out << CME_QuoteToString(&t) << std::endl;
+					break;
+				}
+				case REALTIMEDATA_QUOTE_TYPE:
+				{
+					SaveData_realTimeData t;
+					f_in.read((char *)&t, sizeof(t));
+					f_out << CME_QuoteToString(&t) << std::endl;
+					break;
+				}
+				case ORDERBOOKDATA_QUOTE_TYPE:
+				{
+					SaveData_orderbookData t;
+					f_in.read((char *)&t, sizeof(t));
+					f_out << CME_QuoteToString(&t) << std::endl;
+					break;
+				}
+				case TRADEVOLUMEDATA_QUOTE_TYPE:
+				{
+					SaveData_tradeVolume t;
+					f_in.read((char *)&t, sizeof(t));
+					f_out << CME_QuoteToString(&t) << std::endl;
 					break;
 				}
 			default:

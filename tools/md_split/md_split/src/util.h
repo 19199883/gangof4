@@ -46,6 +46,33 @@ inline int GetSymbolOffset(int data_type, int data_len)
 		CDepthMarketDataField md;
 		offset_in_data = (int)((char *)&(md.InstrumentID) - (char *)&md);
 	}
+	break;
+	// added by wangying on 2019-1-25
+	case DEPTHMARKETDATA_QUOTE_TYPE:
+	{
+		depthMarketData md;
+		offset_in_data = (int)((char *)&(md.name) - (char *)&md);
+	}
+	break;
+	case REALTIMEDATA_QUOTE_TYPE:
+	{
+		realTimeData md;
+		offset_in_data = (int)((char *)&(md.name) - (char *)&md);
+	}
+	break;
+	case ORDERBOOKDATA_QUOTE_TYPE             :
+	{
+		orderbookData md;
+		offset_in_data = (int)((char *)&(md.name) - (char *)&md);
+	}
+	break;
+	case TRADEVOLUMEDATA_QUOTE_TYPE :
+	{
+		tradeVolume md;
+		offset_in_data = (int)((char *)&(md.name) - (char *)&md);
+	}
+	break;
+
 
 	default:
 		break;

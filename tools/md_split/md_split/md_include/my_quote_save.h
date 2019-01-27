@@ -14,6 +14,7 @@
 #include "quote_datatype_sec_kmds.h"
 #include "KSGUserApiStruct.h"
 #include "md_datatype_taifex.h"
+#include "quote_datatype_cme.h"
 
 // 行情类型标识定义
 #define GTAEX_CFFEX_QUOTE_TYPE          1
@@ -50,6 +51,13 @@
 
 // 台湾合并行情类型
 #define TAI_FEX_MD_TYPE                 19
+
+// CME 芝加哥交易所
+#define DEPTHMARKETDATA_QUOTE_TYPE             30
+#define REALTIMEDATA_QUOTE_TYPE             31
+#define ORDERBOOKDATA_QUOTE_TYPE             32
+#define TRADEVOLUMEDATA_QUOTE_TYPE             33
+
 
 // data identities of kmds {"stockcode", "stockquote", "indexquote", "optionquote", "ordqueue", "perentrust", "perbargain"};
 #define KMDS_CODETABLE_TYPE         0xc0

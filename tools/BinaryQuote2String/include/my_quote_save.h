@@ -14,6 +14,7 @@
 #include "quote_datatype_sec_kmds.h"
 #include "KSGUserApiStruct.h"
 #include "md_datatype_taifex.h"
+#include "quote_datatype_cme.h"
 
 // 行情类型标识定义
 #define GTAEX_CFFEX_QUOTE_TYPE          1
@@ -50,6 +51,13 @@
 
 // 台湾合并行情类型
 #define TAI_FEX_MD_TYPE                 19
+
+// CME 芝加哥交易所
+#define DEPTHMARKETDATA_QUOTE_TYPE             30
+#define REALTIMEDATA_QUOTE_TYPE             31
+#define ORDERBOOKDATA_QUOTE_TYPE             32
+#define TRADEVOLUMEDATA_QUOTE_TYPE             33
+
 
 // data identities of kmds {"stockcode", "stockquote", "indexquote", "optionquote", "ordqueue", "perentrust", "perbargain"};
 #define KMDS_CODETABLE_TYPE         0xc0
@@ -549,6 +557,76 @@ struct SaveData_PerBargain_KMDS
 	}
 };
 
+///////// 芝加哥交易所
+struct SaveData_depthMarketData
+{
+	long long t_;                               // 时间戳
+	depthMarketData data_;                // 数据对象 （转换为8字节对齐）
+
+	// 缺省构造
+	SaveData_depthMarketData()
+	{
+		t_ = 0;
+	}
+
+	// 通过时间戳、和网络数据包构造
+	SaveData_depthMarketData(long long t, const depthMarketData &d)
+		: t_(t), data_(d)
+	{
+	}
+};
+
+
+struct SaveData_realTimeData
+{
+	long long t_;
+	realTimeData data_;
+	// 缺省构造
+	SaveData_realTimeData()
+	{
+		t_ = 0;
+	}
+
+	// 通过时间戳、和网络数据包构造
+	SaveData_realTimeData(long long t, const realTimeData &d)
+		: t_(t), data_(d)
+	{
+	}
+};
+
+struct SaveData_orderbookData
+{
+	long long t_;
+	orderbookData data_;
+	// 缺省构造
+	SaveData_orderbookData()
+	{
+		t_ = 0;
+	}
+
+	// 通过时间戳、和网络数据包构造
+	SaveData_orderbookData(long long t, const orderbookData &d)
+		: t_(t), data_(d)
+	{
+	}
+};
+
+struct SaveData_tradeVolume
+{
+	long long t_;
+	tradeVolume data_;
+	// 缺省构造
+	SaveData_tradeVolume()
+	{
+		t_ = 0;
+	}
+
+	// 通过时间戳、和网络数据包构造
+	SaveData_tradeVolume(long long t, const tradeVolume &d)
+		: t_(t), data_(d)
+	{
+	}
+};
 #pragma pack(pop)
 
 #endif  //MY_QUOTE_SAVE_H_
