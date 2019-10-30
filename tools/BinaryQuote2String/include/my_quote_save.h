@@ -15,6 +15,8 @@
 #include "KSGUserApiStruct.h"
 #include "md_datatype_taifex.h"
 #include "quote_datatype_cme.h"
+#include "YaoQuote.h"
+#include "ThostFtdcUserApiStruct.h"
 
 // 行情类型标识定义
 #define GTAEX_CFFEX_QUOTE_TYPE          1
@@ -58,6 +60,9 @@
 #define ORDERBOOKDATA_QUOTE_TYPE             32
 #define TRADEVOLUMEDATA_QUOTE_TYPE             33
 
+#define SHFE_LEV2_DATA_QUOTE_TYPE 70
+
+#define YAO_QUOTE_TYPE             125
 
 // data identities of kmds {"stockcode", "stockquote", "indexquote", "optionquote", "ordqueue", "perentrust", "perbargain"};
 #define KMDS_CODETABLE_TYPE         0xc0
@@ -627,6 +632,42 @@ struct SaveData_tradeVolume
 	{
 	}
 };
+
+
+struct SaveData_Lev2Data
+{
+	long long t_;
+	CThostFtdcDepthMarketDataField data_;
+	// 缺省构造
+	SaveData_Lev2Data()
+	{
+		t_ = 0;
+	}
+
+	// 通过时间戳、和网络数据包构造
+	SaveData_Lev2Data(long long t, const CThostFtdcDepthMarketDataField &d)
+		: t_(t), data_(d)
+	{
+	}
+};
+
+struct SaveData_YaoQuote
+{
+	long long t_;
+	YaoQuote data_;
+	// 缺省构造
+	SaveData_YaoQuote()
+	{
+		t_ = 0;
+	}
+
+	// 通过时间戳、和网络数据包构造
+	SaveData_YaoQuote(long long t, const YaoQuote &d)
+		: t_(t), data_(d)
+	{
+	}
+};
+
 #pragma pack(pop)
 
 #endif  //MY_QUOTE_SAVE_H_

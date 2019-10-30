@@ -27,6 +27,8 @@
 #include "taifex_md.h"
 #include "kmds.h"
 #include "cme.h"
+#include "yao_quote.h"
+#include "lev2_quote.h"
 
 #include <iostream>
 #include <chrono>
@@ -389,6 +391,20 @@ int main(int argc, char **argv)
 					SaveData_tradeVolume t;
 					f_in.read((char *)&t, sizeof(t));
 					f_out << CME_QuoteToString(&t) << std::endl;
+					break;
+				}
+				case YAO_QUOTE_TYPE:
+				{
+					SaveData_YaoQuote t;
+					f_in.read((char *)&t, sizeof(t));
+					f_out << YaoQuoteToString(&t) << std::endl;
+					break;
+				}
+				case SaveData_Lev2Data:
+				{
+					SaveData_Lev2Data t;
+					f_in.read((char *)&t, sizeof(t));
+					f_out << Lev2QuoteToString(&t) << std::endl;
 					break;
 				}
 			default:
